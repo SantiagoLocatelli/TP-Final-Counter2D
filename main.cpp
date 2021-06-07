@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 int main(int argc, char argv[]){
     SdlWindow window("Counter", 640, 480);
@@ -12,8 +14,9 @@ int main(int argc, char argv[]){
     std::vector<std::string> chunks = {"sound/letsgo.mp3", "sound/gogogo.mp3"};
     SdlMixer music("sound/resident.mp3", chunks);
     SdlTexture backgroundTexture(renderer, "img/counter.jpeg");
-    SdlTexture stencilTexture(renderer, "img/stencil.png");
+    SdlTexture stencilTexture(renderer, "img/stencil.png", 0xFF, 0xFF, 0xFF);
     stencilTexture.setBlendMode(SDL_BLENDMODE_BLEND);
+    SdlTexture textTexture(renderer, "img/lazy.ttf", 26, "You are pressing Q", 0, 0, 0);
 
     //Main loop flag
     bool quit = false;
@@ -22,9 +25,10 @@ int main(int argc, char argv[]){
     SDL_Event e;
     Uint8 a = 150;
     double degrees = 0;
-
+    SdlTexture* otherTexture = NULL;
     //While application is running
     while (!quit){
+        bool normalScreen = true;
         //Handle events on queue
         while (SDL_PollEvent(&e) != 0){
             //User requests quit
@@ -55,6 +59,15 @@ int main(int argc, char argv[]){
                     case SDLK_9:
                         music.play();
                         break;
+                    
+                    case SDLK_q:
+                        renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+                        renderer.clear();
+                        textTexture.render(0, 0);
+                        renderer.updateScreen();
+                        std::chrono::milliseconds timespan(1000);
+                        std::this_thread::sleep_for(timespan);
+                        break;
                 }
             }
         }
@@ -67,7 +80,6 @@ int main(int argc, char argv[]){
 
         //Render front blended
         stencilTexture.setAlpha(a);
-        //gArrowTexture.render( ( SCREEN_WIDTH - gArrowTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gArrowTexture.getHeight() ) / 2, NULL, degrees, NULL, flipType );
         stencilTexture.render((window.getWidth()/2) - 500, (window.getHeight()/2) - 500, 1000, 1000, NULL, degrees);
 
         //Update screen

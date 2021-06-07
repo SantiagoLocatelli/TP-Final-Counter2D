@@ -2,6 +2,7 @@
 #define __SDL_TEXTURE_H__
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include "sdl_renderer.h"
 class SdlTexture{
@@ -17,6 +18,9 @@ class SdlTexture{
 	public:
 		//Initializes variables
 		SdlTexture(SdlRenderer& renderer, std::string path);
+		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue);
+		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
+ 			Uint8 green, Uint8 blue);
 
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
