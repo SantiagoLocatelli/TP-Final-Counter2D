@@ -63,7 +63,7 @@ int main(int argc, char argv[]){
                     case SDLK_q:
                         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
                         renderer.clear();
-                        textTexture.render(0, 0);
+                        textTexture.render((window.getWidth()/2) - textTexture.getWidth()/2, (window.getHeight()/2) - textTexture.getHeight()/2);
                         renderer.updateScreen();
                         std::chrono::milliseconds timespan(1000);
                         std::this_thread::sleep_for(timespan);
