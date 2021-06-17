@@ -2,11 +2,12 @@
 #include "sdl_window.h"
 #include "sdl_renderer.h"
 #include "sdl_mixer.h"
+#include "button.h"
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <chrono>
-#include <thread>
+
+void menu(SdlRenderer renderer);
 
 int main(int argc, char argv[]){
     SdlWindow window("Counter", 640, 480);
@@ -16,7 +17,6 @@ int main(int argc, char argv[]){
     SdlTexture backgroundTexture(renderer, "img/counter.jpeg");
     SdlTexture stencilTexture(renderer, "img/stencil.png", 0xFF, 0xFF, 0xFF);
     stencilTexture.setBlendMode(SDL_BLENDMODE_BLEND);
-    SdlTexture textTexture(renderer, "img/lazy.ttf", 26, "You are pressing Q", 0, 0, 0);
 
     //Main loop flag
     bool quit = false;
@@ -52,21 +52,16 @@ int main(int argc, char argv[]){
                         music.playChunk(1);
                         break;
 
+                    case SDLK_3:
+                        menu(renderer);
+                        break;
+
                     case SDLK_8:
                         music.pause();
                         break;
 
                     case SDLK_9:
                         music.play();
-                        break;
-                    
-                    case SDLK_q:
-                        renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-                        renderer.clear();
-                        textTexture.render((window.getWidth()/2) - textTexture.getWidth()/2, (window.getHeight()/2) - textTexture.getHeight()/2);
-                        renderer.updateScreen();
-                        std::chrono::milliseconds timespan(1000);
-                        std::this_thread::sleep_for(timespan);
                         break;
                 }
             }
@@ -86,4 +81,45 @@ int main(int argc, char argv[]){
         renderer.updateScreen();
     }
     return 0;
+}
+
+
+void menu(SdlRenderer renderer){
+    SdlTexture texturePlay(renderer, "img/digital-7.ttf", 26, "Play", 255, 255, 255);
+    SdlTexture textureEdit(renderer, "img/digital-7.ttf", 26, "Edit map", 255, 255, 255);
+    SdlTexture textureOptions(renderer, "img/digital-7.ttf", 26, "Options", 255, 255, 255);
+
+    SdlButton button1(&texturePlay, 100, 100);
+    SdlButton button2(&textureEdit, 100, 200);
+    SdlButton button3(&textureOptions, 100, 300);
+    
+    bool quit = false;
+
+    //Event handler
+    SDL_Event e;
+    //While application is running
+    while (!quit){
+        bool normalScreen = true;
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0){
+            //User requests quit
+            if(e.type == SDL_QUIT){
+                quit = true;
+            }else{
+                button1.handleEvent(&e);
+                button2.handleEvent(&e);
+                button3.handleEvent(&e);
+            }
+        }
+        renderer.setDrawColor(0, 0, 0, 0);
+        renderer.clear();
+        //Render buttons
+
+        button1.render();
+        button2.render();
+        button3.render();
+
+        //Update screen
+        renderer.updateScreen();
+    }   
 }

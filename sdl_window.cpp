@@ -32,5 +32,4 @@ int SdlWindow::getWidth(){
 SdlWindow::~SdlWindow(){
     SDL_DestroyWindow(this->mWindow);
     SDL_Quit();
-    //delete this->mWindow;
 }

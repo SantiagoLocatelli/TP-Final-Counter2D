@@ -44,5 +44,4 @@ void SdlRenderer::render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQ
 SdlRenderer::~SdlRenderer(){
     SDL_DestroyRenderer(this->mRenderer);
     IMG_Quit();
-    //delete this->mRenderer; me tira error y no entiendo porque.
 }

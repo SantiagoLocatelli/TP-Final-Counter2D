@@ -22,6 +22,7 @@ class SdlTexture{
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
  			Uint8 green, Uint8 blue);
 
+
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
 		

@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp sdl_texture.cpp sdl_mixer.cpp sdl_window.cpp sdl_renderer.cpp
+OBJS = main.cpp sdl_texture.cpp sdl_mixer.cpp sdl_window.cpp sdl_renderer.cpp button.cpp dot.cpp
 
 #CC specifies which compiler we're using
 CC = g++
