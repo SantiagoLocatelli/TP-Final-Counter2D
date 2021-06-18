@@ -10,6 +10,7 @@ class Player{
 
     public:
         Player(b2World &world, float start_x, float start_y);
+        Player(Player&& other);
         void applyImpulse(float x, float y);
         b2Vec2 getPosition();
 };

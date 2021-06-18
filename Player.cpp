@@ -17,6 +17,12 @@ Player::Player(b2World &world, float start_x, float start_y){
     body->CreateFixture(&fixtureDef);
 }
 
+Player::Player(Player&& other){
+    this->body = other.body;
+    other.body = NULL;
+}
+
+
 void Player::applyImpulse(float x, float y){
     body->ApplyLinearImpulseToCenter(b2Vec2(x,y), true);
 }
