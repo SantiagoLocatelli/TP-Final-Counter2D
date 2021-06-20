@@ -20,6 +20,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	}
 }
 
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
@@ -93,8 +94,8 @@ void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
 
-void SdlTexture::render(int x, int y){
-	render(x,y,this->mWidth, this->mHeight);
+void SdlTexture::render(int x, int y, SDL_Rect* clip){
+	render(x,y,this->mWidth, this->mHeight, clip);
 }
 
 void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, double angle,
@@ -112,12 +113,21 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	//SDL_RenderCopyEx(renderer, this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+
 int SdlTexture::getWidth(){
 	return this->mWidth;
 }
 
 int SdlTexture::getHeight(){
 	return this->mHeight;
+}
+
+
+SdlTexture& SdlTexture::operator=(const SdlTexture& other){
+	this->mWidth = other.mWidth;
+	this->mHeight = other.mHeight;
+	this->mTexture = other.mTexture;
+	this->renderer = other.renderer;
 }
 
 SdlTexture::~SdlTexture(){
