@@ -13,8 +13,8 @@ const int LEVEL_WIDTH = 1280;
 const int LEVEL_HEIGHT = 960;
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 960;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 
 
@@ -94,7 +94,7 @@ int main( int argc, char* args[]){
     SdlWindow gWindow("Conteiner", SCREEN_WIDTH, SCREEN_HEIGHT);
     SdlRenderer gRenderer(&gWindow);
     SdlTexture stencilTexture(gRenderer, "img/stencil.png", 0xFF, 0xFF, 0xFF);
-    SdlTexture gDotTexture(gRenderer, "img/dot.bmp",0, 0xFF, 0xFF);
+    SdlTexture gDotTexture(gRenderer, "img/dot.bmp", 0, 0xFF, 0xFF);
     
     SdlTexture gBGTexture(gRenderer, "img/bg.png");
     
@@ -119,15 +119,11 @@ int main( int argc, char* args[]){
         while( SDL_PollEvent( &e ) != 0 )
         {
             //User requests quit
-            if( e.type == SDL_QUIT )
-            {
+            if( e.type == SDL_QUIT ){
                 quit = true;
-            } else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+            } else {
                 dot.handleEvent(e);
-            } else if (e.type == SDL_MOUSEMOTION) {
-                //stencil.handleEvent(e);
-            }
-
+            }    
         }
         //Move the dot
         dot.move(LEVEL_WIDTH, LEVEL_HEIGHT);

@@ -35,7 +35,7 @@ void Dot::handleEvent( SDL_Event& e )
             case SDLK_RIGHT: mVelX -= DOT_VEL; break;
         }
     } else if (e.type == SDL_MOUSEMOTION) {
-        // mover crosshair
+        this->stn.handleEvent(e);
     }
 }
 
