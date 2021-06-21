@@ -16,6 +16,8 @@ const int LEVEL_HEIGHT = 960;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+#define FRAME_RATE 1000000.0f/25.0f
+
 
 
 void saveTexture(SdlRenderer& ren, SdlTexture& tex, const char *filename, int w, int h){
@@ -84,8 +86,6 @@ void saveTexture(SdlRenderer& ren, SdlTexture& tex, const char *filename, int w,
         SDL_DestroyTexture(ren_tex);
         return;
     }
-
-
 }
 
 int main( int argc, char* args[]){
@@ -97,7 +97,6 @@ int main( int argc, char* args[]){
     SdlTexture gDotTexture(gRenderer, "img/dot.bmp", 0, 0xFF, 0xFF);
     
     SdlTexture gBGTexture(gRenderer, "img/bg.png");
-    
 
     //Main loop flag
     bool quit = false;
@@ -123,7 +122,8 @@ int main( int argc, char* args[]){
                 quit = true;
             } else {
                 dot.handleEvent(e);
-            }    
+            }
+            //usleep(FRAME_RATE);
         }
         //Move the dot
         dot.move(LEVEL_WIDTH, LEVEL_HEIGHT);
