@@ -10,6 +10,7 @@ private:
 public:
     Client(const char* host, const char* service);
     void recvWindowSize(int& w, int& h);
+    void recvPosition(int& x, int& y);
 };
 
 #endif

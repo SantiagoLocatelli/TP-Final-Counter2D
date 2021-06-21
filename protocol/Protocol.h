@@ -24,6 +24,7 @@ class Protocol{
         explicit Protocol(Socket skt);
 
         void recv_window_size(int& w, int& h);
+        void recv_pixel_position(int& x, int& y);
 
         //Envía una posicion por el socket. Solo se envían los primeros 
         //DEC_SENT decimales, el resto se pierde.
