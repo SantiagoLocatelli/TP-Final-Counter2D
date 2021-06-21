@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "sdl_renderer.h"
+
 class SdlTexture{
 	private:
 		//SDL_Renderer* mRenderer; // no se si va el objeto RAII
@@ -17,6 +18,7 @@ class SdlTexture{
 
 	public:
 		//Initializes variables
+		SdlTexture(SdlRenderer& r, int w, int h);
 		SdlTexture(SdlRenderer& renderer, std::string path);
 		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue);
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
@@ -50,6 +52,8 @@ class SdlTexture{
 
 		void render(int x, int y, SDL_Rect* clip = NULL);
 
+		int renderCopy();
+
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();
@@ -59,5 +63,8 @@ class SdlTexture{
 
 		//Deallocates memory
 		~SdlTexture();
+		
+		
+		SDL_Texture* getText(); // REVER ESTE
 };
 #endif

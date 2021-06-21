@@ -12,10 +12,8 @@ private:
     int oldPosX;
     int oldPosY;
 
-    int level_w;
-    int level_h;
 public:
-    Stencil(SdlTexture& stencil, int w, int h, int level_w,int level_h);
+    Stencil(SdlTexture& stencil, int w, int h);
     void centerStencil(SDL_Rect character);
     void render(int camX, int camY);
     void handleEvent(SDL_Event e);

@@ -2,8 +2,8 @@
 #define DOT_VEL 10
 
 
-Dot::Dot(int posX, int posY, SdlTexture& texture)
-    :posX(posX), posY(posY), texture(texture){
+Dot::Dot(int posX, int posY, SdlTexture& texture, Camera& cam, Stencil& stn)
+    :posX(posX), posY(posY), texture(texture), cam(cam), stn(stn){
     this->mVelX = 0;
     this->mVelY = 0;
 }
@@ -34,6 +34,8 @@ void Dot::handleEvent( SDL_Event& e )
             case SDLK_LEFT: mVelX += DOT_VEL; break;
             case SDLK_RIGHT: mVelX -= DOT_VEL; break;
         }
+    } else if (e.type == SDL_MOUSEMOTION) {
+        // mover crosshair
     }
 }
 
@@ -56,15 +58,21 @@ void Dot::move(int level_width, int level_height){
         this->posY -= this->mVelY;
     }
    
+    //Center the camera over the dot SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+    this->cam.centerCamera(this->getRect());
+    //Keep the camera in bounds
+    this->cam.keepInBounds(level_width, level_height);
+    this->stn.centerStencil(this->getRect());
 }
 
 SDL_Rect Dot::getRect(){
     return {this->posX, this->posY, this->texture.getWidth(), this->texture.getHeight()};
 }
 
-void Dot::render(int camX, int camY){
+void Dot::render(){
     
-    this->texture.render(this->posX - camX , this->posY - camY );
+    this->texture.render(this->posX - this->cam.getPosX(), this->posY - this->cam.getPosY());
+    this->stn.render(this->cam.getPosX(), this->cam.getPosY());
 }
 
 int Dot::getPosY(){

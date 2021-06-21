@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include "sdl_renderer.h" 
 #include "sdl_texture.h"
+#include "camera.h"
+#include "stencil.h"
 
 class Dot{
 
@@ -14,10 +16,12 @@ class Dot{
 		int posX, posY;
 		//dimensions of the dot
 		SdlTexture& texture;
+		Camera& cam;
+		Stencil& stn;
 
     public:
 		//Initializes the variables
-		Dot(int posX, int posY, SdlTexture& texture);
+		Dot(int posX, int posY, SdlTexture& texture, Camera& cam, Stencil& stn);
 
 		void setTexture(SdlTexture& texture);
 
@@ -29,7 +33,7 @@ class Dot{
 
 		//Shows the dot on the screen relative to the camera
 		// void render( int camX, int camY );
-		void render(int camX, int camY);
+		void render();
 
 		SDL_Rect getRect();
 

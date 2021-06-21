@@ -6,14 +6,11 @@
 class Camera {
     private:
         SDL_Rect camera;
-        int level_height;
-        int level_width;
 
     public:
-        Camera(int camera_width, int camera_height, 
-            int level_width, int level_height);
+        Camera(int camera_width, int camera_height);
         void centerCamera(SDL_Rect character);
-        void keepInBounds();
+        void keepInBounds(int level_w, int level_h);
 
         int getPosX();
         int getPosY();

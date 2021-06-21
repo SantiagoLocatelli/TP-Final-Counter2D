@@ -2,13 +2,21 @@
 #include <string>
 #include <stdio.h>
 
+
+SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
+    SDL_Surface *surf; 
+	this->mTexture = this->renderer.createTexture(w,h);
+
+
+}
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	}else{
 		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTexture(loadedSurface);
+		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
@@ -20,6 +28,9 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	}
 }
 
+SDL_Texture* SdlTexture::getText(){
+	return this->mTexture;
+}
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
@@ -28,7 +39,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 	}else{
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, red, green, blue));
 		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTexture(loadedSurface);
+		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
@@ -55,7 +66,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string t
 			SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
 			if (textSurface != NULL){
 				//Create texture from surface pixels
-				this->mTexture = this->renderer.createTexture(textSurface);
+				this->mTexture = this->renderer.createTextureFromSurface(textSurface);
 				if (this->mTexture == NULL){
 					printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 				}else{
@@ -111,6 +122,10 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	//Render to screen
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 	//SDL_RenderCopyEx(renderer, this->mTexture, clip, &renderQuad, angle, center, flip);
+}
+
+int SdlTexture::renderCopy(){
+	this->renderer.renderCopy(this->mTexture);
 }
 
 

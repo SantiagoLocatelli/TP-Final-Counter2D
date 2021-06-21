@@ -1,8 +1,7 @@
 #include "camera.h"
 #include "dot.h"
 
-Camera::Camera(int width, int height, int level_width, int level_height):
-    level_width(level_width), level_height(level_height){
+Camera::Camera(int width, int height){
     this->camera = {0, 0, width, height};
 }
 
@@ -10,7 +9,7 @@ void Camera::centerCamera(SDL_Rect character){
     this->camera.x = ( character.x + character.w / 2 ) - this->camera.w / 2;
     this->camera.y = ( character.y + character.h / 2 ) - this->camera.h / 2;
 }
-void Camera::keepInBounds(){
+void Camera::keepInBounds(int level_width, int level_height){
     if( camera.x < 0 ){ 
         camera.x = 0;
     }
