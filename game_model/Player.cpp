@@ -2,7 +2,7 @@
 #include <cmath>
 
 Player::Player(b2World &world, float start_x, float start_y)
-:health(100){
+:health(100), dead(false){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -63,5 +63,16 @@ float Player::isHitBy(float x, float y, float angle){
     }
 
     return -1;
+}
+
+void Player::recvDamage(float damage){
+    health -= damage;
+    if (health < 0){
+        dead = true;
+    }
+}
+
+float Player::getHealth(){
+    return health;
 }
 

@@ -33,7 +33,7 @@ void World::step(){
 }
 
 bool World::rayCast(float start_x, float start_y, float angle
-, Player *player, float &distance){
+, Player *&player, float &distance){
     float min_dist = -1;
     for (std::pair<const int, Player> &p : players){
         float dist = p.second.isHitBy(start_x, start_y, angle);
