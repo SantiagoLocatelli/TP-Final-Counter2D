@@ -15,6 +15,7 @@ class SdlRenderer{
         void clear();
         void updateScreen();
         void render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQuad, double angle, SDL_Point* center, SDL_RendererFlip flip);
+        void render(SDL_Rect* rect);
         ~SdlRenderer();
 };
 #endif
