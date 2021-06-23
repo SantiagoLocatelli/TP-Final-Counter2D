@@ -2,19 +2,22 @@
 #define __ANIMATION_H__
 
 #include "sdl_texture.h"
+#define FRAME_RATE 1000000.0f/25.0f
 
 class Animation {
 private:
-    const SdlTexture* texture;
+    const SdlTexture& texture;
     int numFrames;
-    int currentFrame;
+    int currentFrame = 0;
     int size;
+    float elapsed = 0.0f;
 
 public:
-    Animation(const SdlTexture* texture);
-    ~Animation();
-    void update();
-    void render();
+    Animation(const SdlTexture& texture);
+    ~Animation() = default;
+    void update(float dt);
+    void render(SDL_Rect dst, double degrees);
+    void advanceFrame();
 };
 
 #endif
