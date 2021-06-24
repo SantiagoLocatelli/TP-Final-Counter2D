@@ -3,7 +3,7 @@
 
 #include <thread>
 #include "GameManager.h"
-#include "protocol/Protocol.h"
+#include "../protocol/Protocol.h"
 
 class EventReceiver{
     private:

@@ -1,8 +1,8 @@
 #ifndef _GAME_MANAGER_H_
 #define _GAME_MANAGER_H_
 
-#include "World.h"
-#include "Player.h"
+#include "../game_model/World.h"
+#include "../game_model/Player.h"
 
 #include <mutex>
 
@@ -20,7 +20,7 @@ class GameManager{
         void move_player(Direction dir);
         void get_player_position(float &x, float &y);
 
-        void step_world(float delta);
+        void step_world();
 
         ~GameManager();
 };

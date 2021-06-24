@@ -10,7 +10,7 @@ GameManager::GameManager(char *yaml_file){
     world = new World(size[0], size[1]);
 
     std::vector<int> spawn = yaml_mapa["spawn"].as<std::vector<int>>();
-    player = new Player(std::move(world->createPlayer(spawn[0], spawn[1])));
+    player = &world->createPlayer(spawn[0], spawn[1]);
 
     YAML::Node boxes = yaml_mapa["boxes"];
     for (YAML::iterator it = boxes.begin(); it != boxes.end(); ++it) {
@@ -45,14 +45,14 @@ void GameManager::move_player(Direction dir){
 
 void GameManager::get_player_position(float &x, float &y){
     const std::lock_guard<std::mutex> lock(m);
-    b2Vec2 pos = player->getPosition();
-    x = pos.x;
-    y = pos.y;
+    std::array<float, 2> pos = player->getPosition();
+    x = pos[0];
+    y = pos[1];
 }
 
-void GameManager::step_world(float delta){
+void GameManager::step_world(){
     const std::lock_guard<std::mutex> lock(m);
-    world->step(delta);
+    world->step();
 }
 
 GameManager::~GameManager(){
