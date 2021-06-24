@@ -16,6 +16,8 @@ class PlayerTests: public CppUnit::TestFixture{
         CPPUNIT_TEST(testBoxStopsMovement);
         CPPUNIT_TEST(testPlayerCollision);
         CPPUNIT_TEST(testIsHit);
+        CPPUNIT_TEST(testInitialHealth);
+        CPPUNIT_TEST(testRecvDamage);
         CPPUNIT_TEST_SUITE_END();
         
     protected:
@@ -26,6 +28,14 @@ class PlayerTests: public CppUnit::TestFixture{
             CPPUNIT_ASSERT(pos[0] == 1.5f);
             CPPUNIT_ASSERT(pos[1] == 1.5f);
         }
+
+        void testInitialHealth(){
+            World w(5,5);
+            Player &p = w.createPlayer(1,1);
+
+            CPPUNIT_ASSERT(p.getHealth() == 100);
+        }
+
 
         void testMovesRight(){
             World w(5,5);
@@ -86,6 +96,17 @@ class PlayerTests: public CppUnit::TestFixture{
 
             distance = p.isHitBy(0,0,0);
             CPPUNIT_ASSERT(distance < 0);            
+        }
+
+        void testRecvDamage(){
+            World w(5,5);
+            Player &p = w.createPlayer(2,2);
+
+            float old_health = p.getHealth();
+            p.recvDamage(20);
+            float new_health = p.getHealth();
+
+            CPPUNIT_ASSERT((new_health-old_health) == -20);
         }
 };
 

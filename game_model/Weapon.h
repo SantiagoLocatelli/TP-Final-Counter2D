@@ -8,8 +8,9 @@ class Weapon{
     private:
         Player &owner;
         World &world;
-        int damage;
+        float damage;
 
+        float calculateDamage(float distance);
     public:
         Weapon(Player &owner, World &world);
         void activate(float angle);

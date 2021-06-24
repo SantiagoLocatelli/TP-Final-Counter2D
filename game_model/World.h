@@ -19,7 +19,7 @@ class World{
         Player& createPlayer(int grid_x, int grid_y);
         void step();
         bool rayCast(float start_x, float start_y, float angle
-        , Player *player, float &distance);
+        , Player *&player, float &distance);
 };
 
 #endif
