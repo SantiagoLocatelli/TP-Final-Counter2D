@@ -25,17 +25,27 @@ class Character{
 		//Initializes the variables
 		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
 
-		//Takes key presses and adjusts the Character's velocity
-		void handleEvent( SDL_Event& e );
 
 		//Moves the Character
-		void move(int level_width, int level_height);
+		void update(int level_width, int level_height);
 
 		//Shows the Character on the screen relative to the camera
 		// void render( int camX, int camY );
 		void render();
 
 		SDL_Rect getRect();
+
+		void moveRight();
+		void moveLeft();
+		void moveUp();
+		void moveDown();
+
+		void stopRight();
+		void stopLeft();
+		void stopUp();
+		void stopDown();
+
+		void lookAt(int x, int y);
 
 		//Position accessors
 		int getPosX();

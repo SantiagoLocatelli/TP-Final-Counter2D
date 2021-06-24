@@ -1,5 +1,4 @@
 #include "camera.h"
-#include "dot.h"
 
 Camera::Camera(int width, int height){
     this->camera = {0, 0, width, height};
@@ -32,6 +31,6 @@ int Camera::getPosY(){
     return this->camera.y;
 }
 
-SDL_Rect* Camera::getRect(){
-    return &(this->camera);
+SDL_Rect Camera::getRect(){
+    return this->camera;
 }

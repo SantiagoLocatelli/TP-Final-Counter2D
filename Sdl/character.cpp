@@ -1,6 +1,8 @@
 #include "character.h"
-#define CHARACTER_VEL 10
+#include "game_math.h"
 
+#define CHARACTER_VEL 10
+#define PHASE_SHIFT 90
 
 Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn)
     : area(area), an(texture), cam(cam), stn(stn){
@@ -9,35 +11,7 @@ Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& s
 }
 
 
-
-
-void Character::handleEvent( SDL_Event& e )
-{
-    //If a key was pressed
-	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 ){
-        //Adjust the velocity
-        switch( e.key.keysym.sym ){
-            case SDLK_UP: mVelY -= CHARACTER_VEL; break;
-            case SDLK_DOWN: mVelY += CHARACTER_VEL; break;
-            case SDLK_LEFT: mVelX -= CHARACTER_VEL; break;
-            case SDLK_RIGHT: mVelX += CHARACTER_VEL; break;
-        }
-    }
-    //If a key was released
-    else if( e.type == SDL_KEYUP && e.key.repeat == 0 ){
-        //Adjust the velocity
-        switch( e.key.keysym.sym ){
-            case SDLK_UP: mVelY += CHARACTER_VEL; break;
-            case SDLK_DOWN: mVelY -= CHARACTER_VEL; break;
-            case SDLK_LEFT: mVelX += CHARACTER_VEL; break;
-            case SDLK_RIGHT: mVelX -= CHARACTER_VEL; break;
-        }
-    } else if (e.type == SDL_MOUSEMOTION) {
-        this->stn.handleEvent(e);
-    }
-}
-
-void Character::move(int level_width, int level_height){
+void Character::update(int level_width, int level_height){
     //Move the Character left or right
     this->area.x += this->mVelX;
 
@@ -61,22 +35,32 @@ void Character::move(int level_width, int level_height){
     //Keep the camera in bounds
     this->cam.keepInBounds(level_width, level_height);
     this->stn.centerStencil(this->getRect());
-}
-
-SDL_Rect Character::getRect(){
-    return {this->area.x, this->area.y, this->area.w, this->area.h};
+    if (this->mVelX != 0 || this->mVelY != 0) {
+        this->an.advanceFrame();
+    }
 }
 
 void Character::render(){
     SDL_Rect dst = {this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), this->area.w, this->area.h};
-    this->an.render(dst, this->degrees);
-    this->stn.render(this->cam.getPosX(), this->cam.getPosY());
+    this->an.render(dst, this->degrees + PHASE_SHIFT);
+    this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->degrees);
 }
 
-int Character::getPosY(){
-    return this->area.y;
+void Character::moveRight(){this->mVelX += CHARACTER_VEL;}
+void Character::moveLeft(){this->mVelX -= CHARACTER_VEL;}
+void Character::moveUp(){this->mVelY -= CHARACTER_VEL;}
+void Character::moveDown(){this->mVelY += CHARACTER_VEL;}
+
+void Character::stopRight(){this->mVelX -= CHARACTER_VEL;}
+void Character::stopLeft(){this->mVelX += CHARACTER_VEL;}
+void Character::stopUp(){this->mVelY += CHARACTER_VEL;}
+void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
+
+void Character::lookAt(int x, int y){
+
+    this->degrees = Math::calculateDegrees({this->area.x, this->area.y}, {x, y});
 }
 
-int Character::getPosX(){
-    return this->area.x;
-}
+int Character::getPosY(){return this->area.y;}
+int Character::getPosX(){return this->area.x;}
+SDL_Rect Character::getRect(){return this->area;}

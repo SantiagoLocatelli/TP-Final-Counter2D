@@ -5,8 +5,10 @@
 #include <string>
 #include <vector>
 #include "camera.h"
-#include "dot.h"
+#include "character.h"
 #include "stencil.h"
+#include "event_manager.h"
+#include "background.h"
 
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
@@ -15,9 +17,6 @@ const int LEVEL_HEIGHT = 960;
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
-
-#define FRAME_RATE 1000000.0f/25.0f
-
 
 
 void saveTexture(SdlRenderer& ren, SdlTexture& tex, const char *filename, int w, int h){
@@ -94,49 +93,49 @@ int main( int argc, char* args[]){
     SdlWindow gWindow("Conteiner", SCREEN_WIDTH, SCREEN_HEIGHT);
     SdlRenderer gRenderer(&gWindow);
     SdlTexture stencilTexture(gRenderer, "img/stencil.png", 0xFF, 0xFF, 0xFF);
-    SdlTexture gDotTexture(gRenderer, "img/dot.bmp", 0, 0xFF, 0xFF);
+    SdlTexture gDotTexture(gRenderer, "img/ct1.bmp", 0x00, 0x00, 0x00);
     
     SdlTexture gBGTexture(gRenderer, "img/bg.png");
-
-    //Main loop flag
-    bool quit = false;
-
-    //Event handler
-    SDL_Event e;
+    Camera cam(SCREEN_WIDTH, SCREEN_HEIGHT);
+    Background bg(gBGTexture, cam);
     
-    saveTexture(gRenderer, stencilTexture, "img/image.bmp", LEVEL_WIDTH, LEVEL_HEIGHT);
-    SdlTexture stencilTexture_2(gRenderer, "img/image.bmp");
-    Stencil stencil(stencilTexture_2, SCREEN_WIDTH, SCREEN_HEIGHT);
+    Stencil stencil(stencilTexture, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_Rect area = {0, 0, 50, 50};            
+    Character pj(area, gDotTexture, cam, stencil);
+    
+    
+    // saveTexture(gRenderer, stencilTexture, "img/image.bmp", LEVEL_WIDTH, LEVEL_HEIGHT);
+    // SdlTexture stencilTexture_2(gRenderer, "img/image.bmp");
     //The camera area
-    Camera cam(SCREEN_WIDTH, SCREEN_HEIGHT);            
-    Dot dot(0, 0, gDotTexture, cam, stencil);
 
-    //While application is running
-    while( !quit )
-    {
-        //Handle events on queue
-        while( SDL_PollEvent( &e ) != 0 )
-        {
+    bool quit = false;
+    SDL_Event e;
+    EventManager eventManager;
+    while( !quit ){
+        while( SDL_PollEvent( &e ) != 0 ){
             //User requests quit
-            if( e.type == SDL_QUIT ){
-                quit = true;
-            } else {
-                dot.handleEvent(e);
+            switch (e.type) {
+                case SDL_QUIT:
+                    quit = true; 
+                    break;
+                default:
+                    eventManager.handleEvent(pj, e);
             }
             //usleep(FRAME_RATE);
         }
+
         //Move the dot
-        dot.move(LEVEL_WIDTH, LEVEL_HEIGHT);
+        pj.update(LEVEL_WIDTH, LEVEL_HEIGHT);
 
         //Clear screen
         gRenderer.setDrawColor( 0xFF, 0xFF, 0xFF, 0xFF );
         gRenderer.clear();
 
         //Render background
-        gBGTexture.render( 0, 0, cam.getRect());
+        bg.render();
         
         //Render objects
-        dot.render();
+        pj.render();
 
         //Update screen
         gRenderer.updateScreen();

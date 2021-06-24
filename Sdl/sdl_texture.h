@@ -48,15 +48,15 @@ class SdlTexture{
 		
 		//Renders texture at given point
 		void render(int x, int y, int width, int height, SDL_Rect* clip = NULL, double angle = 0.0,
-        	SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        	SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE)const;
 
-		void render(int x, int y, SDL_Rect* clip = NULL);
+		void render(int x, int y, SDL_Rect* clip = NULL, double degrees = 0.0)const;
 
 		int renderCopy();
 
 		//Gets image dimensions
-		int getWidth();
-		int getHeight();
+		int getWidth() const;
+		int getHeight() const;
 
 		//SdlTexture(const SdlTexture&);
 		SdlTexture& operator=(const SdlTexture&);

@@ -14,7 +14,7 @@ class Camera {
 
         int getPosX();
         int getPosY();
-        SDL_Rect* getRect();
+        SDL_Rect getRect();
 };
 
 #endif
