@@ -5,7 +5,7 @@
 
 Protocol::Protocol(Socket skt):skt(std::move(skt)){}
 
-void Protocol::send_short(const uint16_t buf){
+void Protocol::send_short(const uint16_t &buf){
     uint16_t ns = htons(buf);
     skt.send_buffer((char *)&ns, 2);
 }
@@ -17,7 +17,7 @@ void Protocol::recv_short(uint16_t &buf){
     buf = ntohs(ns);
 }
 
-void Protocol::send_byte(const char byte){
+void Protocol::send_byte(const char &byte){
     skt.send_buffer(&byte, 1);
 }
 
@@ -25,7 +25,7 @@ void Protocol::recv_byte(char &byte){
     skt.recv_buffer(&byte, 1);
 }
 
-void Protocol::send_position(const float x, const float y){
+void Protocol::send_position(const float &x, const float &y){
     //TODO: Chequear que la parte entera de los float se pueda enviar.
 
     uint16_t n;
