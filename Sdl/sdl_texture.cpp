@@ -93,8 +93,8 @@ void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
 
-void SdlTexture::render(int x, int y){
-	render(x,y,this->mWidth, this->mHeight);
+void SdlTexture::render(int x, int y, SDL_Rect* clip){
+	render(x,y,this->mWidth, this->mHeight, clip);
 }
 
 void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, double angle,
@@ -109,7 +109,6 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	}
 	//Render to screen
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
-	//SDL_RenderCopyEx(renderer, this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
 int SdlTexture::getWidth(){
