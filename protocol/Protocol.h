@@ -22,11 +22,12 @@ class Protocol{
         void send_byte(const char &byte);
         void recv_byte(char& byte);
 
-        //Envía una posicion por el socket. Solo se envían los primeros 
+
+        //Envía un float por el socket. Solo se envían los primeros 
         //DEC_SENT decimales, el resto se pierde.
-        void send_position(const float &x, const float &y);
-        //Recibe una posicion por el socket.
-        void recv_position(float &x, float &y);
+        void send_float(const float &num);
+        //Recibe un float por el socket.
+        void recv_float(float &num);
     
     public:
         explicit Protocol(Socket skt);

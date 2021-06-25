@@ -11,7 +11,7 @@ struct Player{
 
 struct You: public Player{
     float health;
-    int ammo;
+    uint16_t ammo;
 };
 
 struct Bullet{
