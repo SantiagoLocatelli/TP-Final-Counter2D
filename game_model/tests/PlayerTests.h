@@ -13,8 +13,6 @@ class PlayerTests: public CppUnit::TestFixture{
         CPPUNIT_TEST_SUITE(PlayerTests);
         CPPUNIT_TEST(testInitialPosition);
         CPPUNIT_TEST(testMovesRight);
-        CPPUNIT_TEST(testBoxStopsMovement);
-        CPPUNIT_TEST(testPlayerCollision);
         CPPUNIT_TEST(testIsHit);
         CPPUNIT_TEST(testInitialHealth);
         CPPUNIT_TEST(testRecvDamage);
@@ -47,45 +45,6 @@ class PlayerTests: public CppUnit::TestFixture{
             std::array<float, 2> new_pos = p.getPosition();
             CPPUNIT_ASSERT((new_pos[0]-prev_pos[0]) > 0);
             CPPUNIT_ASSERT((new_pos[1]-prev_pos[1]) == 0);
-        }
-
-        void testBoxStopsMovement(){
-            World w(10,10);
-            w.addBox(1, 0);
-            Player &p = w.createPlayer(0,0);
-            p.toggle_movement(RIGHT);
-
-
-            std::array<float, 2> prev_pos = p.getPosition();
-            for (int i = 0; i < 30; i++){
-                w.step();
-            }
-            std::array<float, 2> new_pos = p.getPosition();
-            CPPUNIT_ASSERT(new_pos[0] < 1);
-            CPPUNIT_ASSERT((new_pos[1]-prev_pos[1]) == 0);
-        }
-
-        void testPlayerCollision(){
-            World w(5,5);
-            Player &p1 = w.createPlayer(0,0);
-            Player &p2 = w.createPlayer(1,0);
-
-            std::array<float, 2> prev_p1 = p1.getPosition();
-            std::array<float, 2> prev_p2 = p2.getPosition();
-
-            p1.toggle_movement(RIGHT);
-
-            for (int i = 0; i < 30; i++){
-                w.step();
-            }
-
-            std::array<float, 2> new_p1 = p1.getPosition();
-            std::array<float, 2> new_p2 = p2.getPosition();
-
-            CPPUNIT_ASSERT((new_p1[0]-prev_p1[0]) > 0);
-            CPPUNIT_ASSERT((new_p1[1]-prev_p1[1]) == 0);
-            CPPUNIT_ASSERT((new_p2[0]-prev_p2[0]) > 0);
-            CPPUNIT_ASSERT((new_p2[1]-prev_p2[1]) == 0);
         }
 
         void testIsHit(){
