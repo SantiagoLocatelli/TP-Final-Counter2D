@@ -40,7 +40,7 @@ class PlayerTests: public CppUnit::TestFixture{
         void testMovesRight(){
             World w(5,5);
             Player &p = w.createPlayer(1,1);
-            p.applyImpulse(1, 0);
+            p.toggle_movement(RIGHT);
 
             std::array<float, 2> prev_pos = p.getPosition();
             w.step();
@@ -51,9 +51,9 @@ class PlayerTests: public CppUnit::TestFixture{
 
         void testBoxStopsMovement(){
             World w(10,10);
-            w.addBox(3, 0);
+            w.addBox(1, 0);
             Player &p = w.createPlayer(0,0);
-            p.applyImpulse(10, 0);
+            p.toggle_movement(RIGHT);
 
 
             std::array<float, 2> prev_pos = p.getPosition();
@@ -61,7 +61,7 @@ class PlayerTests: public CppUnit::TestFixture{
                 w.step();
             }
             std::array<float, 2> new_pos = p.getPosition();
-            CPPUNIT_ASSERT(new_pos[0] < 3);
+            CPPUNIT_ASSERT(new_pos[0] < 1);
             CPPUNIT_ASSERT((new_pos[1]-prev_pos[1]) == 0);
         }
 
@@ -73,7 +73,7 @@ class PlayerTests: public CppUnit::TestFixture{
             std::array<float, 2> prev_p1 = p1.getPosition();
             std::array<float, 2> prev_p2 = p2.getPosition();
 
-            p1.applyImpulse(5, 0);
+            p1.toggle_movement(RIGHT);
 
             for (int i = 0; i < 30; i++){
                 w.step();

@@ -12,7 +12,7 @@ COMPILER_FLAGS = -w -g
 LINKER_FLAGS = -lbox2d -lcppunit
 
 #OBJ_NAME specifies the name of our exectuable
-OBJ_NAME = test
+OBJ_NAME = test.exe
 
 #This is the target that compiles our executable
 run: build

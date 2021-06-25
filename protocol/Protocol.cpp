@@ -52,3 +52,23 @@ void Protocol::send_event(const Event event){
 void Protocol::recv_event(Event &event){
     recv_byte((char &)event);
 }
+
+void Protocol::send_window_size(const uint16_t length, const uint16_t height){
+    send_short(length);
+    send_short(height);
+}
+
+void Protocol::recv_window_size(uint16_t &length, uint16_t &height){
+    recv_short(length);
+    recv_short(height);
+}
+
+void Protocol::send_pixel_position(const uint16_t x, const uint16_t y){
+    send_short(x);
+    send_short(y);
+}
+
+void Protocol::recv_pixel_position(uint16_t &x, uint16_t &y){
+    recv_short(x);
+    recv_short(y);
+}

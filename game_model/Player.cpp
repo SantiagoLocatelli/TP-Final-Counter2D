@@ -17,6 +17,11 @@ Player::Player(b2World &world, float start_x, float start_y)
     fixtureDef.friction = 0;
 
     body->CreateFixture(&fixtureDef);
+
+    movement[UP] = false;
+    movement[DOWN] = false;
+    movement[RIGHT] = false;
+    movement[LEFT] = false;
 }
 
 Player::Player(Player&& other){
@@ -36,11 +41,28 @@ Player& Player::operator=(Player&& other){
     other.body = nullptr;
 }
 
-void Player::applyImpulse(float x, float y){
-    //TODO: Ver la mejor forma de mover a los jugadores (velocidad vs impulso vs fuerza)
-
-    body->ApplyLinearImpulseToCenter(b2Vec2(body->GetMass()*x,body->GetMass()*y), true);
+void Player::toggle_movement(Direction dir){
+    movement[dir] = !movement[dir];
 }
+        
+void Player::update_velocity(){
+    //TODO: Muy hardcodeado, arreglar esto
+    b2Vec2 new_imp(0,0);
+    if (movement[UP])
+        new_imp.x += -1;
+    if (movement[DOWN])
+        new_imp.x += 1;
+    if (movement[LEFT])
+        new_imp.y += -1;
+    if (movement[RIGHT])
+        new_imp.x += 1;
+
+    new_imp.Normalize();
+    new_imp *= body->GetMass();
+
+    body->ApplyLinearImpulseToCenter(new_imp, true);
+}
+
 
 std::array<float, 2> Player::getPosition(){
     std::array<float, 2> vec;
