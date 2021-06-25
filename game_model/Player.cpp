@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <cmath>
+#include <iostream>
 
 Player::Player(b2World &world, float start_x, float start_y)
 :health(100), dead(false){
@@ -58,9 +59,8 @@ void Player::update_velocity(){
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= body->GetMass();
-
-    body->ApplyLinearImpulseToCenter(new_imp, true);
+    new_imp *= 50;
+    body->ApplyForceToCenter(new_imp, true);
 }
 
 

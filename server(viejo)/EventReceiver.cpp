@@ -10,13 +10,13 @@ void EventReceiver::run(){
         protocol.recv_event(event);
         std::cout << "Llego el evento: " << event << std::endl;
         //TODO: Hacerlo con polimorfismo
-        if (event == UP_ON || event == DOWN_OFF){
+        if (event == UP_ON || event == UP_OFF){
             game.move_player(UP);
-        } else if (event == DOWN_ON || event == UP_OFF){
+        } else if (event == DOWN_ON || event == DOWN_OFF){
             game.move_player(DOWN);
-        } else if (event == LEFT_ON || event == RIGHT_OFF){
+        } else if (event == LEFT_ON || event == LEFT_OFF){
             game.move_player(LEFT);
-        } else if (event == RIGHT_ON || event == LEFT_OFF){
+        } else if (event == RIGHT_ON || event == RIGHT_OFF){
             game.move_player(RIGHT);
         }
     }

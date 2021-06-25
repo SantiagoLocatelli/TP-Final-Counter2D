@@ -22,25 +22,7 @@ GameManager::GameManager(const std::string &yaml_file){
 void GameManager::move_player(Direction dir){
     const std::lock_guard<std::mutex> lock(m);
 
-    //TODO: Hacer con polimorfismo
-    switch (dir)
-    {
-    case UP:
-        player->applyImpulse(0, -1);
-        break;
-
-    case DOWN:
-        player->applyImpulse(0, 1);
-        break;
-
-    case LEFT:
-        player->applyImpulse(-1, 0);
-        break;
-
-    case RIGHT:
-        player->applyImpulse(1, 0);
-        break;
-    }
+    player->toggle_movement(dir);
 }
 
 void GameManager::get_player_position(float &x, float &y){

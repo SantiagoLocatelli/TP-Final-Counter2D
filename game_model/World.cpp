@@ -32,7 +32,7 @@ void World::step(){
     for (std::pair<const int, Player> &p: players){
         p.second.update_velocity();
     }
-    world.Step(1.0/30.0, 8, 3);
+    world.Step(1.0/30.0, 10, 9);
 }
 
 bool World::rayCast(float start_x, float start_y, float angle

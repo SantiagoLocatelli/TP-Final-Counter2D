@@ -12,6 +12,7 @@ class WorldTests: public CppUnit::TestFixture{
         CPPUNIT_TEST(testInitialPlayerPosition);
         CPPUNIT_TEST(testBoxStopsMovement);
         CPPUNIT_TEST(testPlayerCollision);
+        CPPUNIT_TEST(testPlayerNoRebota);
         CPPUNIT_TEST_SUITE_END();
 
     protected:
@@ -23,9 +24,9 @@ class WorldTests: public CppUnit::TestFixture{
             CPPUNIT_ASSERT(p.getPosition()[1] == 0.5);
         }
 
-                void testBoxStopsMovement(){
+        void testBoxStopsMovement(){
             World w(10,10);
-            w.addBox(1, 0);
+            w.addBox(2, 0);
             Player &p = w.createPlayer(0,0);
             p.toggle_movement(RIGHT);
 
@@ -35,7 +36,7 @@ class WorldTests: public CppUnit::TestFixture{
                 w.step();
             }
             std::array<float, 2> new_pos = p.getPosition();
-            CPPUNIT_ASSERT(new_pos[0] < 1);
+            CPPUNIT_ASSERT(new_pos[0] < 2);
             CPPUNIT_ASSERT((new_pos[1]-prev_pos[1]) == 0);
         }
 
