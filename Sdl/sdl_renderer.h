@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "sdl_window.h"
-// #include "sdl_texture.h"
 
 class SdlRenderer{
     private:
@@ -13,6 +12,7 @@ class SdlRenderer{
         SdlRenderer(SdlWindow* window);
         SDL_Texture* createTexture(int w, int h);
         SDL_Texture* createTextureFromSurface(SDL_Surface* loadedSurface);
+
         void setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha);
         void clear();
         void updateScreen();
@@ -21,6 +21,8 @@ class SdlRenderer{
         int renderReadPixels(void* pixels, int w, int format);
         SDL_Texture* getRenderTarget();
         int setRenderTarget(SDL_Texture* target);
+        
+        void render(SDL_Rect* rect);
         ~SdlRenderer();
 };
 #endif

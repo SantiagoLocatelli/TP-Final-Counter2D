@@ -8,14 +8,6 @@ SdlButton::SdlButton(SdlTexture* texture, int x, int y){
     //this->textures = texture;
 }
 
-/*SdlButton::SdlButton(SdlButton&& other){
-    this->mPosition.x = std::move(other.x);
-	this->mPosition.y = std::move(other.y);
-
-	this->mCurrentSprite = std::move(other.mCurrentSprite);
-    this->textures = std::move(other.textures);
-}*/
-
 void SdlButton::setPosition(int x, int y){
 	this->mPosition.x = x;
 	this->mPosition.y = y;

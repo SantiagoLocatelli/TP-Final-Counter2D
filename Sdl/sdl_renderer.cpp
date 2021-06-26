@@ -1,6 +1,5 @@
 #include "sdl_renderer.h"
 #include <stdio.h>
-#include "sdl_texture.h"
 
 SdlRenderer::SdlRenderer(SdlWindow* window){
     if(!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1")){
@@ -61,7 +60,6 @@ int SdlRenderer::renderCopy(SDL_Texture* target){
 int SdlRenderer::renderReadPixels(void* pixels, int w, int format){
     return SDL_RenderReadPixels(this->mRenderer, NULL, format, pixels, w * SDL_BYTESPERPIXEL(format));
 }
-
 
 SdlRenderer::~SdlRenderer(){
     SDL_DestroyRenderer(this->mRenderer);

@@ -1,5 +1,6 @@
 #ifndef __SDL_TEXTURE_H__
 #define __SDL_TEXTURE_H__
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -64,7 +65,5 @@ class SdlTexture{
 		//Deallocates memory
 		~SdlTexture();
 		
-		
-		SDL_Texture* getText(); // REVER ESTE
 };
 #endif

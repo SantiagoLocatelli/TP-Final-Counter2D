@@ -2,7 +2,6 @@
 #include <string>
 #include <stdio.h>
 
-
 SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
     SDL_Surface *surf; 
 	this->mTexture = this->renderer.createTexture(w,h);
@@ -26,10 +25,6 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
-}
-
-SDL_Texture* SdlTexture::getText(){
-	return this->mTexture;
 }
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
@@ -104,7 +99,6 @@ void SdlTexture::setBlendMode( SDL_BlendMode blending ){
 void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
-
 void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
 	render(x,y,this->mWidth, this->mHeight, clip, degrees);
 }
@@ -124,19 +118,11 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	//SDL_RenderCopyEx(renderer, this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-int SdlTexture::renderCopy(){
-	this->renderer.renderCopy(this->mTexture);
-}
+int SdlTexture::renderCopy(){this->renderer.renderCopy(this->mTexture);}
 
+int SdlTexture::getWidth()const{return this->mWidth;}
 
-int SdlTexture::getWidth()const{
-	return this->mWidth;
-}
-
-int SdlTexture::getHeight()const{
-	return this->mHeight;
-}
-
+int SdlTexture::getHeight()const{return this->mHeight;}
 
 SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	this->mWidth = other.mWidth;
