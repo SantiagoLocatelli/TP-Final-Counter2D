@@ -12,7 +12,6 @@ class WorldTests: public CppUnit::TestFixture{
         CPPUNIT_TEST(testInitialPlayerPosition);
         CPPUNIT_TEST(testBoxStopsMovement);
         CPPUNIT_TEST(testPlayerCollision);
-        CPPUNIT_TEST(testPlayerNoRebota);
         CPPUNIT_TEST_SUITE_END();
 
     protected:
