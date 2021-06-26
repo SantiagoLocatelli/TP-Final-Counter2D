@@ -7,6 +7,10 @@ typedef struct coordenada{
 
 class Math{
     public:
+        /**
+         * calcula los grados entre el vector point y la proyeccion del vector point 
+         * en el eje x.
+         */
         static double calculateDegrees(coordenada_t center, coordenada_t point);
 
     private:

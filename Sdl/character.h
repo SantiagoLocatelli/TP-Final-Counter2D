@@ -20,11 +20,11 @@ class Character{
 		//dimensions of the Character
 		Camera& cam;
 		Stencil& stn;
-		Cursor cur;
+		Cursor& cur;
 
     public:
 		//Initializes the variables
-		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
+		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur);
 
 
 		//Moves the Character

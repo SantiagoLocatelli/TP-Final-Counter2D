@@ -3,14 +3,16 @@
 
 class Cursor {
     private:
-        int x;
-        int y;
+        // int x;
+        // int y;
         double degrees;
+        int screen_w;
+        int screen_h;
 
     public:
 
-        Cursor();
-        void setAt(int x, int y, double degrees);
+        Cursor(int screen_w, int screen_h);
+        void setAt(double degrees);
         double getDegrees();
         void lookAt(int x, int y, int relX, int relY);
 };

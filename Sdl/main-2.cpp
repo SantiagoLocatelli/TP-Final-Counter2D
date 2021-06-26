@@ -11,6 +11,7 @@
 #include "background.h"
 #include <iostream>
 #include <unistd.h>
+#include "cursor.h"
 
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
@@ -102,8 +103,9 @@ int main( int argc, char* args[]){
     Background bg(gBGTexture, cam);
     
     Stencil stencil(stencilTexture, SCREEN_WIDTH, SCREEN_HEIGHT);
-    SDL_Rect area = {0, 0, 50, 50};            
-    Character pj(area, gDotTexture, cam, stencil);
+    SDL_Rect area = {0, 0, 50, 50};     
+    Cursor cursor(SCREEN_WIDTH, SCREEN_HEIGHT);       
+    Character pj(area, gDotTexture, cam, stencil, cursor);
     
     
     // saveTexture(gRenderer, stencilTexture, "img/image.bmp", LEVEL_WIDTH, LEVEL_HEIGHT);

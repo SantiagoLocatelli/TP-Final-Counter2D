@@ -28,8 +28,12 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
     y el tercer punto lo generamos con la pos en y del personaje, y la pos en x del mouse.
     y calculamos los angulos entre esas dos lineas
     */
-    double degrees = 0;
+    double degrees = 0.0;
     coordenada_t newVec = {point.x, center.y};
+
+    if (point.x == 0) {
+        point.x = 1;
+    }
 
     if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
 
@@ -43,19 +47,19 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
         if (moduloPoint != moduloNewVec) {
 
             // acos devuelve el resultado en radianes
-            result = acos(result)*180/PI;
+            result = acos(result)*180.0/PI;
             degrees = result;
 
-            if (point.x < 0 && point.y < 0) {
-                degrees += 180;
-            } else if (point.x < 0 && point.y > 0) {
-                degrees = 180 - degrees;
-            } else if (point.x > 0 && point.y < 0) {
-                degrees = 360 - degrees;
-            }
-            //printf("grados: %f\n", degrees);
+            if (point.x < 0.0 && point.y < 0.0) {
+                degrees += 180.0;
+            } else if (point.x < 0.0 && point.y > 0.0) {
+                degrees = 180.0 - degrees;
+            } else if (point.x > 0.0 && point.y < 0.0) {
+                degrees = 360.0 - degrees;
+            } 
+            printf("game math grados: %f\n", degrees);
         } else {
-            //degrees += 180;
+            degrees += 180.0;
         } 
     }
 

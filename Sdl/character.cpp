@@ -3,8 +3,8 @@
 
 #define CHARACTER_VEL 10
 
-Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn)
-    : area(area), an(texture), cam(cam), stn(stn){
+Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur)
+    : area(area), an(texture), cam(cam), stn(stn), cur(cur){
     this->mVelX = 0;
     this->mVelY = 0;
 }
@@ -59,7 +59,7 @@ void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
 
 void Character::lookAt(int x, int y, int relX, int relY){
 
-    this->cur.lookAt(x - this->cam.getWidth()/2, y - this->cam.getHeight()/2, relX, relY);
+    this->cur.lookAt(x, y, relX, relY);
 }
 
 int Character::getPosY(){return this->area.y;}
