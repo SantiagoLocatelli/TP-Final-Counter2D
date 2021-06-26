@@ -14,6 +14,10 @@ void Cursor::setAt(double degrees){
 
 double Cursor::getDegrees(){return this->degrees;}
 
+/*
+Devuelve verdadero si la nueva posicion del cursor no coincide
+con los grados del mismo.
+*/
 bool changedAxis(int x, int y, double degrees) {
     return ((0 > y && degrees < 135.0 && degrees >= 45.0) ||
             (0 < y && degrees <= 315.0 && degrees > 225.0) ||

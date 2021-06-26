@@ -14,6 +14,11 @@ class Cursor {
         Cursor(int screen_w, int screen_h);
         void setAt(double degrees);
         double getDegrees();
+
+        /*
+        le pasa nueva posicion del mouse, la velocidad relativa del ultimo movimiento
+        y segun estas cosas actualiza los grados del cursor.
+        */
         void lookAt(int x, int y, int relX, int relY);
 };
 

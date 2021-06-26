@@ -38,11 +38,8 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
     if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
 
         int moduloPoint = modulo(point);
-        printf("modulo vector 2: %i\n", moduloPoint);
         int moduloNewVec= modulo(newVec);
-        printf("modulo vector 1: %i\n", moduloPoint);
         double result = (double)productoEscalar(point, newVec)/ (moduloPoint*moduloNewVec);
-        printf("resulta: %.2f\n", result);
         
         if (moduloPoint != moduloNewVec) {
 
@@ -57,10 +54,9 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
             } else if (point.x > 0.0 && point.y < 0.0) {
                 degrees = 360.0 - degrees;
             } 
-            printf("game math grados: %f\n", degrees);
-        } else {
-            degrees += 180.0;
-        } 
+        }
+    } else {
+        degrees += 180.0; 
     }
 
     return degrees;
