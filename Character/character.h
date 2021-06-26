@@ -1,8 +1,8 @@
 #ifndef __Character_H__
 #define __Character_H__
-#include <SDL2/SDL.h>
-#include "sdl_renderer.h" 
-#include "sdl_texture.h"
+
+#include "../Sdl/sdl_renderer.h" 
+#include "../Sdl/sdl_texture.h"
 #include "camera.h"
 #include "stencil.h"
 #include "animation.h"

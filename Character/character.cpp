@@ -1,5 +1,5 @@
 #include "character.h"
-#include "game_math.h"
+#include "../Events/game_math.h"
 
 #define CHARACTER_VEL 10
 
@@ -58,8 +58,9 @@ void Character::stopUp(){this->mVelY += CHARACTER_VEL;}
 void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
 
 void Character::lookAt(int x, int y, int relX, int relY){
-
-    this->cur.lookAt(x, y, relX, relY);
+    // se le resta la pos de la camara para que resulte la psicion del jguador
+    // en la screen y no del nivel.
+    this->cur.lookAt(this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), x, y, relX, relY);
 }
 
 int Character::getPosY(){return this->area.y;}

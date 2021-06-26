@@ -1,7 +1,7 @@
 #ifndef __ANIMATION_H__
 #define __ANIMATION_H__
 
-#include "sdl_texture.h"
+#include "../Sdl/sdl_texture.h"
 #define FRAME_RATE 1000000.0f/25.0f
 
 class Animation {

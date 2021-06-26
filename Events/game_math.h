@@ -7,6 +7,9 @@ typedef struct coordenada{
 
 class Math{
     public:
+
+        static int manhattanDistance(coordenada_t point1, coordenada_t point2);
+
         /**
          * calcula los grados entre el vector point y la proyeccion del vector point 
          * en el eje x.

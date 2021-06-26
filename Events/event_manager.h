@@ -1,7 +1,7 @@
 #ifndef __EVENTMANAGER_H__
 #define __EVENTMANAGER_H__
 
-#include "character.h"
+#include "../Character/character.h"
 #include <SDL2/SDL.h>
 
 class EventManager{

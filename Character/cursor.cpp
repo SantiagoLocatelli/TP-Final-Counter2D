@@ -1,7 +1,6 @@
 #include "cursor.h"
-#include "game_math.h"
+#include "../Events/game_math.h"
 #include <cstdio>
-
 #define SENSIBILITY 2
 #define UNION_RANGE 30.0
 
@@ -26,7 +25,7 @@ bool changedAxis(int x, int y, double degrees) {
 }
 
 
-void Cursor::lookAt(int x, int y, int relX, int relY){    
+void Cursor::lookAt(int center_x, int center_y, int x, int y, int relX, int relY){    
     // son las velocidades relativas del mouse, de como se viene moviendo
 
     // en este caso se le da importancia a la x
@@ -34,8 +33,8 @@ void Cursor::lookAt(int x, int y, int relX, int relY){
         // con respecto a la posicion anterior del mouse, por eso se le resta, para que 
         // termine aumentando los grados
 
-    x = x - (this->screen_w/2);
-    y = y - (this->screen_h/2);
+    x = x - center_x;
+    y = y - center_y; 
 
     if (x == 0) {
         if (y > 0) {
@@ -46,29 +45,40 @@ void Cursor::lookAt(int x, int y, int relX, int relY){
         return;
     }
 
+    int sensibility = SENSIBILITY;
+    int distance = Math::manhattanDistance({0, 0}, {x, y});
+    
+    // si le restp a la sensibilidad, quiere decir que se mueve mas rapido
+    // porque lo estoy diviendo.d
+    printf("distania manhattan: %i\n", distance);
+    printf("coordenada, x: %i, y: %i\n", x, y);
+    if (distance <= 50) {
+        sensibility--;
+        printf("se cambio la sensibilidad\n");
+    }
     double degrees = (double) ((int)this->degrees % 360);
     if (degrees < 0.0){
         degrees = (360.0 + degrees);
     }
 
     if (degrees >= (45.0 - UNION_RANGE) && degrees < (135.0 + UNION_RANGE)) {
-        degrees = degrees - (relX/SENSIBILITY);
+        degrees = degrees - (relX/sensibility);
     } 
 
     if (degrees < (315.0 + UNION_RANGE) && degrees > (225.0 - UNION_RANGE)) {
-        degrees = degrees + (relX/SENSIBILITY);
+        degrees = degrees + (relX/sensibility);
 
     } 
     if (degrees >= (135.0 - UNION_RANGE) && degrees <= (225.0 + UNION_RANGE)) {
-        degrees = degrees - (relY/SENSIBILITY);
+        degrees = degrees - (relY/sensibility);
     } 
 
     if (degrees < (45.0 + UNION_RANGE) || degrees >= (315.0 - UNION_RANGE)) {
-        degrees = degrees + (relY/SENSIBILITY);
+        degrees = degrees + (relY/sensibility);
     }
 
     if (changedAxis(x, y, degrees)) {
-        degrees = Math::calculateDegrees({this->screen_w/2, this->screen_h/2}, {x, y});
+        degrees = Math::calculateDegrees({center_x, center_y}, {x, y});
     }
     this->degrees = degrees;
 }

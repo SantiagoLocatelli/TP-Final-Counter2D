@@ -1,17 +1,16 @@
-#include "sdl_texture.h"
-#include "sdl_window.h"
-#include "sdl_renderer.h"
-#include <stdio.h>
+#include "Sdl/sdl_texture.h"
+#include "Sdl/sdl_window.h"
+#include "Sdl/sdl_renderer.h"
+#include "Sdl/background.h"
+#include "Character/camera.h"
+#include "Character/character.h"
+#include "Character/stencil.h"
+#include "Character/cursor.h"
+#include "Events/event_manager.h"
 #include <string>
 #include <vector>
-#include "camera.h"
-#include "character.h"
-#include "stencil.h"
-#include "event_manager.h"
-#include "background.h"
 #include <iostream>
 #include <unistd.h>
-#include "cursor.h"
 
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
@@ -95,10 +94,10 @@ int main( int argc, char* args[]){
 	//Start up SDL and create window
     SdlWindow gWindow("Conteiner", SCREEN_WIDTH, SCREEN_HEIGHT);
     SdlRenderer gRenderer(&gWindow);
-    SdlTexture stencilTexture(gRenderer, "img/stencil.png", 0xFF, 0xFF, 0xFF);
-    SdlTexture gDotTexture(gRenderer, "img/ct1.bmp", 0x00, 0x00, 0x00);
+    SdlTexture stencilTexture(gRenderer, "Resources/img/stencil.png", 0xFF, 0xFF, 0xFF);
+    SdlTexture gDotTexture(gRenderer, "Resources/img/ct1.bmp", 0x00, 0x00, 0x00);
     
-    SdlTexture gBGTexture(gRenderer, "img/bg.png");
+    SdlTexture gBGTexture(gRenderer, "Resources/img/bg.png");
     Camera cam(SCREEN_WIDTH, SCREEN_HEIGHT);
     Background bg(gBGTexture, cam);
     
@@ -114,7 +113,6 @@ int main( int argc, char* args[]){
 
     bool quit = false;
     SDL_Event e;
-    SDL_Event last_e;
     EventManager eventManager;
     while( !quit ){
         while( SDL_PollEvent( &e ) != 0 ){
@@ -127,7 +125,6 @@ int main( int argc, char* args[]){
                     eventManager.handleEvent(pj, e);
 
             }
-            last_e = e;
             // std::chrono::seconds secs(FRAME_RATE);
             // std::this_thread::sleep_for (std::chrono::seconds(FRAME_RATE));
             // usleep(FRAME_RATE);

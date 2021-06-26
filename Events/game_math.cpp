@@ -16,6 +16,10 @@ bool coordsIguales(coordenada_t coord1, coordenada_t coord2){
     return ((coord1.x == coord2.x) && (coord1.y == coord2.y));
 }
 
+int Math::manhattanDistance(coordenada_t point1, coordenada_t point2){
+    return (abs(point1.x - point2.x) + abs(point1.y - point2.y));
+}
+
 
 double Math::calculateDegrees(coordenada_t center, coordenada_t point){
 
