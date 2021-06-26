@@ -13,7 +13,7 @@ class Weapon{
         float calculateDamage(float distance);
     public:
         Weapon(Player &owner, World &world);
-        void activate(float angle);
+        void activate();
 };
 
 #endif
