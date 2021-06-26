@@ -2,6 +2,7 @@
 
 #define FRAME_HORIZONTALES 2
 #define FRAME_VERTICALES 3
+#define PHASE_SHIFT 90
 
 Animation::Animation(const SdlTexture& texture):
     texture(texture) {
@@ -27,7 +28,7 @@ void Animation::render(SDL_Rect dst, double degrees){
     int frame_vertical = (this->currentFrame % FRAME_VERTICALES);
     int frame_hori = this->currentFrame % FRAME_HORIZONTALES;
     SDL_Rect src = { frame_hori * this->size, frame_vertical * this->size, this->size, this->size};
-    this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, degrees);
+    this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, degrees + PHASE_SHIFT);
 }
 
 void Animation::advanceFrame(){

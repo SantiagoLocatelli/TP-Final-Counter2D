@@ -12,6 +12,8 @@ class Camera {
         void centerCamera(SDL_Rect character);
         void keepInBounds(int level_w, int level_h);
 
+        int getHeight();
+        int getWidth();
         int getPosX();
         int getPosY();
         SDL_Rect getRect();

@@ -23,14 +23,9 @@ void Camera::keepInBounds(int level_width, int level_height){
     }
 }
 
-int Camera::getPosX(){
-    return this->camera.x;
-}
+int Camera::getWidth(){return this->camera.w;}
+int Camera::getHeight(){return this->camera.h;}
+int Camera::getPosX(){return this->camera.x;}
+int Camera::getPosY(){return this->camera.y;}
 
-int Camera::getPosY(){
-    return this->camera.y;
-}
-
-SDL_Rect Camera::getRect(){
-    return this->camera;
-}
+SDL_Rect Camera::getRect(){return this->camera;}

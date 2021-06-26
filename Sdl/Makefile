@@ -1,12 +1,12 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main-2.cpp sdl_texture.cpp sdl_mixer.cpp sdl_window.cpp sdl_renderer.cpp button.cpp character.cpp stencil.cpp camera.cpp animation.cpp background.cpp event_manager.cpp game_math.cpp
+OBJS = main-2.cpp sdl_texture.cpp sdl_mixer.cpp sdl_window.cpp sdl_renderer.cpp button.cpp cursor.cpp character.cpp stencil.cpp camera.cpp animation.cpp background.cpp event_manager.cpp game_math.cpp
 
 #CC specifies which compiler we're using
 CC = g++
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
-COMPILER_FLAGS = -w -g
+COMPILER_FLAGS = -w -g 
 
 #LINKER_FLAGS specifies the libraries we're linking against
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf

@@ -9,6 +9,8 @@
 #include "stencil.h"
 #include "event_manager.h"
 #include "background.h"
+#include <iostream>
+#include <unistd.h>
 
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
@@ -110,6 +112,7 @@ int main( int argc, char* args[]){
 
     bool quit = false;
     SDL_Event e;
+    SDL_Event last_e;
     EventManager eventManager;
     while( !quit ){
         while( SDL_PollEvent( &e ) != 0 ){
@@ -120,8 +123,12 @@ int main( int argc, char* args[]){
                     break;
                 default:
                     eventManager.handleEvent(pj, e);
+
             }
-            //usleep(FRAME_RATE);
+            last_e = e;
+            // std::chrono::seconds secs(FRAME_RATE);
+            // std::this_thread::sleep_for (std::chrono::seconds(FRAME_RATE));
+            // usleep(FRAME_RATE);
         }
 
         //Move the dot

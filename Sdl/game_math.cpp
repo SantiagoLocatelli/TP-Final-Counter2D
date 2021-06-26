@@ -18,10 +18,6 @@ bool coordsIguales(coordenada_t coord1, coordenada_t coord2){
 
 
 double Math::calculateDegrees(coordenada_t center, coordenada_t point){
-    system("clear");
-    printf("vel x relative: %i\n", point.x);
-    printf("vel y relative: %i\n", point.y);
-
 
     /*
     recordando que centramos el stencil en el personale.
@@ -33,41 +29,35 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
     y calculamos los angulos entre esas dos lineas
     */
     double degrees = 0;
-    coordenada_t origen = {0, 0};
-    coordenada_t newCoord = {point.x, center.y};
-    // para obtener los vectores dobe restar los puntos
-    coordenada_t newVec = {newCoord.x - center.x, newCoord.y - center.y};
-    coordenada_t pointVec = {point.x - center.x, point.y - center.y};
+    coordenada_t newVec = {point.x, center.y};
 
-    if (!coordsIguales(origen, pointVec) && !coordsIguales(origen, newVec)) {
+    if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
 
-        int moduloNewVec = modulo(newVec);
-        int moduloPointVec = modulo(pointVec);
-        double result = (double)productoEscalar(newVec, pointVec)/ (moduloNewVec*moduloPointVec);
-        if ((moduloNewVec == moduloPointVec) && (pointVec.x < 0)) {
-            degrees = 180;
-        }
-        printf("pord esca: %i\n", productoEscalar(newVec,pointVec));
-        printf("mod vec 1: %i\n", modulo(newVec));
-        printf("mod vec 2: %i\n", modulo(pointVec));
-        printf("resultado entero: %i\n", productoEscalar(newVec, pointVec)/(modulo(newVec)*modulo(pointVec)));
-        printf("result 1: %f\n", result);
+        int moduloPoint = modulo(point);
+        printf("modulo vector 2: %i\n", moduloPoint);
+        int moduloNewVec= modulo(newVec);
+        printf("modulo vector 1: %i\n", moduloPoint);
+        double result = (double)productoEscalar(point, newVec)/ (moduloPoint*moduloNewVec);
+        printf("resulta: %.2f\n", result);
+        
+        if (moduloPoint != moduloNewVec) {
 
-        // acos devuelve el resultado en radianes
-        result = acos(result)*180/PI;
-        degrees = result;
-        if (pointVec.x < 0 && pointVec.y < 0) {
-            degrees += 180;
-        } else if (pointVec.x < 0 && pointVec.y > 0) {
-            degrees = 180 - degrees;
-        } else if (pointVec.x > 0 && pointVec.y < 0) {
-            degrees = 360 - degrees;
-        }
-        //printf("grados: %f\n", degrees);
-    } else if (pointVec.y > 0) {
-        degrees = 90;
-    } else {
-        degrees = 270;
+            // acos devuelve el resultado en radianes
+            result = acos(result)*180/PI;
+            degrees = result;
+
+            if (point.x < 0 && point.y < 0) {
+                degrees += 180;
+            } else if (point.x < 0 && point.y > 0) {
+                degrees = 180 - degrees;
+            } else if (point.x > 0 && point.y < 0) {
+                degrees = 360 - degrees;
+            }
+            //printf("grados: %f\n", degrees);
+        } else {
+            //degrees += 180;
+        } 
     }
+
     return degrees;
 }

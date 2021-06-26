@@ -2,7 +2,6 @@
 #include "game_math.h"
 
 #define CHARACTER_VEL 10
-#define PHASE_SHIFT 90
 
 Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn)
     : area(area), an(texture), cam(cam), stn(stn){
@@ -35,6 +34,8 @@ void Character::update(int level_width, int level_height){
     //Keep the camera in bounds
     this->cam.keepInBounds(level_width, level_height);
     this->stn.centerStencil(this->getRect());
+
+    // para que cambia de frame solo si avanza
     if (this->mVelX != 0 || this->mVelY != 0) {
         this->an.advanceFrame();
     }
@@ -42,8 +43,8 @@ void Character::update(int level_width, int level_height){
 
 void Character::render(){
     SDL_Rect dst = {this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), this->area.w, this->area.h};
-    this->an.render(dst, this->degrees + PHASE_SHIFT);
-    this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->degrees);
+    this->an.render(dst, this->cur.getDegrees());
+    this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->cur.getDegrees());
 }
 
 void Character::moveRight(){this->mVelX += CHARACTER_VEL;}
@@ -56,9 +57,9 @@ void Character::stopLeft(){this->mVelX += CHARACTER_VEL;}
 void Character::stopUp(){this->mVelY += CHARACTER_VEL;}
 void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
 
-void Character::lookAt(int x, int y){
+void Character::lookAt(int x, int y, int relX, int relY){
 
-    this->degrees = Math::calculateDegrees({this->area.x, this->area.y}, {x, y});
+    this->cur.lookAt(x - this->cam.getWidth()/2, y - this->cam.getHeight()/2, relX, relY);
 }
 
 int Character::getPosY(){return this->area.y;}

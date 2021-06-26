@@ -6,6 +6,7 @@
 #include "camera.h"
 #include "stencil.h"
 #include "animation.h"
+#include "cursor.h"
 
 class Character{
 
@@ -19,7 +20,7 @@ class Character{
 		//dimensions of the Character
 		Camera& cam;
 		Stencil& stn;
-		double degrees = 0.0;
+		Cursor cur;
 
     public:
 		//Initializes the variables
@@ -45,7 +46,7 @@ class Character{
 		void stopUp();
 		void stopDown();
 
-		void lookAt(int x, int y);
+		void lookAt(int x, int y, int relX, int relY);
 
 		//Position accessors
 		int getPosX();

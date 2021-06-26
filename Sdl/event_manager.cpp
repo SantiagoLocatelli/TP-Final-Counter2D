@@ -31,8 +31,7 @@ void EventManager::handleEvent(Character& pj, SDL_Event& e){
             }
             break;
         case SDL_MOUSEMOTION: 
-            
-            pj.lookAt(e.motion.x, e.motion.y);
+            pj.lookAt(e.motion.x, e.motion.y, e.motion.xrel, e.motion.yrel);
             break;
         
     }
