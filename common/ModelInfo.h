@@ -24,6 +24,7 @@ struct ModelInfo{
     You you;
     std::list<Prot_Player> players;
     std::list<Bullet> bullets;
+    bool game_ended;
 };
 
 #endif
