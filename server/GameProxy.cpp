@@ -17,32 +17,29 @@ MapInfo GameProxy::getMapInfo(){
     return mapInfo;
 }
 
-ModelInfo GameProxy::getModelInfo(int id){
-    ModelInfo info;
-    std::array<float, 2> pos = players[id].getPosition();
-    info.you.x = pos[0];
-    info.you.y = pos[1];
-    info.you.angle = players[id].getAngle();
-    info.you.health = players[id].getHealth();
-    info.you.ammo = 0;
-
+CompleteModelInfo GameProxy::getModelInfo(){
+    CompleteModelInfo info;
+    std::array<float, 2> pos;
     for (int i = 0; i < players.size(); i++){
-        if (i != id){
-            Prot_Player p;
+            You p;
             pos = players[i].getPosition();
             p.x = pos[0];
             p.y = pos[1];
             p.angle = players[i].getAngle();
-        }
+            p.health = players[i].getHealth();
+            p.ammo = 0;
+            info.players.push_back(p);
     }
+
+    info.game_ended = ended();
 }
 
 void GameProxy::step(){
     world->step();
 }
 
-int GameProxy::createPlayer(char team){
-    players.push_back(world->createPlayer(team));
+int GameProxy::createPlayer(int team){
+    players.push_back(world->createPlayer(team+1, team+1));
     return (players.size()-1);
 }
 
@@ -56,6 +53,17 @@ void GameProxy::rotate(int id, float angle){
 
 void GameProxy::activateWeapon(int id){
     players[id].activateWeapon();
+}
+
+bool ended(){
+    //TODO: Cambiar esto, lo puse para probar.
+    for (Player &p: players){
+        if (p.isDead()){
+            return true;
+        }
+    }
+
+    return false;
 }
 
 GameProxy::~GameProxy(){
