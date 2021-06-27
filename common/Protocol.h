@@ -5,10 +5,9 @@
 #include <stdint.h>
 #include "MapInfo.h"
 #include "ModelInfo.h"
-#define DEC_SENT 2
+#include "Event.h"
 
-enum Event : char {UP_ON, UP_OFF, DOWN_ON, DOWN_OFF, RIGHT_ON, RIGHT_OFF
-, LEFT_ON, LEFT_OFF};
+#define DEC_SENT 2
 
 class Protocol{
     private:
