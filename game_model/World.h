@@ -17,7 +17,6 @@ class World{
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
         Player& createPlayer(float start_x, float start_y);
-        Player& createPlayer(char team);
         void step();
         bool rayCast(float start_x, float start_y, float angle
         , Player *&player, float &distance);

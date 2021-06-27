@@ -31,6 +31,7 @@ class Player{
         void activateWeapon();
         void recvDamage(float damage);
         float getHealth();
+        bool isDead();
         float isHitBy(float x, float y, float angle);
 
         Player(Player&& other);
