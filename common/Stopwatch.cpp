@@ -5,8 +5,9 @@ void Stopwatch::start(){
 }
 
 size_t Stopwatch::msPassed(){
-    std::chrono::duration<std::chrono::milliseconds> time;
-    time = start_time - std::chrono::high_resolution_clock::now();
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(
+    start_time - end_time);
 
-    return time.count().count();
+    return time.count();
 }
