@@ -11,8 +11,9 @@ class ClientManager: public Thread{
     private:
         Protocol protocol;
         Emitter &emitter;
-        EventReceiver receiver;
         int id;
+        EventReceiver receiver;
+        bool keep_sending;
 
         void run() override;
         

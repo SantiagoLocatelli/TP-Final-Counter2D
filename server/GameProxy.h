@@ -6,13 +6,15 @@
 #include "../common/MapInfo.h"
 #include "CompleteModelInfo.h"
 
+class CompleteModelInfo;
+
 #include <vector>
 #include <string>
 
 class GameProxy{
     private:
         World* world;
-        std::vector<Player> players;
+        std::vector<Player*> players;
         MapInfo mapInfo;
     
     public:

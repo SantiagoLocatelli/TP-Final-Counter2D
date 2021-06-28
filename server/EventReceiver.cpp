@@ -12,5 +12,6 @@ void EventReceiver::run(){
 }
 
 void EventReceiver::stop(){
-    //TODO: Tengo que cerrar el socket porque este hilo estaria trabado en recv
+    keep_listening = false;
+    protocol.close();
 }

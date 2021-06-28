@@ -4,7 +4,7 @@
 WorldParser::WorldParser(const std::string &yamlPath)
 :mapYaml(YAML::LoadFile(yamlPath)){}
 
-void WorldParser::get_size(int &length, int &height){
+void WorldParser::get_size(uint16_t &length, uint16_t &height){
     std::vector<int> size = mapYaml["size"].as<std::vector<int>>();
     length = size[0];
     height = size[1];
@@ -22,8 +22,4 @@ std::list<Box> WorldParser::get_boxes(){
     }
 
     return boxList;
-}
-
-void WorldParser::fill_world(World *world){
-    
 }

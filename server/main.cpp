@@ -6,7 +6,16 @@
 
 #include <chrono>
 
-void executeEvent(Event event){
+void executeEvent(GameProxy game, Event event, int id){
+    if (event == UP_ON || event == UP_OFF){
+        game.toggleMovement(id, UP);
+    } else if (event == DOWN_ON || event == DOWN_OFF){
+        game.toggleMovement(id, DOWN);
+    } else if (event == LEFT_ON || event == LEFT_OFF){
+        game.toggleMovement(id, LEFT);
+    } else if (event == RIGHT_ON || event == RIGHT_OFF){
+        game.toggleMovement(id, RIGHT);
+    }
 }
 
 //TODO: Esto va a terminar en su propio hilo (game manager)
@@ -32,7 +41,9 @@ int main(int argc, char const *argv[]){
         while (stopwatch.msPassed() < 33){
             //TODO: Sacar este busy wait
             if (!queue.isEmpty()){
-                executeEvent(queue.pop());
+                int id;
+                Event event = queue.pop(id);
+                executeEvent(game, event, id);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }

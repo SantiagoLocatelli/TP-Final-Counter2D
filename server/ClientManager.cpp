@@ -2,11 +2,10 @@
 #include <utility>
 
 ClientManager::ClientManager(Socket skt, EventQueue &queue, Emitter &emitter
-, int id)
-:protocol(std::move(skt)), emitter(emitter), receiver(protocol, queue), id(id){}
+, int id):protocol(std::move(skt)), emitter(emitter), id(id), receiver(protocol
+, queue, id), keep_sending(true){}
 
 void ClientManager::run(){
-    bool keep_sending = true;
     protocol.send_map_info(emitter.recvMap());
 
     receiver.start();
@@ -20,3 +19,6 @@ void ClientManager::run(){
     receiver.join();
 }
 
+bool ClientManager::finished(){
+    return !keep_sending;
+}
