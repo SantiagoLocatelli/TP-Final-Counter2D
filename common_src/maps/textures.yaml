@@ -1,0 +1,27 @@
+textureNumber:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+texturePaths:
+        - ../common_src/img/gras1.jpg
+        - ../common_src/img/aztec.png
+        - ../common_src/img/dust.png
+        - ../common_src/img/blood.jpg
+        - ../common_src/img/inferno.png
+        - ../common_src/img/lava.jpg
+        - ../common_src/img/mars.png
+        - ../common_src/img/nuke.png
+        - ../common_src/img/office.png
+        - ../common_src/img/sand1.jpg
+        - ../common_src/img/sand1-night.jpg
+        - ../common_src/img/snow.jpg
+

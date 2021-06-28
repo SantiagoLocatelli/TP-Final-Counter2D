@@ -9,11 +9,10 @@
 
 class SdlTexture{
 	private:
-		//SDL_Renderer* mRenderer; // no se si va el objeto RAII
 		SdlRenderer& renderer;
-		//The actual hardware texture
 		SDL_Texture* mTexture;
 		//Image dimensions
+		int type;
 		int mWidth;
 		int mHeight;
 
@@ -25,6 +24,7 @@ class SdlTexture{
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
  			Uint8 green, Uint8 blue);
 
+		SdlTexture(SdlRenderer& r, std::string path, int type);
 
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
@@ -58,6 +58,7 @@ class SdlTexture{
 		//Gets image dimensions
 		int getWidth() const;
 		int getHeight() const;
+    int getType() const;
 
 		//SdlTexture(const SdlTexture&);
 		SdlTexture& operator=(const SdlTexture&);

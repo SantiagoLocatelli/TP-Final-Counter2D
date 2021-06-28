@@ -27,6 +27,25 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	}
 }
 
+SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r){
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+	if (loadedSurface == NULL){
+		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	}else{
+		//Create texture from surface pixels
+		this->mTexture = this->renderer.createTexture(loadedSurface);
+		if(this->mTexture == NULL){
+			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}else{
+			//Get image dimensions
+			this->mWidth = loadedSurface->w;
+			this->mHeight = loadedSurface->h;
+			this->type = type;
+		}
+		SDL_FreeSurface(loadedSurface);
+	}
+}
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
@@ -99,6 +118,7 @@ void SdlTexture::setBlendMode( SDL_BlendMode blending ){
 void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
+
 void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
 	render(x,y,this->mWidth, this->mHeight, clip, degrees);
 }
@@ -115,7 +135,6 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	}
 	//Render to screen
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
-	//SDL_RenderCopyEx(renderer, this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
 int SdlTexture::renderCopy(){this->renderer.renderCopy(this->mTexture);}
@@ -129,6 +148,10 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	this->mHeight = other.mHeight;
 	this->mTexture = other.mTexture;
 	this->renderer = other.renderer;
+}
+
+int SdlTexture::getType(){
+	return this->type;
 }
 
 SdlTexture::~SdlTexture(){

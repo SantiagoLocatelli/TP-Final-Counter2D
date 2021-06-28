@@ -6,14 +6,18 @@
 class SdlWindow{
     private:
         SDL_Window* mWindow;
+        SDL_Renderer* mRenderer;
         int mWidth;
         int mHeight;
+
 
     public:
         SdlWindow(std::string name, int width, int height);
         SDL_Renderer* createRender();
         int getHeight();
         int getWidth();
+        SDL_Window* getWindow();
+        void setTitle(std::string title);
         ~SdlWindow();
 };
 #endif
