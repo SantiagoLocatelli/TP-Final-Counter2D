@@ -10,9 +10,9 @@ void ClientManager::run(){
 
     receiver.start();
     while (keep_sending){
-        CompleteModelInfo model = emitter.recvModel();
+        CompleteModelInfo &model = emitter.recvModel();
         protocol.send_model_info(model.getModelInfo(id));
-        keep_sending = model.ended();
+        keep_sending = !model.ended();
     }
 
     receiver.stop();

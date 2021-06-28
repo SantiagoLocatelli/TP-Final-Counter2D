@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]){
     
     Emitter emitter;
     EventQueue queue;
-    GameProxy game("map.yaml");
+    GameProxy game("mapa.yaml");
 
     //TODO: Agarrado con alambres. Solo para la prueba 
     game.createPlayer(1);
@@ -34,8 +34,12 @@ int main(int argc, char const *argv[]){
     emitter.emitMap(game.getMapInfo());
     
     Accepter accepter(argv[1], queue, emitter);
+    accepter.start();
 
     Stopwatch stopwatch;
+
+    //std::this_thread::sleep_for(std::chrono::seconds(60));
+
     while (!game.ended()){
         stopwatch.start();
         while (stopwatch.msPassed() < 33){
@@ -49,7 +53,7 @@ int main(int argc, char const *argv[]){
         }
 
         game.step();
-        emitter.emitModel(game.getModelInfo());
+        emitter.emitModel(std::move(game.getModelInfo()));
     }
 
     return 0;

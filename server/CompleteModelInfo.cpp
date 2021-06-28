@@ -2,7 +2,7 @@
 
 ModelInfo CompleteModelInfo::getModelInfo(int id){
     ModelInfo info;
-    for (int i = 0; i < players.size(); i++){
+    for (int i = 0; i < (int)players.size(); i++){
         if (i == id){
             info.you = players[i];
         } else {
@@ -26,4 +26,23 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
 
 bool CompleteModelInfo::ended(){
     return game_ended;
+}
+
+CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
+    players = std::move(other.players);
+    bullets = std::move(other.bullets);
+    game_ended = other.game_ended;
+}
+
+CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
+    if (this == &other){
+        return *this;
+    }
+
+    players = std::move(other.players);
+    bullets = std::move(other.bullets);
+    game_ended = other.game_ended;
+    
+
+    return *this;
 }

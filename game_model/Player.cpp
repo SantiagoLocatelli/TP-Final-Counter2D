@@ -28,6 +28,10 @@ Player::Player(b2World &world, float start_x, float start_y)
 Player::Player(Player&& other){
     this->body = other.body;
     this->health = other.health;
+    this->dead = other.dead;
+    this->angle = other.angle;
+    this->movement = std::move(other.movement);
+
     other.body = nullptr;
 }
 
@@ -38,8 +42,13 @@ Player& Player::operator=(Player&& other){
 
     body = other.body;
     health = other.health;
+    dead = other.dead;
+    angle = other.angle;
+    movement = std::move(other.movement);
 
     other.body = nullptr;
+
+    return *this;
 }
 
 void Player::toggleMovement(Direction dir){
