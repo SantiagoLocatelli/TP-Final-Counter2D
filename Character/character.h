@@ -7,6 +7,17 @@
 #include "stencil.h"
 #include "animation.h"
 #include "cursor.h"
+#include <list>
+#include "../protocol/Protocol.h"
+
+struct LevelInfo{
+    int height;
+    int width;
+	int h_meters;
+	int w_meters;
+    std::list<Box> boxes;
+};
+
 
 class Character{
 
@@ -26,9 +37,9 @@ class Character{
 		//Initializes the variables
 		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur);
 
-
 		//Moves the Character
-		void update(int level_width, int level_height);
+		// void update(int level_width, int level_height);
+		void update(const ModelInfo model, const LevelInfo level);
 
 		//Shows the Character on the screen relative to the camera
 		// void render( int camX, int camY );

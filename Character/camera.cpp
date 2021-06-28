@@ -8,6 +8,7 @@ void Camera::centerCamera(SDL_Rect character){
     this->camera.x = ( character.x + character.w / 2 ) - this->camera.w / 2;
     this->camera.y = ( character.y + character.h / 2 ) - this->camera.h / 2;
 }
+
 void Camera::keepInBounds(int level_width, int level_height){
     if( camera.x < 0 ){ 
         camera.x = 0;

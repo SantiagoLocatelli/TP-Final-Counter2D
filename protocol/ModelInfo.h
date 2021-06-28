@@ -3,13 +3,13 @@
 
 #include <list>
 
-struct Player{
+struct Prot_Player{
     float x;
     float y;
     float angle; //En radianes
 };
 
-struct You: public Player{
+struct You: public Prot_Player{
     float health;
     int ammo;
 };
@@ -22,8 +22,9 @@ struct Bullet{
 
 struct ModelInfo{
     You you;
-    std::list<Player> players;
+    std::list<Prot_Player> players;
     std::list<Bullet> bullets;
+    bool game_ended;
 };
 
 #endif
