@@ -37,7 +37,7 @@ void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
 
 int main(int argc, char* argv[]){
 
-    Client server("localhost", "8080");
+    Protocol server("localhost", "8080", false);
     int window_w = 640, window_h = 480;
     MapInfo map;
     server.recvMapInfo(map);
