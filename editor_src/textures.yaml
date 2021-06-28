@@ -1,0 +1,27 @@
+textureNumber:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+texturePaths:
+        - img/gras1.jpg
+        - img/aztec.png
+        - img/dust.png
+        - img/blood.jpg
+        - img/inferno.png
+        - img/lava.jpg
+        - img/mars.png
+        - img/nuke.png
+        - img/office.png
+        - img/sand1.jpg
+        - img/sand1-night.jpg
+        - img/snow.jpg
+

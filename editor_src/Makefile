@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp ../Sdl/sdl_texture.cpp ../Sdl/sdl_mixer.cpp ../Sdl/sdl_window.cpp ../Sdl/sdl_renderer.cpp ../Sdl/button.cpp ../Sdl/dot.cpp ../Sdl/draggable.cpp ../Sdl/game_object.cpp ../Sdl/floor.cpp ../Sdl/wall.cpp
+OBJS = main.cpp ../Sdl/sdl_texture.cpp ../Sdl/sdl_mixer.cpp ../Sdl/sdl_window.cpp ../Sdl/sdl_renderer.cpp ../Sdl/button.cpp ../Sdl/dot.cpp ../Sdl/draggable.cpp editor.cpp TextureFactory.cpp TextureMap.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -9,7 +9,7 @@ CC = g++
 COMPILER_FLAGS = -w -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lyaml-cpp
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = main
