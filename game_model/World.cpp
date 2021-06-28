@@ -2,8 +2,8 @@
 #include <utility>
 
 World::World(int grid_length, int grid_height):world(b2Vec2(0,0)){
-    grid_size.x = grid_length;
-    grid_size.y = grid_height;
+    gridSize.x = grid_length;
+    gridSize.y = grid_height;
 }
 
 void World::addBox(int grid_x, int grid_y){
@@ -20,23 +20,24 @@ void World::addBox(int grid_x, int grid_y){
     box->CreateFixture(&boxShape, 0);
 }
 
-Player& World::createPlayer(int grid_x, int grid_y){
-    int id = players.size(); 
-    players.emplace(id
-    , Player(this->world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
+Player& World::createPlayer(float start_x, float start_y){
+    players.push_back(Player(this->world, start_x, start_y));
 
-    return players.at(id);
+    return players.back();
 }
 
 void World::step(){
-    world.Step(1.0/30.0, 8, 3);
+    for (Player &p: players){
+        p.updateVelocity();
+    }
+    world.Step(1.0/30.0, 10, 9);
 }
 
 bool World::rayCast(float start_x, float start_y, float angle
 , Player *&player, float &distance){
     float min_dist = -1;
-    for (std::pair<const int, Player> &p : players){
-        float dist = p.second.isHitBy(start_x, start_y, angle);
+    for (Player &p : players){
+        float dist = p.isHitBy(start_x, start_y, angle);
 
         if (dist < 0){
             continue;
@@ -44,11 +45,11 @@ bool World::rayCast(float start_x, float start_y, float angle
 
         if (min_dist == -1){
             min_dist = dist;
-            player = &players.at(p.first);
+            player = &p;
             distance = dist;
         } else if (dist < min_dist){
             min_dist = dist;
-            player = &players.at(p.first);
+            player = &p;
             distance = dist;
         }
     }

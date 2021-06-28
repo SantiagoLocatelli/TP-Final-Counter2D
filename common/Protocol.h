@@ -5,10 +5,9 @@
 #include <stdint.h>
 #include "MapInfo.h"
 #include "ModelInfo.h"
-#define DEC_SENT 2
+#include "Event.h"
 
-enum Event : char {UP_ON, UP_OFF, DOWN_ON, DOWN_OFF, RIGHT_ON, RIGHT_OFF
-, LEFT_ON, LEFT_OFF};
+#define DEC_SENT 2
 
 class Protocol{
     private:
@@ -20,14 +19,12 @@ class Protocol{
         void recv_short(uint16_t &buf);
 
         void send_byte(const char &byte);
-        void recv_byte(char& byte);
-
+        void recv_byte(char &byte);
 
         //Envía un float por el socket. Solo se envían los primeros 
         //DEC_SENT decimales, el resto se pierde.
-        void send_float(const float &num);
-        //Recibe un float por el socket.
-        void recv_float(float &num);
+        void send_float(const float &f);
+        void recv_float(float &f);
     
     public:
         explicit Protocol(Socket skt);
@@ -43,6 +40,8 @@ class Protocol{
         void send_event(const Event event);
         //Recibe un evento por el socket.
         void recv_event(Event &event);
+
+        void close();
 
         Protocol(const Protocol&) = delete;
         Protocol& operator=(const Protocol&) = delete;

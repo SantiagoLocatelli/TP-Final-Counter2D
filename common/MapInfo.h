@@ -2,6 +2,8 @@
 #define _MAP_INFO_H_
 
 #include <list>
+#include <stdint.h>
+
 
 struct Box{
     uint16_t x;

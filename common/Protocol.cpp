@@ -25,18 +25,6 @@ void Protocol::recv_byte(char &byte){
     skt.recv_buffer(&byte, 1);
 }
 
-void Protocol::send_float(const float &num){
-    uint16_t n;
-    n = std::floor(num*std::pow(10,DEC_SENT));
-    send_short(n);
-}
-
-void Protocol::recv_float(float &num){
-    uint16_t n;
-    recv_short(n);
-    num = (float)n/std::pow(10,DEC_SENT);
-}
-
 void Protocol::send_event(const Event event){
     send_byte(event);
 }
@@ -45,15 +33,24 @@ void Protocol::recv_event(Event &event){
     recv_byte((char &)event);
 }
 
+void Protocol::send_float(const float &f){
+    uint16_t n;
+    n = std::floor(f*std::pow(10,DEC_SENT));
+    send_short(n);
+}
+
+void Protocol::recv_float(float &f){
+    uint16_t n;
+    recv_short(n);
+    f = (float)n/std::pow(10,DEC_SENT);
+}
+
 void Protocol::send_map_info(const MapInfo &mapInfo){
-    //Envío el tamaño
     send_short(mapInfo.height);
     send_short(mapInfo.length);
 
-    //Envío la cantidad de cajas
+    //Envío el largo de la lista
     send_short(mapInfo.boxes.size());
-    
-    //Envío las cajas
     for (Box b: mapInfo.boxes){
         send_short(b.x);
         send_short(b.y);
@@ -61,16 +58,13 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
 }
 
 void Protocol::recv_map_info(MapInfo &mapInfo){
-    //Recibo el tamaño
     recv_short(mapInfo.height);
     recv_short(mapInfo.length);
 
-    //Recibo la cantidad de cajas
-    uint16_t size;
-    recv_short(size);
-    
-    //Envío las cajas
-    for (int i = 0; i < size; i++){
+    //Envío el largo de la lista
+    uint16_t len;
+    recv_short(len);
+    for (int i = 0; i < len; i++){
         Box b;
         recv_short(b.x);
         recv_short(b.y);
@@ -79,56 +73,65 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
 }
 
 void Protocol::send_model_info(const ModelInfo &modelInfo){
-    //Envío al You
     send_float(modelInfo.you.x);
     send_float(modelInfo.you.y);
     send_float(modelInfo.you.angle);
     send_float(modelInfo.you.health);
     send_short(modelInfo.you.ammo);
 
-    //Envío a los jugadores
     send_short(modelInfo.players.size());
-    for (Player p : modelInfo.players){
+    for (const Prot_Player &p: modelInfo.players){
         send_float(p.x);
         send_float(p.y);
         send_float(p.angle);
     }
 
-    //Envío a los disparos
     send_short(modelInfo.bullets.size());
-    for (Bullet b : modelInfo.bullets){
+    for (const Bullet &b: modelInfo.bullets){
         send_float(b.start_x);
         send_float(b.start_y);
         send_float(b.angle);
+        send_float(b.distance);
     }
+
+    char byte = 0;
+    if (modelInfo.game_ended)
+        byte = 1;
+    send_byte(byte);
 }
 
 void Protocol::recv_model_info(ModelInfo &modelInfo){
-    //Envío al You
     recv_float(modelInfo.you.x);
     recv_float(modelInfo.you.y);
     recv_float(modelInfo.you.angle);
     recv_float(modelInfo.you.health);
     recv_short(modelInfo.you.ammo);
 
-    //Envío a los jugadores
-    uint16_t size;
-    recv_short(size);
-    for (int i = 0; i < size; i++){
-        Player p;
+    uint16_t len;
+    recv_short(len);
+    for (int i = 0; i < len; i++){
+        Prot_Player p;
         recv_float(p.x);
         recv_float(p.y);
         recv_float(p.angle);
         modelInfo.players.push_back(p);
     }
 
-    //Envío a los disparos
-    recv_short(size);
-    for (int i = 0; i < size; i++){
+    recv_short(len);
+    for (int i = 0; i < len; i++){
         Bullet b;
-        send_float(b.start_x);
-        send_float(b.start_y);
-        send_float(b.angle);
+        recv_float(b.start_x);
+        recv_float(b.start_y);
+        recv_float(b.angle);
+        recv_float(b.distance);
         modelInfo.bullets.push_back(b);
     }
+
+    char byte;
+    recv_byte(byte);
+    modelInfo.game_ended = byte == 1;
+}
+
+void Protocol::close(){
+    skt.close_socket();
 }
