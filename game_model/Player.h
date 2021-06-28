@@ -4,7 +4,6 @@
 #include <box2d/box2d.h>
 #include <array>
 #include <map>
-#include "Weapon.h"
 
 enum Direction {UP, DOWN, LEFT, RIGHT};
 
@@ -14,7 +13,6 @@ class Player{
         float angle;
         b2Body *body;
         bool dead;
-        Weapon weapon;
         std::map<Direction, bool> movement;
 
     public:

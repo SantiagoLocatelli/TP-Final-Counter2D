@@ -42,11 +42,11 @@ Player& Player::operator=(Player&& other){
     other.body = nullptr;
 }
 
-void Player::toggle_movement(Direction dir){
+void Player::toggleMovement(Direction dir){
     movement[dir] = !movement[dir];
 }
         
-void Player::update_velocity(){
+void Player::updateVelocity(){
     //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
@@ -96,5 +96,20 @@ void Player::recvDamage(float damage){
 
 float Player::getHealth(){
     return health;
+}
+
+void Player::rotate(float angle){
+    this->angle += angle;
+}
+
+float Player::getAngle(){
+    return angle;
+}
+
+void Player::activateWeapon(){
+}
+
+bool Player::isDead(){
+    return dead;
 }
 
