@@ -2,8 +2,8 @@
 #include <utility>
 
 World::World(int grid_length, int grid_height):world(b2Vec2(0,0)){
-    grid_size.x = grid_length;
-    grid_size.y = grid_height;
+    gridSize.x = grid_length;
+    gridSize.y = grid_height;
 }
 
 void World::addBox(int grid_x, int grid_y){
@@ -28,7 +28,7 @@ Player& World::createPlayer(float start_x, float start_y){
 
 void World::step(){
     for (Player &p: players){
-        p.update_velocity();
+        p.updateVelocity();
     }
     world.Step(1.0/30.0, 10, 9);
 }
