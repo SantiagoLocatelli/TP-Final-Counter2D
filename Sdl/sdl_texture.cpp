@@ -33,7 +33,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r)
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	}else{
 		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTexture(loadedSurface);
+		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
@@ -148,9 +148,10 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	this->mHeight = other.mHeight;
 	this->mTexture = other.mTexture;
 	this->renderer = other.renderer;
+	this->type = other.type;
 }
 
-int SdlTexture::getType(){
+int SdlTexture::getType()const{
 	return this->type;
 }
 

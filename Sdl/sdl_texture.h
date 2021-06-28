@@ -58,7 +58,7 @@ class SdlTexture{
 		//Gets image dimensions
 		int getWidth() const;
 		int getHeight() const;
-    int getType() const;
+    	int getType() const;
 
 		//SdlTexture(const SdlTexture&);
 		SdlTexture& operator=(const SdlTexture&);
