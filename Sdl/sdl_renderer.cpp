@@ -21,12 +21,24 @@ SdlRenderer::SdlRenderer(SdlWindow* window){
     }
 }
 
-SDL_Texture* SdlRenderer::createTexture(SDL_Surface* loadedSurface){
+
+SDL_Texture* SdlRenderer::createTexture(int w, int h){
+    return SDL_CreateTexture(this->mRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
+}
+SDL_Texture* SdlRenderer::createTextureFromSurface(SDL_Surface* loadedSurface){
     return SDL_CreateTextureFromSurface(this->mRenderer, loadedSurface);
 }
 
 void SdlRenderer::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha){
     SDL_SetRenderDrawColor(this->mRenderer, r, g, b, alpha);
+}
+
+SDL_Texture* SdlRenderer::getRenderTarget(){
+    return SDL_GetRenderTarget(this->mRenderer);
+}
+
+int SdlRenderer::setRenderTarget(SDL_Texture* target){
+    return SDL_SetRenderTarget(this->mRenderer, target);
 }
 
 void SdlRenderer::clear(){
@@ -39,6 +51,14 @@ void SdlRenderer::updateScreen(){
 
 void SdlRenderer::render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQuad, double angle, SDL_Point* center, SDL_RendererFlip flip){
     SDL_RenderCopyEx(this->mRenderer, texture, clip, renderQuad, angle, center, flip);
+}
+
+int SdlRenderer::renderCopy(SDL_Texture* target){
+    SDL_RenderCopy(this->mRenderer, target, NULL, NULL);
+}
+
+int SdlRenderer::renderReadPixels(void* pixels, int w, int format){
+    return SDL_RenderReadPixels(this->mRenderer, NULL, format, pixels, w * SDL_BYTESPERPIXEL(format));
 }
 
 SdlRenderer::~SdlRenderer(){

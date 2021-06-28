@@ -2,13 +2,20 @@
 #include <string>
 #include <stdio.h>
 
+SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
+    SDL_Surface *surf; 
+	this->mTexture = this->renderer.createTexture(w,h);
+
+
+}
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	}else{
 		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTexture(loadedSurface);
+		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
@@ -46,7 +53,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 	}else{
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, red, green, blue));
 		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTexture(loadedSurface);
+		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
@@ -73,7 +80,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string t
 			SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
 			if (textSurface != NULL){
 				//Create texture from surface pixels
-				this->mTexture = this->renderer.createTexture(textSurface);
+				this->mTexture = this->renderer.createTextureFromSurface(textSurface);
 				if (this->mTexture == NULL){
 					printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 				}else{
@@ -112,12 +119,12 @@ void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
 
-void SdlTexture::render(int x, int y, SDL_Rect* clip){
-	render(x,y,this->mWidth, this->mHeight, clip);
+void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
+	render(x,y,this->mWidth, this->mHeight, clip, degrees);
 }
 
 void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, double angle,
-     SDL_Point* center, SDL_RendererFlip flip){
+     SDL_Point* center, SDL_RendererFlip flip)const{
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = {x, y, width, height};
 	//Set clip rendering dimensions
@@ -130,12 +137,17 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-int SdlTexture::getWidth(){
-	return this->mWidth;
-}
+int SdlTexture::renderCopy(){this->renderer.renderCopy(this->mTexture);}
 
-int SdlTexture::getHeight(){
-	return this->mHeight;
+int SdlTexture::getWidth()const{return this->mWidth;}
+
+int SdlTexture::getHeight()const{return this->mHeight;}
+
+SdlTexture& SdlTexture::operator=(const SdlTexture& other){
+	this->mWidth = other.mWidth;
+	this->mHeight = other.mHeight;
+	this->mTexture = other.mTexture;
+	this->renderer = other.renderer;
 }
 
 int SdlTexture::getType(){
