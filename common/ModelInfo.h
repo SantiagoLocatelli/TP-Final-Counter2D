@@ -2,6 +2,8 @@
 #define _MODEL_INFO_H_
 
 #include <list>
+#include <stdint.h>
+
 
 struct Prot_Player{
     float x;
@@ -11,13 +13,14 @@ struct Prot_Player{
 
 struct You: public Prot_Player{
     float health;
-    int ammo;
+    uint16_t ammo;
 };
 
 struct Bullet{
     float start_x;
     float start_y;
     float angle; //En radianes
+    float distance;
 };
 
 struct ModelInfo{

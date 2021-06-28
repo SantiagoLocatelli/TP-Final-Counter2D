@@ -2,15 +2,17 @@
 #define _MAP_INFO_H_
 
 #include <list>
+#include <stdint.h>
+
 
 struct Box{
-    int x;
-    int y;
+    uint16_t x;
+    uint16_t y;
 };
 
 struct MapInfo{
-    int height;
-    int length;
+    uint16_t height;
+    uint16_t length;
     std::list<Box> boxes;
 };
 
