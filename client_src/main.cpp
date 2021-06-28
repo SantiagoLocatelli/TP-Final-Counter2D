@@ -25,10 +25,6 @@
 // };
 
 
-
-
-
-
 void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
         boxTexture.render(it->x, it->y, PIXELS_PER_METER, PIXELS_PER_METER);
@@ -78,6 +74,7 @@ int main(int argc, char* argv[]){
         }
         ModelInfo model;
         server.recvModelInfo(model);
+        pj.update(model, level);
         
         // limpia el render
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
