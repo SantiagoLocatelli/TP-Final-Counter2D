@@ -2,6 +2,7 @@
 #define __CLIENT_H__
 
 #include "../protocol/Protocol.h"
+#include "SDL2/SDL.h"
 
 class Client{
 private:
@@ -9,8 +10,10 @@ private:
 
 public:
     Client(const char* host, const char* service);
-    void recvWindowSize(int& w, int& h);
-    void recvPosition(int& x, int& y);
+
+    void recvMapInfo(MapInfo& map);
+    void recvModelInfo(ModelInfo& model);
+    void sendEvent(const SDL_Event& e);
 };
 
 #endif

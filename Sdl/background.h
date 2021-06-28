@@ -8,9 +8,11 @@ class Background {
     private:
         const SdlTexture& bg;
         Camera& cam;
-    public:
+        int level_w;
+        int level_h;
 
-        Background(const SdlTexture& texture, Camera& cam);
+    public:
+        Background(const SdlTexture& texture, Camera& cam, int level_w, int level_h);
         void render();
 
 };

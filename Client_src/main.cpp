@@ -1,54 +1,92 @@
 #include "client.h"
-#include "sdl_window.h"
-#include "sdl_renderer.h"
-#include "sdl_texture.h"
-#include "stencil.h"
-#include "dot.h"
-#include "camera.h"
+#include "../Sdl/sdl_renderer.h"
+#include "../Sdl/sdl_window.h"
+#include "../Sdl/sdl_texture.h"
+#include "../Character/stencil.h"
+#include "../Character/camera.h"
+#include "../Character/character.h"
+#include "../Character/animation.h"
+#include "../Character/cursor.h"
+#include "../protocol/MapInfo.h"
+#include "../Sdl/background.h"
+
+#define PIXELS_PER_METER 50
+
+
+// struct Box{
+//     int x;
+//     int y;
+// };
+
+// struct MapInfo{
+//     int height;
+//     int length;
+//     std::list<Box> boxes;
+// };
+
+
+
+
+
+
+void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
+    for(auto it = boxes.begin(); it != boxes.end(); it++){
+        boxTexture.render(it->x, it->y, PIXELS_PER_METER, PIXELS_PER_METER);
+    }
+}
 
 int main(int argc, char* argv[]){
 
     Client server("localhost", "8080");
-    int window_w, window_h;
-    server.recvWindowSize(window_w, window_h);
+    int window_w = 640, window_h = 480;
+    MapInfo map;
+    server.recvMapInfo(map);
+    LevelInfo level;
+    level.width = map.length*PIXELS_PER_METER;
+    level.height = map.height*PIXELS_PER_METER;
+    level.w_meters = map.length;
+    level.h_meters = map.height;
 
-
-    SdlWindow window("BOcaaaaaa", window_w, window_h);
+    SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture dotTexture(renderer, "../Sdl/img/dot.bmp", 0x0, 0xFF, 0xFF);
-    SdlTexture backg(renderer, "../Sdl/img/bg.png");
-    SdlTexture stencilTexture(renderer, "../Sdl/img/stencil.png");
+    SdlTexture pjTexture(renderer, "../Resources/img/dot.bmp", 0x0, 0xFF, 0xFF);
+    SdlTexture backg(renderer, "../Resources/img/bg.png");
+    SdlTexture stencilTexture(renderer, "../Resources/img/stencil.png");
+    SdlTexture boxTexture(renderer, "../Resources/img/green_create.bmp");
 
     bool quit = false;
 
-    //Stencil stencil(stencilTexture, window_w, window_h);
+    Stencil stencil(stencilTexture, window_w, window_h);
     Camera cam(window_w, window_h);
-    //Dot dot(0, 0, dotTexture, cam, stencil);
+    SDL_Rect area = {0, 0, PIXELS_PER_METER, PIXELS_PER_METER};
+    Cursor cursor(window_w, window_h);
+    Character pj(area, pjTexture, cam, stencil, cursor);
 
+    Background bg(backg, cam, level.width, level.height);
+    
     SDL_Event e;
     while (!quit) {
         while (SDL_PollEvent(&e) != 0){
             switch (e.type) {
                 case SDL_QUIT:
                     quit = true; break;
+                case SDL_KEYDOWN:
+                    server.sendEvent(e); break;
+                case SDL_KEYUP:
+                    server.sendEvent(e); break;
             }
         }
-        int dotX, dotY;
-        server.recvPosition(dotX, dotY);
+        ModelInfo model;
+        server.recvModelInfo(model);
         
-        SDL_Rect dotRect = {dotX, dotY, dotTexture.getWidth(), dotTexture.getHeight()};
-        //centra la camara en el personaje
-        cam.centerCamera(dotRect);
-        // mantiene la camara en los limites del background
-        cam.keepInBounds(backg.getWidth(), backg.getHeight());
-
         // limpia el render
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         renderer.clear();
 
         // renderizamos tuti
-        dotTexture.render(dotX, dotY);
-        backg.render(dotX, dotY, cam.getRect());
+        renderBoxes(map.boxes, boxTexture);
+        bg.render();
+        pj.render();
 
         // le mandas mecha
         renderer.updateScreen();

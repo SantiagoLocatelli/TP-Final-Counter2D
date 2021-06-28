@@ -29,7 +29,8 @@ class Protocol{
     public:
         explicit Protocol(Socket skt);
 
-        void send_map_info(const MapInfo &mapInfo);
+        //TODO:Estos son temporales, hay que sacarlos
+       void send_map_info(const MapInfo &mapInfo);
         void recv_map_info(MapInfo &mapInfo);
 
         void send_model_info(const ModelInfo &modelInfo);

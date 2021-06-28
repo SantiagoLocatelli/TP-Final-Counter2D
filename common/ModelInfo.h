@@ -4,7 +4,6 @@
 #include <list>
 #include <stdint.h>
 
-
 struct Prot_Player{
     float x;
     float y;
