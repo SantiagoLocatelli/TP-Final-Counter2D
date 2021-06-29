@@ -47,7 +47,7 @@ int main(int argc, char* argv[]){
     SdlRenderer renderer(&window);
     SdlTexture pjTexture(renderer, "../common_src/img/dot.bmp", 0x0, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
-    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png");
+    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
     bool quit = false;
