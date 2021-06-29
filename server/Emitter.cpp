@@ -1,6 +1,8 @@
 #include "Emitter.h"
 #include <utility>
 
+Emitter::Emitter():notified(false){}
+
 void Emitter::emitMap(MapInfo map){
     const std::lock_guard<std::mutex> lock(m);
     this->map = map;

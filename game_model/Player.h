@@ -5,7 +5,7 @@
 #include <array>
 #include <map>
 
-enum Direction {UP, DOWN, LEFT, RIGHT};
+enum Direction {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
 
 class Player{
     private:
@@ -13,7 +13,7 @@ class Player{
         float angle;
         b2Body *body;
         bool dead;
-        std::map<Direction, bool> movement;
+        std::array<bool, 4> movement;
 
     public:
         Player(b2World &world, float start_x, float start_y);
@@ -33,7 +33,10 @@ class Player{
         float isHitBy(float x, float y, float angle);
 
         Player(Player&& other);
-        Player& operator=(Player&& other);        
+        Player& operator=(Player&& other);
+        Player(const Player&) = delete;
+        Player& operator=(const Player&) = delete;
+        
 };
 
 #endif

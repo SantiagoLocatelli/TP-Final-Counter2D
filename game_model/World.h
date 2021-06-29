@@ -21,6 +21,9 @@ class World{
         void step();
         bool rayCast(float start_x, float start_y, float angle
         , Player *&player, float &distance);
+
+        World(const World&) = delete;
+        World& operator=(const World&) = delete;
 };
 
 #endif

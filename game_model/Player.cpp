@@ -1,9 +1,10 @@
 #include "Player.h"
 #include <cmath>
 #include <iostream>
+#include <utility>
 
 Player::Player(b2World &world, float start_x, float start_y)
-:health(100), dead(false){
+:health(100), angle(0), dead(false){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);

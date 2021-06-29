@@ -6,7 +6,7 @@
 
 #include <chrono>
 
-void executeEvent(GameProxy game, Event event, int id){
+void executeEvent(GameProxy &game, Event &event, int id){
     if (event == UP_ON || event == UP_OFF){
         game.toggleMovement(id, UP);
     } else if (event == DOWN_ON || event == DOWN_OFF){

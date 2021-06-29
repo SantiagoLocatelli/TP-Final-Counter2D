@@ -17,6 +17,9 @@ class EventReceiver: public Thread{
     public:
         EventReceiver(Protocol &protocol, EventQueue &queue, int id);
         void stop();
+
+        EventReceiver(const EventReceiver&) = delete;
+        EventReceiver& operator=(const EventReceiver&) = delete;        
 };  
 
 #endif

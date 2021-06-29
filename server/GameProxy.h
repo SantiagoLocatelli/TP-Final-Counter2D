@@ -34,6 +34,9 @@ class GameProxy{
         bool ended();
 
         ~GameProxy();
+
+        GameProxy(const GameProxy&) = delete;
+        GameProxy& operator=(const GameProxy&) = delete;
 };
 
 #endif
