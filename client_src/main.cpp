@@ -10,7 +10,7 @@
 #include "../common/MapInfo.h"
 #include "../Sdl/background.h"
 
-#define PIXELS_PER_METER 50
+#define PIXELS_PER_METER 100
 
 
 // struct Box{
@@ -27,13 +27,13 @@
 
 void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
-        boxTexture.render(it->x, it->y, PIXELS_PER_METER, PIXELS_PER_METER);
+        boxTexture.render(it->x*PIXELS_PER_METER, it->y*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER);
     }
 }
 
 int main(int argc, char* argv[]){
 
-    Client server("localhost", "8080");
+    Client server("localhost", argv[1]);
     int window_w = 400, window_h = 400;
     MapInfo map;
     server.recvMapInfo(map);
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../common_src/img/dot.bmp", 0x0, 0xFF, 0xFF);
+    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0x0, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
     SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
