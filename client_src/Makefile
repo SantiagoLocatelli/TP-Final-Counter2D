@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = ../Sdl/*.cpp ../client_src/Character/*.cpp ../client_src/Events/*.cpp ../common/*.cpp ../client_src/*.cpp
+OBJS = ../Sdl/*.cpp ../client_src/Character/*.cpp ../client_src/Events/*.cpp ../common/*.cpp ../client_src/*.cpp 
 
 #CC specifies which compiler we're using
 CC = g++

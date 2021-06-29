@@ -53,7 +53,8 @@ class SdlTexture{
 
 		void render(int x, int y, SDL_Rect* clip = NULL, double degrees = 0.0)const;
 
-		int renderCopy();
+		int renderCopy(double degrees);
+
 
 		//Gets image dimensions
 		int getWidth() const;
@@ -62,9 +63,13 @@ class SdlTexture{
 
 		//SdlTexture(const SdlTexture&);
 		SdlTexture& operator=(const SdlTexture&);
-
+		SdlTexture(SdlTexture&& other);
 		//Deallocates memory
 		~SdlTexture();
-		
+
+		SdlRenderer& getRenderer();
+		SDL_Texture* createTexture(int w, int h);
+		SDL_Texture* getRenderTarget();
+		int setRenderTarget(SDL_Texture* target);
 };
 #endif

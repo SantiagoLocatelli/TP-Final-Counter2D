@@ -137,7 +137,7 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-int SdlTexture::renderCopy(){this->renderer.renderCopy(this->mTexture);}
+int SdlTexture::renderCopy(double degrees){this->renderer.renderCopy(this->mTexture, degrees);}
 
 int SdlTexture::getWidth()const{return this->mWidth;}
 
@@ -149,7 +149,9 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	this->mTexture = other.mTexture;
 	this->renderer = other.renderer;
 	this->type = other.type;
+	return *this;
 }
+
 
 int SdlTexture::getType()const{
 	return this->type;
@@ -159,4 +161,20 @@ SdlTexture::~SdlTexture(){
 	free();
 	TTF_Quit();
 	delete this->mTexture;
+}
+
+SdlRenderer& SdlTexture::getRenderer(){
+	return this->renderer;
+}
+
+SDL_Texture* SdlTexture::createTexture(int w, int h){
+	return this->renderer.createTexture(w, h);
+}
+
+int SdlTexture::setRenderTarget(SDL_Texture* target){
+    return this->renderer.setRenderTarget(target);
+}
+
+SDL_Texture* SdlTexture::getRenderTarget(){
+	return this->renderer.getRenderTarget();
 }

@@ -1,6 +1,11 @@
 #ifndef __CURSOR_H__
 #define __CURSOR_H__
 
+struct MouseMotion {
+    int x, y;
+    int relX, relY;
+};
+
 class Cursor {
     private:
         // int x;
@@ -19,7 +24,7 @@ class Cursor {
         le pasa nueva posicion del mouse, la velocidad relativa del ultimo movimiento
         y segun estas cosas actualiza los grados del cursor.
         */
-        void lookAt(int center_x, int center_y, int x, int y, int relX, int relY);
+        void lookAt(int center_x, int center_y, MouseMotion motion);
 };
 
 #endif

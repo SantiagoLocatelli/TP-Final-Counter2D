@@ -1,5 +1,6 @@
 #include "character.h"
-#include "../Events/game_math.h"
+#include "../Events/gameMath.h"
+#include <utility>
 
 #define CHARACTER_VEL 10
 
@@ -60,7 +61,7 @@ void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
 void Character::lookAt(int x, int y, int relX, int relY){
     // se le resta la pos de la camara para que resulte la psicion del jguador
     // en la screen y no del nivel.
-    this->cur.lookAt(this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), x, y, relX, relY);
+    this->cur.lookAt(this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), {x, y, relX, relY});
 }
 
 int metersToPixel(float pos, int level_meters, int level_pixs){
@@ -88,3 +89,31 @@ void Character::update(const ModelInfo model, const LevelInfo level) {
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}
+
+Character& Character::operator=(const Character& other){
+    this->area = other.area;
+    this->mVelX = other.mVelX;
+    this->mVelY = other.mVelY;
+    this->cam = other.cam;
+    this->stn = other.stn;
+    this->cur = other.cur;
+    this->an = other.an;
+    return *this;
+}
+Character::Character(Character&& other):cam(other.cam), cur(other.cur), 
+    an(std::move(other.an)), stn(other.stn){
+    this->area = other.area;
+    this->cur = other.cur;
+    this->mVelX = other.mVelX;
+    this->mVelY = other.mVelY;
+    this->cam = other.cam;
+}
+		// Animation an;
+		// //The velocity of the Character
+		// int mVelX, mVelY;
+		// SDL_Rect area;
+		// //dimensions of the Character
+		// Camera& cam;
+		// Stencil& stn;
+		// Cursor& cur;
+

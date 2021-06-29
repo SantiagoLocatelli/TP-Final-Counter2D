@@ -4,7 +4,7 @@
 #define FRAME_VERTICALES 3
 #define PHASE_SHIFT 90
 
-Animation::Animation(const SdlTexture& texture):
+Animation::Animation(SdlTexture& texture):
     texture(texture) {
     // esto solo lo hago porque se el formato de la textura
     this->numFrames = (this->texture.getHeight()*2)/(this->texture.getWidth()/2);
@@ -34,4 +34,20 @@ void Animation::render(SDL_Rect dst, double degrees){
 void Animation::advanceFrame(){
     this->currentFrame++;
     this->currentFrame = this->currentFrame % this->numFrames;
+}
+
+
+Animation& Animation::operator=(const Animation& other){ 
+    this->numFrames = other.numFrames;
+    this->currentFrame = other.currentFrame;
+    this->elapsed = other.elapsed;
+    this->size = other.size;
+    this->texture = other.texture;
+    return *this;
+}
+Animation::Animation(Animation&& other):texture(other.texture){
+    this->numFrames = other.numFrames;
+    this->currentFrame = other.currentFrame;
+    this->elapsed = other.elapsed;
+    this->size = other.size;
 }
