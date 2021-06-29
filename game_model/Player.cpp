@@ -60,11 +60,11 @@ void Player::updateVelocity(){
     //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
-        new_imp.x += -1;
-    if (movement[DOWN])
-        new_imp.x += 1;
-    if (movement[LEFT])
         new_imp.y += -1;
+    if (movement[DOWN])
+        new_imp.y += 1;
+    if (movement[LEFT])
+        new_imp.x += -1;
     if (movement[RIGHT])
         new_imp.x += 1;
 
