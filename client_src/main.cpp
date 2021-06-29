@@ -34,7 +34,7 @@ void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
 int main(int argc, char* argv[]){
 
     Client server("localhost", "8080");
-    int window_w = 640, window_h = 480;
+    int window_w = 400, window_h = 400;
     MapInfo map;
     server.recvMapInfo(map);
     LevelInfo level;
@@ -45,10 +45,10 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../Resources/img/dot.bmp", 0x0, 0xFF, 0xFF);
-    SdlTexture backg(renderer, "../Resources/img/bg.png");
-    SdlTexture stencilTexture(renderer, "../Resources/img/stencil.png");
-    SdlTexture boxTexture(renderer, "../Resources/img/green_create.bmp");
+    SdlTexture pjTexture(renderer, "../common_src/img/dot.bmp", 0x0, 0xFF, 0xFF);
+    SdlTexture backg(renderer, "../common_src/img/bg.png");
+    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png");
+    SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
     bool quit = false;
 
