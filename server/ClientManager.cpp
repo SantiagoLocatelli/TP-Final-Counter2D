@@ -13,7 +13,7 @@ void ClientManager::run(){
     while (keep_sending){
         CompleteModelInfo &model = emitter.recvModel();
         ModelInfo modelInfo = model.getModelInfo(id);
-        //std::cerr << modelInfo.you.x << " - " << modelInfo.you.y << std::endl;
+        std::cerr << modelInfo.you.x << " - " << modelInfo.you.y << std::endl;
         protocol.send_model_info(modelInfo);
 
         keep_sending = !model.ended();

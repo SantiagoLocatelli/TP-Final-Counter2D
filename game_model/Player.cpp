@@ -69,8 +69,8 @@ void Player::updateVelocity(){
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= 50;
-    body->ApplyForceToCenter(new_imp, true);
+    new_imp *= 6;
+    body->SetLinearVelocity(new_imp);
 }
 
 
