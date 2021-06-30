@@ -7,7 +7,7 @@
 #include "../Sdl/sdl_texture.h"
 #include "../Sdl/sdl_window.h"
 #include "../Sdl/sdl_renderer.h"
-#include "../Character/camera.h"
+#include "../client_src/Character/camera.h"
 #include "../Sdl/draggable.h"
 #include "editor.h"
 
