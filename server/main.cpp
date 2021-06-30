@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]){
 
     //TODO: Agarrado con alambres. Solo para la prueba 
     game.createPlayer(1);
-    game.createPlayer(2);
+    //game.createPlayer(2);
 
     emitter.emitMap(game.getMapInfo());
     
