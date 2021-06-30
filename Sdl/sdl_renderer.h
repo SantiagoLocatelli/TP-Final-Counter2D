@@ -21,6 +21,7 @@ class SdlRenderer{
         int renderReadPixels(void* pixels, int w, int format);
         SDL_Texture* getRenderTarget();
         int setRenderTarget(SDL_Texture* target);
+        void fillRect(SDL_Rect& rect);
         
         void render(SDL_Rect* rect);
         ~SdlRenderer();

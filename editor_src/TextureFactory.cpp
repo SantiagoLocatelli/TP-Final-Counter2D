@@ -38,8 +38,42 @@ void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::ve
     }
 }
 
-void TextureFactory::createMap(TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures, SdlRenderer& renderer){
-    for (int i = 0; i < 192; i++){
-        textures.emplace_back(new SdlTexture(renderer, map[0], 0));
-    }
+void TextureFactory::unmarshalBombSites(const char *yamlFile, SDL_Rect& bombSiteA, SDL_Rect& bombSiteB){
+    YAML::Node yaml_map = YAML::LoadFile(yamlFile);
+    YAML::Node bombSite = yaml_map["bombSite"];
+    std::vector<int> position = bombSite["A"]["position"].as<std::vector<int>>();
+    std::vector<int> size = bombSite["A"]["size"].as<std::vector<int>>();
+
+    bombSiteA.x = position[0];
+    bombSiteA.y = position[1];
+    bombSiteA.w = size[0];
+    bombSiteA.h = size[1];
+
+    position = bombSite["B"]["position"].as<std::vector<int>>();
+    size = bombSite["B"]["size"].as<std::vector<int>>();
+
+    bombSiteB.x = position[0];
+    bombSiteB.y = position[1];
+    bombSiteB.w = size[0];
+    bombSiteB.h = size[1];
+}
+
+void TextureFactory::unmarshalSpawnSites(const char *yamlFile, SDL_Rect& spawnSiteT, SDL_Rect& spawnSiteCT){
+    YAML::Node yaml_map = YAML::LoadFile(yamlFile);
+    YAML::Node spawnSite = yaml_map["spawnSite"];
+    std::vector<int> position = spawnSite["T"]["position"].as<std::vector<int>>();
+    std::vector<int> size = spawnSite["T"]["size"].as<std::vector<int>>();
+
+    spawnSiteT.x = position[0];
+    spawnSiteT.y = position[1];
+    spawnSiteT.w = size[0];
+    spawnSiteT.h = size[1];
+
+    position = spawnSite["CT"]["position"].as<std::vector<int>>();
+    size = spawnSite["CT"]["size"].as<std::vector<int>>();
+
+    spawnSiteCT.x = position[0];
+    spawnSiteCT.y = position[1];
+    spawnSiteCT.w = size[0];
+    spawnSiteCT.h = size[1];
 }

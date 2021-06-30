@@ -2,6 +2,8 @@
 #include "TextureFactory.h"
 #include "yaml-cpp/yaml.h"
 #include <fstream>
+#include <stdio.h>
+#include <memory>
 #define TILE_WIDTH 80
 #define TILE_HEIGHT 80
 #define LEVEL_WIDTH 1280
@@ -15,8 +17,10 @@ Editor::Editor(const std::string path, SdlRenderer& renderer){
     std::ifstream stream(path);
     if (stream.is_open()){
         factory.unmarshalMap(path.c_str(), this->map, this->textures, renderer);
+        factory.unmarshalBombSites(path.c_str(), this->bombSiteA, this->bombSiteB);
+        factory.unmarshalSpawnSites(path.c_str(), this->spawnSiteT, this->spawnSiteCT);
     }else{
-        factory.createMap(this->map, this->textures, renderer);
+        createMap(renderer);
     }
 }
 
@@ -39,7 +43,7 @@ void Editor::handleEvents(SDL_Event* event){
     }
 }
 
-void Editor::put_tile(SDL_Rect& camera, SdlRenderer& renderer){
+void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
     //Mouse offsets
     int x = 0, y = 0;
     
@@ -76,20 +80,71 @@ void Editor::put_tile(SDL_Rect& camera, SdlRenderer& renderer){
 }
 
 void Editor::saveMap(){
+    //texture in map
     std::vector<int> textureTypes;
+    
+    // position of bombs
+    std::vector<int> positionA = {this->bombSiteA.x, this->bombSiteA.y};
+    std::vector<int> positionB = {this->bombSiteB.x, this->bombSiteB.y};
+    std::vector<int> sizeA = {this->bombSiteA.w, this->bombSiteA.h};
+    std::vector<int> sizeB = {this->bombSiteB.w, this->bombSiteB.h};
+
+    // position of spawns
+    std::vector<int> positionT = {this->spawnSiteT.x, this->spawnSiteT.y};
+    std::vector<int> positionCT = {this->spawnSiteCT.x, this->spawnSiteCT.y};
+    std::vector<int> sizeT = {this->spawnSiteT.w, this->spawnSiteT.h};
+    std::vector<int> sizeCT = {this->spawnSiteCT.w, this->spawnSiteCT.h};
+    
     for (auto &texture : this->textures){
         textureTypes.push_back(texture->getType());
     }
+
+    //creation of yaml file
     YAML::Emitter out;
     out << YAML::BeginMap;
-    out << YAML::Key << "map";
-    out << YAML::Value << YAML::Flow << textureTypes;
+    
+        out << YAML::Key << "map" << YAML::Value << YAML::Flow << textureTypes;
+        
+        out << YAML::Key << "bombSite" << YAML::Value << YAML::BeginMap;
 
+            out << YAML::Key << "A" << YAML::Value << YAML::BeginMap;
+
+                out << YAML::Key << "position" << YAML::Value << YAML::Flow << positionA;
+                out << YAML::Key << "size" << YAML::Value << YAML::Flow << sizeA;
+
+            out << YAML::EndMap;
+            out << YAML::Key << "B" << YAML::Value << YAML::BeginMap;
+
+                out << YAML::Key << "position" << YAML::Value << YAML::Flow << positionB;
+                out << YAML::Key << "size" << YAML::Value << YAML::Flow << sizeB;
+
+            out << YAML::EndMap;
+        out << YAML::EndMap;
+
+        out << YAML::Key << "spawnSite" << YAML::Value << YAML::BeginMap;
+
+            out << YAML::Key << "T" << YAML::Value << YAML::BeginMap;
+
+                out << YAML::Key << "position" << YAML::Value << YAML::Flow << positionT;
+                out << YAML::Key << "size" << YAML::Value << YAML::Flow << sizeT;
+
+            out << YAML::EndMap;
+            out << YAML::Key << "CT" << YAML::Value << YAML::BeginMap;
+
+                out << YAML::Key << "position" << YAML::Value << YAML::Flow << positionCT;
+                out << YAML::Key << "size" << YAML::Value << YAML::Flow << sizeCT;
+
+            out << YAML::EndMap;
+        out << YAML::EndMap;
+    
+    out << YAML::EndMap;
+
+    //load into file
     std::ofstream fout(this->mapID.c_str()); 
     fout << out.c_str();
 }
 
-void Editor::render(SDL_Rect& camera){
+void Editor::render(SDL_Rect camera){
     int x = 0, y = 0;
     for (auto &texture : this->textures){
         texture->render(x - camera.x, y - camera.y, TILE_WIDTH, TILE_HEIGHT);
@@ -110,4 +165,47 @@ void Editor::render(SDL_Rect& camera){
 
 std::string Editor::getTitle(){
     return this->map[this->currentType];
+}
+
+std::vector<SDL_Rect> Editor::getBombSite(){
+    return {bombSiteA, bombSiteB};
+}
+
+void Editor::setBombSite(std::vector<SDL_Rect> rect){
+    this->bombSiteA = rect[0];
+    this->bombSiteB = rect[1];
+}
+
+std::vector<SDL_Rect> Editor::getSpawnSite(){
+    return {spawnSiteT, spawnSiteCT};
+}
+
+void Editor::setSpawnSite(std::vector<SDL_Rect> rect){
+    this->spawnSiteT = rect[0];
+    this->spawnSiteCT = rect[1];
+}
+
+void Editor::createMap(SdlRenderer& renderer){
+    for (int i = 0; i < 192; i++){
+        this->textures.emplace_back(new SdlTexture(renderer, this->map[0], 0));
+    }
+    this->bombSiteA.x = 50;
+    this->bombSiteA.y = 50;
+    this->bombSiteA.w = 200;
+    this->bombSiteA.h = 200;
+
+    this->bombSiteB.x = 50;
+    this->bombSiteB.y = 500;
+    this->bombSiteB.w = 200;
+    this->bombSiteB.h = 200;
+
+    this->spawnSiteT.x = 1000;
+    this->spawnSiteT.y = 50;
+    this->spawnSiteT.w = 100;
+    this->spawnSiteT.h = 100;
+
+    this->spawnSiteCT.x = 0;
+    this->spawnSiteCT.y = 250;
+    this->spawnSiteCT.w = 100;
+    this->spawnSiteCT.h = 100;
 }
