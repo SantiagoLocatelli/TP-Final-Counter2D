@@ -19,21 +19,21 @@ void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
 
 int main(int argc, char* argv[]){
 
-    //Protocol server(Socket("localhost", argv[1], false));
+    Protocol server(Socket("localhost", argv[1], false));
     int window_w = 450, window_h = 450;
     MapInfo map;
     LevelInfo level;
     
-    // server.recv_map_info(map);
-    // level.width = map.length*PIXELS_PER_METER;
-    // level.height = map.height*PIXELS_PER_METER;
-    // level.w_meters = map.length;
-    // level.h_meters = map.height;
+    server.recv_map_info(map);
+    level.width = map.length*PIXELS_PER_METER;
+    level.height = map.height*PIXELS_PER_METER;
+    level.w_meters = map.length;
+    level.h_meters = map.height;
     
-    level.height = 768;
-    level.width = 1366;
-    level.w_meters = 5;
-    level.h_meters = 5;
+    // level.height = 768;
+    // level.width = 1366;
+    // level.w_meters = 5;
+    // level.h_meters = 5;
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
@@ -43,7 +43,6 @@ int main(int argc, char* argv[]){
     SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
-    bool quit = false;
 
     // SdlTexture stencilTexture_2(renderer, "gato");
     Stencil stencil(stencilTexture, level.width, level.height);
@@ -56,67 +55,29 @@ int main(int argc, char* argv[]){
 
     Background bg(backg, cam, level.width, level.height);
     
-    // SDL_Event e;
-    // ModelInfo model;
-    // // EventManeger eventManager(server);
-    // // eventManager.start();
-    // while (!quit) {
-
-
-    //     //server.recvModelInfo(model);
-        
-    //     // limpia el render
-    //     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-    //     renderer.clear();
-
-    //     // renderizamos tuti
-    //     renderBoxes(map.boxes, boxTexture);
-    //     bg.render();
-    //     pj.render();
-
-    //     // le mandas mecha
-    //     renderer.updateScreen();
-    // }
-
-
-
-
     SDL_Event e;
-    EventManager eventManager;
-    while( !quit ){
-        while( SDL_PollEvent( &e ) != 0 ){
-            //User requests quit
-            switch (e.type) {
-                case SDL_QUIT:
-                    quit = true; 
-                    break;
-                default:
-                    eventManager.handleEvent(pj, e);
+    ModelInfo model;
+    bool quit = false;
+    EventManager eventManager(server, quit);
+    eventManager.start();
+    while (!quit) {
 
-            }
-            // std::chrono::seconds secs(FRAME_RATE);
-            // std::this_thread::sleep_for (std::chrono::seconds(FRAME_RATE));
-            // usleep(FRAME_RATE);
-        }
-
-        //Move the dot
-        // pj.update(level.width, level.height);
-
-        //Clear screen
-        renderer.setDrawColor( 0xFF, 0xFF, 0xFF, 0xFF );
+        server.recv_model_info(model);
+        pj.update(model, level);
+        
+        renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         renderer.clear();
 
-        //Render background
         bg.render();
-        
-        //Render objects
+        renderBoxes(map.boxes, boxTexture);
+        pj.render();
 
-        // pj.render();
-
-        //Update screen
+        // le mandas mecha
         renderer.updateScreen();
     }
 
+
+    eventManager.join();
 	return 0;
 }
 

@@ -33,7 +33,7 @@ class Character{
 
 
 		void update(const ModelInfo model, const LevelInfo level);
-		void update(int l_w, int l_h);
+		// void update(int l_w, int l_h);
 		//Shows the Character on the screen relative to the camera
 		// void render( int camX, int camY );
 

@@ -6,20 +6,18 @@
 #include <SDL2/SDL.h>
 #include "../../common/Protocol.h"
 
-class EventManager /*public Thread*/{
+class EventManager : public Thread{
 private:
-    //Protocol& com;
+    Protocol& com;
+    bool& quit;
 
 public:
 
-    //EventManager(Protocol& com);
+    EventManager(Protocol& com, bool& quit);
     EventManager();
-    void handleEvent(Character& pj, SDL_Event& e);
     ~EventManager() = default;
 
-    //void handleEvent(Character& pj, SDL_Event& e);
-    // void start();
-    // void run() override;
+    void run() override;
 
     EventManager& operator=(const EventManager&) = delete;
     EventManager(const EventManager&) = delete;
