@@ -44,9 +44,7 @@ int main(int argc, char* argv[]){
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
 
-    // SdlTexture stencilTexture_2(renderer, "gato");
     Stencil stencil(stencilTexture, level.width, level.height);
-    //stencil.fillStencil();
 
 
     Camera cam(window_w, window_h);
