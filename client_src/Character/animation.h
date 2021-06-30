@@ -5,17 +5,21 @@
 
 class Animation {
 private:
-    const SdlTexture& texture;
+    SdlTexture& texture;
     int numFrames;
     int currentFrame = 0;
     int size;
     int delay = 0;
 
 public:
-    Animation(const SdlTexture& texture);
+    Animation(SdlTexture& texture);
     ~Animation() = default;
     void render(SDL_Rect dst, double degrees);
     void advanceFrame();
+
+
+    Animation& operator=(const Animation&);
+    Animation(Animation&& other);
 };
 
 #endif

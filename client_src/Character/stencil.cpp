@@ -1,16 +1,11 @@
 #include "stencil.h"
 
-#define PI 3.14159265
 #define OPACITY 150
 
-typedef struct coordenada{
-    int x, y;
-}coordenada_t;
-
-Stencil::Stencil(SdlTexture& stencil, int screen_w, int screen_h)
+Stencil::Stencil(SdlTexture& stencil, int level_w, int level_h)
     :stencil(stencil) {
-    this->rect.w = screen_w;
-    this->rect.h = screen_h;
+    this->rect.w = level_w;
+    this->rect.h = level_h;
     this->rect.x = 0;
     this->rect.y = 0;
 }
@@ -23,4 +18,13 @@ void Stencil::setStencil(SDL_Rect character) {
 void Stencil::render(int camX, int camY, double degrees){
     this->stencil.setAlpha(OPACITY);
     this->stencil.render(this->rect.x - this->rect.w - camX, this->rect.y - this->rect.h - camY , this->rect.w*2, this->rect.h*2, NULL, degrees);
+}
+
+Stencil& Stencil::operator=(const Stencil& other){
+    this->rect = other.rect;
+    this->stencil = other.stencil;
+    return *this;
+}
+Stencil::Stencil(Stencil&& other):stencil(other.stencil){
+    this->rect = other.rect;
 }

@@ -33,13 +33,6 @@ void SdlRenderer::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha){
     SDL_SetRenderDrawColor(this->mRenderer, r, g, b, alpha);
 }
 
-SDL_Texture* SdlRenderer::getRenderTarget(){
-    return SDL_GetRenderTarget(this->mRenderer);
-}
-
-int SdlRenderer::setRenderTarget(SDL_Texture* target){
-    return SDL_SetRenderTarget(this->mRenderer, target);
-}
 
 void SdlRenderer::clear(){
     SDL_RenderClear(this->mRenderer);
@@ -53,9 +46,7 @@ void SdlRenderer::render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQ
     SDL_RenderCopyEx(this->mRenderer, texture, clip, renderQuad, angle, center, flip);
 }
 
-int SdlRenderer::renderCopy(SDL_Texture* target){
-    SDL_RenderCopy(this->mRenderer, target, NULL, NULL);
-}
+
 
 int SdlRenderer::renderReadPixels(void* pixels, int w, int format){
     return SDL_RenderReadPixels(this->mRenderer, NULL, format, pixels, w * SDL_BYTESPERPIXEL(format));
@@ -64,4 +55,12 @@ int SdlRenderer::renderReadPixels(void* pixels, int w, int format){
 SdlRenderer::~SdlRenderer(){
     SDL_DestroyRenderer(this->mRenderer);
     IMG_Quit();
+}
+
+SDL_Texture* SdlRenderer::getRenderTarget(){
+    return SDL_GetRenderTarget(this->mRenderer);
+}
+
+int SdlRenderer::setRenderTarget(SDL_Texture* target){
+    return SDL_SetRenderTarget(this->mRenderer, target);
 }

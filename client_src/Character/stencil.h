@@ -12,7 +12,10 @@ public:
     Stencil(SdlTexture& stencil, int w, int h);
     void setStencil(SDL_Rect character);
     void render(int camX, int camY, double degrees);
-    void handleEvent(SDL_Event e);
+
+    Stencil& operator=(const Stencil&);
+    Stencil(Stencil&& other);
+
 };
 
 #endif

@@ -6,7 +6,6 @@
 #include "camera.h"
 #include "stencil.h"
 #include "animation.h"
-#include "cursor.h"
 #include <list>
 #include "../../common/Protocol.h"
 
@@ -27,12 +26,16 @@ class Character{
 		SDL_Rect area;
 		Camera& cam;
 		Stencil& stn;
-		Cursor& cur;
+		double degrees;
 
     public:
-		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur);
+		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
+
 
 		void update(const ModelInfo model, const LevelInfo level);
+		// void update(int l_w, int l_h);
+		//Shows the Character on the screen relative to the camera
+		// void render( int camX, int camY );
 
 		void render();
 
@@ -42,6 +45,9 @@ class Character{
 
 		int getPosX();
 		int getPosY();
+
+		Character& operator=(const Character&);
+		Character(Character&& other);
 
 };
 #endif
