@@ -6,7 +6,6 @@
 #include "camera.h"
 #include "stencil.h"
 #include "animation.h"
-#include "cursor.h"
 #include <list>
 #include "../../common/Protocol.h"
 
@@ -22,25 +21,20 @@ struct LevelInfo{
 class Character{
 
     private:
-		//The X and Y offsets of the Character
 		
 		Animation an;
-		//The velocity of the Character
-		int mVelX, mVelY;
 		SDL_Rect area;
-		//dimensions of the Character
 		Camera& cam;
 		Stencil& stn;
-		Cursor& cur;
 
     public:
 		//Initializes the variables
-		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur);
+		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
 
 		//Moves the Character
 		// void update(int level_width, int level_height);
 		void update(const ModelInfo model, const LevelInfo level);
-
+		void update(int l_w, int l_h);
 		//Shows the Character on the screen relative to the camera
 		// void render( int camX, int camY );
 		void render();

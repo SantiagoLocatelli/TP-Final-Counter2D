@@ -119,6 +119,10 @@ void SdlTexture::setAlpha(Uint8 alpha){
 	SDL_SetTextureAlphaMod(this->mTexture, alpha);
 }
 
+void SdlTexture::render(int x, int y, int width, int height, double degrees)const{
+	render(x, y, width, height, NULL, degrees);
+}
+
 void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
 	render(x,y,this->mWidth, this->mHeight, clip, degrees);
 }
@@ -137,7 +141,6 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-int SdlTexture::renderCopy(double degrees){this->renderer.renderCopy(this->mTexture, degrees);}
 
 int SdlTexture::getWidth()const{return this->mWidth;}
 

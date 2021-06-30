@@ -42,7 +42,7 @@ double Math::calculateDegrees(coordenada_t center, coordenada_t point){
     if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
 
         int moduloPoint = modulo(point);
-        int moduloNewVec= modulo(newVec);
+        int moduloNewVec = modulo(newVec);
         double result = (double)productoEscalar(point, newVec)/ (moduloPoint*moduloNewVec);
         
         if (moduloPoint != moduloNewVec) {

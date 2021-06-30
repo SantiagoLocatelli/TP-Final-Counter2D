@@ -39,16 +39,17 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../common_src/img/dot.bmp", 0x0, 0xFF, 0xFF);
+    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0xFF, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
-    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
+    // 
+    SdlTexture stencilTexture(renderer, "../common_src/img/gato", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
     bool quit = false;
 
-    SdlTexture stencilTexture_2(renderer, "gato");
-    Stencil stencil(stencilTexture_2, level.width, level.height);
-    //stencil.fillStencil();
+    // SdlTexture stencilTexture_2(renderer, "gato");
+    Stencil stencil(stencilTexture, level.width, level.height);
+    stencil.fillStencil();
 
 
     Camera cam(window_w, window_h);
@@ -58,26 +59,67 @@ int main(int argc, char* argv[]){
 
     Background bg(backg, cam, level.width, level.height);
     
-    SDL_Event e;
-    ModelInfo model;
-    // EventManeger eventManager(server);
-    // eventManager.start();
-    while (!quit) {
+    // SDL_Event e;
+    // ModelInfo model;
+    // // EventManeger eventManager(server);
+    // // eventManager.start();
+    // while (!quit) {
 
 
-        //server.recvModelInfo(model);
+    //     //server.recvModelInfo(model);
         
-        // limpia el render
-        renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    //     // limpia el render
+    //     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    //     renderer.clear();
+
+    //     // renderizamos tuti
+    //     renderBoxes(map.boxes, boxTexture);
+    //     bg.render();
+    //     pj.render();
+
+    //     // le mandas mecha
+    //     renderer.updateScreen();
+    // }
+
+
+
+
+    SDL_Event e;
+    EventManager eventManager;
+    while( !quit ){
+        while( SDL_PollEvent( &e ) != 0 ){
+            //User requests quit
+            switch (e.type) {
+                case SDL_QUIT:
+                    quit = true; 
+                    break;
+                default:
+                    eventManager.handleEvent(pj, e);
+
+            }
+            // std::chrono::seconds secs(FRAME_RATE);
+            // std::this_thread::sleep_for (std::chrono::seconds(FRAME_RATE));
+            // usleep(FRAME_RATE);
+        }
+
+        //Move the dot
+        pj.update(level.width, level.height);
+
+        //Clear screen
+        renderer.setDrawColor( 0xFF, 0xFF, 0xFF, 0xFF );
         renderer.clear();
 
-        // renderizamos tuti
-        renderBoxes(map.boxes, boxTexture);
+        //Render background
         bg.render();
+        
+        //Render objects
         pj.render();
 
-        // le mandas mecha
+        //Update screen
         renderer.updateScreen();
     }
-    return 0;
+
+	return 0;
 }
+
+
