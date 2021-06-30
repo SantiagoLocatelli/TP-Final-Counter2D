@@ -16,10 +16,15 @@ class Emitter{
         bool notified;
     
     public:
+        Emitter();
         void emitMap(MapInfo map);
         void emitModel(CompleteModelInfo model);
         MapInfo& recvMap();
         CompleteModelInfo& recvModel();
+
+        Emitter(const Emitter&) = delete;
+        Emitter& operator=(const Emitter&) = delete;
+
 };
 
 #endif

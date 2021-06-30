@@ -2,6 +2,8 @@
 #include "WorldParser.h"
 #include <utility>
 
+#include <list>
+
 GameProxy::GameProxy(const std::string &yaml_path){
     WorldParser parser(yaml_path);
 
@@ -23,7 +25,7 @@ MapInfo GameProxy::getMapInfo(){
 CompleteModelInfo GameProxy::getModelInfo(){
     CompleteModelInfo info;
     std::array<float, 2> pos;
-    for (int i = 0; i < players.size(); i++){
+    for (size_t i = 0; i < players.size(); i++){
             You p;
             pos = players[i]->getPosition();
             p.x = pos[0];
@@ -34,7 +36,12 @@ CompleteModelInfo GameProxy::getModelInfo(){
             info.players.push_back(p);
     }
 
+    //TODO: Porque hago esto?
+    info.bullets = std::list<Bullet>();
+
     info.game_ended = ended();
+
+    return info;
 }
 
 void GameProxy::step(){

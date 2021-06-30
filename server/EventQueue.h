@@ -12,9 +12,13 @@ class EventQueue{
         std::queue<std::pair<int, Event>> queue;
 
     public:
+        EventQueue() = default;
         void push(int id, Event event);
         bool isEmpty();
         Event pop(int &id);
+
+        EventQueue(const EventQueue&) = delete;
+        EventQueue& operator=(const EventQueue&) = delete;
 };
 
 #endif

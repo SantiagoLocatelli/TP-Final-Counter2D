@@ -20,6 +20,8 @@ class ClientManager: public Thread{
     public:
         explicit ClientManager(Socket skt, EventQueue &queue, Emitter &emitter, int id);
         bool finished();
+
+        virtual ~ClientManager() = default;
 };
 
 #endif

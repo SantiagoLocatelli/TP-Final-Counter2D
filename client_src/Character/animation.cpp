@@ -3,6 +3,7 @@
 #define FRAME_HORIZONTALES 2
 #define FRAME_VERTICALES 3
 #define PHASE_SHIFT 90
+#define DELAY_ANIMATION 3
 
 Animation::Animation(SdlTexture& texture):
     texture(texture) {
@@ -11,14 +12,6 @@ Animation::Animation(SdlTexture& texture):
     this->size = this->texture.getWidth()/2;
 }
 
-void Animation::update(float dt){
-    // rever el codigo de esto
-    this->elapsed += dt;
-    while (this->elapsed > FRAME_RATE) {
-        this->advanceFrame();
-        this->elapsed -= FRAME_RATE;
-    }
-}
 
 void Animation::render(SDL_Rect dst, double degrees){
     /* 
@@ -32,15 +25,19 @@ void Animation::render(SDL_Rect dst, double degrees){
 }
 
 void Animation::advanceFrame(){
-    this->currentFrame++;
-    this->currentFrame = this->currentFrame % this->numFrames;
+    if (this->delay > DELAY_ANIMATION) {
+        this->currentFrame++;
+        this->currentFrame = this->currentFrame % this->numFrames;
+        this->delay = 0;
+    } else {
+        this->delay++;
+    }
 }
 
 
 Animation& Animation::operator=(const Animation& other){ 
     this->numFrames = other.numFrames;
     this->currentFrame = other.currentFrame;
-    this->elapsed = other.elapsed;
     this->size = other.size;
     this->texture = other.texture;
     return *this;
@@ -48,6 +45,5 @@ Animation& Animation::operator=(const Animation& other){
 Animation::Animation(Animation&& other):texture(other.texture){
     this->numFrames = other.numFrames;
     this->currentFrame = other.currentFrame;
-    this->elapsed = other.elapsed;
     this->size = other.size;
 }

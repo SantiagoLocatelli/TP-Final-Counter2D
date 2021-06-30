@@ -1,4 +1,3 @@
-#include "client.h"
 #include "../Sdl/sdl_renderer.h"
 #include "../Sdl/sdl_window.h"
 #include "../Sdl/sdl_texture.h"
@@ -6,23 +5,22 @@
 #include "../client_src/Character/camera.h"
 #include "../client_src/Character/character.h"
 #include "../client_src/Character/animation.h"
-#include "../client_src/Character/cursor.h"
 #include "../common/MapInfo.h"
 #include "../Sdl/background.h"
 #include "Events/eventManager.h"
 
-#define PIXELS_PER_METER 50
+#define PIXELS_PER_METER 100
 
 void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
-        boxTexture.render(it->x, it->y, PIXELS_PER_METER, PIXELS_PER_METER);
+        boxTexture.render(it->x*PIXELS_PER_METER, it->y*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER);
     }
 }
 
 int main(int argc, char* argv[]){
 
     //Protocol server(Socket("localhost", argv[1], false));
-    int window_w = 640, window_h = 480;
+    int window_w = 450, window_h = 450;
     MapInfo map;
     LevelInfo level;
     
@@ -39,23 +37,22 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0xFF, 0xFF, 0xFF);
+
+    SdlTexture pjTexture(renderer, "../common_src/img/players/ct1.bmp", 0xFF, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
-    // 
-    SdlTexture stencilTexture(renderer, "../common_src/img/gato", 0xFF, 0xFF, 0xFF);
+    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
     bool quit = false;
 
     // SdlTexture stencilTexture_2(renderer, "gato");
     Stencil stencil(stencilTexture, level.width, level.height);
-    stencil.fillStencil();
+    //stencil.fillStencil();
 
 
     Camera cam(window_w, window_h);
     SDL_Rect area = {0, 0, PIXELS_PER_METER, PIXELS_PER_METER};
-    Cursor cursor(window_w, window_h);
-    Character pj(area, pjTexture, cam, stencil, cursor);
+    Character pj(area, pjTexture, cam, stencil);
 
     Background bg(backg, cam, level.width, level.height);
     
@@ -103,7 +100,7 @@ int main(int argc, char* argv[]){
         }
 
         //Move the dot
-        pj.update(level.width, level.height);
+        // pj.update(level.width, level.height);
 
         //Clear screen
         renderer.setDrawColor( 0xFF, 0xFF, 0xFF, 0xFF );
@@ -113,7 +110,8 @@ int main(int argc, char* argv[]){
         bg.render();
         
         //Render objects
-        pj.render();
+
+        // pj.render();
 
         //Update screen
         renderer.updateScreen();

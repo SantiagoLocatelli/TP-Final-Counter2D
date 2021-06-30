@@ -1,4 +1,5 @@
 #include "EventReceiver.h"
+#include <iostream>
 
 EventReceiver::EventReceiver(Protocol &protocol, EventQueue &queue, int id)
 :protocol(protocol), queue(queue), id(id), keep_listening(true){}

@@ -26,34 +26,23 @@ class Character{
 		SDL_Rect area;
 		Camera& cam;
 		Stencil& stn;
+		double degrees;
 
     public:
-		//Initializes the variables
 		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
 
-		//Moves the Character
-		// void update(int level_width, int level_height);
+
 		void update(const ModelInfo model, const LevelInfo level);
 		void update(int l_w, int l_h);
 		//Shows the Character on the screen relative to the camera
 		// void render( int camX, int camY );
+
 		void render();
 
 		SDL_Rect getRect();
 
-		void moveRight();
-		void moveLeft();
-		void moveUp();
-		void moveDown();
-
-		void stopRight();
-		void stopLeft();
-		void stopUp();
-		void stopDown();
-
 		void lookAt(int x, int y, int relX, int relY);
 
-		//Position accessors
 		int getPosX();
 		int getPosY();
 

@@ -1,5 +1,6 @@
 #include "ClientManager.h"
 #include <utility>
+#include <iostream>
 
 ClientManager::ClientManager(Socket skt, EventQueue &queue, Emitter &emitter
 , int id):protocol(std::move(skt)), emitter(emitter), id(id), receiver(protocol
@@ -10,9 +11,12 @@ void ClientManager::run(){
 
     receiver.start();
     while (keep_sending){
-        CompleteModelInfo model = emitter.recvModel();
-        protocol.send_model_info(model.getModelInfo(id));
-        keep_sending = model.ended();
+        CompleteModelInfo &model = emitter.recvModel();
+        ModelInfo modelInfo = model.getModelInfo(id);
+        std::cerr << modelInfo.you.x << " - " << modelInfo.you.y << std::endl;
+        protocol.send_model_info(modelInfo);
+
+        keep_sending = !model.ended();
     }
 
     receiver.stop();
