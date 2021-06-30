@@ -1,8 +1,10 @@
 #include "Player.h"
 #include <cmath>
+#include <iostream>
+#include <utility>
 
 Player::Player(b2World &world, float start_x, float start_y)
-:health(100), dead(false){
+:health(100), angle(0), dead(false){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -27,6 +29,10 @@ Player::Player(b2World &world, float start_x, float start_y)
 Player::Player(Player&& other){
     this->body = other.body;
     this->health = other.health;
+    this->dead = other.dead;
+    this->angle = other.angle;
+    this->movement = std::move(other.movement);
+
     other.body = nullptr;
 }
 
@@ -37,30 +43,34 @@ Player& Player::operator=(Player&& other){
 
     body = other.body;
     health = other.health;
+    dead = other.dead;
+    angle = other.angle;
+    movement = std::move(other.movement);
 
     other.body = nullptr;
+
+    return *this;
 }
 
-void Player::toggle_movement(Direction dir){
+void Player::toggleMovement(Direction dir){
     movement[dir] = !movement[dir];
 }
         
-void Player::update_velocity(){
+void Player::updateVelocity(){
     //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
-        new_imp.x += -1;
-    if (movement[DOWN])
-        new_imp.x += 1;
-    if (movement[LEFT])
         new_imp.y += -1;
+    if (movement[DOWN])
+        new_imp.y += 1;
+    if (movement[LEFT])
+        new_imp.x += -1;
     if (movement[RIGHT])
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= body->GetMass();
-
-    body->ApplyLinearImpulseToCenter(new_imp, true);
+    new_imp *= 6;
+    body->SetLinearVelocity(new_imp);
 }
 
 
@@ -96,5 +106,20 @@ void Player::recvDamage(float damage){
 
 float Player::getHealth(){
     return health;
+}
+
+void Player::rotate(float angle){
+    this->angle += angle;
+}
+
+float Player::getAngle(){
+    return angle;
+}
+
+void Player::activateWeapon(){
+}
+
+bool Player::isDead(){
+    return dead;
 }
 

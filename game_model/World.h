@@ -5,21 +5,25 @@
 
 #include "Player.h"
 #include <box2d/box2d.h>
-#include <map>
+#include <list>
+
 
 class World{
     private:
         b2World world;
-        b2Vec2 grid_size;
-        std::map<int, Player> players;
+        b2Vec2 gridSize;
+        std::list<Player> players;
 
     public:
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
-        Player& createPlayer(int grid_x, int grid_y);
+        Player& createPlayer(float start_x, float start_y);
         void step();
         bool rayCast(float start_x, float start_y, float angle
         , Player *&player, float &distance);
+
+        World(const World&) = delete;
+        World& operator=(const World&) = delete;
 };
 
 #endif

@@ -17,7 +17,6 @@ class SdlRenderer{
         void clear();
         void updateScreen();
         void render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQuad, double angle, SDL_Point* center, SDL_RendererFlip flip);
-        int renderCopy(SDL_Texture* target);
         int renderReadPixels(void* pixels, int w, int format);
         SDL_Texture* getRenderTarget();
         int setRenderTarget(SDL_Texture* target);
