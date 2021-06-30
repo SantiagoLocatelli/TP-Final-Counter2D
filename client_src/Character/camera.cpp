@@ -9,6 +9,36 @@ void Camera::centerCamera(SDL_Rect character){
     this->camera.y = character.y - this->camera.h / 2;
 }
 
+void Camera::centerCameraOnMouse(int tile_width, int level_width, int level_height){
+	//Mouse offsets
+    int x = 0, y = 0;
+    
+    //Get mouse offsets
+    SDL_GetMouseState(&x, &y);
+    
+    //Move camera to the left if needed
+    if(x < tile_width){
+        camera.x -= 20;
+    }
+    
+    //Move camera to the right if needed
+    if(x > camera.w - tile_width){
+        camera.x += 20;
+    }
+    
+    //Move camera up if needed
+    if(y < tile_width){
+        camera.y -= 20;
+    }
+    
+    //Move camera down if needed
+    if(y > this->camera.h - tile_width){
+        camera.y += 20;
+    }
+    
+    keepInBounds(level_width, level_height);
+}
+
 void Camera::keepInBounds(int level_width, int level_height){
     if( camera.x < 0 ){ 
         camera.x = 0;

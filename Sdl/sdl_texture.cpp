@@ -5,8 +5,6 @@
 SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
     SDL_Surface *surf; 
 	this->mTexture = this->renderer.createTexture(w,h);
-
-
 }
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
@@ -16,7 +14,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	}else{
 		//Create texture from surface pixels
 		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
-		if(this->mTexture == NULL){
+		if (this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
 			//Get image dimensions
@@ -27,7 +25,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
 	}
 }
 
-SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r){
+SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type, int width, int height) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
@@ -37,16 +35,20 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r)
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
-			//Get image dimensions
-			this->mWidth = loadedSurface->w;
-			this->mHeight = loadedSurface->h;
+			if (width == -1 || height == -1){
+				this->mWidth = loadedSurface->w;
+				this->mHeight = loadedSurface->h;
+			}else{
+				this->mWidth = width;
+				this->mHeight = height;
+			}
 			this->type = type;
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
 }
 
-SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
+SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue, int width, int height) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
@@ -57,9 +59,13 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 		if(this->mTexture == NULL){
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 		}else{
-			//Get image dimensions
-			this->mWidth = loadedSurface->w;
-			this->mHeight = loadedSurface->h;
+			if (width == -1 || height == -1){
+				this->mWidth = loadedSurface->w;
+				this->mHeight = loadedSurface->h;
+			}else{
+				this->mWidth = width;
+				this->mHeight = height;
+			}
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
@@ -154,7 +160,6 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	this->type = other.type;
 	return *this;
 }
-
 
 int SdlTexture::getType()const{
 	return this->type;

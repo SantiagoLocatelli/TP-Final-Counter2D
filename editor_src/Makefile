@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp ../Sdl/sdl_texture.cpp ../Sdl/sdl_mixer.cpp ../Sdl/sdl_window.cpp ../Sdl/sdl_renderer.cpp ../Sdl/button.cpp ../Sdl/dot.cpp ../Sdl/draggable.cpp editor.cpp TextureFactory.cpp TextureMap.cpp
+OBJS = main.cpp ../Sdl/sdl_texture.cpp ../Sdl/sdl_mixer.cpp ../Sdl/sdl_window.cpp ../Sdl/sdl_renderer.cpp ../Sdl/button.cpp ../Sdl/draggable.cpp editor.cpp TextureFactory.cpp TextureMap.cpp ../Character/camera.cpp
 
 #CC specifies which compiler we're using
 CC = g++

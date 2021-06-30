@@ -1,6 +1,7 @@
 #include "sdl_renderer.h"
 #include <stdio.h>
 
+
 SdlRenderer::SdlRenderer(SdlWindow* window){
     if(!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1")){
 			printf( "Warning: Linear texture filtering not enabled!");
@@ -50,6 +51,10 @@ void SdlRenderer::render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQ
 
 int SdlRenderer::renderReadPixels(void* pixels, int w, int format){
     return SDL_RenderReadPixels(this->mRenderer, NULL, format, pixels, w * SDL_BYTESPERPIXEL(format));
+}
+
+void SdlRenderer::fillRect(SDL_Rect& rect){
+    SDL_RenderFillRect(this->mRenderer, &rect);
 }
 
 SdlRenderer::~SdlRenderer(){

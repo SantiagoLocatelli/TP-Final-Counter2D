@@ -20,11 +20,11 @@ class SdlTexture{
 		//Initializes variables
 		SdlTexture(SdlRenderer& r, int w, int h);
 		SdlTexture(SdlRenderer& renderer, std::string path);
-		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue);
+		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue, int width = -1, int height = -1);
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
  			Uint8 green, Uint8 blue);
 
-		SdlTexture(SdlRenderer& r, std::string path, int type);
+		SdlTexture(SdlRenderer& r, std::string path, int type, int width = -1, int height = -1);
 
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
