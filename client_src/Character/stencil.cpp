@@ -13,13 +13,11 @@ Stencil::Stencil(SdlTexture& stencil, int screen_w, int screen_h)
     this->rect.h = screen_h;
     this->rect.x = 0;
     this->rect.y = 0;
-    this->oldPosX = 0;
-    this->oldPosY = 0;
 }
 
-void Stencil::centerStencil(SDL_Rect character) {
-    this->rect.x = ( character.x + character.w / 2);
-    this->rect.y = ( character.y + character.h / 2);
+void Stencil::setStencil(SDL_Rect character) {
+    this->rect.x = character.x;
+    this->rect.y = character.y;
 }
 
 void Stencil::render(int camX, int camY, double degrees){

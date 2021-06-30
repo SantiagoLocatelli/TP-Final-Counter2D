@@ -12,7 +12,7 @@ void Character::render(){
     std::cout << this->area.x << " - " << this->area.y << std::endl;
     SDL_Rect dst = {this->area.x - this->cam.getPosX() - this->area.w/2, this->area.y - this->cam.getPosY() - this->area.h/2, this->area.w, this->area.h};
     this->an.render(dst, this->cur.getDegrees());
-    this->stn.render(this->cam.getPosX()+ this->area.w/2, this->cam.getPosY() + this->area.h/2, this->cur.getDegrees());
+    this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->cur.getDegrees());
 }
 
 
@@ -33,10 +33,7 @@ void Character::update(const ModelInfo model, const LevelInfo level) {
     int x = metersToPixel(model.you.x, level.w_meters, level.width);
     int y = metersToPixel(model.you.y, level.h_meters, level.height);
 
-    this->cam.centerCamera(this->getRect());
     
-    this->cam.keepInBounds(level.width, level.height);
-    this->stn.centerStencil(this->getRect());
 
     // para que cambia de frame solo si avanza
     if (this->area.x != x || this->area.y != y) {
@@ -45,6 +42,10 @@ void Character::update(const ModelInfo model, const LevelInfo level) {
     }
     this->area.x = x;
     this->area.y = y;
+    
+    this->cam.centerCamera(this->getRect());
+    this->cam.keepInBounds(level.width, level.height);
+    this->stn.setStencil(this->getRect());
 }
 
 int Character::getPosY(){return this->area.y;}

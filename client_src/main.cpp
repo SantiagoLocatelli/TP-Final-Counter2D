@@ -12,19 +12,6 @@
 
 #define PIXELS_PER_METER 100
 
-
-// struct Box{
-//     int x;
-//     int y;
-// };
-
-// struct MapInfo{
-//     int height;
-//     int length;
-//     std::list<Box> boxes;
-// };
-
-
 void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
         boxTexture.render(it->x*PIXELS_PER_METER, it->y*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER);
@@ -34,7 +21,7 @@ void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
 int main(int argc, char* argv[]){
 
     Client server("localhost", argv[1]);
-    int window_w = 400, window_h = 400;
+    int window_w = 450, window_h = 450;
     MapInfo map;
     server.recvMapInfo(map);
     LevelInfo level;
@@ -45,7 +32,7 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0xFF, 0xFF, 0xFF);
+    SdlTexture pjTexture(renderer, "../common_src/img/players/ct1.bmp", 0xFF, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
     SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
@@ -53,7 +40,7 @@ int main(int argc, char* argv[]){
     bool quit = false;
 
     Stencil stencil(stencilTexture, window_w, window_h);
-    Camera cam(level.width, level.height);
+    Camera cam(window_w, window_h);
     SDL_Rect area = {0, 0, PIXELS_PER_METER, PIXELS_PER_METER};
     Cursor cursor(window_w, window_h);
     Character pj(area, pjTexture, cam, stencil, cursor);

@@ -10,7 +10,6 @@ private:
 public:
 
     EventManager();
-    void handleEvent(Character& pj, SDL_Event& e);
 };
 
 #endif
