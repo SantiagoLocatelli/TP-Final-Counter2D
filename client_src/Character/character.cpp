@@ -1,12 +1,9 @@
 #include "character.h"
 #include "../Events/game_math.h"
-
-#define CHARACTER_VEL 10
+#include <iostream>
 
 Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn, Cursor& cur)
     : area(area), an(texture), cam(cam), stn(stn), cur(cur){
-    this->mVelX = 0;
-    this->mVelY = 0;
 }
 
 
@@ -42,20 +39,21 @@ Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& s
 // }
 
 void Character::render(){
-    SDL_Rect dst = {this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), this->area.w, this->area.h};
+    std::cout << this->area.x << " - " << this->area.y << std::endl;
+    SDL_Rect dst = {this->area.x - this->cam.getPosX() - this->area.w/2, this->area.y - this->cam.getPosY() - this->area.h/2, this->area.w, this->area.h};
     this->an.render(dst, this->cur.getDegrees());
-    this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->cur.getDegrees());
+    this->stn.render(this->cam.getPosX()+ this->area.w/2, this->cam.getPosY() + this->area.h/2, this->cur.getDegrees());
 }
 
-void Character::moveRight(){this->mVelX += CHARACTER_VEL;}
-void Character::moveLeft(){this->mVelX -= CHARACTER_VEL;}
-void Character::moveUp(){this->mVelY -= CHARACTER_VEL;}
-void Character::moveDown(){this->mVelY += CHARACTER_VEL;}
+// void Character::moveRight(){this->mVelX += CHARACTER_VEL;}
+// void Character::moveLeft(){this->mVelX -= CHARACTER_VEL;}
+// void Character::moveUp(){this->mVelY -= CHARACTER_VEL;}
+// void Character::moveDown(){this->mVelY += CHARACTER_VEL;}
 
-void Character::stopRight(){this->mVelX -= CHARACTER_VEL;}
-void Character::stopLeft(){this->mVelX += CHARACTER_VEL;}
-void Character::stopUp(){this->mVelY += CHARACTER_VEL;}
-void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
+// void Character::stopRight(){this->mVelX -= CHARACTER_VEL;}
+// void Character::stopLeft(){this->mVelX += CHARACTER_VEL;}
+// void Character::stopUp(){this->mVelY += CHARACTER_VEL;}
+// void Character::stopDown(){this->mVelY -= CHARACTER_VEL;}
 
 void Character::lookAt(int x, int y, int relX, int relY){
     // se le resta la pos de la camara para que resulte la psicion del jguador
@@ -71,18 +69,21 @@ int metersToPixel(float pos, int level_meters, int level_pixs){
 
 void Character::update(const ModelInfo model, const LevelInfo level) {
 
-    this->area.x = metersToPixel(model.you.x, level.w_meters, level.width);
-    this->area.y = metersToPixel(model.you.y, level.h_meters, level.height);
+    int x = metersToPixel(model.you.x, level.w_meters, level.width);
+    int y = metersToPixel(model.you.y, level.h_meters, level.height);
 
     this->cam.centerCamera(this->getRect());
-    //Keep the camera in bounds
+    
     this->cam.keepInBounds(level.width, level.height);
     this->stn.centerStencil(this->getRect());
 
     // para que cambia de frame solo si avanza
-    if (this->mVelX != 0 || this->mVelY != 0) {
+    if (this->area.x != x || this->area.y != y) {
+
         this->an.advanceFrame();
     }
+    this->area.x = x;
+    this->area.y = y;
 }
 
 int Character::getPosY(){return this->area.y;}

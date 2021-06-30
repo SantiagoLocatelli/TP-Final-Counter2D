@@ -22,13 +22,9 @@ struct LevelInfo{
 class Character{
 
     private:
-		//The X and Y offsets of the Character
 		
 		Animation an;
-		//The velocity of the Character
-		int mVelX, mVelY;
 		SDL_Rect area;
-		//dimensions of the Character
 		Camera& cam;
 		Stencil& stn;
 		Cursor& cur;
@@ -47,15 +43,15 @@ class Character{
 
 		SDL_Rect getRect();
 
-		void moveRight();
-		void moveLeft();
-		void moveUp();
-		void moveDown();
+		// void moveRight();
+		// void moveLeft();
+		// void moveUp();
+		// void moveDown();
 
-		void stopRight();
-		void stopLeft();
-		void stopUp();
-		void stopDown();
+		// void stopRight();
+		// void stopLeft();
+		// void stopUp();
+		// void stopDown();
 
 		void lookAt(int x, int y, int relX, int relY);
 

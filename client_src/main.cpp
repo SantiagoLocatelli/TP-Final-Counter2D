@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
-    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0x0, 0xFF, 0xFF);
+    SdlTexture pjTexture(renderer, "../common_src/img/ct1.bmp", 0xFF, 0xFF, 0xFF);
     SdlTexture backg(renderer, "../common_src/img/bg.png");
     SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
     bool quit = false;
 
     Stencil stencil(stencilTexture, window_w, window_h);
-    Camera cam(window_w, window_h);
+    Camera cam(level.width, level.height);
     SDL_Rect area = {0, 0, PIXELS_PER_METER, PIXELS_PER_METER};
     Cursor cursor(window_w, window_h);
     Character pj(area, pjTexture, cam, stencil, cursor);
@@ -81,8 +81,8 @@ int main(int argc, char* argv[]){
         renderer.clear();
 
         // renderizamos tuti
-        renderBoxes(map.boxes, boxTexture);
         bg.render();
+        renderBoxes(map.boxes, boxTexture);
         pj.render();
 
         // le mandas mecha
