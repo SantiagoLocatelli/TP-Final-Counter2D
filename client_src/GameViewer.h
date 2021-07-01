@@ -13,7 +13,6 @@ private:
     ModelInfo model;
     Character pj;
     Background bg;
-    Camera cam;
 
 public:
 
