@@ -28,8 +28,8 @@ class GameProxy{
         int createPlayer(int team);
 
         void toggleMovement(int id, Direction direction);
-        void rotate(int id, float angle);
-        void activateWeapon(int id);
+        void setAngle(int id, float angle);
+        void toggleWeapon(int id);
 
         bool ended();
 

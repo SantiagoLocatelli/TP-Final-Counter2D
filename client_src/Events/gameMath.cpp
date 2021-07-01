@@ -28,8 +28,7 @@ float Math::radiansToDegrees(float radians){
     return (radians*PI)/180.0;
 }
 
-float Math::calculateDegrees(coordenada_t center, coordenada_t point){
-
+float Math::calculateRadians(coordenada_t center, coordenada_t point){
     /*
     recordando que centramos el stencil en el personale.
     la idea es pensar en tres puntos, para generar dos lineas.
@@ -70,5 +69,7 @@ float Math::calculateDegrees(coordenada_t center, coordenada_t point){
         degrees += 180.0; 
     }
 
-    return degrees;
+    float radians = (degrees * PI)/180.0;
+
+    return radians;
 }

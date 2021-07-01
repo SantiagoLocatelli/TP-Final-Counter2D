@@ -26,11 +26,13 @@ void Protocol::recv_byte(char &byte){
 }
 
 void Protocol::send_event(const Event event){
-    send_byte(event);
+    send_byte(event.type);
+    skt.send_buffer((char *)&(event.info), sizeof(event.info));
 }
 
 void Protocol::recv_event(Event &event){
-    recv_byte((char &)event);
+    recv_byte((char &)event.type);
+    skt.recv_buffer((char *)&(event.info), sizeof(event.info));
 }
 
 void Protocol::send_float(const float &f){
