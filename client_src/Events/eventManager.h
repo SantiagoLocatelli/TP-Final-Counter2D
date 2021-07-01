@@ -10,10 +10,11 @@ class EventManager : public Thread{
 private:
     Protocol& com;
     bool& quit;
+    Character& pj;
 
 public:
 
-    EventManager(Protocol& com, bool& quit);
+    EventManager(Protocol& com, bool& quit, Character& pj);
     EventManager();
     ~EventManager() = default;
 
