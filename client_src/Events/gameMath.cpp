@@ -29,6 +29,6 @@ float Math::radiansToDegrees(float radians){
 }
 
 float Math::calculateRadians(coordenada_t center, coordenada_t point){
-    float radians = atan2((point.y-center.y), (point.x-center.x)) + PI;
+    float radians = atan2(-(point.y-center.y), -(point.x-center.x)) + PI;
     return radians;
 }
