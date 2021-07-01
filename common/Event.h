@@ -7,8 +7,8 @@
 enum EventType: char {TOGGLE_MOVEMENT, SET_ANGLE, TOGGLE_WEAPON};
 
 union EventInfo{
-    Direction dir;
-    float angle; //En radianes
+    Direction dir; //Para TOGGLE_MOVEMENT
+    float angle; //Para SET_ANGLE en radianes
 };
 
 struct Event{
