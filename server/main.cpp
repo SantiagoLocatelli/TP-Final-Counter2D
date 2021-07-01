@@ -7,15 +7,18 @@
 #include <chrono>
 
 void executeEvent(GameProxy &game, Event &event, int id){
-    if (event == UP_ON || event == UP_OFF){
-        game.toggleMovement(id, UP);
-    } else if (event == DOWN_ON || event == DOWN_OFF){
-        game.toggleMovement(id, DOWN);
-    } else if (event == LEFT_ON || event == LEFT_OFF){
-        game.toggleMovement(id, LEFT);
-    } else if (event == RIGHT_ON || event == RIGHT_OFF){
-        game.toggleMovement(id, RIGHT);
-    }
+    //TODO: Hacer con un MapExecuter
+    switch (event.type){
+    case TOGGLE_MOVEMENT:
+        game.toggleMovement(id, event.info.dir);
+        break;
+    
+    case SET_ANGLE:
+        game.setAngle(id, event.info.angle);
+    
+    case ACTIVATE_WEAPON:
+        game.activateWeapon(id);
+    }    
 }
 
 //TODO: Esto va a terminar en su propio hilo (game manager)

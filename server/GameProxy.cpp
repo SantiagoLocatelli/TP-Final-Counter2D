@@ -57,8 +57,8 @@ void GameProxy::toggleMovement(int id, Direction direction){
     players[id]->toggleMovement(direction);
 }
 
-void GameProxy::rotate(int id, float angle){
-    players[id]->rotate(angle);
+void GameProxy::setAngle(int id, float angle){
+    players[id]->setAngle(angle);
 }
 
 void GameProxy::activateWeapon(int id){
