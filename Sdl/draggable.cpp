@@ -8,8 +8,7 @@ Draggable::Draggable(SdlRenderer& renderer, std::string path, int x, int y) : Sd
     this->selected = false;
 }
 
-Draggable::Draggable(SdlRenderer& renderer, std::string path, int x, int y, Uint8 red, Uint8 green, Uint8 blue,
- int width, int height) : SdlTexture(renderer, path, red, green, blue, width, height){
+Draggable::Draggable(SdlRenderer& renderer, std::string path, int x, int y, Uint8 red, Uint8 green, Uint8 blue) : SdlTexture(renderer, path, red, green, blue){
     this->posX = x;
     this->posY = y;
     this->leftMouseButtonDown = false;

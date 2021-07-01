@@ -11,7 +11,7 @@ class Draggable : public SdlTexture{
         bool leftMouseButtonDown, selected;
     public:
         Draggable(SdlRenderer& renderer, std::string path, int x, int y);
-        Draggable(SdlRenderer& renderer, std::string path, int x, int y, Uint8 red, Uint8 green, Uint8 blue, int width = -1, int height = -1);
+        Draggable(SdlRenderer& renderer, std::string path, int x, int y, Uint8 red, Uint8 green, Uint8 blue);
         void handleEvent(SDL_Event* event, SDL_Rect camera);
         void render(int width, int height);
         void render(SDL_Rect camera, int width, int height);
