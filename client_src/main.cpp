@@ -42,10 +42,10 @@ int main(int argc, char* argv[]){
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
 
-    SdlTexture pjTexture(renderer, "../common_src/img/players/ct1.bmp", 0xFF, 0xFF, 0xFF);
-    SdlTexture backg(renderer, "../common_src/img/bg.png");
-    SdlTexture stencilTexture(renderer, "../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
-    SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
+    SdlTexture pjTexture(renderer, "../../common_src/img/players/ct1.bmp", 0xFF, 0xFF, 0xFF);
+    SdlTexture backg(renderer, "../../common_src/img/bg.png");
+    SdlTexture stencilTexture(renderer, "../../common_src/img/stencil.png", 0xFF, 0xFF, 0xFF);
+    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
 
 
     Stencil stencil(stencilTexture, window_w, window_h);
