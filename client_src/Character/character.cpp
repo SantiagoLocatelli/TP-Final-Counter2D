@@ -11,7 +11,7 @@ Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& s
 
 
 void Character::render(){
-    std::cout << this->area.x << " - " << this->area.y << std::endl;
+    //std::cout << this->area.x << " - " << this->area.y << std::endl;
     SDL_Rect dst = {this->area.x - this->cam.getPosX() - this->area.w/2, this->area.y - this->cam.getPosY() - this->area.h/2, this->area.w, this->area.h};
     this->an.render(dst, this->degrees);
     this->stn.render(this->cam.getPosX(), this->cam.getPosY(), this->degrees);

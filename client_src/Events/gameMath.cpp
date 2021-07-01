@@ -57,11 +57,11 @@ float Math::calculateRadians(coordenada_t center, coordenada_t point){
             result = acos(result)*180.0/PI;
             degrees = result;
 
-            if (point.x < 0.0 && point.y < 0.0) {
+            if (point.x < center.x && point.y < center.y) {
                 degrees += 180.0;
-            } else if (point.x < 0.0 && point.y > 0.0) {
+            } else if (point.x < center.x && point.y > center.y) {
                 degrees = 180.0 - degrees;
-            } else if (point.x > 0.0 && point.y < 0.0) {
+            } else if (point.x > center.x && point.y < center.y) {
                 degrees = 360.0 - degrees;
             } 
         }
