@@ -29,47 +29,6 @@ float Math::radiansToDegrees(float radians){
 }
 
 float Math::calculateRadians(coordenada_t center, coordenada_t point){
-    /*
-    recordando que centramos el stencil en el personale.
-    la idea es pensar en tres puntos, para generar dos lineas.
-    se sabe que si los degrees son 0, entonces el stencil mira para la derecha.
-    por lo que imaginamos un eje de coordenadas con la pos del stencil como centro,
-    la pos del stencil es nuestro primer punto, el segundo viene a ser la pos del mouse,
-    y el tercer punto lo generamos con la pos en y del personaje, y la pos en x del mouse.
-    y calculamos los angulos entre esas dos lineas
-    */
-    double degrees = 0.0;
-    coordenada_t newVec = {point.x, center.y};
-
-    if (point.y == center.y) {
-        return 0.0;
-    }
-
-    if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
-
-        int moduloPoint = modulo(point);
-        int moduloNewVec = modulo(newVec);
-        double result = (double)productoEscalar(point, newVec)/ (moduloPoint*moduloNewVec);
-        
-        if (moduloPoint != moduloNewVec) {
-
-            // acos devuelve el resultado en radianes
-            result = acos(result)*180.0/PI;
-            degrees = result;
-
-            if (point.x < 0.0 && point.y < 0.0) {
-                degrees += 180.0;
-            } else if (point.x < 0.0 && point.y > 0.0) {
-                degrees = 180.0 - degrees;
-            } else if (point.x > 0.0 && point.y < 0.0) {
-                degrees = 360.0 - degrees;
-            } 
-        }
-    } else {
-        degrees += 180.0; 
-    }
-
-    float radians = (degrees * PI)/180.0;
-
+    float radians = atan2((point.y-center.y), (point.x-center.x)) + PI;
     return radians;
 }
