@@ -1,8 +1,8 @@
 #ifndef _ACCEPTER_H_
 #define _ACCEPTER_H_
 
-#include "../common/Thread.h"
-#include "../common/Socket.h"
+#include "../common_src/Thread.h"
+#include "../common_src/Socket.h"
 #include "EventQueue.h"
 #include "Emitter.h"
 #include "ClientManager.h"

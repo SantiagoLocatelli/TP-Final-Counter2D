@@ -2,7 +2,7 @@
 #define _EMITTER_H_
 
 #include "CompleteModelInfo.h"
-#include "../common/MapInfo.h"
+#include "../common_src/MapInfo.h"
 #include <mutex>
 #include <condition_variable>
 

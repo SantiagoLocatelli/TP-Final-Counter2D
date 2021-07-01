@@ -4,7 +4,7 @@
 #include <box2d/box2d.h>
 #include <array>
 #include <map>
-#include "../common/Direction.h"
+#include "../../common_src/Direction.h"
 
 class Player{
     private:

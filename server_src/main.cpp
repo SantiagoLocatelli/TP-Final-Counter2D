@@ -2,7 +2,7 @@
 #include "GameProxy.h"
 #include "Emitter.h"
 #include "EventQueue.h"
-#include "../common/Stopwatch.h"
+#include "../common_src/Stopwatch.h"
 
 #include <chrono>
 
