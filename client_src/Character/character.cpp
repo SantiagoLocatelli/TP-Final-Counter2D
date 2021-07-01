@@ -30,7 +30,7 @@ int metersToPixel(float pos, int level_meters, int level_pixs){
 }
 
 void Character::update(const ModelInfo model, const LevelInfo level){
-
+    //this->degrees = grados del modelo
     int x = metersToPixel(model.you.x, level.w_meters, level.width);
     int y = metersToPixel(model.you.y, level.h_meters, level.height);
 
@@ -47,21 +47,6 @@ void Character::update(const ModelInfo model, const LevelInfo level){
     this->stn.setStencil(this->getRect());
 }
 
-// void Character::update(const ModelInfo model, const LevelInfo level) {
-
-//     this->area.x = metersToPixel(model.you.x, level.w_meters, level.width);
-//     this->area.y = metersToPixel(model.you.y, level.h_meters, level.height);
-
-//     this->cam.centerCamera(this->getRect());
-//     //Keep the camera in bounds
-//     this->cam.keepInBounds(level.width, level.height);
-//     this->stn.centerStencil(this->getRect());
-
-//     // para que cambia de frame solo si avanza
-//     if (this->mVelX != 0 || this->mVelY != 0) {
-//         this->an.advanceFrame();
-//     }
-// }
 
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
@@ -72,19 +57,11 @@ Character& Character::operator=(const Character& other){
     this->cam = other.cam;
     this->stn = other.stn;
     this->an = other.an;
+    this->degrees = other.degrees;
     return *this;
 }
 Character::Character(Character&& other):cam(other.cam), 
     an(std::move(other.an)), stn(other.stn){
     this->area = other.area;
-    this->cam = other.cam;
+    this->degrees = other.degrees;
 }
-		// Animation an;
-		// //The velocity of the Character
-		// int mVelX, mVelY;
-		// SDL_Rect area;
-		// //dimensions of the Character
-		// Camera& cam;
-		// Stencil& stn;
-		// Cursor& cur;
-

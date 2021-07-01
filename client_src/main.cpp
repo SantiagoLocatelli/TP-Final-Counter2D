@@ -8,19 +8,20 @@
 #include "../common/MapInfo.h"
 #include "../Sdl/background.h"
 #include "Events/eventManager.h"
+#include "../common/Stopwatch.h"
 
 #define PIXELS_PER_METER 100
 
-void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture) {
+void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture, Camera& cam) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
-        boxTexture.render(it->x*PIXELS_PER_METER, it->y*PIXELS_PER_METER, PIXELS_PER_METER, PIXELS_PER_METER);
+        boxTexture.render(it->x*PIXELS_PER_METER - cam.getPosX(), it->y*PIXELS_PER_METER - cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER);
     }
 }
 
 int main(int argc, char* argv[]){
 
     Protocol server(Socket("localhost", argv[1], false));
-    int window_w = 450, window_h = 450;
+    int window_w = 400, window_h = 400;
     MapInfo map;
     LevelInfo level;
     
@@ -30,10 +31,6 @@ int main(int argc, char* argv[]){
     level.w_meters = map.length;
     level.h_meters = map.height;
     
-    // level.height = 768;
-    // level.width = 1366;
-    // level.w_meters = 5;
-    // level.h_meters = 5;
 
     SdlWindow window("Bocaaaaaa", window_w, window_h);
     SdlRenderer renderer(&window);
@@ -44,7 +41,7 @@ int main(int argc, char* argv[]){
     SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
 
 
-    Stencil stencil(stencilTexture, level.width, level.height);
+    Stencil stencil(stencilTexture, window_w, window_h);
 
 
     Camera cam(window_w, window_h);
@@ -56,22 +53,28 @@ int main(int argc, char* argv[]){
     SDL_Event e;
     ModelInfo model;
     bool quit = false;
-    EventManager eventManager(server, quit);
+    EventManager eventManager(server, quit, pj);
     eventManager.start();
+    Stopwatch stopwatch;
+
     while (!quit) {
+        stopwatch.start();
+        if (stopwatch.msPassed() < 33) {
 
-        server.recv_model_info(model);
-        pj.update(model, level);
-        
-        renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-        renderer.clear();
+            server.recv_model_info(model);
+            pj.update(model, level);
+            
+            renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+            renderer.clear();
 
-        bg.render();
-        renderBoxes(map.boxes, boxTexture);
-        pj.render();
+            bg.render();
+            renderBoxes(map.boxes, boxTexture, cam);
+            pj.render();
 
-        // le mandas mecha
-        renderer.updateScreen();
+            // le mandas mecha
+            renderer.updateScreen();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
     }
 
 

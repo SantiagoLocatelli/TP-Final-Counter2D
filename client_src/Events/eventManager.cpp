@@ -1,6 +1,7 @@
 #include "eventManager.h"
+#include "gameMath.h"
 
-EventManager::EventManager(Protocol& com, bool& quit):com(com), quit(quit){}
+EventManager::EventManager(Protocol& com, bool& quit, Character& pj):com(com), quit(quit), pj(pj){}
 
 void EventManager::run(){
 
@@ -62,6 +63,9 @@ void EventManager::run(){
                 }
                 this->com.send_event(event);
                 break;
+            case SDL_MOUSEMOTION:
+                double degrees = Math::calculateDegrees({this->pj.getPosX(), this->pj.getPosY()}, {e.motion.x, e.motion.y});
+                // send degrees
         }
     }
     
