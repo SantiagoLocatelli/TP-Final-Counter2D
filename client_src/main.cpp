@@ -18,6 +18,13 @@ void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture, Camera& cam) {
     }
 }
 
+void renderPlayers(ModelInfo model, SdlTexture& playerTexture, Camera& cam) {
+    printf("cantidad de jugadores: %i\n", model.players.size());
+    for( auto it = model.players.begin(); it != model.players.end(); it++) {
+        playerTexture.render(it->x - cam.getPosX(), it->y - cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER, it->angle);
+    }
+}
+
 int main(int argc, char* argv[]){
 
     Protocol server(Socket("localhost", argv[1], false));
