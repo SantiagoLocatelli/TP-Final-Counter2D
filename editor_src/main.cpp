@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "../Sdl/sdl_texture.h"
-#include "../Sdl/sdl_window.h"
-#include "../Sdl/sdl_renderer.h"
+#include "../common_src/Sdl/sdl_texture.h"
+#include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_renderer.h"
 #include "../client_src/Character/camera.h"
-#include "../Sdl/draggable.h"
+#include "../common_src/Sdl/draggable.h"
 #include "editor.h"
 
 //Screen dimension constants
@@ -36,7 +36,7 @@ int main(int argc, char* args[]){
     SdlWindow window("Editor", 640, 480);
     SdlRenderer renderer(&window);
 	
-    Editor editor("../common_src/maps/map.yaml", renderer);
+    Editor editor("../../common_src/maps/map.yaml", renderer);
 
     Camera camera(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -71,16 +71,16 @@ int main(int argc, char* args[]){
             }else if (event.type == SDL_KEYDOWN){
                 if (event.key.keysym.sym == SDLK_1){
                     if (bombSiteA == NULL && bombSiteB == NULL){
-                        bombSiteA = new Draggable(renderer, "../common_src/img/bombSite.png", bombSites[0].x, bombSites[0].y , 255,0,0);
+                        bombSiteA = new Draggable(renderer, "../../common_src/img/bombSite.png", bombSites[0].x, bombSites[0].y , 255,0,0);
                         bombSiteA->setBlendMode(SDL_BLENDMODE_BLEND);
-                        bombSiteB = new Draggable(renderer, "../common_src/img/bombSite.png", bombSites[1].x, bombSites[1].y , 255,0,0);
+                        bombSiteB = new Draggable(renderer, "../../common_src/img/bombSite.png", bombSites[1].x, bombSites[1].y , 255,0,0);
                         bombSiteB->setBlendMode(SDL_BLENDMODE_BLEND);
                     }
                 }else if (event.key.keysym.sym == SDLK_2){
                     if (spawnSiteT == NULL && spawnSiteCT == NULL){
-                        spawnSiteT = new Draggable(renderer, "../common_src/img/spawnSite.png", spawnSites[0].x, spawnSites[0].y , 255,0,0);
+                        spawnSiteT = new Draggable(renderer, "../../common_src/img/spawnSite.png", spawnSites[0].x, spawnSites[0].y , 255,0,0);
                         spawnSiteT->setBlendMode(SDL_BLENDMODE_BLEND);
-                        spawnSiteCT = new Draggable(renderer, "../common_src/img/spawnSite.png", spawnSites[1].x, spawnSites[1].y , 255,0,0);
+                        spawnSiteCT = new Draggable(renderer, "../../common_src/img/spawnSite.png", spawnSites[1].x, spawnSites[1].y , 255,0,0);
                         spawnSiteCT->setBlendMode(SDL_BLENDMODE_BLEND);
                     }
                 }

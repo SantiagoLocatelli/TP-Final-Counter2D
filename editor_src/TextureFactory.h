@@ -1,8 +1,8 @@
 #ifndef __GAME_OBJECT_FACTORY_H__
 #define __GAME_OBJECT_FACTORY_H__
 #include "TextureMap.h"
-#include "../Sdl/sdl_texture.h"
-#include "../Sdl/sdl_renderer.h"
+#include "../common_src/Sdl/sdl_texture.h"
+#include "../common_src/Sdl/sdl_renderer.h"
 #include <memory>
 #include <vector>
 class TextureFactory{
