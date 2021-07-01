@@ -4,8 +4,7 @@
 #include <box2d/box2d.h>
 #include <array>
 #include <map>
-
-enum Direction {UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3};
+#include "../common/Direction.h"
 
 class Player{
     private:
@@ -22,7 +21,7 @@ class Player{
         void toggleMovement(Direction dir);
         void updateVelocity();
         std::array<float, 2> getPosition();
-        void rotate(float angle);
+        void setAngle(float angle);
         float getAngle();
 
         //Métodos de disparos/vida

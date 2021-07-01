@@ -108,8 +108,8 @@ float Player::getHealth(){
     return health;
 }
 
-void Player::rotate(float angle){
-    this->angle += angle;
+void Player::setAngle(float angle){
+    this->angle = angle;
 }
 
 float Player::getAngle(){
