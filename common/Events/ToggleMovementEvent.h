@@ -12,6 +12,7 @@ class ToggleMovementEvent: public Event{
     public:
         explicit ToggleMovementEvent(Direction dir);
         std::string getBinaryRepresentation() override;
+        void* getData() override;
 
         ToggleMovementEvent(const ToggleMovementEvent&) = delete;
         ToggleMovementEvent& operator=(const ToggleMovementEvent&) = delete;
