@@ -3,6 +3,7 @@
 #include <utility>
 #include <iostream>
 
+#define PI 3.14159265
 
 Character::Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn)
     : area(area), an(texture), cam(cam), stn(stn), degrees(0.0){
@@ -30,7 +31,8 @@ int metersToPixel(float pos, int level_meters, int level_pixs){
 }
 
 void Character::update(const ModelInfo model, const LevelInfo level){
-    //this->degrees = grados del modelo
+    //TODO: Agregar metodo para convertir entre grados y radianes
+    this->degrees = (model.you.angle*180.0)/PI;
     int x = metersToPixel(model.you.x, level.w_meters, level.width);
     int y = metersToPixel(model.you.y, level.h_meters, level.height);
 

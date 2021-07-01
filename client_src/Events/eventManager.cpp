@@ -49,7 +49,6 @@ void EventManager::run(){
             /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
             case SDL_MOUSEBUTTONUP:
             case SDL_MOUSEBUTTONDOWN:
-                Event event;
                 switch (e.button.button){
                     case SDL_BUTTON_LEFT:
                         event.type = TOGGLE_WEAPON;
@@ -64,9 +63,10 @@ void EventManager::run(){
                 this->com.send_event(event);
                 break;
             case SDL_MOUSEMOTION:
-                double degrees = Math::calculateDegrees({this->pj.getPosX(), this->pj.getPosY()}, {e.motion.x, e.motion.y});
-                // send degrees
+                float radians = Math::calculateRadians({this->pj.getPosX(), this->pj.getPosY()}, {e.motion.x, e.motion.y});
+                event.type = SET_ANGLE;
+                event.info.angle = radians;
+                this->com.send_event(event);
         }
     }
-    
 }
