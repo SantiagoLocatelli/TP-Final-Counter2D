@@ -42,6 +42,9 @@ class Character{
 		int getPosX();
 		int getPosY();
 
+		int getRelativePosX();
+		int getRelativePosY();
+
 		Character& operator=(const Character&);
 		Character(Character&& other);
 };

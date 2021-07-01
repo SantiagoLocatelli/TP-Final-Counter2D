@@ -70,7 +70,7 @@ void EventManager::run(){
                 }
                 break;
             case SDL_MOUSEMOTION:
-                double degrees = Math::calculateDegrees({this->pj.getPosX(), this->pj.getPosY()}, {e.motion.x, e.motion.y});
+                double degrees = Math::calculateDegrees({this->pj.getRelativePosX(), this->pj.getRelativePosY()}, {e.motion.x, e.motion.y});
                 // send degrees
         }
     }

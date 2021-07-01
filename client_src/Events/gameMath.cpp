@@ -20,8 +20,15 @@ int Math::manhattanDistance(coordenada_t point1, coordenada_t point2){
     return (abs(point1.x - point2.x) + abs(point1.y - point2.y));
 }
 
+float Math::degreesToRadians(float degrees){
+    return (degrees*180.0)/PI;
+}
 
-double Math::calculateDegrees(coordenada_t center, coordenada_t point){
+float Math::radiansToDegrees(float radians){
+    return (radians*PI)/180.0;
+}
+
+float Math::calculateDegrees(coordenada_t center, coordenada_t point){
 
     /*
     recordando que centramos el stencil en el personale.

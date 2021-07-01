@@ -50,6 +50,8 @@ void Character::update(const ModelInfo model, const LevelInfo level){
 
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
+int Character::getRelativePosX(){return this->area.x - this->cam.getPosX();}
+int Character::getRelativePosY(){return this->area.y - this->cam.getPosY();}
 SDL_Rect Character::getRect(){return this->area;}
 
 Character& Character::operator=(const Character& other){
