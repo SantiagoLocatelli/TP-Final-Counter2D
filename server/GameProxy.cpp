@@ -61,8 +61,8 @@ void GameProxy::setAngle(int id, float angle){
     players[id]->setAngle(angle);
 }
 
-void GameProxy::activateWeapon(int id){
-    players[id]->activateWeapon();
+void GameProxy::toggleWeapon(int id){
+    players[id]->toggleWeapon();
 }
 
 bool GameProxy::ended(){

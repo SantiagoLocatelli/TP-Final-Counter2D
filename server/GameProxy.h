@@ -29,7 +29,7 @@ class GameProxy{
 
         void toggleMovement(int id, Direction direction);
         void setAngle(int id, float angle);
-        void activateWeapon(int id);
+        void toggleWeapon(int id);
 
         bool ended();
 

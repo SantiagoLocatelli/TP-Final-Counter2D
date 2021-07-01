@@ -25,7 +25,7 @@ class Player{
         float getAngle();
 
         //Métodos de disparos/vida
-        void activateWeapon();
+        void toggleWeapon();
         void recvDamage(float damage);
         float getHealth();
         bool isDead();

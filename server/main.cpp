@@ -16,8 +16,8 @@ void executeEvent(GameProxy &game, Event &event, int id){
     case SET_ANGLE:
         game.setAngle(id, event.info.angle);
     
-    case ACTIVATE_WEAPON:
-        game.activateWeapon(id);
+    case TOGGLE_WEAPON:
+        game.toggleWeapon(id);
     }    
 }
 

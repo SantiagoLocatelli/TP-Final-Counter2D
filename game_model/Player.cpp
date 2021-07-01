@@ -116,7 +116,7 @@ float Player::getAngle(){
     return angle;
 }
 
-void Player::activateWeapon(){
+void Player::toggleWeapon(){
 }
 
 bool Player::isDead(){
