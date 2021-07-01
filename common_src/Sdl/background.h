@@ -1,7 +1,7 @@
 #ifndef __BACKGROUND_H__
 #define __BACKGROUND_H__
 
-#include "../client_src/Character/camera.h"
+#include "../../client_src/Character/camera.h"
 #include "sdl_texture.h"
 
 class Background {

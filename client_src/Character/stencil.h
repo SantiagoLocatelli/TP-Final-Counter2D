@@ -1,7 +1,7 @@
 #ifndef __STENCIL_H__
 #define __STENCIL_H__
 
-#include "../../Sdl/sdl_texture.h"
+#include "../../common_src/Sdl/sdl_texture.h"
 
 class Stencil {
 private:

@@ -1,7 +1,7 @@
 #ifndef __ANIMATION_H__
 #define __ANIMATION_H__
 
-#include "../../Sdl/sdl_texture.h"
+#include "../../common_src/Sdl/sdl_texture.h"
 
 class Animation {
 private:

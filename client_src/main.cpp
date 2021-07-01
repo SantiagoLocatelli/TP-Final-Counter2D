@@ -1,14 +1,14 @@
-#include "../Sdl/sdl_renderer.h"
-#include "../Sdl/sdl_window.h"
-#include "../Sdl/sdl_texture.h"
+#include "../common_src/Sdl/sdl_renderer.h"
+#include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_texture.h"
 #include "../client_src/Character/stencil.h"
 #include "../client_src/Character/camera.h"
 #include "../client_src/Character/character.h"
 #include "../client_src/Character/animation.h"
-#include "../common/MapInfo.h"
-#include "../Sdl/background.h"
+#include "../common_src/MapInfo.h"
+#include "../common_src/Sdl/background.h"
 #include "Events/eventManager.h"
-#include "../common/Stopwatch.h"
+#include "../common_src/Stopwatch.h"
 
 #define PIXELS_PER_METER 100
 

@@ -1,10 +1,10 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "../common/MapInfo.h"
-#include "../common/ModelInfo.h"
+#include "../common_src/MapInfo.h"
+#include "../common_src/ModelInfo.h"
 #include "Character/character.h"
-#include "../Sdl/background.h"
+#include "../common_src/Sdl/background.h"
 
 class Game {
 private:
