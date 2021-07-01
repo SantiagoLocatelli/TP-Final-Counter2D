@@ -41,8 +41,8 @@ float Math::calculateRadians(coordenada_t center, coordenada_t point){
     double degrees = 0.0;
     coordenada_t newVec = {point.x, center.y};
 
-    if (point.x == 0) {
-        point.x = 1;
+    if (point.y == center.y) {
+        return 0.0;
     }
 
     if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {
