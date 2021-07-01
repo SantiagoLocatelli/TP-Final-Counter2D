@@ -20,9 +20,15 @@ int Math::manhattanDistance(coordenada_t point1, coordenada_t point2){
     return (abs(point1.x - point2.x) + abs(point1.y - point2.y));
 }
 
+float Math::degreesToRadians(float degrees){
+    return (degrees*180.0)/PI;
+}
+
+float Math::radiansToDegrees(float radians){
+    return (radians*PI)/180.0;
+}
 
 float Math::calculateRadians(coordenada_t center, coordenada_t point){
-
     /*
     recordando que centramos el stencil en el personale.
     la idea es pensar en tres puntos, para generar dos lineas.
@@ -35,8 +41,8 @@ float Math::calculateRadians(coordenada_t center, coordenada_t point){
     double degrees = 0.0;
     coordenada_t newVec = {point.x, center.y};
 
-    if (point.x == 0) {
-        point.x = 1;
+    if (point.y == center.y) {
+        return 0.0;
     }
 
     if (!coordsIguales(center, newVec) && !coordsIguales(center, point)) {

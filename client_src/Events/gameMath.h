@@ -14,6 +14,9 @@ class Math{
          * calcula los grados entre el vector point y la proyeccion del vector point 
          * en el eje x.
          */
+
+        static float degreesToRadians(float degrees);
+        static float radiansToDegrees(float radians);
         static float calculateRadians(coordenada_t center, coordenada_t point);
 
     private:
