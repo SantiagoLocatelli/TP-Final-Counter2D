@@ -22,7 +22,7 @@ class Character{
 
     public:
 		Character(int width, int height, SdlTexture texture);
-		Character() = default;
+		Character();
 
 		void update(const Prot_Player you, const LevelInfo level, float health = -1.0, uint16_t ammo = -1);
 		void render(int camX, int camY);

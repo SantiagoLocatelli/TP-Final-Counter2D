@@ -2,6 +2,14 @@
 #include "../Events/gameMath.h"
 #include <utility>
 
+// Character::Character(){
+//     this->degrees = 0;
+//     this->area.x = 0;
+//     this->area.y = 0;
+//     this->area.w = 0;
+//     this->area.h = 0;
+// }
+
 
 Character::Character(int width, int height, SdlTexture texture)
     : an(std::move(texture)), degrees(0.0){
