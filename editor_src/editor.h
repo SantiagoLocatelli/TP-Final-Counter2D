@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "../Sdl/sdl_texture.h"
-#include "../Sdl/sdl_renderer.h"
-#include "../Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_texture.h"
+#include "../common_src/Sdl/sdl_renderer.h"
+#include "../common_src/Sdl/sdl_window.h"
 #include "TextureMap.h"
 class Editor{
     private:

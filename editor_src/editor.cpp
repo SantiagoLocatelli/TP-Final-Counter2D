@@ -4,15 +4,21 @@
 #include <fstream>
 #include <stdio.h>
 #include <memory>
+#include <utility>
 #define TILE_WIDTH 80
 #define TILE_HEIGHT 80
 #define LEVEL_WIDTH 1280
+
+template<typename T, typename... Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
 
 Editor::Editor(const std::string path, SdlRenderer& renderer){
     this->currentType = 0;
     this->mapID = path;
     TextureFactory factory;
-    factory.unmarshalTextures("../common_src/maps/textures.yaml", this->map);
+    factory.unmarshalTextures("../../common_src/maps/textures.yaml", this->map);
 
     std::ifstream stream(path);
     if (stream.is_open()){
@@ -61,7 +67,7 @@ void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
         if((x > textureX) && (x < textureX + TILE_WIDTH) && (y > textureY) && (y < textureY + TILE_HEIGHT)){
             //Get rid of old tile
 			textures.erase(textures.begin() + i);
-            std::unique_ptr<SdlTexture> texture = std::make_unique<SdlTexture>(renderer, map[this->currentType], currentType);
+            std::unique_ptr<SdlTexture> texture = make_unique<SdlTexture>(renderer, map[this->currentType], currentType);
 			textures.insert(textures.begin() + i, std::move(texture));
 			break;
         }

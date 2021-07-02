@@ -8,7 +8,7 @@ SdlWindow::SdlWindow(std::string name, int width, int height){
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
     }else{
         this->mWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-         SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+         SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
         if (this->mWindow == NULL){
             printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
         }else{
