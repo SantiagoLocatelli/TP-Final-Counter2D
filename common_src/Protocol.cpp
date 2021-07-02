@@ -66,6 +66,7 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
     //Envío el largo de la lista
     uint16_t len;
     recv_short(len);
+    mapInfo.boxes.clear();
     for (int i = 0; i < len; i++){
         Box b;
         recv_short(b.x);
@@ -111,6 +112,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
 
     uint16_t len;
     recv_short(len);
+    modelInfo.players.clear();
     for (int i = 0; i < len; i++){
         Prot_Player p;
         recv_float(p.x);
@@ -120,6 +122,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     }
 
     recv_short(len);
+    modelInfo.bullets.clear();
     for (int i = 0; i < len; i++){
         Bullet b;
         recv_float(b.start_x);

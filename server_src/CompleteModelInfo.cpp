@@ -12,7 +12,6 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
             p.angle = players[i].angle;
             info.players.push_back(p);
         }
-        i++;
     }
 
     for (Bullet b: bullets){

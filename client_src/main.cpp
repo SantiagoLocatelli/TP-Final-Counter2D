@@ -77,7 +77,7 @@ int main(int argc, char* argv[]){
             bg.render();
             renderBoxes(map.boxes, boxTexture, cam);
             pj.render();
-
+            renderPlayers(model, pjTexture, cam);
             // le mandas mecha
             renderer.updateScreen();
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
