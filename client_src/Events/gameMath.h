@@ -18,6 +18,7 @@ class Math{
         static float degreesToRadians(float degrees);
         static float radiansToDegrees(float radians);
         static float calculateRadians(coordenada_t center, coordenada_t point);
+        static int ruleOfThree(float x_f, float total_f, int total_i);
 
     private:
 };

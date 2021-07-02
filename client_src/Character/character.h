@@ -8,14 +8,8 @@
 #include "animation.h"
 #include <list>
 #include "../../common_src/Protocol.h"
+#include "levelInfo.h"
 
-struct LevelInfo{
-    int height;
-    int width;
-	int h_meters;
-	int w_meters;
-    std::list<Box> boxes;
-};
 
 
 class Character{
@@ -24,16 +18,14 @@ class Character{
 		
 		Animation an;
 		SDL_Rect area;
-		Camera& cam;
-		Stencil& stn;
 		double degrees;
 
     public:
-		Character(SDL_Rect area, SdlTexture& texture, Camera& cam, Stencil& stn);
+		Character(int width, int height, SdlTexture& texture);
 
 
 		void update(const ModelInfo model, const LevelInfo level);
-		void render();
+		void render(int camX, int camY);
 
 		SDL_Rect getRect();
 

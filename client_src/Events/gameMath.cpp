@@ -32,3 +32,8 @@ float Math::calculateRadians(coordenada_t center, coordenada_t point){
     float radians = atan2((point.y-center.y), (point.x-center.x)) + PI;
     return radians;
 }
+
+int Math::ruleOfThree(float x_f, float total_f, int total_i){
+    int porcentage = (x_f*100.0)/ (float)total_f;
+    return (total_i*porcentage)/100;
+}
