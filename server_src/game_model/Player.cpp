@@ -35,6 +35,7 @@ Player::Player(Player&& other){
     this->movement = std::move(other.movement);
     other.weapon->changeOwner(this);
     weapon = other.weapon;
+    this->fixture = other.fixture;
 
     other.weapon = nullptr;
     other.body = nullptr;
@@ -52,6 +53,8 @@ Player& Player::operator=(Player&& other){
     movement = std::move(other.movement);
     other.weapon->changeOwner(this);
     weapon = other.weapon;
+    fixture = other.fixture;
+
 
     other.weapon = nullptr;
     other.body = nullptr;
