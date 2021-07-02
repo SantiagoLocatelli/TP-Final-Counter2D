@@ -2,7 +2,7 @@
 
 #define PIXELS_PER_METER 100
 #define YOU 0
-#define PATH_TEXTURE "../common_src/img/players/ct1.bmp"
+#define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 #define BOX 1
 #define BACKGROUND 0
@@ -64,9 +64,9 @@ void GameManager::addPlayer(const char* pathTexture, struct Color color, int ind
 }
 
 void GameManager::initializeGame(ModelInfo model){
-    SdlTexture backg(renderer, "../common_src/img/bg.png");
+    SdlTexture backg(renderer, "../../common_src/img/bg.png");
     this->textures.push_back(std::move(backg));
-    SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
+    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
     this->textures.push_back(std::move(boxTexture));
     
     this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
