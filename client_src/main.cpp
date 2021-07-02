@@ -24,12 +24,10 @@ int main(int argc, char* argv[]){
 
     while (!quit /*|| !model.game_ended*/) {
         stopwatch.start();
-        if (stopwatch.msPassed() < 33) {
-
-            server.recv_model_info(model);
-            game.update(model);
-            game.render();
-
+        server.recv_model_info(model);
+        game.update(model);
+        game.render();
+        while (stopwatch.msPassed() < 33) {
             // le mandas mecha
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
