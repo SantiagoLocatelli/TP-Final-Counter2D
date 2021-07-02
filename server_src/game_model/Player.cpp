@@ -1,11 +1,13 @@
 #include "Player.h"
 #include "Weapon.h"
+#include "../../common_src/GeneralException.h"
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y)
-:health(100), angle(0), dead(false), weapon(new Weapon(this, &world)){
+:health(100), angle(0), world(world), dead(false)
+, weapon(new Weapon(this, &world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -27,7 +29,7 @@ Player::Player(World &world, float start_x, float start_y)
     movement[LEFT] = false;
 }
 
-Player::Player(Player&& other){
+Player::Player(Player&& other): world(other.world){
     this->body = other.body;
     this->health = other.health;
     this->dead = other.dead;
@@ -41,32 +43,13 @@ Player::Player(Player&& other){
     other.body = nullptr;
 }
 
-Player& Player::operator=(Player&& other){
-    if (this == &other){
-        return *this;
-    }
-
-    body = other.body;
-    health = other.health;
-    dead = other.dead;
-    angle = other.angle;
-    movement = std::move(other.movement);
-    other.weapon->changeOwner(this);
-    weapon = other.weapon;
-    fixture = other.fixture;
-
-
-    other.weapon = nullptr;
-    other.body = nullptr;
-
-    return *this;
-}
-
 void Player::toggleMovement(Direction dir){
     movement[dir] = !movement[dir];
 }
         
 void Player::updateVelocity(){
+    if (dead)
+        GeneralException("Error en Player::updateVelocity: El jugador está muerto\n");
     //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
@@ -85,6 +68,9 @@ void Player::updateVelocity(){
 
 
 std::array<float, 2> Player::getPosition(){
+    if (dead)
+        GeneralException("Error en Player::getPosition: El jugador está muerto\n");
+
     std::array<float, 2> vec;
     vec[0] = body->GetPosition().x;
     vec[1] = body->GetPosition().y;
@@ -96,10 +82,11 @@ void Player::recvDamage(float damage){
     health -= damage;
     if (health < 0){
         dead = true;
+        world.deleteBody(body);
     }
 }
 
-float Player::getHealth(){
+float Player::getHealth() const{
     return health;
 }
 
@@ -107,15 +94,17 @@ void Player::setAngle(float angle){
     this->angle = angle;
 }
 
-float Player::getAngle(){
+float Player::getAngle() const{
     return angle;
 }
 
 void Player::toggleWeapon(){
+    if (dead)
+        GeneralException("Error en Player::toggleWeapon: El jugador está muerto\n");
     weapon->toggle();
 }
 
-bool Player::isDead(){
+bool Player::isDead() const{
     return dead;
 }
 

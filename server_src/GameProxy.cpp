@@ -3,6 +3,7 @@
 #include <utility>
 
 #include <list>
+#include <map>
 
 GameProxy::GameProxy(const std::string &yaml_path){
     WorldParser parser(yaml_path);
@@ -25,19 +26,21 @@ MapInfo GameProxy::getMapInfo(){
 CompleteModelInfo GameProxy::getModelInfo(){
     CompleteModelInfo info;
     std::array<float, 2> pos;
+    std::vector<Player> &players = world->getPlayers();
     for (size_t i = 0; i < players.size(); i++){
             You p;
-            pos = players[i]->getPosition();
-            p.x = pos[0];
-            p.y = pos[1];
-            p.angle = players[i]->getAngle();
-            p.health = players[i]->getHealth();
-            p.ammo = 0;
-            p.dead = players[i]->isDead();
+            p.dead = players[i].isDead();
+            if (!p.dead){
+                pos = players[i].getPosition();
+                p.x = pos[0];
+                p.y = pos[1];
+                p.angle = players[i].getAngle();
+                p.health = players[i].getHealth();
+                p.ammo = 0;
+            }
             info.players.push_back(p);
     }
 
-    //TODO: Porque hago esto?
     info.bullets = std::list<Bullet>();
 
     info.game_ended = ended();
@@ -49,30 +52,29 @@ void GameProxy::step(){
     world->step();
 }
 
-int GameProxy::createPlayer(int team){
-    players.push_back(&world->createPlayer(team+1, team+1));
-    return (players.size()-1);
+void GameProxy::createPlayer(int team){
+    world->createPlayer(team+1, team+1);
 }
 
 void GameProxy::toggleMovement(int id, Direction direction){
-    players[id]->toggleMovement(direction);
+    world->getPlayers()[id].toggleMovement(direction);
 }
 
 void GameProxy::setAngle(int id, float angle){
-    players[id]->setAngle(angle);
+    world->getPlayers()[id].setAngle(angle);
 }
 
 void GameProxy::toggleWeapon(int id){
-    players[id]->toggleWeapon();
+    world->getPlayers()[id].toggleWeapon();
 }
 
 bool GameProxy::ended(){
     //TODO: Cambiar esto, lo puse para probar.
-    for (Player *p: players){
-        if (p->isDead()){
-            return true;
-        }
-    }
+    // for (const Player &p: world->getPlayers()){
+    //     if (p.isDead()){
+    //         return true;
+    //     }
+    // }
 
     return false;
 }

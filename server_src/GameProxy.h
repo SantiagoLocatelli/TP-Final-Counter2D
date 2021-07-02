@@ -14,7 +14,6 @@ class CompleteModelInfo;
 class GameProxy{
     private:
         World* world;
-        std::vector<Player*> players;
         MapInfo mapInfo;
     
     public:
@@ -25,7 +24,7 @@ class GameProxy{
         CompleteModelInfo getModelInfo();
 
         //Crea un jugador y devuelve el id que lo representa
-        int createPlayer(int team);
+        void createPlayer(int team);
 
         void toggleMovement(int id, Direction direction);
         void setAngle(int id, float angle);

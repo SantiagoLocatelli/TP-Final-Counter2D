@@ -16,6 +16,7 @@ class Player: public Hittable{
     private:
         float health;
         float angle;
+        World &world;
         b2Body *body;
         bool dead;
         std::array<bool, 4> movement;
@@ -29,21 +30,22 @@ class Player: public Hittable{
         void updateVelocity();
         std::array<float, 2> getPosition();
         void setAngle(float angle);
-        float getAngle();
+        float getAngle() const;
 
         //Métodos de disparos/vida
         void toggleWeapon();
         void recvDamage(float damage) override;
-        float getHealth();
-        bool isDead();
-        float isHitBy(float x, float y, float angle);
+        float getHealth() const;
+        bool isDead() const;
 
         ~Player();
 
         Player(Player&& other);
-        Player& operator=(Player&& other);
+        Player& operator=(Player&& other) = delete;
         Player(const Player&) = delete;
         Player& operator=(const Player&) = delete;
+
+        friend class World;
 };
 
 #endif

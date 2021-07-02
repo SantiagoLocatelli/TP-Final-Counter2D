@@ -37,12 +37,12 @@ int main(int argc, char const *argv[]){
         game.createPlayer(1);
         game.createPlayer(2);
 
-        emitter.emitMap(game.getMapInfo());
         
         Accepter accepter(argv[1], queue, emitter);
         accepter.start();
 
         Stopwatch stopwatch;
+        emitter.emitMap(game.getMapInfo());
 
         //std::this_thread::sleep_for(std::chrono::seconds(60));
 
