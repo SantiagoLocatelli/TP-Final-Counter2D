@@ -62,11 +62,11 @@ void EventManager::run(){
                 }
                 this->com.send_event(event);
                 break;
-            // case SDL_MOUSEMOTION:
-                //float radians = Math::calculateRadians({this->game.getRelativePlayerPosX(), this->game.getRelativePlayerPosY()}, {e.motion.x, e.motion.y});
-                // event.type = SET_ANGLE;
-                // event.info.angle = radians;
-                // this->com.send_event(event);
+            case SDL_MOUSEMOTION:
+                float radians = Math::calculateRadians({this->game.getRelativePlayerPosX(), this->game.getRelativePlayerPosY()}, {e.motion.x, e.motion.y});
+                event.type = SET_ANGLE;
+                event.info.angle = radians;
+                this->com.send_event(event);
         }
     }
 }

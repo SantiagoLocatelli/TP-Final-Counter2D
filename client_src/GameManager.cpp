@@ -23,19 +23,18 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
 }
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
-void GameManager::renderBoxes() {
+void GameManager::renderBoxes(int camX, int camY) {
     for(auto it = this->level.boxes.begin(); it != this->level.boxes.end(); it++){
-        this->textures[BOX].render(it->x*PIXELS_PER_METER - this->cam.getPosX(), it->y*PIXELS_PER_METER - this->cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER);
+        this->textures[BOX].render(it->x*PIXELS_PER_METER - camX, it->y*PIXELS_PER_METER - camY, PIXELS_PER_METER, PIXELS_PER_METER);
     }
 }
 
-// // ESTO EN LA VERSION FINAL NO TIENE QUE IR
-// void GameManager::renderPlayers() {
-//     printf("cantidad de jugadores: %i\n", model.players.size());
-//     for(auto it = this->model.players.begin(); it != this->model.players.end(); it++) {
-//         this->playerTexture.render(it->x - this->cam.getPosX(), it->y - this->cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER, it->angle);
-//     }
-// }
+// ESTO EN LA VERSION FINAL NO TIENE QUE IR
+void GameManager::renderPlayers(int camX, int camY) {
+    for (auto it = this->players.begin(); it != this->players.end(); it++) {
+        it->render(camX, camY);
+    }
+}
 
 
 
@@ -45,21 +44,19 @@ void GameManager::render(){
     renderer.clear();
 
     this->textures[BACKGROUND].render(0, 0, level.width, level.height);
-    renderBoxes();
-    //renderPlayers();
     int camX = this->cam.getPosX();
     int camY = this->cam.getPosY();
+    renderBoxes(camX, camY);
+    renderPlayers(camX, camY);
     this->stencil.render(camX, camY);
-    for (auto it = this->players.begin(); it != this->players.end(); it++) {
-        it->render(camX, camY);
-    }
+
 
     renderer.updateScreen();
 }
 
 
-// int GameManager::getRelativePlayerPosX(){return this->pj.getPosX() - this->cam.getPosX();}
-// int GameManager::getRelativePlayerPosY(){return this->pj.getPosY() - this->cam.getPosY();}
+int GameManager::getRelativePlayerPosX(){return this->players[YOU].getPosX() - this->cam.getPosX();}
+int GameManager::getRelativePlayerPosY(){return this->players[YOU].getPosY() - this->cam.getPosY();}
 
 void GameManager::addPlayer(const char* pathTexture, struct Color color, int index){
     SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);

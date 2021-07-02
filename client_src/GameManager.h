@@ -35,16 +35,17 @@ private:
     std::vector<Character> players;
     Stencil stencil;
 
-    void renderPlayers();
-    void renderBoxes();
+    void renderPlayers(int camX, int camY);
+    void renderBoxes(int camX, int camY);
+    void addPlayer(const char* pathTexture, struct Color color, int index);
+    void initializeGame(ModelInfo model);
+    // ver si es necesaria
+    void addTexture(const char* pathTexture, struct Color color);
 
 public:
 
     GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
-    void addPlayer(const char* pathTexture, struct Color color, int index);
-    void addTexture(const char* pathTexture, struct Color color);
     void render();
-    void initializeGame(ModelInfo model);
     void update(ModelInfo model);
     int getRelativePlayerPosX();
     int getRelativePlayerPosY();

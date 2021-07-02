@@ -21,11 +21,11 @@ int Math::manhattanDistance(coordenada_t point1, coordenada_t point2){
 }
 
 float Math::degreesToRadians(float degrees){
-    return (degrees*180.0)/PI;
+    return degrees*(PI/180.0);
 }
 
 float Math::radiansToDegrees(float radians){
-    return (radians*PI)/180.0;
+    return radians* (180.0/PI);
 }
 
 float Math::calculateRadians(coordenada_t center, coordenada_t point){
