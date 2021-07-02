@@ -5,17 +5,24 @@
 #include <array>
 #include <map>
 #include "../../common_src/Direction.h"
+#include "Hittable.h"
+#include "Weapon.h"
 
-class Player{
+class World;
+class Weapon;
+
+
+class Player: public Hittable{
     private:
         float health;
         float angle;
         b2Body *body;
         bool dead;
         std::array<bool, 4> movement;
+        Weapon *weapon; //Tiene que ser un puntero por cosas de forward delcaration
 
     public:
-        Player(b2World &world, float start_x, float start_y);
+        Player(World &world, float start_x, float start_y);
 
         //Métodos de movimiento/posicion
         void toggleMovement(Direction dir);
@@ -26,16 +33,17 @@ class Player{
 
         //Métodos de disparos/vida
         void toggleWeapon();
-        void recvDamage(float damage);
+        void recvDamage(float damage) override;
         float getHealth();
         bool isDead();
         float isHitBy(float x, float y, float angle);
+
+        ~Player();
 
         Player(Player&& other);
         Player& operator=(Player&& other);
         Player(const Player&) = delete;
         Player& operator=(const Player&) = delete;
-        
 };
 
 #endif

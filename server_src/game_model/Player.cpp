@@ -1,14 +1,15 @@
 #include "Player.h"
+#include "Weapon.h"
 #include <cmath>
 #include <iostream>
 #include <utility>
 
-Player::Player(b2World &world, float start_x, float start_y)
-:health(100), angle(0), dead(false){
+Player::Player(World &world, float start_x, float start_y)
+:health(100), angle(0), dead(false), weapon(new Weapon(this, &world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
-    body = world.CreateBody(&playerBodyDef);
+    body = world.b2world.CreateBody(&playerBodyDef);
 
     b2CircleShape playerShape;
     playerShape.m_radius = 0.5f;
@@ -18,7 +19,7 @@ Player::Player(b2World &world, float start_x, float start_y)
     fixtureDef.density = 1;
     fixtureDef.friction = 0;
 
-    body->CreateFixture(&fixtureDef);
+    fixture = body->CreateFixture(&fixtureDef);
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -32,7 +33,10 @@ Player::Player(Player&& other){
     this->dead = other.dead;
     this->angle = other.angle;
     this->movement = std::move(other.movement);
+    other.weapon->changeOwner(this);
+    weapon = other.weapon;
 
+    other.weapon = nullptr;
     other.body = nullptr;
 }
 
@@ -46,7 +50,10 @@ Player& Player::operator=(Player&& other){
     dead = other.dead;
     angle = other.angle;
     movement = std::move(other.movement);
+    other.weapon->changeOwner(this);
+    weapon = other.weapon;
 
+    other.weapon = nullptr;
     other.body = nullptr;
 
     return *this;
@@ -82,21 +89,6 @@ std::array<float, 2> Player::getPosition(){
     return vec;
 }
 
-float Player::isHitBy(float x, float y, float angle){
-    b2Fixture fixture = *body->GetFixtureList();
-
-    b2RayCastInput input;
-    input.p1 = b2Vec2(x,y);
-    input.p2 = b2Vec2(x+std::cos(angle) , y+std::sin(angle));
-    input.maxFraction = 100; //TODO: Chequear esta constante
-    b2RayCastOutput output;
-    if (fixture.RayCast(&output, input, 0)){
-        return output.fraction;
-    }
-
-    return -1;
-}
-
 void Player::recvDamage(float damage){
     health -= damage;
     if (health < 0){
@@ -117,9 +109,15 @@ float Player::getAngle(){
 }
 
 void Player::toggleWeapon(){
+    weapon->toggle();
 }
 
 bool Player::isDead(){
     return dead;
+}
+
+Player::~Player(){
+    if (weapon != nullptr)
+        delete weapon;
 }
 
