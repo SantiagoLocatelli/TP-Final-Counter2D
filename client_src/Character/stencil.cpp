@@ -15,9 +15,7 @@ Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
 void Stencil::setPosition(Prot_Player player, const LevelInfo level){
     this->rect.x = Math::ruleOfThree(player.x, level.w_meters, level.width);
     this->rect.y = Math::ruleOfThree(player.y, level.w_meters, level.width);
-    printf("radianes stencil: %f\n", player.angle);
     this->degrees = Math::radiansToDegrees(player.angle);
-    printf("grados stencil: %f\n", this->degrees);
 }
 
 

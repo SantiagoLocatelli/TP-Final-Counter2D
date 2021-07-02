@@ -50,7 +50,6 @@ void GameManager::render(){
     renderPlayers(camX, camY);
     this->stencil.render(camX, camY);
 
-
     renderer.updateScreen();
 }
 
