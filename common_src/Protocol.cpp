@@ -89,18 +89,24 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
 }
 
 void Protocol::send_model_info(const ModelInfo &modelInfo){
-    send_float(modelInfo.you.x);
-    send_float(modelInfo.you.y);
-    send_float(modelInfo.you.angle);
-    send_float(modelInfo.you.health);
-    send_short(modelInfo.you.ammo);
+    send_bool(modelInfo.you.dead);
+    if (!modelInfo.you.dead){
+        send_float(modelInfo.you.x);
+        send_float(modelInfo.you.y);
+        send_float(modelInfo.you.angle);
+        send_float(modelInfo.you.health);
+        send_short(modelInfo.you.ammo);
+    }
+
 
     send_short(modelInfo.players.size());
     for (const Prot_Player &p: modelInfo.players){
-        send_float(p.x);
-        send_float(p.y);
-        send_float(p.angle);
         send_bool(p.dead);
+        if (!p.dead){
+            send_float(p.x);
+            send_float(p.y);
+            send_float(p.angle);
+        }
     }
 
     send_short(modelInfo.bullets.size());
@@ -115,21 +121,26 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
 }
 
 void Protocol::recv_model_info(ModelInfo &modelInfo){
-    recv_float(modelInfo.you.x);
-    recv_float(modelInfo.you.y);
-    recv_float(modelInfo.you.angle);
-    recv_float(modelInfo.you.health);
-    recv_short(modelInfo.you.ammo);
+    recv_bool(modelInfo.you.dead);
+    if (!modelInfo.you.dead){
+        recv_float(modelInfo.you.x);
+        recv_float(modelInfo.you.y);
+        recv_float(modelInfo.you.angle);
+        recv_float(modelInfo.you.health);
+        recv_short(modelInfo.you.ammo);
+    }
 
     uint16_t len;
     recv_short(len);
     modelInfo.players.clear();
     for (int i = 0; i < len; i++){
         Prot_Player p;
-        recv_float(p.x);
-        recv_float(p.y);
-        recv_float(p.angle);
         recv_bool(p.dead);
+        if (!p.dead){
+            recv_float(p.x);
+            recv_float(p.y);
+            recv_float(p.angle);
+        }
         modelInfo.players.push_back(p);
     }
 
