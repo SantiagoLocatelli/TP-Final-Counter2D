@@ -33,6 +33,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
             p.angle = players[i]->getAngle();
             p.health = players[i]->getHealth();
             p.ammo = 0;
+            p.dead = players[i]->isDead();
             info.players.push_back(p);
     }
 

@@ -25,6 +25,19 @@ void Protocol::recv_byte(char &byte){
     skt.recv_buffer(&byte, 1);
 }
 
+void Protocol::send_bool(const bool &b){
+    char byte = b ? 1 : 0;
+    send_byte(byte);
+}
+
+void Protocol::recv_bool(bool &b){
+    char byte;
+    recv_byte(byte);
+
+    b = byte == 1;
+}
+
+
 void Protocol::send_event(const Event event){
     send_byte(event.type);
     skt.send_buffer((char *)&(event.info), sizeof(event.info));
@@ -87,6 +100,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(p.x);
         send_float(p.y);
         send_float(p.angle);
+        send_bool(p.dead);
     }
 
     send_short(modelInfo.bullets.size());
@@ -97,10 +111,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(b.distance);
     }
 
-    char byte = 0;
-    if (modelInfo.game_ended)
-        byte = 1;
-    send_byte(byte);
+    send_bool(modelInfo.game_ended);
 }
 
 void Protocol::recv_model_info(ModelInfo &modelInfo){
@@ -118,6 +129,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(p.x);
         recv_float(p.y);
         recv_float(p.angle);
+        recv_bool(p.dead);
         modelInfo.players.push_back(p);
     }
 
@@ -131,10 +143,8 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(b.distance);
         modelInfo.bullets.push_back(b);
     }
-
-    char byte;
-    recv_byte(byte);
-    modelInfo.game_ended = byte == 1;
+    
+    recv_bool(modelInfo.game_ended);
 }
 
 void Protocol::close(){

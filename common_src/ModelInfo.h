@@ -8,6 +8,7 @@ struct Prot_Player{
     float x;
     float y;
     float angle; //En radianes
+    bool dead;
 };
 
 struct You: public Prot_Player{

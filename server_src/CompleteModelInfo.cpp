@@ -10,6 +10,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
             p.x = players[i].x;
             p.y = players[i].y;
             p.angle = players[i].angle;
+            p.dead = players[i].dead;
             info.players.push_back(p);
         }
     }
