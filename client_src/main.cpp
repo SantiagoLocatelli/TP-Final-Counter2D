@@ -36,5 +36,3 @@ int main(int argc, char* argv[]){
     eventManager.join();
 	return 0;
 }
-
-
