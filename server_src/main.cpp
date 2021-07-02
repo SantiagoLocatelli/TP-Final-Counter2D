@@ -4,6 +4,7 @@
 #include "EventQueue.h"
 #include "../common_src/Stopwatch.h"
 
+#include <iostream>
 #include <chrono>
 
 void executeEvent(GameProxy &game, Event &event, int id){
@@ -15,9 +16,11 @@ void executeEvent(GameProxy &game, Event &event, int id){
     
     case SET_ANGLE:
         game.setAngle(id, event.info.angle);
+        break;
     
     case TOGGLE_WEAPON:
         game.toggleWeapon(id);
+        break;
     }    
 }
 
@@ -25,40 +28,45 @@ void executeEvent(GameProxy &game, Event &event, int id){
 int main(int argc, char const *argv[]){
     if (argc != 2)
         return -1;
-    
-    Emitter emitter;
-    EventQueue queue;
-    GameProxy game("../../server_src/mapa.yaml");
+    try{
+        Emitter emitter;
+        EventQueue queue;
+        GameProxy game("../../server_src/mapa.yaml");
 
-    //TODO: Agarrado con alambres. Solo para la prueba 
-    game.createPlayer(1);
-    game.createPlayer(2);
+        //TODO: Agarrado con alambres. Solo para la prueba 
+        game.createPlayer(1);
+        game.createPlayer(2);
 
-    emitter.emitMap(game.getMapInfo());
-    
-    Accepter accepter(argv[1], queue, emitter);
-    accepter.start();
+        emitter.emitMap(game.getMapInfo());
+        
+        Accepter accepter(argv[1], queue, emitter);
+        accepter.start();
 
-    Stopwatch stopwatch;
+        Stopwatch stopwatch;
 
-    //std::this_thread::sleep_for(std::chrono::seconds(60));
+        //std::this_thread::sleep_for(std::chrono::seconds(60));
 
-    while (!game.ended()){
-        stopwatch.start();
-        while (stopwatch.msPassed() < 33){
-            //TODO: Sacar este busy wait
-            if (!queue.isEmpty()){
-                int id;
-                Event event = queue.pop(id);
-                executeEvent(game, event, id);
-            } else {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        while (!game.ended()){
+            stopwatch.start();
+            while (stopwatch.msPassed() < 33){
+                //TODO: Sacar este busy wait
+                if (!queue.isEmpty()){
+                    int id;
+                    Event event = queue.pop(id);
+                    executeEvent(game, event, id);
+                } else {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
             }
+
+            game.step();
+            emitter.emitModel(std::move(game.getModelInfo()));
         }
-
-        game.step();
-        emitter.emitModel(std::move(game.getModelInfo()));
+        
+        accepter.stop();
+        accepter.join();
+    } catch (const std::exception &e){
+        std::cout << "ERROR: " << e.what() << std::endl;
     }
-
     return 0;
 }
