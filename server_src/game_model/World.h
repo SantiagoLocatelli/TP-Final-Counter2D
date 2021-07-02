@@ -6,21 +6,27 @@
 #include "Player.h"
 #include <box2d/box2d.h>
 #include <list>
+#include "Hittable.h"
+#include "Box.h"
+#include "Ray.h"
 
+class Player;
 
 class World{
     private:
-        b2World world;
-        b2Vec2 gridSize;
+        std::array<int, 2> gridSize;
         std::list<Player> players;
+        std::list<Box> boxes;
+        std::list<Hittable*> hittables; 
 
     public:
+        b2World b2world;
+
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
         Player& createPlayer(float start_x, float start_y);
         void step();
-        bool rayCast(float start_x, float start_y, float angle
-        , Player *&player, float &distance);
+        bool rayCast(Ray ray, Hittable *&hittable, float &distance);
 
         World(const World&) = delete;
         World& operator=(const World&) = delete;
