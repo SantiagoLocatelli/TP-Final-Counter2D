@@ -1,7 +1,7 @@
 #ifndef __LEVEL_INFO_H__
 #define __LEVEL_INFO_H__
 
-#include "../common_src/MapInfo.h"
+#include "../../common_src/MapInfo.h"
 
 struct LevelInfo{
     int height;

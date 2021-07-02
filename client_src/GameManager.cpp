@@ -2,9 +2,10 @@
 
 #define PIXELS_PER_METER 100
 
-GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h, Character pj)
-    :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), pj(std::move(pj)), cam(window_w, window_h){
-    
+// cppcheck-suppress uninitMemberVar
+GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h)
+    :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), cam(window_w, window_h),
+    stencil(this->renderer, window_w, window_h){
 
     this->level.width = map.length*PIXELS_PER_METER;
     this->level.height = map.height*PIXELS_PER_METER;
@@ -26,16 +27,37 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
 //         this->playerTexture.render(it->x - this->cam.getPosX(), it->y - this->cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER, it->angle);
 //     }
 // }
-void GameManager::render(){
-    renderBoxes();
-    //renderPlayers();
-    this->pj.render(this->cam.getPosX(), this->cam.getPosY());
+
+void GameManager::addPlayer(const char* pathTexture, struct Color color){
+    SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);
+    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, std::move(pjTexture));
+    // this->pj = std::move(pj);
 }
 
 
-int GameManager::getRelativePlayerPosX(){return this->pj.getPosX() - this->cam.getPosX();}
-int GameManager::getRelativePlayerPosY(){return this->pj.getPosY() - this->cam.getPosY();}
+void GameManager::render(){
+
+    renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    renderer.clear();
+
+
+    // renderBoxes();
+    //renderPlayers();
+    int camX = this->cam.getPosX();
+    int camY = this->cam.getPosY();
+    // this->pj.render(camX, camY);
+    this->stencil.render(camX, camY);
+
+
+    renderer.updateScreen();
+}
+
+
+// int GameManager::getRelativePlayerPosX(){return this->pj.getPosX() - this->cam.getPosX();}
+// int GameManager::getRelativePlayerPosY(){return this->pj.getPosY() - this->cam.getPosY();}
 
 void GameManager::update(ModelInfo model){
 
+    
+    // this->stencil.setPosition();
 }

@@ -1,18 +1,19 @@
 #include "stencil.h"
 
 #define OPACITY 150
+#define PATH_STENCIL "../../common_src/img/stencil.bmp"
 
-Stencil::Stencil(SdlTexture& stencil, int level_w, int level_h)
-    :stencil(stencil) {
-    this->rect.w = level_w;
-    this->rect.h = level_h;
+Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
+    :stencil(renderer, PATH_STENCIL) {
+    this->rect.w = window_w;
+    this->rect.h = window_h;
     this->rect.x = 0;
     this->rect.y = 0;
 }
 
-void Stencil::setStencil(SDL_Rect character, float degrees) {
-    this->rect.x = character.x;
-    this->rect.y = character.y;
+void Stencil::setPosition(int posX, int posY, float degrees) {
+    this->rect.x = posX;
+    this->rect.y = posY;
     this->degrees = degrees;
 }
 
@@ -27,6 +28,6 @@ Stencil& Stencil::operator=(const Stencil& other){
     this->stencil = other.stencil;
     return *this;
 }
-Stencil::Stencil(Stencil&& other):stencil(other.stencil){
+Stencil::Stencil(Stencil&& other):stencil(std::move(other.stencil)){
     this->rect = other.rect;
 }

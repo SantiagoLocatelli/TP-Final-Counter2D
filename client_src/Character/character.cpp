@@ -3,8 +3,8 @@
 #include <utility>
 
 
-Character::Character(int width, int height, SdlTexture& texture)
-    : an(texture), degrees(0.0){
+Character::Character(int width, int height, SdlTexture texture)
+    : an(std::move(texture)), degrees(0.0){
 
     this->area.x = 0;
     this->area.y = 0;
@@ -28,11 +28,11 @@ void Character::lookAt(int x, int y, int relX, int relY){
 
 
 
-void Character::update(const ModelInfo model, const LevelInfo level){
+void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
     //TODO: Agregar metodo para convertir entre grados y radianes
-    this->degrees = Math::radiansToDegrees(model.you.angle);
-    int x = Math::ruleOfThree(model.you.x, level.w_meters, level.width);
-    int y = Math::ruleOfThree(model.you.y, level.h_meters, level.height);
+    this->degrees = Math::radiansToDegrees(you.angle);
+    int x = Math::ruleOfThree(you.x, level.w_meters, level.width);
+    int y = Math::ruleOfThree(you.y, level.h_meters, level.height);
 
     // para que cambia de frame solo si avanza
     if (this->area.x != x || this->area.y != y) {
@@ -48,12 +48,13 @@ int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}
 
-Character& Character::operator=(const Character& other){
+Character& Character::operator=(Character&& other){
     this->area = other.area;
-    this->an = other.an;
+    this->an = std::move(other.an);
     this->degrees = other.degrees;
     return *this;
 }
+
 Character::Character(Character&& other): 
     an(std::move(other.an)){
     this->area = other.area;
