@@ -9,6 +9,7 @@
 #include "../client_src/Character/camera.h"
 #include <map>
 #include <vector>
+#include "Character/Weapon.h"
 
 struct Color {
     uint8_t r, g, b;
@@ -25,11 +26,13 @@ private:
     ModelInfo model;
 
     // vector o lista de texturas
-    
+
+    // std::vector<SdlTexture> weapons;
+    Weapon weapons;
+
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
-
 
     Camera cam;
     std::vector<Character> players;
@@ -41,6 +44,7 @@ private:
     void initializeGame(ModelInfo model);
     // ver si es necesaria
     void addTexture(const char* pathTexture, struct Color color);
+    void loadWeapons();
 
 public:
 

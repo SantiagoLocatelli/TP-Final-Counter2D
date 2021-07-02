@@ -5,12 +5,6 @@
 #define PHASE_SHIFT 90
 #define DELAY_ANIMATION 3
 
-// Animation::Animation(){
-//     this->currentFrame = 0;
-//     this->delay = 0;
-//     this->numFrames = 0;
-//     this->size = 0;
-// }
 
 Animation::Animation(SdlTexture texture):
     texture(std::move(texture)) {

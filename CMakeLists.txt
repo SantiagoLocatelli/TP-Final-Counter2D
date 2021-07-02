@@ -47,5 +47,5 @@ add_executable(Server server_src/main.cpp ${SERVER_SRC_FILES}
         ${COMMON_SRC_FILES} ${GAME_MODEL_SRC_FILES})
 target_link_libraries(Server box2d pthread yaml-cpp)
 
-add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} ${CHARACTER_SRC_FILES})
+add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/camera.cpp")
 target_link_libraries(Editor SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)

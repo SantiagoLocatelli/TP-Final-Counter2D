@@ -2,12 +2,11 @@
 
 #define PIXELS_PER_METER 100
 #define YOU 0
-#define PATH_TEXTURE "../common_src/img/players/ct1.bmp"
+#define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 #define BOX 1
 #define BACKGROUND 0
 
-// cppcheck-suppress uninitMemberVar
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h)
     :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), cam(window_w, window_h),
     stencil(this->renderer, window_w, window_h){
@@ -18,9 +17,46 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
     this->level.h_meters = map.height;
     this->level.boxes = map.boxes;
 
-
     this->initializeGame(model);
 }
+
+void GameManager::addPlayer(const char* pathTexture, struct Color color, int index){
+    SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);
+    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, std::move(pjTexture)/*, this->weapons*/);
+    this->players.push_back(std::move(pj));
+}
+
+
+void GameManager::loadWeapons(){
+    // SdlTexture knife(renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // this->weapons.addWeapon(std::move(knife));
+    // SdlTexture glock(renderer, "../../common_src/img/weapons/glock.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // this->weapons.addWeapon(std::move(glock));
+    // SdlTexture ak47(renderer, "../../common_src/img/weapons/ak47.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // this->weapons.addWeapon(std::move(ak47));
+    // SdlTexture awp(renderer, "../../common_src/img/weapons/awp.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // this->weapons.addWeapon(std::move(awp));
+
+}
+
+void GameManager::initializeGame(ModelInfo model){
+    SdlTexture backg(renderer, "../../common_src/img/bg.png");
+    this->textures.push_back(std::move(backg));
+    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
+    this->textures.push_back(std::move(boxTexture));
+    
+    // es necesario que primero que cargen las armas
+    loadWeapons();
+    this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
+
+    for (int i = YOU+1; i < model.players.size()+1; i++) {
+        this->addPlayer(PATH_TEXTURE, NEGRO, i);
+    }
+
+    
+    this->update(model);
+}
+
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameManager::renderBoxes(int camX, int camY) {
@@ -35,7 +71,6 @@ void GameManager::renderPlayers(int camX, int camY) {
         it->render(camX, camY);
     }
 }
-
 
 
 void GameManager::render(){
@@ -57,26 +92,6 @@ void GameManager::render(){
 int GameManager::getRelativePlayerPosX(){return this->players[YOU].getPosX() - this->cam.getPosX();}
 int GameManager::getRelativePlayerPosY(){return this->players[YOU].getPosY() - this->cam.getPosY();}
 
-void GameManager::addPlayer(const char* pathTexture, struct Color color, int index){
-    SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);
-    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, std::move(pjTexture));
-    this->players.push_back(std::move(pj));
-}
-
-void GameManager::initializeGame(ModelInfo model){
-    SdlTexture backg(renderer, "../common_src/img/bg.png");
-    this->textures.push_back(std::move(backg));
-    SdlTexture boxTexture(renderer, "../common_src/img/green_crate.bmp");
-    this->textures.push_back(std::move(boxTexture));
-    
-    this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
-
-    for (int i = YOU+1; i < model.players.size()+1; i++) {
-        this->addPlayer(PATH_TEXTURE, NEGRO, i);
-    }
-
-    this->update(model);
-}
 
 void GameManager::update(ModelInfo model){
 

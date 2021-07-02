@@ -13,7 +13,6 @@ private:
 
 public:
     Animation(SdlTexture texture);
-    // Animation();
     ~Animation() = default;
     void render(SDL_Rect dst, double degrees);
     void advanceFrame();

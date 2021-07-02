@@ -60,7 +60,6 @@ class SdlTexture{
 		int getHeight() const;
     	int getType() const;
 
-		//SdlTexture(const SdlTexture&);
 		SdlTexture& operator=(SdlTexture&&);
 		SdlTexture(SdlTexture&& other);
 		//Deallocates memory
