@@ -46,13 +46,13 @@ int main(int argc, char* args[]){
     //Event handler
     SDL_Event event;
 
-    Draggable* bombSiteA = NULL;
-    Draggable* bombSiteB = NULL;
-    std::vector<SDL_Rect> bombSites = editor.getBombSite();
+    std::unique_ptr<Draggable> bombSiteA = NULL;
+    std::unique_ptr<Draggable> bombSiteB = NULL;
+    //std::vector<SDL_Rect> bombSites = editor.getBombSite();
 
-    Draggable* spawnSiteT = NULL;
-    Draggable* spawnSiteCT = NULL;
-    std::vector<SDL_Rect> spawnSites = editor.getSpawnSite();
+    std::unique_ptr<Draggable> spawnSiteT = NULL;
+    std::unique_ptr<Draggable> spawnSiteCT = NULL;
+    //std::vector<SDL_Rect> spawnSites = editor.getSpawnSite();
     
 
     //While application is running
@@ -71,29 +71,27 @@ int main(int argc, char* args[]){
             }else if (event.type == SDL_KEYDOWN){
                 if (event.key.keysym.sym == SDLK_1){
                     if (bombSiteA == NULL && bombSiteB == NULL){
-                        bombSiteA = new Draggable(renderer, "../../common_src/img/bombSite.png", bombSites[0].x, bombSites[0].y , 255,0,0);
+                        editor.getBombSites(bombSiteA, bombSiteB, renderer);
                         bombSiteA->setBlendMode(SDL_BLENDMODE_BLEND);
-                        bombSiteB = new Draggable(renderer, "../../common_src/img/bombSite.png", bombSites[1].x, bombSites[1].y , 255,0,0);
                         bombSiteB->setBlendMode(SDL_BLENDMODE_BLEND);
                     }
                 }else if (event.key.keysym.sym == SDLK_2){
                     if (spawnSiteT == NULL && spawnSiteCT == NULL){
-                        spawnSiteT = new Draggable(renderer, "../../common_src/img/spawnSite.png", spawnSites[0].x, spawnSites[0].y , 255,0,0);
+                        editor.getSpawnSites(spawnSiteT, spawnSiteCT, renderer);
                         spawnSiteT->setBlendMode(SDL_BLENDMODE_BLEND);
-                        spawnSiteCT = new Draggable(renderer, "../../common_src/img/spawnSite.png", spawnSites[1].x, spawnSites[1].y , 255,0,0);
                         spawnSiteCT->setBlendMode(SDL_BLENDMODE_BLEND);
                     }
+                }else if(event.key.keysym.sym == SDLK_ESCAPE){
+                    editor.initMenue();
                 }
             }else if (event.type == SDL_KEYUP){
                 if (event.key.keysym.sym == SDLK_1){
-                    delete bombSiteA;
+                    editor.changeBombSites(bombSiteA, bombSiteB);
                     bombSiteA = NULL;
-                    delete bombSiteB;
                     bombSiteB = NULL;
                 }else if (event.key.keysym.sym == SDLK_2){
-                    delete spawnSiteT;
+                    editor.changeSpawnSites(spawnSiteT, spawnSiteCT);
                     spawnSiteT = NULL;
-                    delete spawnSiteCT;
                     spawnSiteCT = NULL;
                 }
             }
@@ -119,30 +117,20 @@ int main(int argc, char* args[]){
 
         if (bombSiteA != NULL && bombSiteB != NULL){
             bombSiteA->setAlpha(100);
-            bombSiteA->render(camera.getRect(), bombSites[0].w, bombSites[0].h);
+            bombSiteA->render(camera.getRect());
             bombSiteB->setAlpha(100);
-            bombSiteB->render(camera.getRect(), bombSites[1].w, bombSites[1].h);
-            bombSites[0].x = bombSiteA->getPosX();
-            bombSites[0].y = bombSiteA->getPosY();
-            bombSites[1].x = bombSiteB->getPosX();
-            bombSites[1].y = bombSiteB->getPosY();
+            bombSiteB->render(camera.getRect());
         }
 
         if (spawnSiteT != NULL && spawnSiteCT != NULL){
             spawnSiteT->setAlpha(100);
-            spawnSiteT->render(camera.getRect(), spawnSites[0].w, spawnSites[0].h);
+            spawnSiteT->render(camera.getRect());
             spawnSiteCT->setAlpha(100);
-            spawnSiteCT->render(camera.getRect(), spawnSites[1].w, spawnSites[1].h);
-            spawnSites[0].x = spawnSiteT->getPosX();
-            spawnSites[0].y = spawnSiteT->getPosY();
-            spawnSites[1].x = spawnSiteCT->getPosX();
-            spawnSites[1].y = spawnSiteCT->getPosY();
+            spawnSiteCT->render(camera.getRect());
         }
 
         renderer.updateScreen();
     }
-    editor.setBombSite(bombSites);
-    editor.setSpawnSite(spawnSites);
     editor.saveMap();
     return 0;
 }

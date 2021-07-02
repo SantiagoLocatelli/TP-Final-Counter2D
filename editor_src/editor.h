@@ -7,6 +7,8 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/draggable.h"
+#include "menue.h"
 #include "TextureMap.h"
 class Editor{
     private:
@@ -16,6 +18,8 @@ class Editor{
         SDL_Rect spawnSiteT, spawnSiteCT;
         int currentType;
         std::string mapID;
+
+        std::unique_ptr<Menue> menue;
     public:
         Editor(const std::string path, SdlRenderer& renderer);
         void handleEvents(SDL_Event* event);
@@ -24,10 +28,12 @@ class Editor{
         std::string getTitle();
         void saveMap();
         void render(SDL_Rect camera);
-        std::vector<SDL_Rect> getBombSite();
-        std::vector<SDL_Rect> getSpawnSite();
-        void setBombSite(std::vector<SDL_Rect> rect);
-        void setSpawnSite(std::vector<SDL_Rect> rect);
         void createMap(SdlRenderer& renderer);
+        void getBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB, SdlRenderer& renderer);
+        void getSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT, SdlRenderer& renderer);
+        void changeBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB);
+        void changeSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT);
+
+        void initMenue();
 };
 #endif

@@ -28,6 +28,7 @@ Editor::Editor(const std::string path, SdlRenderer& renderer){
     }else{
         createMap(renderer);
     }
+    this->menue = make_unique<Menue>(renderer, bombSiteA, bombSiteB, spawnSiteT, spawnSiteCT);
 }
 
 void Editor::handleEvents(SDL_Event* event){
@@ -49,6 +50,36 @@ void Editor::handleEvents(SDL_Event* event){
     }
 }
 
+void Editor::initMenue(){
+    this->menue->init();
+}
+
+void Editor::getBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB, SdlRenderer& renderer){
+    siteA = make_unique<Draggable>(renderer, "../../common_src/img/bombSite.png", bombSiteA.x, bombSiteA.y , 255,0,0);
+    siteA->setWidthAndHeight(bombSiteA.w, bombSiteA.h);
+
+    siteB = make_unique<Draggable>(renderer, "../../common_src/img/bombSite.png", bombSiteB.x, bombSiteB.y , 255,0,0);
+    siteB->setWidthAndHeight(bombSiteB.w, bombSiteB.h);
+}
+
+void Editor::getSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT, SdlRenderer& renderer){
+    siteT = make_unique<Draggable>(renderer, "../../common_src/img/spawnSite.png", spawnSiteT.x, spawnSiteT.y , 255,0,0);
+    siteT->setWidthAndHeight(spawnSiteT.w, spawnSiteT.h);
+
+    siteCT = make_unique<Draggable>(renderer, "../../common_src/img/spawnSite.png", spawnSiteCT.x, spawnSiteCT.y , 255,0,0);
+    siteCT->setWidthAndHeight(spawnSiteCT.w, spawnSiteCT.h);
+}
+
+void Editor::changeSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT){
+    this->spawnSiteT = siteT->getBox();
+    this->spawnSiteCT = siteCT->getBox();
+}
+
+void Editor::changeBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB){
+    this->bombSiteA = siteA->getBox();
+    this->bombSiteB = siteB->getBox();
+}
+
 void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
     //Mouse offsets
     int x = 0, y = 0;
@@ -64,7 +95,7 @@ void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
 
 	for (int i = 0; i < textures.size(); i++){
         //If the mouse is inside the tile
-        if((x > textureX) && (x < textureX + TILE_WIDTH) && (y > textureY) && (y < textureY + TILE_HEIGHT)){
+        if ((x > textureX) && (x < textureX + TILE_WIDTH) && (y > textureY) && (y < textureY + TILE_HEIGHT)){
             //Get rid of old tile
 			textures.erase(textures.begin() + i);
             std::unique_ptr<SdlTexture> texture = make_unique<SdlTexture>(renderer, map[this->currentType], currentType);
@@ -75,7 +106,7 @@ void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
         textureX += TILE_WIDTH;
 
         //If we've gone too far
-        if(textureX >= LEVEL_WIDTH){
+        if (textureX >= LEVEL_WIDTH){
             //Move back
             textureX = 0;
 
@@ -171,24 +202,6 @@ void Editor::render(SDL_Rect camera){
 
 std::string Editor::getTitle(){
     return this->map[this->currentType];
-}
-
-std::vector<SDL_Rect> Editor::getBombSite(){
-    return {bombSiteA, bombSiteB};
-}
-
-void Editor::setBombSite(std::vector<SDL_Rect> rect){
-    this->bombSiteA = rect[0];
-    this->bombSiteB = rect[1];
-}
-
-std::vector<SDL_Rect> Editor::getSpawnSite(){
-    return {spawnSiteT, spawnSiteCT};
-}
-
-void Editor::setSpawnSite(std::vector<SDL_Rect> rect){
-    this->spawnSiteT = rect[0];
-    this->spawnSiteCT = rect[1];
 }
 
 void Editor::createMap(SdlRenderer& renderer){

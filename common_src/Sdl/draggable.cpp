@@ -76,8 +76,8 @@ void Draggable::render(int width, int height){
     SdlTexture::render(this->posX, this->posY, width, height);
 }
 
-void Draggable::render(SDL_Rect camera, int width, int height){
-    SdlTexture::render(posX - camera.x, posY - camera.y, width, height);
+void Draggable::render(SDL_Rect camera){
+    SdlTexture::render(posX - camera.x, posY - camera.y);
 }
 
 int Draggable::getPosX(){
@@ -86,4 +86,8 @@ int Draggable::getPosX(){
 
 int Draggable::getPosY(){
     return this->posY;
+}
+
+SDL_Rect Draggable::getBox(){
+    return {posX, posY, SdlTexture::getWidth(), SdlTexture::getHeight()};
 }

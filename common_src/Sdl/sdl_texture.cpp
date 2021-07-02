@@ -137,6 +137,11 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+void SdlTexture::setWidthAndHeight(int width, int height){
+	this->mWidth = width;
+	this->mHeight = height;
+}
+
 
 int SdlTexture::getWidth()const{return this->mWidth;}
 
@@ -155,12 +160,6 @@ int SdlTexture::getType()const{
 	return this->type;
 }
 
-SdlTexture::~SdlTexture(){
-	free();
-	TTF_Quit();
-	delete this->mTexture;
-}
-
 SdlRenderer& SdlTexture::getRenderer(){
 	return this->renderer;
 }
@@ -175,4 +174,9 @@ int SdlTexture::setRenderTarget(SDL_Texture* target){
 
 SDL_Texture* SdlTexture::getRenderTarget(){
 	return this->renderer.getRenderTarget();
+}
+
+SdlTexture::~SdlTexture(){
+	free();
+	TTF_Quit();
 }
