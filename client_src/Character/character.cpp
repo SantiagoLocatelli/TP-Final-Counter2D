@@ -2,17 +2,9 @@
 #include "../Events/gameMath.h"
 #include <utility>
 
-// Character::Character(){
-//     this->degrees = 0;
-//     this->area.x = 0;
-//     this->area.y = 0;
-//     this->area.w = 0;
-//     this->area.h = 0;
-// }
-
 
 Character::Character(int width, int height, SdlTexture texture)
-    : an(std::move(texture)), degrees(0.0){
+    : an(std::move(texture)), degrees(0.0), dead(false){
 
     this->area.x = 0;
     this->area.y = 0;
@@ -28,16 +20,12 @@ void Character::render(int camX, int camY){
 }
 
 
-void Character::lookAt(int x, int y, int relX, int relY){
-    // se le resta la pos de la camara para que resulte la psicion del jguador
-    // en la screen y no del nivel.
-    //this->cur.lookAt(this->area.x - this->cam.getPosX(), this->area.y - this->cam.getPosY(), {x, y, relX, relY});
-}
-
-
-
 void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
     //TODO: Agregar metodo para convertir entre grados y radianes
+
+    this->dead = you.dead;
+    if (this->dead) return;
+
     this->degrees = Math::radiansToDegrees(you.angle);
     int x = Math::ruleOfThree(you.x, level.w_meters, level.width);
     int y = Math::ruleOfThree(you.y, level.h_meters, level.height);
@@ -51,7 +39,7 @@ void Character::update(const Prot_Player you, const LevelInfo level, float healt
     this->area.y = y;
 }
 
-
+bool Character::isDead(){return this->dead;}
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}

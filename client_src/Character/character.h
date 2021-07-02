@@ -19,6 +19,7 @@ class Character{
 		Animation an;
 		SDL_Rect area;
 		double degrees;
+		bool dead;
 
     public:
 		Character(int width, int height, SdlTexture texture);
@@ -33,9 +34,7 @@ class Character{
 
 		int getPosX();
 		int getPosY();
-
-		int getRelativePosX();
-		int getRelativePosY();
+		bool isDead();
 
 		Character& operator=(Character&&);
 		Character(Character&& other);

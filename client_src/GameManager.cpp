@@ -32,10 +32,11 @@ void GameManager::renderBoxes(int camX, int camY) {
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameManager::renderPlayers(int camX, int camY) {
     for (auto it = this->players.begin(); it != this->players.end(); it++) {
-        it->render(camX, camY);
+        if (!it->isDead()){
+            it->render(camX, camY);
+        }
     }
 }
-
 
 
 void GameManager::render(){
@@ -48,7 +49,10 @@ void GameManager::render(){
     int camY = this->cam.getPosY();
     renderBoxes(camX, camY);
     renderPlayers(camX, camY);
-    this->stencil.render(camX, camY);
+    if (!this->players[YOU].isDead()) {
+
+        this->stencil.render(camX, camY);
+    }
 
     renderer.updateScreen();
 }
