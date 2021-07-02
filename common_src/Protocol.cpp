@@ -53,7 +53,7 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
 
     //Envío el largo de la lista
     send_short(mapInfo.boxes.size());
-    for (Box b: mapInfo.boxes){
+    for (Prot_Box b: mapInfo.boxes){
         send_short(b.x);
         send_short(b.y);
     }
@@ -68,7 +68,7 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
     recv_short(len);
     mapInfo.boxes.clear();
     for (int i = 0; i < len; i++){
-        Box b;
+        Prot_Box b;
         recv_short(b.x);
         recv_short(b.y);
         mapInfo.boxes.push_back(b);

@@ -12,7 +12,7 @@
 
 #define PIXELS_PER_METER 100
 
-void renderBoxes(std::list<Box> boxes, SdlTexture& boxTexture, Camera& cam) {
+void renderBoxes(std::list<Prot_Box> boxes, SdlTexture& boxTexture, Camera& cam) {
     for(auto it = boxes.begin(); it != boxes.end(); it++){
         boxTexture.render(it->x*PIXELS_PER_METER - cam.getPosX(), it->y*PIXELS_PER_METER - cam.getPosY(), PIXELS_PER_METER, PIXELS_PER_METER);
     }
@@ -69,6 +69,7 @@ int main(int argc, char* argv[]){
         if (stopwatch.msPassed() < 33) {
 
             server.recv_model_info(model);
+            printf("Pj1: %f, %f\n", model.players.front().x, model.players.front().y);
             pj.update(model, level);
             
             renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);

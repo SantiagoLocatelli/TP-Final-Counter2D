@@ -13,7 +13,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
 
     mapInfo.boxes = std::move(parser.get_boxes());
 
-    for (Box b: mapInfo.boxes){
+    for (Prot_Box b: mapInfo.boxes){
         world->addBox(b.x, b.y);
     }
 }
