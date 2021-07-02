@@ -16,6 +16,8 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 
 Editor::Editor(const std::string path, SdlRenderer& renderer){
     this->currentType = 0;
+    this->renderBombSites = false;
+    this->renderSpawnSites = false;
     this->mapID = path;
     TextureFactory factory;
     factory.unmarshalTextures("../../common_src/maps/textures.yaml", this->map);
@@ -23,15 +25,14 @@ Editor::Editor(const std::string path, SdlRenderer& renderer){
     std::ifstream stream(path);
     if (stream.is_open()){
         factory.unmarshalMap(path.c_str(), this->map, this->textures, renderer);
-        factory.unmarshalBombSites(path.c_str(), this->bombSiteA, this->bombSiteB);
-        factory.unmarshalSpawnSites(path.c_str(), this->spawnSiteT, this->spawnSiteCT);
+        factory.unmarshalBombSites(path.c_str(), this->bombSites, renderer);
+        factory.unmarshalSpawnSites(path.c_str(), this->spawnSites, renderer);
     }else{
         createMap(renderer);
     }
-    this->menue = make_unique<Menue>(renderer, bombSiteA, bombSiteB, spawnSiteT, spawnSiteCT);
 }
 
-void Editor::handleEvents(SDL_Event* event){
+void Editor::handleEvents(SDL_Event* event, SDL_Rect camera){
     if (event->type == SDL_MOUSEWHEEL){
         //On mouse wheel scroll
         if (event->wheel.y > 0){
@@ -48,36 +49,42 @@ void Editor::handleEvents(SDL_Event* event){
             }
         }
     }
+
+    if (renderBombSites){
+        std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+        while (iterator != this->bombSites.end()){
+            iterator->second->handleEvent(event, camera);
+            ++iterator;
+        }
+    }
+
+    if (renderSpawnSites){
+        std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+        while (iterator != this->spawnSites.end()){
+            iterator->second->handleEvent(event, camera);
+            ++iterator;
+        }
+    }
 }
 
 void Editor::initMenue(){
     this->menue->init();
 }
 
-void Editor::getBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB, SdlRenderer& renderer){
-    siteA = make_unique<Draggable>(renderer, "../../common_src/img/bombSite.png", bombSiteA.x, bombSiteA.y , 255,0,0);
-    siteA->setWidthAndHeight(bombSiteA.w, bombSiteA.h);
-
-    siteB = make_unique<Draggable>(renderer, "../../common_src/img/bombSite.png", bombSiteB.x, bombSiteB.y , 255,0,0);
-    siteB->setWidthAndHeight(bombSiteB.w, bombSiteB.h);
+void Editor::presentBombSites(){
+    this->renderBombSites = true;
 }
 
-void Editor::getSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT, SdlRenderer& renderer){
-    siteT = make_unique<Draggable>(renderer, "../../common_src/img/spawnSite.png", spawnSiteT.x, spawnSiteT.y , 255,0,0);
-    siteT->setWidthAndHeight(spawnSiteT.w, spawnSiteT.h);
-
-    siteCT = make_unique<Draggable>(renderer, "../../common_src/img/spawnSite.png", spawnSiteCT.x, spawnSiteCT.y , 255,0,0);
-    siteCT->setWidthAndHeight(spawnSiteCT.w, spawnSiteCT.h);
+void Editor::stopPresentingBombSites(){
+    this->renderBombSites = false;
 }
 
-void Editor::changeSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT){
-    this->spawnSiteT = siteT->getBox();
-    this->spawnSiteCT = siteCT->getBox();
+void Editor::presentSpawnSites(){
+    this->renderSpawnSites = true;
 }
 
-void Editor::changeBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB){
-    this->bombSiteA = siteA->getBox();
-    this->bombSiteB = siteB->getBox();
+void Editor::stopPresentingSpawnSites(){
+    this->renderSpawnSites = false;
 }
 
 void Editor::put_tile(SDL_Rect camera, SdlRenderer& renderer){
@@ -120,17 +127,23 @@ void Editor::saveMap(){
     //texture in map
     std::vector<int> textureTypes;
     
+    // get the position and dimension from the textures
+    SDL_Rect bombSiteA = this->bombSites["A"]->getBox();
+    SDL_Rect bombSiteB = this->bombSites["B"]->getBox();
+    SDL_Rect spawnSiteT = this->spawnSites["T"]->getBox();
+    SDL_Rect spawnSiteCT = this->spawnSites["CT"]->getBox();
+
     // position of bombs
-    std::vector<int> positionA = {this->bombSiteA.x, this->bombSiteA.y};
-    std::vector<int> positionB = {this->bombSiteB.x, this->bombSiteB.y};
-    std::vector<int> sizeA = {this->bombSiteA.w, this->bombSiteA.h};
-    std::vector<int> sizeB = {this->bombSiteB.w, this->bombSiteB.h};
+    std::vector<int> positionA = {bombSiteA.x, bombSiteA.y};
+    std::vector<int> positionB = {bombSiteB.x, bombSiteB.y};
+    std::vector<int> sizeA = {bombSiteA.w, bombSiteA.h};
+    std::vector<int> sizeB = {bombSiteB.w, bombSiteB.h};
 
     // position of spawns
-    std::vector<int> positionT = {this->spawnSiteT.x, this->spawnSiteT.y};
-    std::vector<int> positionCT = {this->spawnSiteCT.x, this->spawnSiteCT.y};
-    std::vector<int> sizeT = {this->spawnSiteT.w, this->spawnSiteT.h};
-    std::vector<int> sizeCT = {this->spawnSiteCT.w, this->spawnSiteCT.h};
+    std::vector<int> positionT = {spawnSiteT.x, spawnSiteT.y};
+    std::vector<int> positionCT = {spawnSiteCT.x, spawnSiteCT.y};
+    std::vector<int> sizeT = {spawnSiteT.w, spawnSiteT.h};
+    std::vector<int> sizeCT = {spawnSiteCT.w, spawnSiteCT.h};
     
     for (auto &texture : this->textures){
         textureTypes.push_back(texture->getType());
@@ -198,6 +211,24 @@ void Editor::render(SDL_Rect camera){
             y += TILE_HEIGHT;
         }
     }
+    if (renderBombSites){
+        std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+        while (iterator != this->bombSites.end()){
+            iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
+            iterator->second->setAlpha(100);
+            iterator->second->render(camera);
+            ++iterator;
+        }
+    }
+    if (renderSpawnSites){
+        std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+        while (iterator != this->spawnSites.end()){
+            iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
+            iterator->second->setAlpha(100);
+            iterator->second->render(camera);
+            ++iterator;
+        }
+    }
 }
 
 std::string Editor::getTitle(){
@@ -208,23 +239,4 @@ void Editor::createMap(SdlRenderer& renderer){
     for (int i = 0; i < 192; i++){
         this->textures.emplace_back(new SdlTexture(renderer, this->map[0], 0));
     }
-    this->bombSiteA.x = 50;
-    this->bombSiteA.y = 50;
-    this->bombSiteA.w = 200;
-    this->bombSiteA.h = 200;
-
-    this->bombSiteB.x = 50;
-    this->bombSiteB.y = 500;
-    this->bombSiteB.w = 200;
-    this->bombSiteB.h = 200;
-
-    this->spawnSiteT.x = 1000;
-    this->spawnSiteT.y = 50;
-    this->spawnSiteT.w = 100;
-    this->spawnSiteT.h = 100;
-
-    this->spawnSiteCT.x = 0;
-    this->spawnSiteCT.y = 250;
-    this->spawnSiteCT.w = 100;
-    this->spawnSiteCT.h = 100;
 }

@@ -14,26 +14,32 @@ class Editor{
     private:
         TextureMap map;
         std::vector<std::unique_ptr<SdlTexture>> textures;
-        SDL_Rect bombSiteA, bombSiteB;
-        SDL_Rect spawnSiteT, spawnSiteCT;
         int currentType;
         std::string mapID;
+
+        std::map<std::string, std::unique_ptr<Draggable>> bombSites;
+        bool renderBombSites;
+
+        std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
+        bool renderSpawnSites;
 
         std::unique_ptr<Menue> menue;
     public:
         Editor(const std::string path, SdlRenderer& renderer);
-        void handleEvents(SDL_Event* event);
+        void handleEvents(SDL_Event* event, SDL_Rect camera);
         void put_tile(SDL_Rect camera, SdlRenderer& renderer);
         void saveMap(std::string& path, std::vector<std::unique_ptr<SdlTexture>>& textures);
         std::string getTitle();
         void saveMap();
         void render(SDL_Rect camera);
         void createMap(SdlRenderer& renderer);
-        void getBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB, SdlRenderer& renderer);
-        void getSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT, SdlRenderer& renderer);
-        void changeBombSites(std::unique_ptr<Draggable>& siteA, std::unique_ptr<Draggable>& siteB);
-        void changeSpawnSites(std::unique_ptr<Draggable>& siteT, std::unique_ptr<Draggable>& siteCT);
 
         void initMenue();
+
+        void presentBombSites();
+        void stopPresentingBombSites();
+
+        void presentSpawnSites();
+        void stopPresentingSpawnSites();
 };
 #endif

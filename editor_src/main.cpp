@@ -45,16 +45,7 @@ int main(int argc, char* args[]){
 
     //Event handler
     SDL_Event event;
-
-    std::unique_ptr<Draggable> bombSiteA = NULL;
-    std::unique_ptr<Draggable> bombSiteB = NULL;
-    //std::vector<SDL_Rect> bombSites = editor.getBombSite();
-
-    std::unique_ptr<Draggable> spawnSiteT = NULL;
-    std::unique_ptr<Draggable> spawnSiteCT = NULL;
-    //std::vector<SDL_Rect> spawnSites = editor.getSpawnSite();
     
-
     //While application is running
     while (!quit){
         //Handle events on queue
@@ -69,44 +60,28 @@ int main(int argc, char* args[]){
                     editor.put_tile(camera.getRect(), renderer);
                 }
             }else if (event.type == SDL_KEYDOWN){
+
                 if (event.key.keysym.sym == SDLK_1){
-                    if (bombSiteA == NULL && bombSiteB == NULL){
-                        editor.getBombSites(bombSiteA, bombSiteB, renderer);
-                        bombSiteA->setBlendMode(SDL_BLENDMODE_BLEND);
-                        bombSiteB->setBlendMode(SDL_BLENDMODE_BLEND);
-                    }
-                }else if (event.key.keysym.sym == SDLK_2){
-                    if (spawnSiteT == NULL && spawnSiteCT == NULL){
-                        editor.getSpawnSites(spawnSiteT, spawnSiteCT, renderer);
-                        spawnSiteT->setBlendMode(SDL_BLENDMODE_BLEND);
-                        spawnSiteCT->setBlendMode(SDL_BLENDMODE_BLEND);
-                    }
-                }else if(event.key.keysym.sym == SDLK_ESCAPE){
+                    editor.presentBombSites();
+                }
+                
+                else if (event.key.keysym.sym == SDLK_2){
+                    editor.presentSpawnSites();
+                }
+                
+                else if(event.key.keysym.sym == SDLK_ESCAPE){
                     editor.initMenue();
                 }
+
             }else if (event.type == SDL_KEYUP){
                 if (event.key.keysym.sym == SDLK_1){
-                    editor.changeBombSites(bombSiteA, bombSiteB);
-                    bombSiteA = NULL;
-                    bombSiteB = NULL;
+                    editor.stopPresentingBombSites();
                 }else if (event.key.keysym.sym == SDLK_2){
-                    editor.changeSpawnSites(spawnSiteT, spawnSiteCT);
-                    spawnSiteT = NULL;
-                    spawnSiteCT = NULL;
+                    editor.stopPresentingSpawnSites();
                 }
             }
-            else{
-                editor.handleEvents(&event);
-                window.setTitle("Level Designer. Current Tile: " + editor.getTitle());
-            }
-            if (bombSiteA != NULL && bombSiteB != NULL){
-                bombSiteA->handleEvent(&event, camera.getRect());
-                bombSiteB->handleEvent(&event, camera.getRect());
-            }
-            if (spawnSiteT != NULL && spawnSiteCT != NULL){
-                spawnSiteT->handleEvent(&event, camera.getRect());
-                spawnSiteCT->handleEvent(&event, camera.getRect());
-            }
+            editor.handleEvents(&event, camera.getRect());
+            window.setTitle("Level Designer. Current Tile: " + editor.getTitle());
         }
 
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -114,20 +89,6 @@ int main(int argc, char* args[]){
         camera.centerCameraOnMouse(TILE_WIDTH, LEVEL_WIDTH, LEVEL_HEIGHT);
 
         editor.render(camera.getRect());
-
-        if (bombSiteA != NULL && bombSiteB != NULL){
-            bombSiteA->setAlpha(100);
-            bombSiteA->render(camera.getRect());
-            bombSiteB->setAlpha(100);
-            bombSiteB->render(camera.getRect());
-        }
-
-        if (spawnSiteT != NULL && spawnSiteCT != NULL){
-            spawnSiteT->setAlpha(100);
-            spawnSiteT->render(camera.getRect());
-            spawnSiteCT->setAlpha(100);
-            spawnSiteCT->render(camera.getRect());
-        }
 
         renderer.updateScreen();
     }

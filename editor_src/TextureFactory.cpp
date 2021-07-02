@@ -38,42 +38,35 @@ void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::ve
     }
 }
 
-void TextureFactory::unmarshalBombSites(const char *yamlFile, SDL_Rect& bombSiteA, SDL_Rect& bombSiteB){
+void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
-    YAML::Node bombSite = yaml_map["bombSite"];
-    std::vector<int> position = bombSite["A"]["position"].as<std::vector<int>>();
-    std::vector<int> size = bombSite["A"]["size"].as<std::vector<int>>();
+    YAML::Node Site = yaml_map["bombSite"];
 
-    bombSiteA.x = position[0];
-    bombSiteA.y = position[1];
-    bombSiteA.w = size[0];
-    bombSiteA.h = size[1];
+    std::vector<int> position = Site["A"]["position"].as<std::vector<int>>();
+    std::vector<int> size = Site["A"]["size"].as<std::vector<int>>();
 
-    position = bombSite["B"]["position"].as<std::vector<int>>();
-    size = bombSite["B"]["size"].as<std::vector<int>>();
+    bombSites.emplace("A", new Draggable(renderer, "../../common_src/img/bombSite.png", position[0], position[1], 255, 0, 0));
+    bombSites["A"]->setWidthAndHeight(size[0], size[1]);
 
-    bombSiteB.x = position[0];
-    bombSiteB.y = position[1];
-    bombSiteB.w = size[0];
-    bombSiteB.h = size[1];
+    position = Site["B"]["position"].as<std::vector<int>>();
+    size = Site["B"]["size"].as<std::vector<int>>();
+
+    bombSites.emplace("B", new Draggable(renderer, "../../common_src/img/bombSite.png", position[0], position[1], 255, 0, 0));
+    bombSites["B"]->setWidthAndHeight(size[0], size[1]);
 }
 
-void TextureFactory::unmarshalSpawnSites(const char *yamlFile, SDL_Rect& spawnSiteT, SDL_Rect& spawnSiteCT){
+void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
-    YAML::Node spawnSite = yaml_map["spawnSite"];
-    std::vector<int> position = spawnSite["T"]["position"].as<std::vector<int>>();
-    std::vector<int> size = spawnSite["T"]["size"].as<std::vector<int>>();
+    YAML::Node Site = yaml_map["spawnSite"];
+    std::vector<int> position = Site["T"]["position"].as<std::vector<int>>();
+    std::vector<int> size = Site["T"]["size"].as<std::vector<int>>();
 
-    spawnSiteT.x = position[0];
-    spawnSiteT.y = position[1];
-    spawnSiteT.w = size[0];
-    spawnSiteT.h = size[1];
+    bombSites.emplace("T", new Draggable(renderer, "../../common_src/img/spawnSite.png", position[0], position[1], 0, 255, 0));
+    bombSites["T"]->setWidthAndHeight(size[0], size[1]);
 
-    position = spawnSite["CT"]["position"].as<std::vector<int>>();
-    size = spawnSite["CT"]["size"].as<std::vector<int>>();
+    position = Site["CT"]["position"].as<std::vector<int>>();
+    size = Site["CT"]["size"].as<std::vector<int>>();
 
-    spawnSiteCT.x = position[0];
-    spawnSiteCT.y = position[1];
-    spawnSiteCT.w = size[0];
-    spawnSiteCT.h = size[1];
+    bombSites.emplace("CT", new Draggable(renderer, "../../common_src/img/spawnSite.png", position[0], position[1], 0, 255, 0));
+    bombSites["CT"]->setWidthAndHeight(size[0], size[1]);
 }

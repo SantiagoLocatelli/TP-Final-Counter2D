@@ -3,13 +3,16 @@
 #include "TextureMap.h"
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
+#include "../common_src/Sdl/draggable.h"
 #include <memory>
+#include <map>
 #include <vector>
+#include <string>
 class TextureFactory{
     public:
         void unmarshalTextures(char *yamlFile, TextureMap& map);
         void unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures, SdlRenderer& renderer);
-        void unmarshalBombSites(const char *yamlFile, SDL_Rect& bombSiteA, SDL_Rect& bombSiteB);
-        void unmarshalSpawnSites(const char *yamlFile, SDL_Rect& spawnSiteT, SDL_Rect& spawnSiteCT);
+        void unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer);
+        void unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer);
 };
 #endif
