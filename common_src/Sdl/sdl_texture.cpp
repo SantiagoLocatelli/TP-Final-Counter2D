@@ -142,13 +142,24 @@ int SdlTexture::getWidth()const{return this->mWidth;}
 
 int SdlTexture::getHeight()const{return this->mHeight;}
 
-SdlTexture& SdlTexture::operator=(const SdlTexture& other){
+SdlTexture& SdlTexture::operator=(SdlTexture&& other){
 	this->mWidth = other.mWidth;
 	this->mHeight = other.mHeight;
 	this->mTexture = other.mTexture;
 	this->renderer = other.renderer;
 	this->type = other.type;
 	return *this;
+}
+
+SdlTexture::SdlTexture(SdlTexture&& other): renderer(other.renderer){
+	if (other.mTexture != NULL) {
+
+		this->mHeight = other.mHeight;
+		this->mWidth = other.mWidth;
+		this->type = other.type;
+		this->mTexture = other.mTexture;
+		other.mTexture = NULL;
+	}
 }
 
 int SdlTexture::getType()const{
@@ -159,20 +170,4 @@ SdlTexture::~SdlTexture(){
 	free();
 	TTF_Quit();
 	delete this->mTexture;
-}
-
-SdlRenderer& SdlTexture::getRenderer(){
-	return this->renderer;
-}
-
-SDL_Texture* SdlTexture::createTexture(int w, int h){
-	return this->renderer.createTexture(w, h);
-}
-
-int SdlTexture::setRenderTarget(SDL_Texture* target){
-    return this->renderer.setRenderTarget(target);
-}
-
-SDL_Texture* SdlTexture::getRenderTarget(){
-	return this->renderer.getRenderTarget();
 }

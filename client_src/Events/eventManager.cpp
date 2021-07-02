@@ -1,7 +1,7 @@
 #include "eventManager.h"
 #include "gameMath.h"
 
-EventManager::EventManager(Protocol& com, bool& quit, Character& pj):com(com), quit(quit), pj(pj){}
+EventManager::EventManager(Protocol& com, bool& quit, GameManager& game):com(com), quit(quit), game(game){}
 
 void EventManager::run(){
 
@@ -63,7 +63,7 @@ void EventManager::run(){
                 this->com.send_event(event);
                 break;
             case SDL_MOUSEMOTION:
-                float radians = Math::calculateRadians({this->pj.getPosX(), this->pj.getPosY()}, {e.motion.x, e.motion.y});
+                float radians = Math::calculateRadians({this->game.getRelativePlayerPosX(), this->game.getRelativePlayerPosY()}, {e.motion.x, e.motion.y});
                 event.type = SET_ANGLE;
                 event.info.angle = radians;
                 this->com.send_event(event);
