@@ -12,8 +12,8 @@ void Weapon::toggle(){
     Hittable *hit = nullptr;
     float distance = 0;
 
-    if (world->rayCast(ray, hit, distance)){
-        float actual_damage = calculateDamage(distance);
+    if (world->rayCast(ray, hit)){
+        float actual_damage = calculateDamage(ray.distance);
         hit->recvDamage(actual_damage);
     }
 }

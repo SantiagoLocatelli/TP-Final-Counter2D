@@ -41,7 +41,14 @@ CompleteModelInfo GameProxy::getModelInfo(){
             info.players.push_back(p);
     }
 
-    info.bullets = std::list<Bullet>();
+    for (Ray &ray: world->getBullets()){
+        Bullet b;
+        b.start_x = ray.x;
+        b.start_y = ray.y;
+        b.angle = ray.angle;
+        b.distance = ray.distance;
+        info.bullets.push_back(b);
+    }
 
     info.game_ended = ended();
 

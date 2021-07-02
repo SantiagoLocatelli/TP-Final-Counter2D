@@ -18,6 +18,7 @@ class World{
         std::array<int, 2> gridSize;
         std::vector<Player> players;
         std::list<Box> boxes;
+        std::list<Ray> bullets;
         int player_number;
 
     public:
@@ -27,10 +28,12 @@ class World{
         void addBox(int grid_x, int grid_y);
         void createPlayer(float start_x, float start_y);
         void step();
-        bool rayCast(Ray ray, Hittable *&hittable, float &distance);
+        bool rayCast(Ray &ray, Hittable *&hittable);
 
         void deleteBody(b2Body *body);
         std::vector<Player> &getPlayers();
+        void addBullet(Ray ray);
+        std::list<Ray> &getBullets();
 
         World(const World&) = delete;
         World& operator=(const World&) = delete;

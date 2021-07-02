@@ -25,9 +25,10 @@ void World::step(){
             p.updateVelocity();
     }
     b2world.Step(1.0/30.0, 10, 9);
+    bullets.clear();
 }
 
-bool World::rayCast(Ray ray, Hittable *&hittable, float &distance){
+bool World::rayCast(Ray &ray, Hittable *&hittable){
     float min_dist = -1;
     for (Player &p: players){
         if (!p.isDead()){
@@ -40,7 +41,7 @@ bool World::rayCast(Ray ray, Hittable *&hittable, float &distance){
             if (min_dist == -1 || dist < min_dist){
                 min_dist = dist;
                 hittable = &p;
-                distance = dist;
+                ray.distance = dist;
             }
         }
     }
@@ -56,7 +57,7 @@ bool World::rayCast(Ray ray, Hittable *&hittable, float &distance){
         if (dist < min_dist){
             min_dist = dist;
             hittable = &b;
-            distance = dist;
+            ray.distance = dist;
         }
     }
 
@@ -66,3 +67,12 @@ bool World::rayCast(Ray ray, Hittable *&hittable, float &distance){
 void World::deleteBody(b2Body *body){
     b2world.DestroyBody(body);
 }
+
+void World::addBullet(Ray ray){
+    bullets.push_back(ray);
+}
+
+std::list<Ray> &World::getBullets(){
+    return bullets;
+}
+

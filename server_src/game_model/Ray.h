@@ -5,6 +5,7 @@ struct Ray{
     float x;
     float y; 
     float angle;
+    float distance;
 };
 
 #endif
