@@ -61,14 +61,10 @@ class SdlTexture{
     	int getType() const;
 
 		//SdlTexture(const SdlTexture&);
-		SdlTexture& operator=(const SdlTexture&);
+		SdlTexture& operator=(SdlTexture&&);
 		SdlTexture(SdlTexture&& other);
 		//Deallocates memory
 		~SdlTexture();
 
-		SdlRenderer& getRenderer();
-		SDL_Texture* createTexture(int w, int h);
-		SDL_Texture* getRenderTarget();
-		int setRenderTarget(SDL_Texture* target);
 };
 #endif
