@@ -39,7 +39,6 @@ void GameManager::initializeGame(ModelInfo model){
     this->textures.push_back(std::move(boxTexture));
     
     // es necesario que primero que cargen las armas
-    loadWeapons();
     this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
 
     for (int i = YOU+1; i < model.players.size()+1; i++) {
@@ -91,23 +90,6 @@ int GameManager::getRelativePlayerPosX(){return this->players[YOU].getPosX() - t
 int GameManager::getRelativePlayerPosY(){return this->players[YOU].getPosY() - this->cam.getPosY();}
 void GameManager::setCrossHair(int posX, int posY){
     this->crosshair.setPosition(posX, posY);
-}
-
-
-void GameManager::initializeGame(ModelInfo model){
-    SDL_ShowCursor(SDL_DISABLE);
-    SdlTexture backg(renderer, "../../common_src/img/bg.png");
-    this->textures.push_back(std::move(backg));
-    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
-    this->textures.push_back(std::move(boxTexture));
-    
-    this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
-
-    for (int i = YOU+1; i < model.players.size()+1; i++) {
-        this->addPlayer(PATH_TEXTURE, NEGRO, i);
-    }
-
-    this->update(model);
 }
 
 void GameManager::update(ModelInfo model){
