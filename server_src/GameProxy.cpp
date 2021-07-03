@@ -14,7 +14,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
 
     mapInfo.boxes = std::move(parser.get_boxes());
 
-    for (Prot_Box b: mapInfo.boxes){
+    for (ProtBox b: mapInfo.boxes){
         world->addBox(b.x, b.y);
     }
 }
@@ -77,11 +77,11 @@ void GameProxy::toggleWeapon(int id){
 
 bool GameProxy::ended(){
     //TODO: Cambiar esto, lo puse para probar.
-    // for (const Player &p: world->getPlayers()){
-    //     if (p.isDead()){
-    //         return true;
-    //     }
-    // }
+    for (const Player &p: world->getPlayers()){
+        if (p.isDead()){
+            return true;
+        }
+    }
 
     return false;
 }

@@ -6,7 +6,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
         if (i == id){
             info.you = players[i];
         } else {
-            Prot_Player p;
+            ProtPlayer p;
             p.x = players[i].x;
             p.y = players[i].y;
             p.angle = players[i].angle;
