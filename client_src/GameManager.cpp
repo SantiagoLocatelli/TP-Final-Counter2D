@@ -97,6 +97,7 @@ void GameManager::renderPlayers(int camX, int camY) {
 }
 
 void GameManager::renderShots(){
+    printf("entro a rendershots\n");
     for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
         this->bullet.setTrajectory(this->level, *it);
         this->bullet.render();
