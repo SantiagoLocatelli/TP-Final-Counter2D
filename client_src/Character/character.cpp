@@ -3,7 +3,6 @@
 #include <utility>
 
 
-
 Character::Character(int width, int height, SdlTexture texture)
     : an(std::move(texture)), degrees(0.0), dead(false){
     this->area.x = 0;
@@ -20,9 +19,6 @@ void Character::render(int camX, int camY){
 
 
 void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
-
-    //TODO: Agregar metodo para convertir entre grados y radianes
-
     this->dead = you.dead;
     if (this->dead) return;
 

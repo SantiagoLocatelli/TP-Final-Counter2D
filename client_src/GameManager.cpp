@@ -13,7 +13,8 @@ const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h)
     :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), cam(window_w, window_h),
     stencil(this->renderer, window_w, window_h), 
-    crosshair(25, 25, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b))){
+    crosshair(25, 25, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b))), 
+    bullet(renderer){
 
     this->level.width = map.length*PIXELS_PER_METER;
     this->level.height = map.height*PIXELS_PER_METER;
@@ -95,6 +96,12 @@ void GameManager::renderPlayers(int camX, int camY) {
     }
 }
 
+void GameManager::renderShots(){
+    for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
+        this->bullet.setTrajectory(this->level, *it);
+        this->bullet.render();
+    }
+}
 
 void GameManager::render(){
 
@@ -111,6 +118,8 @@ void GameManager::render(){
         this->stencil.render(camX, camY);
     }
     this->crosshair.render();
+    renderShots();
+
     renderer.updateScreen();
 }
 

@@ -9,6 +9,7 @@
 #include "../client_src/Character/camera.h"
 #include "Character/Weapon.h"
 #include "crosshair.h"
+#include "Character/particleBullets.h"
 #include <vector>
 
 struct Color {
@@ -29,6 +30,7 @@ private:
 
     std::vector<Weapon> weapons;
 
+    ParticleBullets bullet;
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
@@ -40,6 +42,7 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
+    void renderShots();
     void addPlayer(const char* pathTexture, struct Color color, int index);
     void initializeGame(ModelInfo model);
     // ver si es necesaria
