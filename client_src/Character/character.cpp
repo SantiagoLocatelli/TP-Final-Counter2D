@@ -43,11 +43,14 @@ bool Character::isDead(){return this->dead;}
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}
+int Character::getIdWeapon(){return this->idWeapon;}
+float Character::getDegrees(){return this->degrees;}
 
 Character& Character::operator=(Character&& other){
     this->area = other.area;
     this->an = std::move(other.an);
     this->degrees = other.degrees;
+    this->idWeapon = other.idWeapon;
     return *this;
 }
 
@@ -55,4 +58,5 @@ Character::Character(Character&& other):
     an(std::move(other.an)){
     this->area = other.area;
     this->degrees = other.degrees;
+    this->idWeapon = other.idWeapon;
 }

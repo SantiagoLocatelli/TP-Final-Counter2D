@@ -7,10 +7,9 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
 #include "../client_src/Character/camera.h"
-#include <vector>
-#include <list>
 #include "Character/Weapon.h"
 #include "crosshair.h"
+#include <vector>
 
 struct Color {
     uint8_t r, g, b;
@@ -28,8 +27,7 @@ private:
 
     // vector o lista de texturas
 
-    // std::list<SdlTexture&> weapons;
-    // Weapon weapons;
+    std::vector<Weapon> weapons;
 
     // provisorio {
     std::vector<SdlTexture> textures;

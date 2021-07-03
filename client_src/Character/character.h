@@ -21,6 +21,7 @@ class Character{
 		SDL_Rect area;
 		double degrees;
 		bool dead;
+		int idWeapon = 0;
 
     public:
 		Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/);
@@ -32,6 +33,8 @@ class Character{
 		int getPosX();
 		int getPosY();
 		bool isDead();
+		int getIdWeapon();
+		float getDegrees();
 
 		Character& operator=(Character&&);
 		Character(Character&& other);
