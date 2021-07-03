@@ -16,7 +16,6 @@ int main(int argc, char* argv[]){
 
     GameManager game(map, model, window_w, window_h);
 
-    SDL_Event e;
     bool quit = false;
     EventManager eventManager(server, quit, game);
     eventManager.start();

@@ -10,7 +10,7 @@ const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 // cppcheck-suppress uninitMemberVar
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h)
     :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), cam(window_w, window_h),
-    stencil(this->renderer, window_w, window_h){
+    stencil(this->renderer, window_w, window_h), bullet(renderer){
 
     this->level.width = map.length*PIXELS_PER_METER;
     this->level.height = map.height*PIXELS_PER_METER;
@@ -38,6 +38,12 @@ void GameManager::renderPlayers(int camX, int camY) {
     }
 }
 
+void GameManager::renderShots(){
+    for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
+        this->bullet.setTrajectory(this->level, *it);
+        this->bullet.render();
+    }
+}
 
 void GameManager::render(){
 
@@ -53,6 +59,8 @@ void GameManager::render(){
 
         this->stencil.render(camX, camY);
     }
+
+    renderShots();
 
     renderer.updateScreen();
 }

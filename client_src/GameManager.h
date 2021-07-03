@@ -7,7 +7,7 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
 #include "../client_src/Character/camera.h"
-#include <map>
+#include "Character/particleBullets.h"
 #include <vector>
 
 struct Color {
@@ -26,6 +26,7 @@ private:
 
     // vector o lista de texturas
     
+    ParticleBullets bullet;
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
@@ -37,6 +38,7 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
+    void renderShots();
     void addPlayer(const char* pathTexture, struct Color color, int index);
     void initializeGame(ModelInfo model);
     // ver si es necesaria
