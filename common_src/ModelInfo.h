@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 struct Prot_Player{
+    bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
     float x;
     float y;
     float angle; //En radianes

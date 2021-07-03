@@ -8,7 +8,7 @@ struct LevelInfo{
     int width;
 	int h_meters;
 	int w_meters;
-    std::list<Box> boxes;
+    std::list<Prot_Box> boxes;
 };
 
 #endif

@@ -20,7 +20,7 @@ class Character{
 		Animation an;
 		SDL_Rect area;
 		double degrees;
-		// Weapon weapon;
+		bool dead;
 
     public:
 		Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/);
@@ -31,6 +31,7 @@ class Character{
 		SDL_Rect getRect();
 		int getPosX();
 		int getPosY();
+		bool isDead();
 
 		Character& operator=(Character&&);
 		Character(Character&& other);

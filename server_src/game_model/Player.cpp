@@ -1,14 +1,17 @@
 #include "Player.h"
+#include "Weapon.h"
+#include "../../common_src/GeneralException.h"
 #include <cmath>
 #include <iostream>
 #include <utility>
 
-Player::Player(b2World &world, float start_x, float start_y)
-:health(100), angle(0), dead(false){
+Player::Player(World &world, float start_x, float start_y)
+:health(100), angle(0), world(world), dead(false)
+, weapon(new Weapon(this, &world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
-    body = world.CreateBody(&playerBodyDef);
+    body = world.b2world.CreateBody(&playerBodyDef);
 
     b2CircleShape playerShape;
     playerShape.m_radius = 0.5f;
@@ -18,7 +21,7 @@ Player::Player(b2World &world, float start_x, float start_y)
     fixtureDef.density = 1;
     fixtureDef.friction = 0;
 
-    body->CreateFixture(&fixtureDef);
+    fixture = body->CreateFixture(&fixtureDef);
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -26,30 +29,18 @@ Player::Player(b2World &world, float start_x, float start_y)
     movement[LEFT] = false;
 }
 
-Player::Player(Player&& other){
+Player::Player(Player&& other): world(other.world){
     this->body = other.body;
     this->health = other.health;
     this->dead = other.dead;
     this->angle = other.angle;
     this->movement = std::move(other.movement);
+    other.weapon->changeOwner(this);
+    weapon = other.weapon;
+    this->fixture = other.fixture;
 
+    other.weapon = nullptr;
     other.body = nullptr;
-}
-
-Player& Player::operator=(Player&& other){
-    if (this == &other){
-        return *this;
-    }
-
-    body = other.body;
-    health = other.health;
-    dead = other.dead;
-    angle = other.angle;
-    movement = std::move(other.movement);
-
-    other.body = nullptr;
-
-    return *this;
 }
 
 void Player::toggleMovement(Direction dir){
@@ -57,6 +48,8 @@ void Player::toggleMovement(Direction dir){
 }
         
 void Player::updateVelocity(){
+    if (dead)
+        GeneralException("Error en Player::updateVelocity: El jugador está muerto\n");
     //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
@@ -75,6 +68,9 @@ void Player::updateVelocity(){
 
 
 std::array<float, 2> Player::getPosition(){
+    if (dead)
+        GeneralException("Error en Player::getPosition: El jugador está muerto\n");
+
     std::array<float, 2> vec;
     vec[0] = body->GetPosition().x;
     vec[1] = body->GetPosition().y;
@@ -82,29 +78,15 @@ std::array<float, 2> Player::getPosition(){
     return vec;
 }
 
-float Player::isHitBy(float x, float y, float angle){
-    b2Fixture fixture = *body->GetFixtureList();
-
-    b2RayCastInput input;
-    input.p1 = b2Vec2(x,y);
-    input.p2 = b2Vec2(x+std::cos(angle) , y+std::sin(angle));
-    input.maxFraction = 100; //TODO: Chequear esta constante
-    b2RayCastOutput output;
-    if (fixture.RayCast(&output, input, 0)){
-        return output.fraction;
-    }
-
-    return -1;
-}
-
 void Player::recvDamage(float damage){
     health -= damage;
     if (health < 0){
         dead = true;
+        world.deleteBody(body);
     }
 }
 
-float Player::getHealth(){
+float Player::getHealth() const{
     return health;
 }
 
@@ -112,14 +94,22 @@ void Player::setAngle(float angle){
     this->angle = angle;
 }
 
-float Player::getAngle(){
+float Player::getAngle() const{
     return angle;
 }
 
 void Player::toggleWeapon(){
+    if (dead)
+        GeneralException("Error en Player::toggleWeapon: El jugador está muerto\n");
+    weapon->toggle();
 }
 
-bool Player::isDead(){
+bool Player::isDead() const{
     return dead;
+}
+
+Player::~Player(){
+    if (weapon != nullptr)
+        delete weapon;
 }
 

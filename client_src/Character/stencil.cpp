@@ -6,6 +6,7 @@
 
 Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
     :stencil(renderer, PATH_STENCIL) {
+
     this->rect.w = window_w;
     this->rect.h = window_h;
     this->rect.x = 0;

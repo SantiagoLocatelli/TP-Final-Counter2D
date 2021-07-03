@@ -47,7 +47,7 @@ void EventManager::run(){
                 break; 
 
             /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
-            case SDL_MOUSEBUTTONUP:
+            //case SDL_MOUSEBUTTONUP: Por ahora solo cuando apreta el boton 
             case SDL_MOUSEBUTTONDOWN:
                 switch (e.button.button){
                     case SDL_BUTTON_LEFT:

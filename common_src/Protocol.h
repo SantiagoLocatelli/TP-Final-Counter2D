@@ -21,6 +21,9 @@ class Protocol{
         void send_byte(const char &byte);
         void recv_byte(char &byte);
 
+        void send_bool(const bool &b);
+        void recv_bool(bool &b);
+
         //Envía un float por el socket. Solo se envían los primeros 
         //DEC_SENT decimales, el resto se pierde.
         void send_float(const float &f);

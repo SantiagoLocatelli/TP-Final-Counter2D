@@ -3,9 +3,9 @@
 #include <utility>
 
 
-Character::Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/)
-    : an(std::move(texture))/*, weapon(weapons)*/, degrees(0.0){
 
+Character::Character(int width, int height, SdlTexture texture)
+    : an(std::move(texture)), degrees(0.0), dead(false){
     this->area.x = 0;
     this->area.y = 0;
     this->area.w = width;
@@ -20,6 +20,12 @@ void Character::render(int camX, int camY){
 
 
 void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
+
+    //TODO: Agregar metodo para convertir entre grados y radianes
+
+    this->dead = you.dead;
+    if (this->dead) return;
+
     this->degrees = Math::radiansToDegrees(you.angle);
     int x = Math::ruleOfThree(you.x, level.w_meters, level.width);
     int y = Math::ruleOfThree(you.y, level.h_meters, level.height);
@@ -33,7 +39,7 @@ void Character::update(const Prot_Player you, const LevelInfo level, float healt
     this->area.y = y;
 }
 
-
+bool Character::isDead(){return this->dead;}
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}
@@ -42,12 +48,11 @@ Character& Character::operator=(Character&& other){
     this->area = other.area;
     this->an = std::move(other.an);
     this->degrees = other.degrees;
-    // this->weapon = std::move(other.weapon);
     return *this;
 }
 
 Character::Character(Character&& other): 
-    an(std::move(other.an))/*, weapon(std::move(other.weapon))*/{
+    an(std::move(other.an)){
     this->area = other.area;
     this->degrees = other.degrees;
 }

@@ -10,11 +10,11 @@ void WorldParser::get_size(uint16_t &length, uint16_t &height){
     height = size[1];
 }
 
-std::list<Box> WorldParser::get_boxes(){
-    std::list<Box> boxList;
+std::list<Prot_Box> WorldParser::get_boxes(){
+    std::list<Prot_Box> boxList;
     YAML::Node boxes = mapYaml["boxes"];
     for (YAML::iterator it = boxes.begin(); it != boxes.end(); ++it) {
-        Box b;
+        Prot_Box b;
         std::vector<int> pos = it->as<std::vector<int>>();
         b.x = pos[0];
         b.y = pos[1];

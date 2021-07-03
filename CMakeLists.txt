@@ -6,7 +6,7 @@ project(CounterStrike2D)
 find_package(box2d REQUIRED)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-Wpedantic -Wunused -Wuninitialized -std=c++11 -pthread -g")
+set(CMAKE_CXX_FLAGS "-Wall -Wpedantic -Wunused -Wuninitialized -std=c++11 -pthread -g")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lyaml-cpp")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

@@ -4,6 +4,7 @@
 #define YOU 0
 #define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
+
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 #define BOX 1
@@ -29,22 +30,6 @@ void GameManager::addPlayer(const char* pathTexture, struct Color color, int ind
     this->players.push_back(std::move(pj));
 }
 
-
-void GameManager::loadWeapons(){
-    // SdlTexture knife(renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    // // this->weapons.addWeapon(std::move(knife));
-    // this->weapons.push_back(knife);
-    // SdlTexture glock(renderer, "../../common_src/img/weapons/glock.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    // // this->weapons.addWeapon(std::move(glock));
-    // this->weapons.push_back(glock);
-    // SdlTexture ak47(renderer, "../../common_src/img/weapons/ak47.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    // // this->weapons.addWeapon(std::move(ak47));
-    // this->weapons.push_back(ak47);
-    // SdlTexture awp(renderer, "../../common_src/img/weapons/awp.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    // // this->weapons.addWeapon(std::move(awp));
-    // this->weapons.push_back(awp);
-
-}
 
 void GameManager::initializeGame(ModelInfo model){
     SDL_ShowCursor(SDL_DISABLE);
@@ -76,7 +61,9 @@ void GameManager::renderBoxes(int camX, int camY) {
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameManager::renderPlayers(int camX, int camY) {
     for (auto it = this->players.begin(); it != this->players.end(); it++) {
-        it->render(camX, camY);
+        if (!it->isDead()){
+            it->render(camX, camY);
+        }
     }
 }
 
@@ -91,9 +78,11 @@ void GameManager::render(){
     int camY = this->cam.getPosY();
     renderBoxes(camX, camY);
     renderPlayers(camX, camY);
-    this->stencil.render(camX, camY);
-    this->crosshair.render();
+    if (!this->players[YOU].isDead()) {
 
+        this->stencil.render(camX, camY);
+    }
+    this->crosshair.render();
     renderer.updateScreen();
 }
 
@@ -104,6 +93,22 @@ void GameManager::setCrossHair(int posX, int posY){
     this->crosshair.setPosition(posX, posY);
 }
 
+
+void GameManager::initializeGame(ModelInfo model){
+    SDL_ShowCursor(SDL_DISABLE);
+    SdlTexture backg(renderer, "../../common_src/img/bg.png");
+    this->textures.push_back(std::move(backg));
+    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
+    this->textures.push_back(std::move(boxTexture));
+    
+    this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
+
+    for (int i = YOU+1; i < model.players.size()+1; i++) {
+        this->addPlayer(PATH_TEXTURE, NEGRO, i);
+    }
+
+    this->update(model);
+}
 
 void GameManager::update(ModelInfo model){
 
