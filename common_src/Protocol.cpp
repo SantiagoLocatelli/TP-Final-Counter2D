@@ -66,7 +66,7 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
 
     //Envío el largo de la lista
     send_short(mapInfo.boxes.size());
-    for (Prot_Box b: mapInfo.boxes){
+    for (ProtBox b: mapInfo.boxes){
         send_short(b.x);
         send_short(b.y);
     }
@@ -81,7 +81,7 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
     recv_short(len);
     mapInfo.boxes.clear();
     for (int i = 0; i < len; i++){
-        Prot_Box b;
+        ProtBox b;
         recv_short(b.x);
         recv_short(b.y);
         mapInfo.boxes.push_back(b);
@@ -91,8 +91,8 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
 void Protocol::send_model_info(const ModelInfo &modelInfo){
     send_bool(modelInfo.you.dead);
     if (!modelInfo.you.dead){
-        send_float(modelInfo.you.x);
-        send_float(modelInfo.you.y);
+        send_float(modelInfo.you.pos.x);
+        send_float(modelInfo.you.pos.y);
         send_float(modelInfo.you.angle);
         send_float(modelInfo.you.health);
         send_short(modelInfo.you.ammo);
@@ -100,21 +100,28 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
 
 
     send_short(modelInfo.players.size());
-    for (const Prot_Player &p: modelInfo.players){
+    for (const ProtPlayer &p: modelInfo.players){
         send_bool(p.dead);
         if (!p.dead){
-            send_float(p.x);
-            send_float(p.y);
+            send_float(p.pos.x);
+            send_float(p.pos.y);
             send_float(p.angle);
         }
     }
 
     send_short(modelInfo.bullets.size());
     for (const Bullet &b: modelInfo.bullets){
-        send_float(b.start_x);
-        send_float(b.start_y);
+        send_float(b.pos.x);
+        send_float(b.pos.y);
         send_float(b.angle);
         send_float(b.distance);
+    }
+
+    send_short(modelInfo.drops.size());
+    for (const ProtDrop &d: modelInfo.drops){
+        send_byte(d.type);
+        send_float(d.pos.x);
+        send_float(d.pos.y);
     }
 
     send_bool(modelInfo.game_ended);
@@ -123,8 +130,8 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
 void Protocol::recv_model_info(ModelInfo &modelInfo){
     recv_bool(modelInfo.you.dead);
     if (!modelInfo.you.dead){
-        recv_float(modelInfo.you.x);
-        recv_float(modelInfo.you.y);
+        recv_float(modelInfo.you.pos.x);
+        recv_float(modelInfo.you.pos.y);
         recv_float(modelInfo.you.angle);
         recv_float(modelInfo.you.health);
         recv_short(modelInfo.you.ammo);
@@ -134,11 +141,11 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     recv_short(len);
     modelInfo.players.clear();
     for (int i = 0; i < len; i++){
-        Prot_Player p;
+        ProtPlayer p;
         recv_bool(p.dead);
         if (!p.dead){
-            recv_float(p.x);
-            recv_float(p.y);
+            recv_float(p.pos.x);
+            recv_float(p.pos.y);
             recv_float(p.angle);
         }
         modelInfo.players.push_back(p);
@@ -148,11 +155,20 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     modelInfo.bullets.clear();
     for (int i = 0; i < len; i++){
         Bullet b;
-        recv_float(b.start_x);
-        recv_float(b.start_y);
+        recv_float(b.pos.x);
+        recv_float(b.pos.y);
         recv_float(b.angle);
         recv_float(b.distance);
         modelInfo.bullets.push_back(b);
+    }
+
+    recv_short(len);
+    for (int i = 0; i < len; i++){
+        ProtDrop d;
+        send_byte(d.type);
+        send_float(d.pos.x);
+        send_float(d.pos.y);
+        modelInfo.drops.push_back(d);
     }
     
     recv_bool(modelInfo.game_ended);
