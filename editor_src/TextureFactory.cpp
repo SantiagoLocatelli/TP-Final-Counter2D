@@ -3,7 +3,7 @@
 #include <utility>
 #include <stdio.h>
 
-void TextureFactory::unmarshalTextures(char *yamlFile, TextureMap& map){
+void TextureFactory::unmarshalTextures(const char *yamlFile, TextureMap& map){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
 
     YAML::Node yaml_keys = yaml_map["textureNumber"];

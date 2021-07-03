@@ -6,35 +6,27 @@
 #include <vector>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
-#include "../common_src/Sdl/sdl_window.h"
-#include "../common_src/Sdl/draggable.h"
-#include "menue.h"
 #include "TextureMap.h"
-class Editor{
+#include "presenter.h"
+class Editor : public Presenter{
     private:
         TextureMap map;
         std::vector<std::unique_ptr<SdlTexture>> textures;
         int currentType;
-        std::string mapID;
 
-        std::map<std::string, std::unique_ptr<Draggable>> bombSites;
         bool renderBombSites;
 
-        std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
         bool renderSpawnSites;
 
-        std::unique_ptr<Menue> menue;
     public:
-        Editor(const std::string path, SdlRenderer& renderer);
-        void handleEvents(SDL_Event* event, SDL_Rect camera);
-        void put_tile(SDL_Rect camera, SdlRenderer& renderer);
+        Editor(const std::string path, SdlRenderer& renderer, int screenW, int screenH);
+        void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
+        void render() override;
+        void put_tile(SdlRenderer& renderer);
         void saveMap(std::string& path, std::vector<std::unique_ptr<SdlTexture>>& textures);
-        std::string getTitle();
-        void saveMap();
-        void render(SDL_Rect camera);
+        std::string getTitle() override;
+        void saveMap() override;
         void createMap(SdlRenderer& renderer);
-
-        void initMenue();
 
         void presentBombSites();
         void stopPresentingBombSites();

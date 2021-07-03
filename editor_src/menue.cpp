@@ -1,15 +1,34 @@
 #include "menue.h"
 #include <string>
-Menue::Menue(SdlRenderer& renderer, SDL_Rect bombSiteA, SDL_Rect bombSiteB, SDL_Rect spawnSiteT, SDL_Rect spawnSiteCT){
-    std::string path("../../common_src/img/digital-7.ttf");
+#include <utility>
+#include <stdio.h>
+Menue::Menue(const std::string path, SdlRenderer& renderer, int screenW, int screenH) : Presenter(path, renderer, screenW, screenH){
+    std::string fontPath("../../common_src/img/digital-7.ttf");
     int size = 26;
-    std::vector<SDL_Rect> aux = {bombSiteA, bombSiteB, spawnSiteT, spawnSiteCT};
+    std::vector<SDL_Rect> aux;
+    Presenter::fillSize(aux);
     for (int i = 0; i < aux.size(); i++){
         std::string width = std::to_string(aux[i].w);
         std::string height = std::to_string(aux[i].h);
-        this->options.emplace_back(new SdlTexture(renderer, path, size, width, 0, 0, 0));
-        this->options.emplace_back(new SdlTexture(renderer, path, size, height, 0, 0, 0));
+        this->options.emplace_back(new SdlTexture(renderer, fontPath, size, width, 0, 0, 0));
+        this->options.emplace_back(new SdlTexture(renderer, fontPath, size, height, 0, 0, 0));
     }
+}
+
+void Menue::render(){
+    int i = 0;
+    for (auto &texture : this->options){
+        texture->render(100, i);
+        i += 100;
+    }
+}
+
+void Menue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+
+}
+
+std::string Menue::getTitle(){
+    return "Options Menue";
 }
 
 void Menue::init(){
@@ -30,7 +49,7 @@ void Menue::init(){
 
         int i = 0;
         for (auto &texture : this->options){
-            texture->render(i, 100);
+            texture->render(100, i);
             i += 100;
         }
 
