@@ -9,7 +9,8 @@
 #include <list>
 #include "../../common_src/Protocol.h"
 #include "levelInfo.h"
-
+#include "../Events/gameMath.h"
+#include "Weapon.h"
 
 
 class Character{
@@ -22,16 +23,12 @@ class Character{
 		bool dead;
 
     public:
-		Character(int width, int height, SdlTexture texture);
-		Character();
+		Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/);
 
 		void update(const Prot_Player you, const LevelInfo level, float health = -1.0, uint16_t ammo = -1);
 		void render(int camX, int camY);
 
 		SDL_Rect getRect();
-
-		void lookAt(int x, int y, int relX, int relY);
-
 		int getPosX();
 		int getPosY();
 		bool isDead();

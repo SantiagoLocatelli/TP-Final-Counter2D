@@ -64,6 +64,7 @@ void EventManager::run(){
                 break;
             case SDL_MOUSEMOTION:
                 float radians = Math::calculateRadians({this->game.getRelativePlayerPosX(), this->game.getRelativePlayerPosY()}, {e.motion.x, e.motion.y});
+                game.setCrossHair(e.motion.x, e.motion.y);
                 event.type = SET_ANGLE;
                 event.info.angle = radians;
                 this->com.send_event(event);
