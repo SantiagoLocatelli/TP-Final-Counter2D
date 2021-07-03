@@ -1,0 +1,25 @@
+#include "crosshair.h"
+
+#define NUM_FRAMES 4
+
+
+CrossHair::CrossHair(int width, int height, SdlTexture texture)
+    :texture(std::move(texture)){
+    this->area.x = 0;
+    this->area.y = 0;
+    this->area.w = width;
+    this->area.h = height;
+    // this->cursor = SDL_CreateSystemCursor(SDL_NUM_SYSTEM_CURSORS);
+    // SDL_SetCursor(this->cursor);
+}
+
+void CrossHair::setPosition(int posX, int posY){
+    SDL_GetMouseState(&(this->area.x), &(this->area.y));
+    this->area.x -= this->area.w/2;
+    this->area.y -= this->area.h/2;
+}
+
+void CrossHair::render(){
+    SDL_Rect src = {0, 0, 46, 46};
+    this->texture.render(this->area.x, this->area.y, this->area.w, this->area.h, &src);
+}

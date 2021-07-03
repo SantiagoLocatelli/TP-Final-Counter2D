@@ -5,7 +5,7 @@
 #define PATH_STENCIL "../../common_src/img/stencil.bmp"
 
 Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
-    :stencil(renderer, "../../common_src/img/stencil.bmp") {
+    :stencil(renderer, PATH_STENCIL) {
     this->rect.w = window_w;
     this->rect.h = window_h;
     this->rect.x = 0;

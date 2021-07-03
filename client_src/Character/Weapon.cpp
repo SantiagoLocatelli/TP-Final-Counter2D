@@ -1,15 +1,16 @@
 #include "Weapon.h"
 
-Weapon::Weapon(){}
+
+// Weapon::Weapon(){}
 
 
 void Weapon::update(){
 
 }
 
-void Weapon::addWeapon(SdlTexture weapon){
-    this->weapons.push_back(std::move(weapon));
-}
+// void Weapon::addWeapon(SdlTexture weapon){
+//     this->weapons.push_back(weapon);
+// }
 
 // Weapon& Weapon::operator=(Weapon&& other){
 //     this->arma_actual = other.arma_actual;

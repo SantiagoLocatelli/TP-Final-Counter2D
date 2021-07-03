@@ -7,9 +7,10 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
 #include "../client_src/Character/camera.h"
-#include <map>
 #include <vector>
+#include <list>
 #include "Character/Weapon.h"
+#include "crosshair.h"
 
 struct Color {
     uint8_t r, g, b;
@@ -27,13 +28,14 @@ private:
 
     // vector o lista de texturas
 
-    // std::vector<SdlTexture> weapons;
-    Weapon weapons;
+    // std::list<SdlTexture&> weapons;
+    // Weapon weapons;
 
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
 
+    CrossHair crosshair;
     Camera cam;
     std::vector<Character> players;
     Stencil stencil;
@@ -53,6 +55,7 @@ public:
     void update(ModelInfo model);
     int getRelativePlayerPosX();
     int getRelativePlayerPosY();
+    void setCrossHair(int posX, int posY);
 };
 
 #endif

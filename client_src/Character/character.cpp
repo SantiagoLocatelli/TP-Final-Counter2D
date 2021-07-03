@@ -3,8 +3,8 @@
 #include <utility>
 
 
-Character::Character(int width, int height, SdlTexture texture/*, Weapon& weapon*/)
-    : an(std::move(texture))/*, weapon(weapon)*/, degrees(0.0){
+Character::Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/)
+    : an(std::move(texture))/*, weapon(weapons)*/, degrees(0.0){
 
     this->area.x = 0;
     this->area.y = 0;
@@ -42,12 +42,12 @@ Character& Character::operator=(Character&& other){
     this->area = other.area;
     this->an = std::move(other.an);
     this->degrees = other.degrees;
-    // this->weapon = other.weapon;
+    // this->weapon = std::move(other.weapon);
     return *this;
 }
 
 Character::Character(Character&& other): 
-    an(std::move(other.an))/*, weapon(other.weapon)*/{
+    an(std::move(other.an))/*, weapon(std::move(other.weapon))*/{
     this->area = other.area;
     this->degrees = other.degrees;
 }

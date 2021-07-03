@@ -20,10 +20,10 @@ class Character{
 		Animation an;
 		SDL_Rect area;
 		double degrees;
-		// Weapon& weapon;
+		// Weapon weapon;
 
     public:
-		Character(int width, int height, SdlTexture texture/*, Weapon& weapon*/);
+		Character(int width, int height, SdlTexture texture/*, std::list<SdlTexture&> weapons*/);
 
 		void update(const Prot_Player you, const LevelInfo level, float health = -1.0, uint16_t ammo = -1);
 		void render(int camX, int camY);
