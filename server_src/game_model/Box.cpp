@@ -5,7 +5,7 @@ Box::Box(b2World &world, float x, float y){
     boxBodyDef.type = b2_staticBody;
     boxBodyDef.position.Set(x, y);
     b2Body* body = world.CreateBody(&boxBodyDef);
-    body->SetUserData(this);
+    body->GetUserData().pointer = (uintptr_t)this;
 
 
     b2PolygonShape boxShape;

@@ -13,7 +13,7 @@ Player::Player(World &world, float start_x, float start_y)
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
     body = world.b2world.CreateBody(&playerBodyDef);
-    body->SetUserData(this);
+    body->GetUserData().pointer = (uintptr_t)this;
 
     b2CircleShape playerShape;
     playerShape.m_radius = 0.5f;
@@ -33,7 +33,7 @@ Player::Player(World &world, float start_x, float start_y)
 
 Player::Player(Player&& other): world(other.world){
     this->body = other.body;
-    this->body->SetUserData(this);
+    this->body->GetUserData().pointer = (uintptr_t)this;
 
     this->health = other.health;
     this->dead = other.dead;
@@ -43,7 +43,7 @@ Player::Player(Player&& other): world(other.world){
 
     other.weapon->changeOwner(this);
     weapon = other.weapon;
-    
+
     this->fixture = other.fixture;
 
     other.weapon = nullptr;

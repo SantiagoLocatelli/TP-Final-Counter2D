@@ -7,8 +7,8 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
             info.you = players[i];
         } else {
             ProtPlayer p;
-            p.x = players[i].x;
-            p.y = players[i].y;
+            p.pos.x = players[i].pos.x;
+            p.pos.y = players[i].pos.y;
             p.angle = players[i].angle;
             p.dead = players[i].dead;
             info.players.push_back(p);

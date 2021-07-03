@@ -32,8 +32,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
             p.dead = players[i].isDead();
             if (!p.dead){
                 pos = players[i].getPosition();
-                p.x = pos[0];
-                p.y = pos[1];
+                p.pos.x = pos[0];
+                p.pos.y = pos[1];
                 p.angle = players[i].getAngle();
                 p.health = players[i].getHealth();
                 p.ammo = 0;
@@ -43,8 +43,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
 
     for (Ray &ray: world->getBullets()){
         Bullet b;
-        b.start_x = ray.x;
-        b.start_y = ray.y;
+        b.pos.x = ray.x;
+        b.pos.y = ray.y;
         b.angle = ray.angle;
         b.distance = ray.distance;
         info.bullets.push_back(b);

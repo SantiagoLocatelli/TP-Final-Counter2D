@@ -13,8 +13,8 @@ Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
 }
 
 void Stencil::setPosition(ProtPlayer player, const LevelInfo level){
-    this->rect.x = Math::ruleOfThree(player.x, level.w_meters, level.width);
-    this->rect.y = Math::ruleOfThree(player.y, level.w_meters, level.width);
+    this->rect.x = Math::ruleOfThree(player.pos.x, level.w_meters, level.width);
+    this->rect.y = Math::ruleOfThree(player.pos.y, level.w_meters, level.width);
     this->degrees = Math::radiansToDegrees(player.angle);
 }
 

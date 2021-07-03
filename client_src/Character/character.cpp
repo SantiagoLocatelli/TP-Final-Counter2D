@@ -27,8 +27,8 @@ void Character::update(const ProtPlayer you, const LevelInfo level, float health
     if (this->dead) return;
 
     this->degrees = Math::radiansToDegrees(you.angle);
-    int x = Math::ruleOfThree(you.x, level.w_meters, level.width);
-    int y = Math::ruleOfThree(you.y, level.h_meters, level.height);
+    int x = Math::ruleOfThree(you.pos.x, level.w_meters, level.width);
+    int y = Math::ruleOfThree(you.pos.y, level.h_meters, level.height);
 
     // para que cambia de frame solo si avanza
     if (this->area.x != x || this->area.y != y) {
