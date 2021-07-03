@@ -3,14 +3,17 @@
 #define PIXELS_PER_METER 100
 #define YOU 0
 #define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
+#define PATH_POINTER "../../common_src/img/pointer.bmp"
+
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
+const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 #define BOX 1
 #define BACKGROUND 0
 
-// cppcheck-suppress uninitMemberVar
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h)
     :window("Counter-Strike 2D", window_w, window_h),renderer(&window), model(model), cam(window_w, window_h),
-    stencil(this->renderer, window_w, window_h){
+    stencil(this->renderer, window_w, window_h), 
+    crosshair(25, 25, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b))){
 
     this->level.width = map.length*PIXELS_PER_METER;
     this->level.height = map.height*PIXELS_PER_METER;
@@ -18,9 +21,35 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
     this->level.h_meters = map.height;
     this->level.boxes = map.boxes;
 
-
     this->initializeGame(model);
 }
+
+void GameManager::addPlayer(const char* pathTexture, struct Color color, int index){
+    SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);
+    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, std::move(pjTexture)/*, this->weapons*/);
+    this->players.push_back(std::move(pj));
+}
+
+
+void GameManager::initializeGame(ModelInfo model){
+    SDL_ShowCursor(SDL_DISABLE);
+    SdlTexture backg(renderer, "../../common_src/img/bg.png");
+    this->textures.push_back(std::move(backg));
+    SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");
+    this->textures.push_back(std::move(boxTexture));
+    
+    // es necesario que primero que cargen las armas
+    loadWeapons();
+    this->addPlayer(PATH_TEXTURE, NEGRO, YOU);
+
+    for (int i = YOU+1; i < model.players.size()+1; i++) {
+        this->addPlayer(PATH_TEXTURE, NEGRO, i);
+    }
+
+    
+    this->update(model);
+}
+
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameManager::renderBoxes(int camX, int camY) {
@@ -53,21 +82,20 @@ void GameManager::render(){
 
         this->stencil.render(camX, camY);
     }
-
+    this->crosshair.render();
     renderer.updateScreen();
 }
 
 
 int GameManager::getRelativePlayerPosX(){return this->players[YOU].getPosX() - this->cam.getPosX();}
 int GameManager::getRelativePlayerPosY(){return this->players[YOU].getPosY() - this->cam.getPosY();}
-
-void GameManager::addPlayer(const char* pathTexture, struct Color color, int index){
-    SdlTexture pjTexture(this->renderer, pathTexture, color.r, color.g, color.b);
-    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, std::move(pjTexture));
-    this->players.push_back(std::move(pj));
+void GameManager::setCrossHair(int posX, int posY){
+    this->crosshair.setPosition(posX, posY);
 }
 
+
 void GameManager::initializeGame(ModelInfo model){
+    SDL_ShowCursor(SDL_DISABLE);
     SdlTexture backg(renderer, "../../common_src/img/bg.png");
     this->textures.push_back(std::move(backg));
     SdlTexture boxTexture(renderer, "../../common_src/img/green_crate.bmp");

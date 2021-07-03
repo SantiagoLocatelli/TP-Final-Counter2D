@@ -3,9 +3,9 @@
 #include <utility>
 
 
+
 Character::Character(int width, int height, SdlTexture texture)
     : an(std::move(texture)), degrees(0.0), dead(false){
-
     this->area.x = 0;
     this->area.y = 0;
     this->area.w = width;
@@ -14,13 +14,13 @@ Character::Character(int width, int height, SdlTexture texture)
 
 
 void Character::render(int camX, int camY){
-    //std::cout << this->area.x << " - " << this->area.y << std::endl;
     SDL_Rect dst = {this->area.x - camX - this->area.w/2, this->area.y - camY - this->area.h/2, this->area.w, this->area.h};
     this->an.render(dst, this->degrees);
 }
 
 
 void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
+
     //TODO: Agregar metodo para convertir entre grados y radianes
 
     this->dead = you.dead;

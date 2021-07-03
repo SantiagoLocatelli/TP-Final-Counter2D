@@ -139,8 +139,8 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 
 
 int SdlTexture::getWidth()const{return this->mWidth;}
-
 int SdlTexture::getHeight()const{return this->mHeight;}
+
 
 SdlTexture& SdlTexture::operator=(SdlTexture&& other){
 	this->mWidth = other.mWidth;
