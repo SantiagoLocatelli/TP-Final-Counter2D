@@ -20,7 +20,7 @@ void Character::render(int camX, int camY){
 }
 
 
-void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
+void Character::update(const ProtPlayer you, const LevelInfo level, float health, uint16_t ammo){
     //TODO: Agregar metodo para convertir entre grados y radianes
 
     this->dead = you.dead;

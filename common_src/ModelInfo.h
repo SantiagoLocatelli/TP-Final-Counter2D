@@ -4,29 +4,40 @@
 #include <list>
 #include <stdint.h>
 
-struct Prot_Player{
-    bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
+struct Position{
     float x;
     float y;
+};
+
+struct ProtPlayer{
+    bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
+    Position pos;
     float angle; //En radianes
 };
 
-struct You: public Prot_Player{
+struct You: public ProtPlayer{
     float health;
     uint16_t ammo;
 };
 
 struct Bullet{
-    float start_x;
-    float start_y;
+    Position pos;
     float angle; //En radianes
     float distance;
 };
 
+//TODO: Esto tal vez se puede mejorar
+enum DropType : char {PISTOL, GOD_GUN};
+struct ProtDrop{
+    DropType type;
+    Position pos;
+};
+
 struct ModelInfo{
     You you;
-    std::list<Prot_Player> players;
+    std::list<ProtPlayer> players;
     std::list<Bullet> bullets;
+    std::list<ProtDrop> drops;
     bool game_ended;
 };
 

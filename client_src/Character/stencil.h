@@ -15,7 +15,7 @@ private:
 
 public:
     Stencil(SdlRenderer& renderer, int w, int h);
-    void setPosition(Prot_Player player, const LevelInfo level);
+    void setPosition(ProtPlayer player, const LevelInfo level);
     void render(int camX, int camY);
 
     Stencil& operator=(Stencil&&);
