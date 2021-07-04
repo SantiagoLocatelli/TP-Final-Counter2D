@@ -6,23 +6,21 @@
 
 ParticleBullets::ParticleBullets(SdlRenderer& renderer):renderer(renderer){}
 
-void ParticleBullets::setTrajectory(LevelInfo level, Bullet bullet){
-    printf("coordenada src en metros: x: %f, y: %f\n", bullet.start_x, bullet.start_y);
+void ParticleBullets::setTrajectory(LevelInfo level, Bullet bullet, int camX, int camY){
 
-    this->posX = Math::ruleOfThree(bullet.start_x, level.w_meters, level.width);
-    this->posY = Math::ruleOfThree(bullet.start_y, level.h_meters, level.height);
+    this->posX = Math::ruleOfThree(bullet.start_x, level.w_meters, level.width) - camX;
+    this->posY = Math::ruleOfThree(bullet.start_y, level.h_meters, level.height) - camY;
     printf("coordenada src: x: %i, y: %i\n", Math::ruleOfThree(bullet.start_x, level.w_meters, level.width), Math::ruleOfThree(bullet.start_y, level.h_meters, level.height));
     int distance = Math::ruleOfThree(bullet.distance, level.w_meters, level.width);
     printf("angulo: %f\n", bullet.angle);
-    this->dstPosX = Math::senoOppHyp(bullet.angle, distance) + this->posX;
-    this->dstPosY = Math::cosOppHyp(bullet.angle, distance) + this->posY;
+    this->dstPosX = Math::cosOppHyp(bullet.angle, distance) + this->posX - camX;
+    this->dstPosY = Math::senoOppHyp(bullet.angle, distance) + this->posY - camY;
 
 
 }
 
 void ParticleBullets::render(){
-    this->renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-    // printf("coordenada src: x: %i, y: %i\n", this->posX, this->posY);
+    this->renderer.setDrawColor(0x00, 0x00, 0x00, 0xFF);
     printf("coordenada dst: x: %i, y: %i\n", this->dstPosX, this->dstPosY);
     this->renderer.drawLine(this->posX, this->posY, this->dstPosX, this->dstPosY);
 }

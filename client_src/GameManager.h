@@ -42,7 +42,7 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
-    void renderShots();
+    void renderShots(int camX, int camY);
     void addPlayer(const char* pathTexture, struct Color color, int index);
     void initializeGame(ModelInfo model);
     // ver si es necesaria

@@ -15,7 +15,7 @@ private:
 public:
 
     ParticleBullets(SdlRenderer& renderer);
-    void setTrajectory(LevelInfo level, Bullet bullet);
+    void setTrajectory(LevelInfo level, Bullet bullet, int camX, int camY);
     void render();
 };
 

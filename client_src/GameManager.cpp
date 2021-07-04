@@ -96,21 +96,11 @@ void GameManager::renderPlayers(int camX, int camY) {
     }
 }
 
-void GameManager::renderShots(){
-    printf("entro a rendershots\n");
+void GameManager::renderShots(int camX, int camY){
     for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
-        printf("dentro del loop bullets\n");
-        
-        this->bullet.setTrajectory(this->level, *it);
+        this->bullet.setTrajectory(this->level, *it, camX, camY);
         this->bullet.render();
     }
-    // Bullet bullet;
-    // bullet.start_x = 0.0;
-    // bullet.start_y = 0.0;
-    // bullet.distance = 5.0;
-    // bullet.angle = 0.5;
-    // this->bullet.setTrajectory(this->level, bullet);
-    // this->bullet.render();
 }
 
 void GameManager::render(){
@@ -128,7 +118,7 @@ void GameManager::render(){
         this->stencil.render(camX, camY);
     }
     this->crosshair.render();
-    renderShots();
+    renderShots(camX, camY);
 
     renderer.updateScreen();
 }
