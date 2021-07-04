@@ -25,7 +25,6 @@ void World::step(){
             p.updateVelocity();
     }
     b2world.Step(1.0/30.0, 10, 9);
-    //bullets.clear();
 }
 
 bool World::rayCast(Ray &ray, Hittable *&hittable){
@@ -54,7 +53,7 @@ bool World::rayCast(Ray &ray, Hittable *&hittable){
             continue;
         }
 
-        if (dist < min_dist){
+        if (min_dist == -1 || dist < min_dist){
             min_dist = dist;
             hittable = &b;
             ray.distance = dist;
@@ -69,7 +68,6 @@ void World::deleteBody(b2Body *body){
 }
 
 void World::addBullet(Ray ray){
-    perror("AGREGO BALA\n");
     bullets.push_back(ray);
 }
 
@@ -77,3 +75,6 @@ std::list<Ray> &World::getBullets(){
     return bullets;
 }
 
+void World::clearBullets(){
+    bullets.clear();
+}

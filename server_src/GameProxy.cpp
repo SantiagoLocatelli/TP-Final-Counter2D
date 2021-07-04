@@ -89,3 +89,7 @@ bool GameProxy::ended(){
 GameProxy::~GameProxy(){
     delete world;
 }
+
+void GameProxy::clearFrameEvents(){
+    world->clearBullets();
+}

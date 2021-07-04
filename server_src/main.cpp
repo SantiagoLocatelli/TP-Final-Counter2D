@@ -61,6 +61,7 @@ int main(int argc, char const *argv[]){
 
             game.step();
             emitter.emitModel(std::move(game.getModelInfo()));
+            game.clearFrameEvents();
         }
         
         accepter.stop();
