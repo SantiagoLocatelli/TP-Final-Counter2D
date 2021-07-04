@@ -15,7 +15,7 @@ class Draggable : public SdlTexture{
         void handleEvent(SDL_Event* event, SDL_Rect camera);
         void render(int width, int height);
         void render(SDL_Rect camera);
-        bool isToching(SDL_Rect camera);
+        bool isTouching(SDL_Rect camera);
         SDL_Rect getBox();
         int getPosX();
         int getPosY();

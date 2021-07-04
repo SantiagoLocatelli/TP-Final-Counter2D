@@ -11,6 +11,8 @@ class SdlTexture{
 	private:
 		SdlRenderer& renderer;
 		SDL_Texture* mTexture;
+
+		std::string path;
 		//Image dimensions
 		int type;
 		int mWidth;
@@ -25,6 +27,10 @@ class SdlTexture{
  			Uint8 green, Uint8 blue);
 
 		SdlTexture(SdlRenderer& r, std::string path, int type);
+
+		int changeTextTexture(std::string text, int size, Uint8 red, Uint8 green, Uint8 blue);
+
+		bool isMouseTouching(int posX, int posY);
 
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
