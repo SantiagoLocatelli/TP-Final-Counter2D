@@ -25,7 +25,7 @@ void World::step(){
             p.updateVelocity();
     }
     b2world.Step(1.0/30.0, 10, 9);
-    bullets.clear();
+    //bullets.clear();
 }
 
 bool World::rayCast(Ray &ray, Hittable *&hittable){
@@ -69,6 +69,7 @@ void World::deleteBody(b2Body *body){
 }
 
 void World::addBullet(Ray ray){
+    perror("AGREGO BALA\n");
     bullets.push_back(ray);
 }
 
