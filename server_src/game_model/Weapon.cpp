@@ -1,7 +1,7 @@
 #include "Weapon.h"
 
-Weapon::Weapon(Player *owner, World *world, float damage)
-:owner(owner), world(world), damage(damage){}
+Weapon::Weapon(World *world, float damage)
+:owner(nullptr), world(world), damage(damage){}
 
 
 void Weapon::changeOwner(Player *newOwner){

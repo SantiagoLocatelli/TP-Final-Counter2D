@@ -8,7 +8,7 @@
 
 Player::Player(World &world, float start_x, float start_y)
 :health(100), angle(0), world(world), dead(false)
-, weapon(new GodGun(this, &world)){
+, weapon(new Pistol(&world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -24,6 +24,8 @@ Player::Player(World &world, float start_x, float start_y)
     fixtureDef.friction = 0;
 
     fixture = body->CreateFixture(&fixtureDef);
+
+    weapon->changeOwner(this);
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -120,3 +122,13 @@ Player::~Player(){
         delete weapon;
 }
 
+void Player::dropWeapon(){
+    new Drop(world, body->GetPosition().x, body->GetPosition().y, weapon);
+    weapon = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+}
+
+void Player::takeWeapon(Weapon *weapon){
+    delete this->weapon;
+    weapon->changeOwner(this);
+    this->weapon = weapon;
+}

@@ -15,7 +15,7 @@ class Weapon{
 
         virtual float calculateDamage(float distance) = 0;
     public:
-        Weapon(Player *owner, World *world, float damage);
+        Weapon(World *world, float damage);
         void changeOwner(Player *newOwner);
         World *getWorld();
         virtual void toggle() = 0;

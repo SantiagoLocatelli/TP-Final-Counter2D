@@ -10,7 +10,7 @@ class Pistol: public Weapon{
         float calculateDamage(float distance) override;
 
     public:
-        Pistol(Player *owner, World *world);
+        Pistol(World *world);
         void toggle() override;
 };
 

@@ -1,7 +1,7 @@
 #include "GodGun.h"
 
-GodGun::GodGun(Player *owner, World *world)
-:Weapon(owner, world, GOD_GUN_DAMAGE){}
+GodGun::GodGun(World *world)
+:Weapon(world, GOD_GUN_DAMAGE){}
 
 
 void GodGun::toggle(){
