@@ -1,5 +1,6 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
+#include "game_model/GodGun.h"
 #include <utility>
 
 #include <list>
@@ -17,6 +18,8 @@ GameProxy::GameProxy(const std::string &yaml_path){
     for (ProtBox b: mapInfo.boxes){
         world->addBox(b.x, b.y);
     }
+
+    world->addDrop(new GodGun(world), 2.5f, 2.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){
@@ -60,7 +63,7 @@ void GameProxy::step(){
 }
 
 void GameProxy::createPlayer(int team){
-    world->createPlayer(team+1, team+1);
+    world->createPlayer(team, team);
 }
 
 void GameProxy::toggleMovement(int id, Direction direction){

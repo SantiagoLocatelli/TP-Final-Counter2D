@@ -1,7 +1,7 @@
 #include "Pistol.h"
 
-Pistol::Pistol(Player *owner, World *world)
-:Weapon(owner, world, PISTOL_DAMAGE){}
+Pistol::Pistol(World *world)
+:Weapon(world, PISTOL_DAMAGE){}
 
 
 void Pistol::toggle(){

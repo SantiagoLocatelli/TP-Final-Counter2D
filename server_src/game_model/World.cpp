@@ -4,6 +4,7 @@
 World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(0,0)){
     gridSize[0] = grid_length;
     gridSize[1] = grid_height;
+    b2world.SetContactListener(&collisionHandler);
 }
 
 void World::addBox(int grid_x, int grid_y){
@@ -25,6 +26,12 @@ void World::step(){
             p.updateVelocity();
     }
     b2world.Step(1.0/30.0, 10, 9);
+    for (b2Body *b : bodiesToDestroy){
+        //Aca elimino todos los drops
+        delete (Drop *)b->GetFixtureList()->GetUserData().pointer;
+        b2world.DestroyBody(b);
+    }
+    bodiesToDestroy.clear();
     bullets.clear();
 }
 
@@ -74,5 +81,27 @@ void World::addBullet(Ray ray){
 
 std::list<Ray> &World::getBullets(){
     return bullets;
+}
+
+void World::addDrop(Weapon *weapon, float x, float y){
+    new Drop(*this, x, y, weapon);
+}
+
+std::list<Drop*> World::getDrops(){
+    std::list<Drop*> drops;
+    for (b2Body* b = b2world.GetBodyList(); b; b = b->GetNext()){
+        b2Fixture *fixture = b->GetFixtureList();
+        Drop *drop = (Drop *)fixture->GetUserData().pointer;
+        if (drop != nullptr){
+            //Si estoy aca es porque este b2Body era un Drop
+            drops.push_back(drop);
+        }
+    }
+
+    return drops;
+}
+
+void World::destroyBody(b2Body *body){
+    bodiesToDestroy.push_back(body);
 }
 
