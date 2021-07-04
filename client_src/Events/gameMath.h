@@ -19,6 +19,8 @@ class Math{
         static float radiansToDegrees(float radians);
         static float calculateRadians(coordenada_t center, coordenada_t point);
         static int ruleOfThree(float x_f, float total_f, int total_i);
+        static int senoOppHyp(float radians, int hypotenuse);
+        static int cosOppHyp(float radians, int hypotenuse);
 
     private:
 };

@@ -33,7 +33,9 @@ SDL_Texture* SdlRenderer::createTextureFromSurface(SDL_Surface* loadedSurface){
 void SdlRenderer::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha){
     SDL_SetRenderDrawColor(this->mRenderer, r, g, b, alpha);
 }
-
+void SdlRenderer::drawLine(int posX, int posY, int dstPosX, int dstPosY){
+    SDL_RenderDrawLine( this->mRenderer, posX, posY, dstPosX, dstPosY);
+}
 
 void SdlRenderer::clear(){
     SDL_RenderClear(this->mRenderer);
@@ -46,6 +48,7 @@ void SdlRenderer::updateScreen(){
 void SdlRenderer::render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQuad, double angle, SDL_Point* center, SDL_RendererFlip flip){
     SDL_RenderCopyEx(this->mRenderer, texture, clip, renderQuad, angle, center, flip);
 }
+
 
 
 

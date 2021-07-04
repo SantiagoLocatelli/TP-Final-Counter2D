@@ -37,3 +37,11 @@ int Math::ruleOfThree(float x_f, float total_f, int total_i){
     int porcentage = (x_f*100.0)/ (float)total_f;
     return (total_i*porcentage)/100;
 }
+
+int Math::senoOppHyp(float radians, int hypotenuse){
+    return (int)asin(radians) / hypotenuse;
+}
+
+int Math::cosOppHyp(float radians, int hypotenuse){
+    return (int)acos(radians) / hypotenuse;
+}

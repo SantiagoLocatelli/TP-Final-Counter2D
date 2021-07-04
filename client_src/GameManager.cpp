@@ -91,7 +91,7 @@ void GameManager::renderPlayers(int camX, int camY) {
     for (auto it = this->players.begin(); it != this->players.end(); it++) {
         if (!it->isDead()){
             it->render(camX, camY);
-            this->weapons[it->getIdWeapon()].render(it->getPosX()- camX, it->getPosY() - camY, it->getDegrees());
+            //this->weapons[it->getIdWeapon()].render(it->getPosX()- camX, it->getPosY() - camY, it->getDegrees());
         }
     }
 }
@@ -99,9 +99,18 @@ void GameManager::renderPlayers(int camX, int camY) {
 void GameManager::renderShots(){
     printf("entro a rendershots\n");
     for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
+        printf("dentro del loop bullets\n");
+        
         this->bullet.setTrajectory(this->level, *it);
         this->bullet.render();
     }
+    Bullet bullet;
+    bullet.start_x = 0.0;
+    bullet.start_y = 0.0;
+    bullet.distance = 5.0;
+    bullet.angle = 0.5;
+    this->bullet.setTrajectory(this->level, bullet);
+    this->bullet.render();
 }
 
 void GameManager::render(){
