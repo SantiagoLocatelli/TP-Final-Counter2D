@@ -13,8 +13,9 @@ void ParticleBullets::setTrajectory(LevelInfo level, Bullet bullet){
     this->posY = Math::ruleOfThree(bullet.start_y, level.h_meters, level.height);
     printf("coordenada src: x: %i, y: %i\n", Math::ruleOfThree(bullet.start_x, level.w_meters, level.width), Math::ruleOfThree(bullet.start_y, level.h_meters, level.height));
     int distance = Math::ruleOfThree(bullet.distance, level.w_meters, level.width);
-    this->dstPosX = Math::senoOppHyp(bullet.angle, distance);
-    this->dstPosY = Math::cosOppHyp(bullet.angle, distance);
+    printf("angulo: %f\n", bullet.angle);
+    this->dstPosX = Math::senoOppHyp(bullet.angle, distance) + this->posX;
+    this->dstPosY = Math::cosOppHyp(bullet.angle, distance) + this->posY;
 
 
 }
