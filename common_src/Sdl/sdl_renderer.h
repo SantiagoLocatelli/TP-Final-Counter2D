@@ -22,6 +22,8 @@ class SdlRenderer{
         int setRenderTarget(SDL_Texture* target);
         void fillRect(SDL_Rect& rect);
         
+        void drawLine(int posX, int posY, int dstPosX, int dstPosY);
+
         void render(SDL_Rect* rect);
         ~SdlRenderer();
 };

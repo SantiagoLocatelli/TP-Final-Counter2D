@@ -7,17 +7,15 @@
 class Weapon {
 private:
 
-    int arma_actual = 0;
-    // std::list<SdlTexture> weapons;
-
+    SdlTexture weapon;
+    // SdlTexture anim;
+    int width;
+    int heigth;
 
 public:
-    Weapon();
+    Weapon(SdlTexture weapon, int width, int height/*, SdlTexture anim*/);
     void update();
-    // void addWeapon(SdlTexture weapon);
-
-    // Weapon& operator=(Weapon&&);
-    // Weapon(Weapon&& other);
+    void render(int posX, int posY, float degrees);
 };
 
 #endif

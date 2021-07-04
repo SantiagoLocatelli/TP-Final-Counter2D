@@ -15,6 +15,7 @@ void Weapon::toggle(){
     if (world->rayCast(ray, hit)){
         float actual_damage = calculateDamage(ray.distance);
         hit->recvDamage(actual_damage);
+        world->addBullet(ray);
     }
 }
 

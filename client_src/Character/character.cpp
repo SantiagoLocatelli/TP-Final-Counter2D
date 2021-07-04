@@ -3,7 +3,6 @@
 #include <utility>
 
 
-
 Character::Character(int width, int height, SdlTexture texture)
     : an(std::move(texture)), degrees(0.0), dead(false){
     this->area.x = 0;
@@ -20,9 +19,6 @@ void Character::render(int camX, int camY){
 
 
 void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
-
-    //TODO: Agregar metodo para convertir entre grados y radianes
-
     this->dead = you.dead;
     if (this->dead) return;
 
@@ -43,11 +39,14 @@ bool Character::isDead(){return this->dead;}
 int Character::getPosY(){return this->area.y;}
 int Character::getPosX(){return this->area.x;}
 SDL_Rect Character::getRect(){return this->area;}
+int Character::getIdWeapon(){return this->idWeapon;}
+float Character::getDegrees(){return this->degrees;}
 
 Character& Character::operator=(Character&& other){
     this->area = other.area;
     this->an = std::move(other.an);
     this->degrees = other.degrees;
+    this->idWeapon = other.idWeapon;
     return *this;
 }
 
@@ -55,4 +54,5 @@ Character::Character(Character&& other):
     an(std::move(other.an)){
     this->area = other.area;
     this->degrees = other.degrees;
+    this->idWeapon = other.idWeapon;
 }

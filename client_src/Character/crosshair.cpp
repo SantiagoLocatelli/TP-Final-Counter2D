@@ -9,8 +9,6 @@ CrossHair::CrossHair(int width, int height, SdlTexture texture)
     this->area.y = 0;
     this->area.w = width;
     this->area.h = height;
-    // this->cursor = SDL_CreateSystemCursor(SDL_NUM_SYSTEM_CURSORS);
-    // SDL_SetCursor(this->cursor);
 }
 
 void CrossHair::setPosition(int posX, int posY){
