@@ -19,6 +19,10 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
         info.bullets.push_back(b);
     }
 
+    for (ProtDrop d: drops){
+        info.drops.push_back(d);
+    }
+
     info.game_ended = game_ended;
 
     return info;

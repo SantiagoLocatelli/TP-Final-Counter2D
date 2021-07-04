@@ -53,6 +53,14 @@ CompleteModelInfo GameProxy::getModelInfo(){
         info.bullets.push_back(b);
     }
 
+    for (Drop *drop : world->getDrops()){
+        ProtDrop d;
+        d.pos.x = drop->getPosition()[0];
+        d.pos.y = drop->getPosition()[1];
+        d.type = GOD_GUN; //TODO: Agregar forma de que las weapon me digan su tipo
+        info.drops.push_back(d);
+    }
+
     info.game_ended = ended();
 
     return info;
