@@ -25,7 +25,6 @@ void World::step(){
             p.updateVelocity();
     }
     b2world.Step(1.0/30.0, 10, 9);
-    //bullets.clear();
 }
 
 bool World::rayCast(Ray &ray, Hittable *&hittable){
@@ -76,3 +75,6 @@ std::list<Ray> &World::getBullets(){
     return bullets;
 }
 
+void World::clearBullets(){
+    bullets.clear();
+}

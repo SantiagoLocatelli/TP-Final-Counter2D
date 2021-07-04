@@ -34,6 +34,7 @@ class World{
         std::vector<Player> &getPlayers();
         void addBullet(Ray ray);
         std::list<Ray> &getBullets();
+        void clearBullets();
 
         World(const World&) = delete;
         World& operator=(const World&) = delete;

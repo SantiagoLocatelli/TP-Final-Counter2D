@@ -30,6 +30,8 @@ class GameProxy{
         void setAngle(int id, float angle);
         void toggleWeapon(int id);
 
+        void clearFrameEvents();
+
         bool ended();
 
         ~GameProxy();
