@@ -3,8 +3,8 @@
 #include <utility>
 
 
-Character::Character(int width, int height, SdlTexture texture)
-    : an(std::move(texture)), degrees(0.0), dead(false){
+Character::Character(int width, int height, SdlTexture& texture)
+    : an(texture), degrees(0.0), dead(false){
 
     this->area.x = 0;
     this->area.y = 0;

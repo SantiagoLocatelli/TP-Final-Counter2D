@@ -25,6 +25,7 @@ private:
     ModelInfo model;
 
     // vector o lista de texturas
+    SdlTexture pjTexture;
     
     // provisorio {
     std::vector<SdlTexture> textures;
@@ -37,7 +38,7 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
-    void addPlayer(const char* pathTexture, struct Color color, int index);
+    void addPlayer(const char* pathTexture, struct Color color);
     void initializeGame(ModelInfo model);
     // ver si es necesaria
     void addTexture(const char* pathTexture, struct Color color);
