@@ -104,13 +104,13 @@ void GameManager::renderShots(){
         this->bullet.setTrajectory(this->level, *it);
         this->bullet.render();
     }
-    Bullet bullet;
-    bullet.start_x = 0.0;
-    bullet.start_y = 0.0;
-    bullet.distance = 5.0;
-    bullet.angle = 0.5;
-    this->bullet.setTrajectory(this->level, bullet);
-    this->bullet.render();
+    // Bullet bullet;
+    // bullet.start_x = 0.0;
+    // bullet.start_y = 0.0;
+    // bullet.distance = 5.0;
+    // bullet.angle = 0.5;
+    // this->bullet.setTrajectory(this->level, bullet);
+    // this->bullet.render();
 }
 
 void GameManager::render(){

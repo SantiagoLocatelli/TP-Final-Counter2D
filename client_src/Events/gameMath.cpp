@@ -39,9 +39,11 @@ int Math::ruleOfThree(float x_f, float total_f, int total_i){
 }
 
 int Math::senoOppHyp(float radians, int hypotenuse){
-    return (int)asin(radians) / hypotenuse;
+    return (int)sin(radians) * hypotenuse;
 }
 
 int Math::cosOppHyp(float radians, int hypotenuse){
-    return (int)acos(radians) / hypotenuse;
+    printf("cos: %i\n", (int)cos(radians));
+    printf("hypotenuse: %i\n", hypotenuse);
+    return (int)cos(radians) * hypotenuse;
 }
