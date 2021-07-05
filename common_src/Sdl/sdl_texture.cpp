@@ -63,35 +63,43 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string textureText, Uint8 red,
  Uint8 green, Uint8 blue) : renderer(r){
-	
+	this->path = path;
 	if (TTF_Init() == -1){
 		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 	}else{
-		TTF_Font* font = TTF_OpenFont(path.c_str(), size);
+		changeTextTexture(textureText, size, red, green, blue);
+	}
+}
+
+int SdlTexture::changeTextTexture(std::string text, int size, Uint8 red,
+ Uint8 green, Uint8 blue){
+	TTF_Font* font = TTF_OpenFont(this->path.c_str(), size);
 		if (font == NULL){
 			printf("Failed to load %s font! SDL_ttf Error: %s\n", path.c_str(), TTF_GetError());
 		}else{
 			//Render text surface
 			SDL_Color textColor = {red, green, blue};
-			SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+			SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 			if (textSurface != NULL){
 				//Create texture from surface pixels
 				this->mTexture = this->renderer.createTextureFromSurface(textSurface);
+				//Get rid of old surface
+				SDL_FreeSurface(textSurface);
 				if (this->mTexture == NULL){
 					printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 				}else{
 					//Get image dimensions
 					mWidth = textSurface->w;
 					mHeight = textSurface->h;
+					return 0;
 				}
-				//Get rid of old surface
-				SDL_FreeSurface(textSurface);
 			}else{
 				printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 			}
 		}
-	}
+	return -1;
 }
+
 
 void SdlTexture::free(){
 	if( this->mTexture != NULL )
@@ -137,6 +145,37 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+bool SdlTexture::isMouseTouching(int posX, int posY){
+    //Check if mouse is in button
+    bool inside = true;
+	int mousePosX, mousePosY;
+	SDL_GetMouseState(&mousePosX, &mousePosY);
+
+    //Mouse is left of the button
+    if (mousePosX < posX){
+        inside = false;
+    }
+    //Mouse is right of the button
+    else if (mousePosX > posX + this->mWidth){
+        inside = false;
+    }
+    //Mouse above the button
+    else if (mousePosY < posY){
+        inside = false;
+    }
+    //Mouse below the button
+    else if (mousePosY > posY + this->mHeight){
+        inside = false;
+    }
+
+    return inside;
+}
+
+void SdlTexture::setWidthAndHeight(int width, int height){
+	this->mWidth = width;
+	this->mHeight = height;
+}
+
 
 int SdlTexture::getWidth()const{return this->mWidth;}
 int SdlTexture::getHeight()const{return this->mHeight;}
@@ -166,8 +205,19 @@ int SdlTexture::getType()const{
 	return this->type;
 }
 
+SDL_Texture* SdlTexture::createTexture(int w, int h){
+	return this->renderer.createTexture(w, h);
+}
+
+int SdlTexture::setRenderTarget(SDL_Texture* target){
+    return this->renderer.setRenderTarget(target);
+}
+
+SDL_Texture* SdlTexture::getRenderTarget(){
+	return this->renderer.getRenderTarget();
+}
+
 SdlTexture::~SdlTexture(){
 	free();
 	TTF_Quit();
-	delete this->mTexture;
 }
