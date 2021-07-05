@@ -1,6 +1,7 @@
 #ifndef __MAIN_CHARACTER_H__
 #define __MAIN_CHARACTER_H__
 
+#include "../levelInfo.h"
 #include "character.h"
 #include "crosshair.h"
 #include "stencil.h"

@@ -5,6 +5,7 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
 #include "Character/particleBullets.h"
+#include "Character/mainCharacter.h"
 #include "Character/character.h"
 #include "Character/camera.h"
 #include <string>   
@@ -19,6 +20,7 @@ private:
     SdlRenderer renderer;
     Camera cam;
 
+    LevelInfo level;
 
     std::map<WeaponType, SdlTexture*> weaponOnPj;
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
@@ -33,21 +35,20 @@ private:
     SdlTexture pjTexture;
 
 
-    void renderPlayers(int camX, int camY);
-    void renderBoxes(int camX, int camY);
-
-    void renderShots(int camX, int camY);
-    void renderWeapons(int camX, int camY);
+    void renderPlayers(Coordenada cam);
+    void renderMap(Coordenada cam);
+    void renderShots(Coordenada cam);
+    void renderWeapons(Coordenada cam);
+    void renderMainPlayer(Coordenada cam);
+    
     void addPlayer(const char* pathTexture, struct Color color);
-    void initializeGame(LevelInfo level);
-    // ver si es necesaria
-    void addTexture(const char* pathTexture, struct Color color);
+    
     void loadWeapons();
     void loadMap();
 
 public:
 
-    GameViewer(int window_w, int window_h, LevelInfo level);
+    GameViewer(int window_w, int window_h);
     ~GameViewer();
 
     void setCrossHair(Coordenada pos);

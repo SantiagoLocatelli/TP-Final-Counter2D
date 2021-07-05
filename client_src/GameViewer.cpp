@@ -14,7 +14,7 @@ struct Color {
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
-GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
+GameViewer::GameViewer(int window_w, int window_h): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
     cam(window_w, window_h),
     pjTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b), 
@@ -79,40 +79,58 @@ void GameViewer::loadMap() {
 
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
-void GameViewer::renderPlayers(int camX, int camY) {
-
+void GameViewer::renderPlayers(Coordenada cam) {
+    for (PlayerInfo player : level.players){
+        if (!player.dead) {
+            this->pjTexture.render(player.pos.x - cam.x, player.pos.y - cam.y, player.size.w, player.size.h, player.degrees);
+            //en un futuro agregar para renderizar el pj con el arma.
+        }
+    }
 }
 
-void GameViewer::renderShots(int camX, int camY){
-
+void GameViewer::renderShots(Coordenada cam){
+    for (BulletInfo bul : level.bullets) {
+        this->bullet.setTrajectory(bul.pos, bul.dst);
+        this->bullet.render(cam);
+    }
 }
 
-void GameViewer::renderWeapons(int camX, int camY){
-
+void GameViewer::renderWeapons(Coordenada cam){
+    for(DropInfo wp : level.drops){
+        this->weaponsOnFloor[wp.type]->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
+    }
 }
 
+void GameViewer::renderMap(Coordenada cam){
+    this->textures[BACKGROUND]->render(0, 0, this->level.width, this->level.height);
+    for (Box box : this->level.boxes){
+        this->textures[BOX]->render(box.pos.x - cam.x, box.pos.y - cam.y, box.size.w, box.size.h);
+    }
+}
+
+void GameViewer::renderMainPlayer(Coordenada cam){
+    this->mainPlayer.update(level.mainPlayer);
+    this->mainPlayer.render(cam);
+}
 
 void GameViewer::render(){
 
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
-    int camX = this->cam.getPosX();
-    int camY = this->cam.getPosY();
+    Coordenada cam = {this->cam.getPosX(), this->cam.getPosY()};
     
-    renderBoxes(camX, camY);
-    renderPlayers(camX, camY);
-
-    //render maincharacter
-
-    renderShots(camX, camY);
-    renderWeapons(camX, camY);
+    renderMap(cam);
+    renderPlayers(cam);
+    renderShots(cam);
+    renderWeapons(cam);
+    renderMainPlayer(cam);
 
     renderer.updateScreen();
 }
 
 
-
+void GameViewer::update(LevelInfo level){this->level = level;}
 void GameViewer::setCrossHair(Coordenada pos){this->mainPlayer.setCrossHair(pos);}
 
 Coordenada GameViewer::mainPlayerRelativePos(){

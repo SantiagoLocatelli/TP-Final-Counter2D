@@ -3,8 +3,8 @@
 #include <utility>
 
 
-Character::Character(PlayerInfo player, SdlTexture& texture)
-    : player(player), an(texture){}
+Character::Character(PlayerInfo player, SdlTexture& texture):
+    player(player), an(texture){}
 
 
 void Character::render(int camX, int camY){

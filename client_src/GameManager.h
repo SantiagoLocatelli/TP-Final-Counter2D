@@ -16,13 +16,14 @@ private:
     void updatePlayer(PlayerInfo& player, ProtPlayer prot);
     void updateBullet(BulletInfo& bullet, Bullet prot);
     void updateDrop(DropInfo& drop, ProtDrop prot);
+    void updateBox(Box& box, ProtBox prot);
 
 public:
 
     GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
-    ~GameManager();
     
     void update(ModelInfo model);
+    void render();
     Coordenada getRelativePlayerPos();
     void setCrossHair(Coordenada pos);
 };

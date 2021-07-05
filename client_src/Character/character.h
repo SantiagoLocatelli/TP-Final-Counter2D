@@ -16,7 +16,6 @@ class Character{
 
     public:
 		Character(PlayerInfo player, SdlTexture& texture);
-		Character();
 
 		void update(PlayerInfo info);
 		void render(int camX, int camY);

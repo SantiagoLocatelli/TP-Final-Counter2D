@@ -1,10 +1,8 @@
 #ifndef __LEVEL_INFO_H__
 #define __LEVEL_INFO_H__
 
-#include "../../common_src/MapInfo.h"
+#include <list>
 #include "../../common_src/ModelInfo.h"
-#include "Character/character.h"
-#include "mainCharacter.h"
 
 struct Coordenada {
     int x;
@@ -14,6 +12,11 @@ struct Coordenada {
 struct Size {
     int w; 
     int h;
+};
+
+struct Box {
+    Coordenada pos;
+    Size size;
 };
 
 struct DropInfo {
@@ -46,7 +49,7 @@ struct LevelInfo{
     
     MainPlayerInfo mainPlayer;
 
-    std::list<Coordenada> boxes;
+    std::list<Box> boxes;
 
     std::list<DropInfo> drops;
 

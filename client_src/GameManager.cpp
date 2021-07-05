@@ -5,8 +5,8 @@
 
 
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h):
-    map(map), game(window_w, window_h, this->generateLevel(model)){
-
+    map(map), game(window_w, window_h){
+    this->update(model);
 }
 
 
@@ -38,9 +38,19 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.size.h = PIXELS_PER_METER;
 }
 
+void GameManager::updateBox(Box& box, ProtBox prot){
+    box.pos.x = Math::ruleOfThree(prot.x, 1, PIXELS_PER_METER);
+    box.pos.y = Math::ruleOfThree(prot.y, 1, PIXELS_PER_METER);
+    box.size.w = PIXELS_PER_METER;
+    box.size.h = PIXELS_PER_METER;
+}
+
 void GameManager::update(ModelInfo model){
 
     LevelInfo level;
+
+    level.width = this->map.length*PIXELS_PER_METER;
+    level.height = this->map.height*PIXELS_PER_METER;
 
     // Si esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
@@ -77,13 +87,14 @@ void GameManager::update(ModelInfo model){
     }
 
     for (auto it = this->map.boxes.begin(); it != this->map.boxes.end(); it++) {
-        Coordenada box;
-        box.x = Math::ruleOfThree(it->x, 1, PIXELS_PER_METER);
-        box.y = Math::ruleOfThree(it->y, 1, PIXELS_PER_METER);
+        Box box;
+        this->updateBox(box, *it);
+        level.boxes.push_back(box);
     }
 
     this->game.update(level);
 }
 
+void GameManager::render(){this->game.render();}
 Coordenada GameManager::getRelativePlayerPos(){this->game.mainPlayerRelativePos();}
 void GameManager::setCrossHair(Coordenada pos){this->game.setCrossHair(pos);}
