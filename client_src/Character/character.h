@@ -1,15 +1,11 @@
 #ifndef __Character_H__
 #define __Character_H__
 
-#include "../../common_src/Sdl/sdl_renderer.h" 
 #include "../../common_src/Sdl/sdl_texture.h"
-#include "camera.h"
-#include "stencil.h"
-#include "animation.h"
-#include <list>
 #include "../../common_src/Protocol.h"
-#include "levelInfo.h"
 #include "../Events/gameMath.h"
+#include "../levelInfo.h"
+#include "animation.h"
 #include "Weapon.h"
 
 
