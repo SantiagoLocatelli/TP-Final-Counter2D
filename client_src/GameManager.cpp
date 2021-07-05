@@ -125,6 +125,8 @@ void GameManager::initializeGame(ModelInfo model){
         this->addPlayer(PATH_TEXTURE, NEGRO);
     }
 
+    this->loadWeapons();
+
     this->update(model);
 }
 

@@ -163,11 +163,12 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     }
 
     recv_short(len);
+    modelInfo.drops.clear();
     for (int i = 0; i < len; i++){
         ProtDrop d;
-        send_byte(d.type);
-        send_float(d.pos.x);
-        send_float(d.pos.y);
+        recv_byte((char&)d.type);
+        recv_float(d.pos.x);
+        recv_float(d.pos.y);
         modelInfo.drops.push_back(d);
     }
     
