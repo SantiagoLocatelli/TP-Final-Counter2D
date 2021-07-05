@@ -26,7 +26,7 @@ class World{
 
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
-        void createPlayer(float start_x, float start_y);
+        void createPlayer();
         void step();
         bool rayCast(Ray &ray, Hittable *&hittable);
 
