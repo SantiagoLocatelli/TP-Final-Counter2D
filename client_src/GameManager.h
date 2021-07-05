@@ -26,7 +26,8 @@ private:
 
     // vector o lista de texturas
     SdlTexture pjTexture;
-    
+    std::map<DropType, SdlTexture*> weapons;
+
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
@@ -38,14 +39,17 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
+    void renderWeapons(int camX, int camY);
     void addPlayer(const char* pathTexture, struct Color color);
     void initializeGame(ModelInfo model);
     // ver si es necesaria
     void addTexture(const char* pathTexture, struct Color color);
+    void loadWeapons();
 
 public:
 
     GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
+    ~GameManager();
     void render();
     void update(ModelInfo model);
     int getRelativePlayerPosX();

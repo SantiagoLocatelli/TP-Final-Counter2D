@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "Events/gameMath.h"
 
 #define PIXELS_PER_METER 100
 #define YOU 0
@@ -22,6 +23,15 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
     this->initializeGame(model);
 }
 
+GameManager::~GameManager(){
+    for(auto it = this->weapons.begin(); it != this->weapons.end(); it++) {
+        SdlTexture* aux = it->second;
+        it++;
+        delete aux;
+    }
+    this->weapons.clear();
+}
+
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameManager::renderBoxes(int camX, int camY) {
     for(auto it = this->level.boxes.begin(); it != this->level.boxes.end(); it++){
@@ -39,6 +49,15 @@ void GameManager::renderPlayers(int camX, int camY) {
 }
 
 
+void GameManager::renderWeapons(int camX, int camY){
+    for(auto it = this->model.drops.begin(); it != this->model.drops.end(); it++) {
+        printf("dentro del for de render weapons\n");
+        int posX = Math::ruleOfThree(it->pos.x, this->level.w_meters, this->level.width) - camX;
+        int posY = Math::ruleOfThree(it->pos.y, this->level.h_meters, this->level.height) - camY;
+        this->weapons[it->type]->render(posX, posY, 50, 50);
+    }
+}
+
 void GameManager::render(){
 
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -53,6 +72,7 @@ void GameManager::render(){
 
         this->stencil.render(camX, camY);
     }
+    renderWeapons(camX, camY);
 
     renderer.updateScreen();
 }
@@ -65,6 +85,32 @@ void GameManager::addPlayer(const char* pathTexture, struct Color color){
     
     Character pj(PIXELS_PER_METER, PIXELS_PER_METER, this->pjTexture);
     this->players.push_back(std::move(pj));
+}
+
+
+void GameManager::loadWeapons(){
+    // SdlTexture knifeText(this->renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // // SdlTexture knifeAnim(this->renderer, "../../common_src/img/weapons/knifeslash.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // Weapon knife(std::move(knifeText), 50, 50);
+    // this->weapons.push_back(std::move(knife));
+    
+    // SdlTexture glockText(this->renderer, "../../common_src/img/weapons/glock.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // // SdlTexture knife(this->renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // Weapon glock(std::move(glockText), 20, 20);
+    // this->weapons.push_back(std::move(glock));
+    
+    // SdlTexture ak47Text(this->renderer, "../../common_src/img/weapons/ak47.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // // SdlTexture knife(this->renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // Weapon ak47(std::move(ak47Text), 20, 20);
+    // this->weapons.push_back(std::move(ak47));
+
+    // SdlTexture awpText(this->renderer, "../../common_src/img/weapons/awp.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // // SdlTexture knife(this->renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // Weapon awp(std::move(awpText), 20, 20);
+    // this->weapons.push_back(std::move(awp));
+
+    this->weapons[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/glock_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    this->weapons[GOD_GUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
 void GameManager::initializeGame(ModelInfo model){
