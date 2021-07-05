@@ -5,8 +5,7 @@
 #define PHASE_SHIFT 90
 #define DELAY_ANIMATION 3
 
-Animation::Animation(SdlTexture texture):
-    texture(std::move(texture)) {
+Animation::Animation(SdlTexture& texture):texture(texture) {
     // esto solo lo hago porque se el formato de la textura
     this->numFrames = (this->texture.getHeight()*2)/(this->texture.getWidth()/2);
     this->size = this->texture.getWidth()/2;
@@ -41,8 +40,7 @@ Animation& Animation::operator=(Animation&& other){
     this->texture = std::move(other.texture);
     return *this;
 }
-
-Animation::Animation(Animation&& other):texture(std::move(other.texture)){
+Animation::Animation(Animation&& other):texture(other.texture){
     this->numFrames = other.numFrames;
     this->currentFrame = other.currentFrame;
     this->size = other.size;

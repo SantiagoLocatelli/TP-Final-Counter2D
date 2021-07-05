@@ -10,6 +10,7 @@ class CompleteModelInfo{
     private:
         std::vector<You> players;
         std::list<Bullet> bullets;
+        std::list<ProtDrop> drops;
         bool game_ended;
     
     public:

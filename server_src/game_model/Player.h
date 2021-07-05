@@ -38,6 +38,10 @@ class Player: public Hittable{
         float getHealth() const;
         bool isDead() const;
 
+        //Inventario
+        void dropWeapon();
+        void takeWeapon(Weapon *weapon);
+
         ~Player();
 
         Player(Player&& other);

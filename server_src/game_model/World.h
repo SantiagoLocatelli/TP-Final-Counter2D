@@ -10,7 +10,10 @@
 #include "Hittable.h"
 #include "Box.h"
 #include "Ray.h"
+#include "Drop.h"
+#include "CollisionHandler.h"
 
+class Drop;
 class Player;
 
 class World{
@@ -20,6 +23,8 @@ class World{
         std::list<Box> boxes;
         std::list<Ray> bullets;
         int player_number;
+        CollisionHandler collisionHandler;
+        std::list<b2Body*> bodiesToDestroy;        
 
     public:
         b2World b2world;
@@ -35,6 +40,11 @@ class World{
         void addBullet(Ray ray);
         std::list<Ray> &getBullets();
         void clearBullets();
+
+        void addDrop(Weapon *weapon, float x, float y);
+        std::list<Drop*> getDrops();
+
+        void destroyBody(b2Body *body);
 
         World(const World&) = delete;
         World& operator=(const World&) = delete;

@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]){
     try{
         Emitter emitter;
         EventQueue queue;
-        GameProxy game("../../server_src/mapa.yaml");
+        GameProxy game("../../server_src/mapa_mediano.yaml");
 
         //TODO: Agarrado con alambres. Solo para la prueba 
         game.createPlayer();

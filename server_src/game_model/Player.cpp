@@ -1,5 +1,6 @@
 #include "Player.h"
-#include "Weapon.h"
+#include "Pistol.h"
+#include "GodGun.h"
 #include "../../common_src/GeneralException.h"
 #include <cmath>
 #include <iostream>
@@ -7,11 +8,12 @@
 
 Player::Player(World &world, float start_x, float start_y)
 :health(100), angle(0), world(world), dead(false)
-, weapon(new Weapon(this, &world)){
+, weapon(new Pistol(&world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
     body = world.b2world.CreateBody(&playerBodyDef);
+    body->GetUserData().pointer = (uintptr_t)this;
 
     b2CircleShape playerShape;
     playerShape.m_radius = 0.5f;
@@ -23,6 +25,8 @@ Player::Player(World &world, float start_x, float start_y)
 
     fixture = body->CreateFixture(&fixtureDef);
 
+    weapon->changeOwner(this);
+
     movement[UP] = false;
     movement[DOWN] = false;
     movement[RIGHT] = false;
@@ -31,12 +35,17 @@ Player::Player(World &world, float start_x, float start_y)
 
 Player::Player(Player&& other): world(other.world){
     this->body = other.body;
+    this->body->GetUserData().pointer = (uintptr_t)this;
+
     this->health = other.health;
     this->dead = other.dead;
     this->angle = other.angle;
+
     this->movement = std::move(other.movement);
+
     other.weapon->changeOwner(this);
     weapon = other.weapon;
+
     this->fixture = other.fixture;
 
     other.weapon = nullptr;
@@ -113,3 +122,13 @@ Player::~Player(){
         delete weapon;
 }
 
+void Player::dropWeapon(){
+    new Drop(world, body->GetPosition().x, body->GetPosition().y, weapon);
+    weapon = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+}
+
+void Player::takeWeapon(Weapon *weapon){
+    delete this->weapon;
+    weapon->changeOwner(this);
+    this->weapon = weapon;
+}

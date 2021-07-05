@@ -6,9 +6,9 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
         if (i == id){
             info.you = players[i];
         } else {
-            Prot_Player p;
-            p.x = players[i].x;
-            p.y = players[i].y;
+            ProtPlayer p;
+            p.pos.x = players[i].pos.x;
+            p.pos.y = players[i].pos.y;
             p.angle = players[i].angle;
             p.dead = players[i].dead;
             info.players.push_back(p);
@@ -17,6 +17,10 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
 
     for (Bullet b: bullets){
         info.bullets.push_back(b);
+    }
+
+    for (ProtDrop d: drops){
+        info.drops.push_back(d);
     }
 
     info.game_ended = game_ended;
@@ -31,6 +35,7 @@ bool CompleteModelInfo::ended(){
 CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     players = std::move(other.players);
     bullets = std::move(other.bullets);
+    drops = std::move(other.drops);
     game_ended = other.game_ended;
 }
 
@@ -41,6 +46,7 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
 
     players = std::move(other.players);
     bullets = std::move(other.bullets);
+    drops = std::move(other.drops);
     game_ended = other.game_ended;
     
 

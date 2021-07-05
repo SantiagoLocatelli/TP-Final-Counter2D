@@ -11,6 +11,7 @@
 #include "crosshair.h"
 #include "Character/particleBullets.h"
 #include <vector>
+#include <map>
 
 struct Color {
     uint8_t r, g, b;
@@ -28,9 +29,12 @@ private:
 
     // vector o lista de texturas
 
-    std::vector<Weapon> weapons;
+    // std::vector<Weapon> weapons;
 
     ParticleBullets bullet;
+    SdlTexture pjTexture;
+    std::map<DropType, SdlTexture*> weapons;
+
     // provisorio {
     std::vector<SdlTexture> textures;
     // }
@@ -42,8 +46,10 @@ private:
 
     void renderPlayers(int camX, int camY);
     void renderBoxes(int camX, int camY);
+
     void renderShots(int camX, int camY);
-    void addPlayer(const char* pathTexture, struct Color color, int index);
+    void renderWeapons(int camX, int camY);
+    void addPlayer(const char* pathTexture, struct Color color);
     void initializeGame(ModelInfo model);
     // ver si es necesaria
     void addTexture(const char* pathTexture, struct Color color);
@@ -52,6 +58,7 @@ private:
 public:
 
     GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
+    ~GameManager();
     void render();
     void update(ModelInfo model);
     int getRelativePlayerPosX();

@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 
-struct Prot_Box{
+struct ProtBox{
     uint16_t x;
     uint16_t y;
 };
@@ -13,7 +13,7 @@ struct Prot_Box{
 struct MapInfo{
     uint16_t height;
     uint16_t length;
-    std::list<Prot_Box> boxes;
+    std::list<ProtBox> boxes;
 };
 
 #endif

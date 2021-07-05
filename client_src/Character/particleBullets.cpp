@@ -8,12 +8,12 @@ ParticleBullets::ParticleBullets(SdlRenderer& renderer):renderer(renderer){}
 
 void ParticleBullets::setTrajectory(LevelInfo level, Bullet bullet, int camX, int camY){
 
-    this->posX = Math::ruleOfThree(bullet.start_x, level.w_meters, level.width) - camX;
-    this->posY = Math::ruleOfThree(bullet.start_y, level.h_meters, level.height) - camY;
+    this->posX = Math::ruleOfThree(bullet.pos.x, level.w_meters, level.width) - camX;
+    this->posY = Math::ruleOfThree(bullet.pos.y, level.h_meters, level.height) - camY;
     int distance = Math::ruleOfThree(bullet.distance, level.w_meters, level.width);
     this->dstPosX = Math::cosOppHyp(bullet.angle, distance) + this->posX;
     this->dstPosY = Math::senoOppHyp(bullet.angle, distance) + this->posY;
-    printf("coordenada src: x: %i, y: %i\n", Math::ruleOfThree(bullet.start_x, level.w_meters, level.width), Math::ruleOfThree(bullet.start_y, level.h_meters, level.height));
+    printf("coordenada src: x: %i, y: %i\n", Math::ruleOfThree(bullet.pos.x, level.w_meters, level.width), Math::ruleOfThree(bullet.pos.y, level.h_meters, level.height));
     printf("angulo: %f\n", bullet.angle);
 
 }

@@ -9,7 +9,7 @@ class Hittable{
         b2Fixture *fixture;
     
     public:
-        float isHitBy(Ray ray);
+        virtual float isHitBy(Ray ray);
         void virtual recvDamage(float damage) = 0;
 };
 

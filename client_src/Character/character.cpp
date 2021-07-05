@@ -3,8 +3,9 @@
 #include <utility>
 
 
-Character::Character(int width, int height, SdlTexture texture)
-    : an(std::move(texture)), degrees(0.0), dead(false){
+Character::Character(int width, int height, SdlTexture& texture)
+    : an(texture), degrees(0.0), dead(false){
+
     this->area.x = 0;
     this->area.y = 0;
     this->area.w = width;
@@ -18,13 +19,13 @@ void Character::render(int camX, int camY){
 }
 
 
-void Character::update(const Prot_Player you, const LevelInfo level, float health, uint16_t ammo){
+void Character::update(const ProtPlayer you, const LevelInfo level, float health, uint16_t ammo){
     this->dead = you.dead;
     if (this->dead) return;
 
     this->degrees = Math::radiansToDegrees(you.angle);
-    int x = Math::ruleOfThree(you.x, level.w_meters, level.width);
-    int y = Math::ruleOfThree(you.y, level.h_meters, level.height);
+    int x = Math::ruleOfThree(you.pos.x, level.w_meters, level.width);
+    int y = Math::ruleOfThree(you.pos.y, level.h_meters, level.height);
 
     // para que cambia de frame solo si avanza
     if (this->area.x != x || this->area.y != y) {

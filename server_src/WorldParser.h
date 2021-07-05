@@ -15,7 +15,7 @@ class WorldParser{
     public:
         explicit WorldParser(const std::string &yamlPath);
         void get_size(uint16_t &length, uint16_t &height);
-        std::list<Prot_Box> get_boxes();
+        std::list<ProtBox> get_boxes();
 };
 
 #endif

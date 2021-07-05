@@ -1,5 +1,6 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
+#include "game_model/GodGun.h"
 #include <utility>
 
 #include <list>
@@ -14,9 +15,11 @@ GameProxy::GameProxy(const std::string &yaml_path){
 
     mapInfo.boxes = std::move(parser.get_boxes());
 
-    for (Prot_Box b: mapInfo.boxes){
+    for (ProtBox b: mapInfo.boxes){
         world->addBox(b.x, b.y);
     }
+
+    world->addDrop(new GodGun(world), 2.5f, 2.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){
@@ -32,8 +35,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
             p.dead = players[i].isDead();
             if (!p.dead){
                 pos = players[i].getPosition();
-                p.x = pos[0];
-                p.y = pos[1];
+                p.pos.x = pos[0];
+                p.pos.y = pos[1];
                 p.angle = players[i].getAngle();
                 p.health = players[i].getHealth();
                 p.ammo = 0;
@@ -43,11 +46,19 @@ CompleteModelInfo GameProxy::getModelInfo(){
 
     for (Ray &ray: world->getBullets()){
         Bullet b;
-        b.start_x = ray.x;
-        b.start_y = ray.y;
+        b.pos.x = ray.x;
+        b.pos.y = ray.y;
         b.angle = ray.angle;
         b.distance = ray.distance;
         info.bullets.push_back(b);
+    }
+
+    for (Drop *drop : world->getDrops()){
+        ProtDrop d;
+        d.pos.x = drop->getPosition()[0];
+        d.pos.y = drop->getPosition()[1];
+        d.type = GOD_GUN; //TODO: Agregar forma de que las weapon me digan su tipo
+        info.drops.push_back(d);
     }
 
     info.game_ended = ended();
@@ -77,11 +88,11 @@ void GameProxy::toggleWeapon(int id){
 
 bool GameProxy::ended(){
     //TODO: Cambiar esto, lo puse para probar.
-    // for (const Player &p: world->getPlayers()){
-    //     if (p.isDead()){
-    //         return true;
-    //     }
-    // }
+    for (const Player &p: world->getPlayers()){
+        if (p.isDead()){
+            return true;
+        }
+    }
 
     return false;
 }

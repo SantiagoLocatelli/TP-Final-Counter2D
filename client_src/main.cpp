@@ -6,7 +6,7 @@
 int main(int argc, char* argv[]){
 
     Protocol server(Socket("localhost", argv[1], false));
-    int window_w = 400, window_h = 400;
+    int window_w = 1000, window_h = 1000;
 
     MapInfo map;
     server.recv_map_info(map);

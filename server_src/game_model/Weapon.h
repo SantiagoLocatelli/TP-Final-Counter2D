@@ -8,17 +8,19 @@ class Player;
 class World;
 
 class Weapon{
-    private:
+    protected:
         Player *owner;
         World *world;
         float damage;
 
-        float calculateDamage(float distance);
+        virtual float calculateDamage(float distance) = 0;
     public:
-        Weapon(Player *owner, World *world);
+        Weapon(World *world, float damage);
         void changeOwner(Player *newOwner);
         World *getWorld();
-        void toggle();
+        virtual void toggle() = 0;
+        void shootBullet(float spread);
+        virtual ~Weapon() = default;
 };
 
 #endif
