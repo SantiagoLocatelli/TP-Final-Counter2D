@@ -75,7 +75,7 @@ void Player::updateVelocity(){
 }
 
 
-std::array<float, 2> Player::getPosition(){
+std::array<float, 2> Player::getPosition() const{
     if (dead)
         GeneralException("Error en Player::getPosition: El jugador está muerto\n");
 

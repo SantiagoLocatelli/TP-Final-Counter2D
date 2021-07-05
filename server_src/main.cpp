@@ -43,7 +43,11 @@ int main(int argc, char const *argv[]){
         Stopwatch stopwatch;
         emitter.emitMap(game.getMapInfo());
 
-        while (!game.ended()){
+        while (getchar() != 's'){
+            std::this_thread::sleep_for(std::chrono::seconds(1)); 
+        }
+
+        do{
             stopwatch.start();
             while (stopwatch.msPassed() < 33){
                 //TODO: Sacar este busy wait
@@ -59,8 +63,8 @@ int main(int argc, char const *argv[]){
             game.step();
             emitter.emitModel(std::move(game.getModelInfo()));
             game.clearFrameEvents();
-        }
-        
+        } while (!game.ended());
+
         accepter.stop();
         accepter.join();
     } catch (const std::exception &e){

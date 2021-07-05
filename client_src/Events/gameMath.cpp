@@ -43,7 +43,5 @@ int Math::senoOppHyp(float radians, int hypotenuse){
 }
 
 int Math::cosOppHyp(float radians, int hypotenuse){
-    printf("cos: %i\n", (int)cos(radians));
-    printf("hypotenuse: %i\n", hypotenuse);
     return (int)(cos(radians) * (float)hypotenuse);
 }

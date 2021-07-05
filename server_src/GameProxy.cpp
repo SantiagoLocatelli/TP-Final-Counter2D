@@ -30,18 +30,18 @@ CompleteModelInfo GameProxy::getModelInfo(){
     CompleteModelInfo info;
     std::array<float, 2> pos;
     std::vector<Player> &players = world->getPlayers();
-    for (size_t i = 0; i < players.size(); i++){
-            You p;
-            p.dead = players[i].isDead();
-            if (!p.dead){
-                pos = players[i].getPosition();
-                p.pos.x = pos[0];
-                p.pos.y = pos[1];
-                p.angle = players[i].getAngle();
-                p.health = players[i].getHealth();
-                p.ammo = 0;
+    for (const Player &p: players){
+            You you;
+            you.dead = p.isDead();
+            if (!you.dead){
+                pos = p.getPosition();
+                you.pos.x = pos[0];
+                you.pos.y = pos[1];
+                you.angle = p.getAngle();
+                you.health = p.getHealth();
+                you.ammo = 0;
             }
-            info.players.push_back(p);
+            info.players.push_back(you);
     }
 
     for (Ray &ray: world->getBullets()){
