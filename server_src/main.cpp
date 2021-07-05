@@ -34,8 +34,10 @@ int main(int argc, char const *argv[]){
         GameProxy game("../../server_src/mapa.yaml");
 
         //TODO: Agarrado con alambres. Solo para la prueba 
-        game.createPlayer(1);
-        game.createPlayer(2);
+        game.createPlayer();
+        printf("Personaje Creado\n");
+        game.createPlayer();
+        printf("Personaje Creado\n");
 
         
         Accepter accepter(argv[1], queue, emitter);

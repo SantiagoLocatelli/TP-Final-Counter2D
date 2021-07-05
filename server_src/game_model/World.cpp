@@ -1,5 +1,7 @@
 #include "World.h"
 #include <utility>
+#include <random>
+#include "EntityChecker.h"
 
 World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(0,0)){
     gridSize[0] = grid_length;
@@ -11,7 +13,21 @@ void World::addBox(int grid_x, int grid_y){
     boxes.push_back(Box(b2world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
 }
 
-void World::createPlayer(float start_x, float start_y){
+void World::createPlayer(){
+    float start_x, start_y;
+    EntityChecker checker(b2world);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> genX(0, gridSize[0]);
+    std::uniform_real_distribution<float> genY(0, gridSize[1]);
+
+    do{
+        start_x = genX(gen);
+        start_y = genY(gen);
+    } while (checker.areaHasEntities(b2Vec2(start_x-0.5, start_y-0.5)
+    , b2Vec2(start_x+0.5, start_y+0.5)));
+
     players.emplace_back(std::move(Player(*this, start_x, start_y)));
 }
 

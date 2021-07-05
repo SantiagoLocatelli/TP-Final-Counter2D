@@ -24,7 +24,7 @@ class GameProxy{
         CompleteModelInfo getModelInfo();
 
         //Crea un jugador y devuelve el id que lo representa
-        void createPlayer(int team);
+        void createPlayer();
 
         void toggleMovement(int id, Direction direction);
         void setAngle(int id, float angle);
