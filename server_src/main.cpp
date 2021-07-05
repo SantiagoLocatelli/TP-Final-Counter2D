@@ -21,6 +21,9 @@ void executeEvent(GameProxy &game, Event &event, int id){
     case TOGGLE_WEAPON:
         game.toggleWeapon(id);
         break;
+
+    case CREATE_PLAYER:
+        game.createPlayer();
     }    
 }
 
@@ -33,20 +36,12 @@ int main(int argc, char const *argv[]){
         EventQueue queue;
         GameProxy game("../../server_src/mapa_mediano.yaml");
 
-        //TODO: Agarrado con alambres. Solo para la prueba 
-        game.createPlayer();
-        printf("Personaje Creado\n");
-        game.createPlayer();
-        printf("Personaje Creado\n");
-
         
         Accepter accepter(argv[1], queue, emitter);
         accepter.start();
 
         Stopwatch stopwatch;
         emitter.emitMap(game.getMapInfo());
-
-        //std::this_thread::sleep_for(std::chrono::seconds(60));
 
         while (!game.ended()){
             stopwatch.start();

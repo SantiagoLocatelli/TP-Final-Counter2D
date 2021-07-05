@@ -16,6 +16,9 @@ void Accepter::run(){
             ClientManager *client = new ClientManager(std::move(cli_skt)
             , queue, emitter, id);
 
+            Event e;
+            e.type = CREATE_PLAYER;
+            queue.push(id, e);
             id++;
 
             clientList.push_back(client);
