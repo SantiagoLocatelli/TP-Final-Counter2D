@@ -35,7 +35,7 @@ void Draggable::handleEvent(SDL_Event* event, SDL_Rect camera){
         case SDL_MOUSEBUTTONDOWN:
             if (!this->leftMouseButtonDown && event->button.button == SDL_BUTTON_LEFT){
                 this->leftMouseButtonDown = true;
-                if (isToching(camera)){
+                if (isTouching(camera)){
                     this->selected = true;
                     clickOffset.x = this->mousePos.x + camera.x - this->posX;
                     clickOffset.y = this->mousePos.y + camera.y - this->posY;
@@ -47,7 +47,7 @@ void Draggable::handleEvent(SDL_Event* event, SDL_Rect camera){
     }
 }
 
-bool Draggable::isToching(SDL_Rect camera){
+bool Draggable::isTouching(SDL_Rect camera){
     
     //Check if mouse is in button
     bool inside = true;
@@ -76,8 +76,8 @@ void Draggable::render(int width, int height){
     SdlTexture::render(this->posX, this->posY, width, height);
 }
 
-void Draggable::render(SDL_Rect camera, int width, int height){
-    SdlTexture::render(posX - camera.x, posY - camera.y, width, height);
+void Draggable::render(SDL_Rect camera){
+    SdlTexture::render(posX - camera.x, posY - camera.y);
 }
 
 int Draggable::getPosX(){
@@ -86,4 +86,8 @@ int Draggable::getPosX(){
 
 int Draggable::getPosY(){
     return this->posY;
+}
+
+SDL_Rect Draggable::getBox(){
+    return {posX, posY, SdlTexture::getWidth(), SdlTexture::getHeight()};
 }

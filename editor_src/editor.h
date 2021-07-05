@@ -6,28 +6,31 @@
 #include <vector>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
-#include "../common_src/Sdl/sdl_window.h"
 #include "TextureMap.h"
-class Editor{
+#include "presenter.h"
+class Editor : public Presenter{
     private:
         TextureMap map;
-        std::vector<std::unique_ptr<SdlTexture>> textures;
-        SDL_Rect bombSiteA, bombSiteB;
-        SDL_Rect spawnSiteT, spawnSiteCT;
+        std::vector<std::shared_ptr<SdlTexture>> textures;
         int currentType;
-        std::string mapID;
+
+        bool renderBombSites;
+
+        bool renderSpawnSites;
+
     public:
-        Editor(const std::string path, SdlRenderer& renderer);
-        void handleEvents(SDL_Event* event);
-        void put_tile(SDL_Rect camera, SdlRenderer& renderer);
-        void saveMap(std::string& path, std::vector<std::unique_ptr<SdlTexture>>& textures);
-        std::string getTitle();
-        void saveMap();
-        void render(SDL_Rect camera);
-        std::vector<SDL_Rect> getBombSite();
-        std::vector<SDL_Rect> getSpawnSite();
-        void setBombSite(std::vector<SDL_Rect> rect);
-        void setSpawnSite(std::vector<SDL_Rect> rect);
+        Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+         std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, int screenW, int screenH);
+        void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
+        void render() override;
+        void put_tile(SdlRenderer& renderer);
+        std::string getTitle() override;
         void createMap(SdlRenderer& renderer);
+
+        void presentBombSites();
+        void stopPresentingBombSites();
+
+        void presentSpawnSites();
+        void stopPresentingSpawnSites();
 };
 #endif
