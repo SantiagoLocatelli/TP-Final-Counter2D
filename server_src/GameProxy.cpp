@@ -59,8 +59,8 @@ void GameProxy::step(){
     world->step();
 }
 
-void GameProxy::createPlayer(int team){
-    world->createPlayer(team+1, team+1);
+void GameProxy::createPlayer(){
+    world->createPlayer();
 }
 
 void GameProxy::toggleMovement(int id, Direction direction){
