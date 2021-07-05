@@ -11,6 +11,7 @@
 #include "../common_src/Sdl/sdl_window.h"
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/draggable.h"
+#include "MenueManager.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -39,9 +40,10 @@ int main(int argc, char* args[]){
     SdlWindow window("Editor", 640, 480);
     SdlRenderer renderer(&window);
 
+    MenueManager menueManager(renderer, "../../common_src/maps/map.yaml", SCREEN_WIDTH, SCREEN_HEIGHT);
 
     std::stack<std::unique_ptr<Presenter>> presenter;
-    presenter.push(std::unique_ptr<Presenter>(new Editor("../../common_src/maps/map.yaml", renderer, SCREEN_WIDTH, SCREEN_HEIGHT)));
+    presenter.push(std::move(menueManager.createEditor()));
     
 
     //Main loop flag
@@ -49,6 +51,8 @@ int main(int argc, char* args[]){
 
     //Event handler
     SDL_Event event;
+
+    SDL_StartTextInput();
     
     //While application is running
     while (!quit){
@@ -61,10 +65,10 @@ int main(int argc, char* args[]){
             }else if (event.type == SDL_KEYDOWN){
                 if(event.key.keysym.sym == SDLK_ESCAPE){
                     if (presenter.size() > 1){
+                        presenter.top()->aceptChanges();
                         presenter.pop();
                     }else{
-                        //Menue menue(editor.generateMenue(renderer));
-                        presenter.push(std::unique_ptr<Presenter>(new Menue("../../common_src/maps/map.yaml", renderer, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                        presenter.push(std::move(menueManager.createMenue()));
                     }
                 }
             }
@@ -80,6 +84,7 @@ int main(int argc, char* args[]){
 
         renderer.updateScreen();
     }
-    presenter.top()->saveMap();
+    menueManager.loadToFile();
+    SDL_StopTextInput();
     return 0;
 }

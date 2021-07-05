@@ -12,24 +12,25 @@ class Presenter{
     private:
         std::string mapID;
 
-        std::map<std::string, std::unique_ptr<Draggable>> bombSites;
+        std::map<std::string, std::shared_ptr<Draggable>> bombSites;
 
-        std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
+        std::map<std::string, std::shared_ptr<Draggable>> spawnSites;
 
         Camera camera;
     public:
-        Presenter(const std::string path, SdlRenderer& r, int screenW, int screenH);
+        Presenter(std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+         std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH);
         virtual void render() = 0;
         virtual void handleEvents(SDL_Event* event, SdlRenderer& renderer) = 0;
         virtual std::string getTitle() = 0;
         void renderBombSites();
         void renderSpawnSites();
         void centerCamera();
-        virtual void saveMap(){};
-        void loadToFile(std::vector<std::unique_ptr<SdlTexture>>& textures);
         SDL_Rect getCameraBox();
         void handleBombSitesEvent(SDL_Event* event);
         void handleSpawnSitesEvent(SDL_Event* event);
         void fillSize(std::vector<SDL_Rect>& vector);
+        virtual void aceptChanges(){};
+        void changeSizeOfSites(std::vector<int>& vector);
 };
 #endif

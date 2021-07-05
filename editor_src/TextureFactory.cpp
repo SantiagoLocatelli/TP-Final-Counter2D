@@ -25,7 +25,7 @@ void TextureFactory::unmarshalTextures(const char *yamlFile, TextureMap& map){
     }
 }
 
-void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures, SdlRenderer& renderer){
+void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::shared_ptr<SdlTexture>>& textures, SdlRenderer& renderer){
     //Open the map
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
 
@@ -38,7 +38,7 @@ void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::ve
     }
 }
 
-void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
+void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["bombSite"];
 
@@ -55,7 +55,7 @@ void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::stri
     bombSites["B"]->setWidthAndHeight(size[0], size[1]);
 }
 
-void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
+void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, SdlRenderer& renderer){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["spawnSite"];
     std::vector<int> position = Site["T"]["position"].as<std::vector<int>>();

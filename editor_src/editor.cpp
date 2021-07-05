@@ -14,19 +14,14 @@ std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
-Editor::Editor(const std::string path, SdlRenderer& renderer, int screenW, int screenH) : Presenter(path, renderer, screenW, screenH){
+Editor::Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, 
+std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,
+int screenW, int screenH) : Presenter(bombSites, spawnSites, screenW, screenH), map(m){
+    this->textures = textures;
     this->currentType = 0;
     this->renderBombSites = false;
     this->renderSpawnSites = false;
-    TextureFactory factory;
-    factory.unmarshalTextures(TEXTURE_PATH, this->map);
-
-    std::ifstream stream(path);
-    if (stream.is_open()){
-        factory.unmarshalMap(path.c_str(), this->map, this->textures, renderer);
-    }else{
-        createMap(renderer);
-    }
 }
 
 void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
@@ -130,10 +125,6 @@ void Editor::put_tile(SdlRenderer& renderer){
             textureY += TILE_HEIGHT;
         }
     }
-}
-
-void Editor::saveMap(){
-    Presenter::loadToFile(this->textures);
 }
 
 void Editor::render(){

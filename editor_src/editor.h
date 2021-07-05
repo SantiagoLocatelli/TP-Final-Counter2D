@@ -11,7 +11,7 @@
 class Editor : public Presenter{
     private:
         TextureMap map;
-        std::vector<std::unique_ptr<SdlTexture>> textures;
+        std::vector<std::shared_ptr<SdlTexture>> textures;
         int currentType;
 
         bool renderBombSites;
@@ -19,13 +19,12 @@ class Editor : public Presenter{
         bool renderSpawnSites;
 
     public:
-        Editor(const std::string path, SdlRenderer& renderer, int screenW, int screenH);
+        Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+         std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, int screenW, int screenH);
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void render() override;
         void put_tile(SdlRenderer& renderer);
-        void saveMap(std::string& path, std::vector<std::unique_ptr<SdlTexture>>& textures);
         std::string getTitle() override;
-        void saveMap() override;
         void createMap(SdlRenderer& renderer);
 
         void presentBombSites();
