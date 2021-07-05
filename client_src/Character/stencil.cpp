@@ -1,7 +1,7 @@
 #include "stencil.h"
 #include "../Events/gameMath.h"
 
-#define OPACITY 150
+#define OPACITY 200
 #define PATH_STENCIL "../../common_src/img/stencil.bmp"
 
 Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
@@ -13,10 +13,7 @@ Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
     this->rect.y = 0;
 }
 
-void Stencil::setPosition(ProtPlayer player, const LevelInfo level){
-    this->rect.x = Math::ruleOfThree(player.pos.x, level.w_meters, level.width);
-    this->rect.y = Math::ruleOfThree(player.pos.y, level.w_meters, level.width);
-    this->degrees = Math::radiansToDegrees(player.angle);
+void Stencil::setPosition(Coordenada pos, float degrees){
 }
 
 

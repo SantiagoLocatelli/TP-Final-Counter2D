@@ -3,44 +3,28 @@
 
 #include "../common_src/MapInfo.h"
 #include "../common_src/ModelInfo.h"
+#include "GameViewer.h"
 #include "levelInfo.h"
-#include "Character/Weapon.h"
-#include <vector>
-#include <map>
-
-
 
 
 class GameManager {
 private:
 
+    GameViewer game; 
+    MapInfo map;
 
-    LevelInfo level;
-    ModelInfo model;
-
-    // vector o lista de texturas
-
-
-
-    
-    void renderPlayers(int camX, int camY);
-    void renderBoxes(int camX, int camY);
-
-    void renderShots(int camX, int camY);
-    void renderWeapons(int camX, int camY);
-    void addPlayer(const char* pathTexture, struct Color color);
-    void initializeGame(ModelInfo model);
-    // ver si es necesaria
-    void addTexture(const char* pathTexture, struct Color color);
-    void loadWeapons();
+    void updatePlayer(PlayerInfo& player, ProtPlayer prot);
+    void updateBullet(BulletInfo& bullet, Bullet prot);
+    void updateDrop(DropInfo& drop, ProtDrop prot);
 
 public:
 
-    GameManager(MapInfo map, ModelInfo model);
+    GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
     ~GameManager();
     
-    void update(ModelInfo model);
-
+    LevelInfo generateLevel(ModelInfo model);
+    Coordenada getRelativePlayerPos();
+    void setCrossHair(int x, int y);
 };
 
 #endif

@@ -11,13 +11,13 @@ CrossHair::CrossHair(int width, int height, SdlTexture texture)
     this->area.h = height;
 }
 
-void CrossHair::setPosition(int posX, int posY){
-    SDL_GetMouseState(&(this->area.x), &(this->area.y));
+void CrossHair::setPosition(Coordenada pos){
+    //SDL_GetMouseState(&(this->area.x), &(this->area.y));
     this->area.x -= this->area.w/2;
     this->area.y -= this->area.h/2;
 }
 
 void CrossHair::render(){
-    SDL_Rect src = {0, 0, 46, 46};
+    SDL_Rect src = {0, 0, 46, 46}; // para quedarnos solo con el puntero verde
     this->texture.render(this->area.x, this->area.y, this->area.w, this->area.h, &src);
 }
