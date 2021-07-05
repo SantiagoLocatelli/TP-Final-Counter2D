@@ -3,6 +3,7 @@
 
 #include <list>
 #include <stdint.h>
+#include "WeaponType.h"
 
 struct Position{
     float x;
@@ -13,6 +14,7 @@ struct ProtPlayer{
     bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
     Position pos;
     float angle; //En radianes
+    WeaponType weapon;
 };
 
 struct You: public ProtPlayer{
@@ -26,10 +28,8 @@ struct Bullet{
     float distance;
 };
 
-//TODO: Esto tal vez se puede mejorar
-enum DropType : char {PISTOL, GOD_GUN};
 struct ProtDrop{
-    DropType type;
+    WeaponType type;
     Position pos;
 };
 

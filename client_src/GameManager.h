@@ -33,7 +33,7 @@ private:
 
     ParticleBullets bullet;
     SdlTexture pjTexture;
-    std::map<DropType, SdlTexture*> weapons;
+    std::map<WeaponType, SdlTexture*> weapons;
 
     // provisorio {
     std::vector<SdlTexture> textures;
