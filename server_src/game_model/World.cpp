@@ -2,6 +2,7 @@
 #include <utility>
 #include <random>
 #include "EntityChecker.h"
+#include "../../common_src/GeneralException.h"
 
 World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(0,0)){
     gridSize[0] = grid_length;
@@ -10,7 +11,8 @@ World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(
 }
 
 void World::addBox(int grid_x, int grid_y){
-    //TODO: Hacer chequeos de limites en la grilla
+    if(grid_x < 0 || grid_x > gridSize[0] || grid_y < 0 || grid_y > gridSize[1])
+        throw GeneralException("Posicicon para `addBox` fuera de límites");
     boxes.push_back(Box(b2world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
 }
 

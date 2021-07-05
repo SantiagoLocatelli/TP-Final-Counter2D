@@ -8,7 +8,7 @@
 #include <chrono>
 
 void executeEvent(GameProxy &game, Event &event, int id){
-    //TODO: Hacer con un MapExecuter
+    //TODO: Hacer con polimorfismo
     switch (event.type){
     case TOGGLE_MOVEMENT:
         game.toggleMovement(id, event.info.dir);

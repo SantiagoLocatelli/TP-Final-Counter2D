@@ -87,14 +87,14 @@ void GameProxy::toggleWeapon(int id){
 }
 
 bool GameProxy::ended(){
-    //TODO: Cambiar esto, lo puse para probar.
+    int alive_players = 0;
     for (const Player &p: world->getPlayers()){
-        if (p.isDead()){
-            return true;
+        if (!p.isDead()){
+            alive_players++;
         }
     }
 
-    return false;
+    return alive_players <= 1;
 }
 
 GameProxy::~GameProxy(){
