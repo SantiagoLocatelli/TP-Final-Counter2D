@@ -79,7 +79,7 @@ void GameViewer::renderPlayers(int camX, int camY) {
     }
 }
 
-void GameViewer::renderShots(int camX, int camY){
+void GameManager::renderShots(int camX, int camY){
     for(auto it = this->model.bullets.begin(); it != this->model.bullets.end(); it++){
         this->bullet.setTrajectory(this->level, *it, camX, camY);
         this->bullet.render();
