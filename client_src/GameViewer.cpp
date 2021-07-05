@@ -4,6 +4,8 @@
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
 #define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
 #define SIZE_CROSSHAIR 25
+#define BOX "BOX"
+#define BACKGROUND "BG"
 
 struct Color {
     uint8_t r, g, b;
@@ -69,6 +71,10 @@ void GameViewer::loadWeapons(){
 }
 
 
+void GameViewer::loadMap() {
+    this->textures[BACKGROUND] = new SdlTexture(this->renderer, "../../common_src/img/bg.png");
+    this->textures[BOX] = new SdlTexture(this->renderer, "../../common_src/img/green_crate.bmp");
+}
 
 
 
@@ -106,7 +112,10 @@ void GameViewer::render(){
 }
 
 
-void GameViewer::setCrossHair(Coordenada pos){
-    this->mainPlayer.setCrossHair(pos);
+
+void GameViewer::setCrossHair(Coordenada pos){this->mainPlayer.setCrossHair(pos);}
+
+Coordenada GameViewer::mainPlayerRelativePos(){
+    return {this->mainPlayer.getPosX() - this->cam.getPosX(),
+            this->mainPlayer.getPosY() - this->cam.getPosY()};
 }
-Coordenada GameViewer::mainPlayerRelativePos();

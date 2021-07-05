@@ -22,9 +22,9 @@ public:
     GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
     ~GameManager();
     
-    LevelInfo generateLevel(ModelInfo model);
+    void update(ModelInfo model);
     Coordenada getRelativePlayerPos();
-    void setCrossHair(int x, int y);
+    void setCrossHair(Coordenada pos);
 };
 
 #endif

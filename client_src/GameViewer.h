@@ -39,10 +39,12 @@ private:
     void renderShots(int camX, int camY);
     void renderWeapons(int camX, int camY);
     void addPlayer(const char* pathTexture, struct Color color);
-    void initializeGame(ModelInfo model);
+    void initializeGame(LevelInfo level);
     // ver si es necesaria
     void addTexture(const char* pathTexture, struct Color color);
     void loadWeapons();
+    void loadMap();
+
 public:
 
     GameViewer(int window_w, int window_h, LevelInfo level);
@@ -51,6 +53,7 @@ public:
     void setCrossHair(Coordenada pos);
     Coordenada mainPlayerRelativePos();
     void render();
+    void update(LevelInfo level);
 
     GameViewer& operator=(const GameViewer&) = delete;
     GameViewer(const GameViewer& other) = delete;

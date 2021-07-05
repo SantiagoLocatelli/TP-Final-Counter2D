@@ -11,10 +11,13 @@ GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_
 
 
 void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
-    bullet.degrees = Math::radiansToDegrees(prot.angle);
-    bullet.distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER);
     bullet.pos.x = Math::ruleOfThree(prot.pos.x, this->map.length, this->map.length*PIXELS_PER_METER);
     bullet.pos.y = Math::ruleOfThree(prot.pos.y, this->map.height, this->map.height*PIXELS_PER_METER);
+    
+    int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER);
+    bullet.dst.x = Math::cosOppHyp(prot.angle, distance) + bullet.pos.x;
+    bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
+
 }
 
 void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
@@ -35,7 +38,7 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.size.h = PIXELS_PER_METER;
 }
 
-LevelInfo GameManager::generateLevel(ModelInfo model){
+void GameManager::update(ModelInfo model){
 
     LevelInfo level;
 
@@ -79,8 +82,8 @@ LevelInfo GameManager::generateLevel(ModelInfo model){
         box.y = Math::ruleOfThree(it->y, 1, PIXELS_PER_METER);
     }
 
-    return level;
+    this->game.update(level);
 }
 
 Coordenada GameManager::getRelativePlayerPos(){this->game.mainPlayerRelativePos();}
-void setCrossHair(Coordenada pos);
+void GameManager::setCrossHair(Coordenada pos){this->game.setCrossHair(pos);}

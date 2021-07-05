@@ -37,8 +37,7 @@ struct MainPlayerInfo: public PlayerInfo {
 
 struct BulletInfo {
     Coordenada pos;
-    float degrees;
-    int distance;
+    Coordenada dst;
 };
 
 struct LevelInfo{
