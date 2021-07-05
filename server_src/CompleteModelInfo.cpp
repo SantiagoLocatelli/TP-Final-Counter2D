@@ -35,6 +35,7 @@ bool CompleteModelInfo::ended(){
 CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     players = std::move(other.players);
     bullets = std::move(other.bullets);
+    drops = std::move(other.drops);
     game_ended = other.game_ended;
 }
 
@@ -45,6 +46,7 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
 
     players = std::move(other.players);
     bullets = std::move(other.bullets);
+    drops = std::move(other.drops);
     game_ended = other.game_ended;
     
 
