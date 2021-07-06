@@ -3,16 +3,15 @@
 
 #define PIXELS_PER_METER 100
 
-
-GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h):
-    map(map), game(window_w, window_h){
-    this->initializeLevel(model);
+GameManager::GameManager(const MapInfo& map, const ModelInfo& model, int window_w, int window_h):
+    game(window_w, window_h, this->initializeLevel(map, model)){
+    
 }
 
 
 void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
-    bullet.pos.x = Math::ruleOfThree(prot.pos.x, this->map.length, this->map.length*PIXELS_PER_METER);
-    bullet.pos.y = Math::ruleOfThree(prot.pos.y, this->map.height, this->map.height*PIXELS_PER_METER);
+    bullet.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
+    bullet.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     
     int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER);
     bullet.dst.x = Math::cosOppHyp(prot.angle, distance) + bullet.pos.x;
@@ -21,8 +20,8 @@ void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
 }
 
 void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
-    drop.pos.x = Math::ruleOfThree(prot.pos.x, this->map.length, this->map.length*PIXELS_PER_METER);
-    drop.pos.y = Math::ruleOfThree(prot.pos.y, this->map.height, this->map.height*PIXELS_PER_METER);
+    drop.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
+    drop.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     drop.type = prot.type;
     drop.size.w = PIXELS_PER_METER/2;
     drop.size.h = PIXELS_PER_METER/2;
@@ -31,23 +30,27 @@ void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
 void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.dead = prot.dead;
     player.degrees = Math::radiansToDegrees(prot.angle);
-    player.pos.x = Math::ruleOfThree(prot.pos.x, this->map.length, (int)(this->map.length*PIXELS_PER_METER));
-    player.pos.y = Math::ruleOfThree(prot.pos.y, this->map.height, (int)(this->map.height*PIXELS_PER_METER));
+    player.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
+    player.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     printf("coordenada personaje: x: %i, y: %i\n", player.pos.x, player.pos.y);
     player.weapon = prot.weapon;
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
 }
 
-void GameManager::updateBox(Box& box, ProtBox prot){
-    box.pos.x = Math::ruleOfThree(prot.x, 1, PIXELS_PER_METER);
-    box.pos.y = Math::ruleOfThree(prot.y, 1, PIXELS_PER_METER);
+void GameManager::updateBox(BoxInfo& box, ProtBox prot){
+    box.pos.x = Math::ruleOfThree(prot.x, 1.0, PIXELS_PER_METER);
+    box.pos.y = Math::ruleOfThree(prot.y, 1.0, PIXELS_PER_METER);
     printf("coordenada caja: x: %i, y: %i\n", box.pos.x, box.pos.y);
     box.size.w = PIXELS_PER_METER;
     box.size.h = PIXELS_PER_METER;
 }
 
-void GameManager::update(ModelInfo model){
+void GameManager::update(const ModelInfo& model){
+
+    this->level.players.clear();
+    this->level.drops.clear();
+    this->level.bullets.clear();
 
 
     // Si esta muerto se actualiza con el you, sino con el primero
@@ -90,19 +93,29 @@ void GameManager::update(ModelInfo model){
     this->game.update(level);
 }
 
+void printBox(BoxInfo box){
+    printf("Coordenada, x: %i, y: %i\n", box.pos.x, box.pos.y);
+    printf("Tamanio, w: %i, h: %i\n", box.size.w, box.size.h);
+}
 
-void GameManager::initializeLevel(ModelInfo model){
+LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model){
     
-    level.width = this->map.length*PIXELS_PER_METER;
-    level.height = this->map.height*PIXELS_PER_METER;
+    level.width = map.length*PIXELS_PER_METER;
+    level.height = map.height*PIXELS_PER_METER;
+    printf("anchura %i\n", level.width);
+    printf("altura %i\n", level.height);
 
-    for (auto it = this->map.boxes.begin(); it != this->map.boxes.end(); it++) {
-        Box box;
-        this->updateBox(box, *it);
-        level.boxes.push_back(box);
+    BoxInfo box;
+    int i = 0;
+    for (const ProtBox& prot : map.boxes) {
+        this->updateBox(box, prot);
+        printBox(box);
+        level.boxes[i] = box;
+        i++;
     }
 
     this->update(model);
+    return this->level;
 }
 
 void GameManager::render(){this->game.render();}

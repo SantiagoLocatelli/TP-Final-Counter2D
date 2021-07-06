@@ -14,7 +14,7 @@ struct Color {
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
-GameViewer::GameViewer(int window_w, int window_h): window(WINDOW_LABEL, window_w, window_h),
+GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
     cam(window_w, window_h),
     pjTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b), 
@@ -82,9 +82,9 @@ void GameViewer::loadMap() {
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordenada cam) {
-    for (PlayerInfo player : level.players){
-        if (!player.dead) {
-            this->pjTexture.render(player.pos.x - cam.x, player.pos.y - cam.y, player.size.w, player.size.h, player.degrees);
+    for (Character player: this->players){
+        if (!player.isDead()) {
+            player.render(cam.x, cam.y);
             //en un futuro agregar para renderizar el pj con el arma.
         }
     }
@@ -105,7 +105,7 @@ void GameViewer::renderWeapons(Coordenada cam){
 
 void GameViewer::renderMap(Coordenada cam){
     this->textures[BACKGROUND]->render(0, 0, this->level.width, this->level.height);
-    for (Box box : this->level.boxes){
+    for (BoxInfo box : this->level.boxes){
         this->textures[BOX]->render(box.pos.x - cam.x, box.pos.y - cam.y, box.size.w, box.size.h);
     }
 }
@@ -136,11 +136,14 @@ void GameViewer::update(LevelInfo level){
     this->players.clear();
     this->mainPlayer.update(level.mainPlayer);
 
-    for (PlayerInfo pjInfo : level.players) {
 
-        Character pj(pjInfo, this->pjTexture);
-        this->players.push_back(std::move(pj));     
-    }
+    // revisar el constructor por movimiento del character
+    
+    // for (PlayerInfo pjInfo : level.players) {
+
+    //     Character pj(pjInfo, this->pjTexture);
+    //     this->players.push_back(std::move(pj));     
+    // }
 
     this->cam.centerCamera(level.mainPlayer.pos, level.mainPlayer.size);
     this->cam.keepInBounds(level.width, level.height);

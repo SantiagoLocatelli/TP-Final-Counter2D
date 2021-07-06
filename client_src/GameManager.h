@@ -11,20 +11,19 @@ class GameManager {
 private:
 
     GameViewer game; 
-    MapInfo map;
     LevelInfo level;
     
     void updatePlayer(PlayerInfo& player, ProtPlayer prot);
     void updateBullet(BulletInfo& bullet, Bullet prot);
     void updateDrop(DropInfo& drop, ProtDrop prot);
-    void updateBox(Box& box, ProtBox prot);
-    void initializeLevel(ModelInfo model);
+    void updateBox(BoxInfo& box, ProtBox prot);
+    LevelInfo initializeLevel(const MapInfo& map, const ModelInfo& model);
 
 public:
 
-    GameManager(MapInfo map, ModelInfo model, int window_w, int window_h);
+    GameManager(const MapInfo& map, const ModelInfo& model, int window_w, int window_h);
     
-    void update(ModelInfo model);
+    void update(const ModelInfo& model);
     void render();
     Coordenada getRelativePlayerPos();
     void setCrossHair(Coordenada pos);

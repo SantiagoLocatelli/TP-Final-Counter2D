@@ -10,6 +10,9 @@ Animation::Animation(SdlTexture& texture):texture(texture) {
     this->numFrames = (this->texture.getHeight()*2)/(this->texture.getWidth()/2);
     this->size = this->texture.getWidth()/2;
     printf("numero de frames: %i\n", this->numFrames);
+    printf("acnho de la texture: %i\n", this->texture.getWidth());
+    printf("alto de la textura: %i\n", this->texture.getHeight());
+
 }
 
 

@@ -14,6 +14,8 @@ int main(int argc, char* argv[]){
     ModelInfo model;
     server.recv_model_info(model);
 
+    printf("%i\n", map.length);
+    printf("%i\n", map.height);
     GameManager game(map, model, window_w, window_h);
 
     bool quit = false;

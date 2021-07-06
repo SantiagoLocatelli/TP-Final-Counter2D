@@ -48,7 +48,7 @@ private:
 
 public:
 
-    GameViewer(int window_w, int window_h);
+    GameViewer(int window_w, int window_h, LevelInfo level);
     ~GameViewer();
 
     void setCrossHair(Coordenada pos);
