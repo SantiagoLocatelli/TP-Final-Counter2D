@@ -1,15 +1,17 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include <SDL2/SDL.h>
+#include "../levelInfo.h"
+#include "SDL2/SDL.h"
 
 class Camera {
     private:
-        SDL_Rect camera;
+        Coordenada pos;
+        Size size;
 
     public:
         Camera(int camera_width, int camera_height);
-        void centerCamera(SDL_Rect character);
+        void centerCamera(Coordenada pos, Size size);
         void centerCameraOnMouse(int tile_width, int level_width, int level_height);
         void keepInBounds(int level_w, int level_h);
 

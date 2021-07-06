@@ -12,11 +12,13 @@ private:
 
     GameViewer game; 
     MapInfo map;
-
+    LevelInfo level;
+    
     void updatePlayer(PlayerInfo& player, ProtPlayer prot);
     void updateBullet(BulletInfo& bullet, Bullet prot);
     void updateDrop(DropInfo& drop, ProtDrop prot);
     void updateBox(Box& box, ProtBox prot);
+    void initializeLevel(ModelInfo model);
 
 public:
 

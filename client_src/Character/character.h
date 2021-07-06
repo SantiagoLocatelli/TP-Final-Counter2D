@@ -27,7 +27,7 @@ class Character{
 		WeaponType getIdWeapon();
 		float getDegrees();
 
-		Character& operator=(Character&&);
-		Character(Character&& other);
+		// Character& operator=(Character&&);
+		// Character(Character&& other);
 };
 #endif

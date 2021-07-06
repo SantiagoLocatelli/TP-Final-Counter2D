@@ -27,7 +27,6 @@ int main(int argc, char* argv[]){
         game.update(model);
         game.render();
         while (stopwatch.msPassed() < 33) {
-            // le mandas mecha
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }

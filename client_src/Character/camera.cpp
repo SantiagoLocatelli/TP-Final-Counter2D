@@ -1,12 +1,13 @@
 #include "camera.h"
 
 Camera::Camera(int width, int height){
-    this->camera = {0, 0, width, height};
+    this->size = {width, height};
+    this->pos = {0, 0};
 }
 
-void Camera::centerCamera(SDL_Rect character){
-    this->camera.x = character.x - this->camera.w / 2;
-    this->camera.y = character.y - this->camera.h / 2;
+void Camera::centerCamera(Coordenada pos, Size size){
+    this->pos.x = pos.x - this->size.w / 2;
+    this->pos.y = pos.y - this->size.h / 2;
 }
 
 void Camera::centerCameraOnMouse(int tile_width, int level_width, int level_height){
@@ -18,45 +19,45 @@ void Camera::centerCameraOnMouse(int tile_width, int level_width, int level_heig
     
     //Move camera to the left if needed
     if(x < tile_width){
-        camera.x -= 20;
+        pos.x -= 20;
     }
     
     //Move camera to the right if needed
-    if(x > camera.w - tile_width){
-        camera.x += 20;
+    if(x > size.w - tile_width){
+        pos.x += 20;
     }
     
     //Move camera up if needed
     if(y < tile_width){
-        camera.y -= 20;
+        pos.y -= 20;
     }
     
     //Move camera down if needed
-    if(y > this->camera.h - tile_width){
-        camera.y += 20;
+    if(y > this->size.h - tile_width){
+        pos.y += 20;
     }
     
     keepInBounds(level_width, level_height);
 }
 
 void Camera::keepInBounds(int level_width, int level_height){
-    if( camera.x < 0 ){ 
-        camera.x = 0;
+    if( pos.x < 0 ){ 
+        pos.x = 0;
     }
-    if( camera.y < 0 ){
-        camera.y = 0;
+    if( pos.y < 0 ){
+        pos.y = 0;
     }
-    if( camera.x > level_width - camera.w ){
-        camera.x = level_width - camera.w;
+    if( pos.x > level_width - size.w ){
+        pos.x = level_width - size.w;
     }
-    if( camera.y > level_height - camera.h ){
-        camera.y = level_height - camera.h;
+    if( pos.y > level_height - size.h ){
+        pos.y = level_height - size.h;
     }
 }
 
-int Camera::getWidth(){return this->camera.w;}
-int Camera::getHeight(){return this->camera.h;}
-int Camera::getPosX(){return this->camera.x;}
-int Camera::getPosY(){return this->camera.y;}
+int Camera::getWidth(){return this->size.w;}
+int Camera::getHeight(){return this->size.h;}
+int Camera::getPosX(){return this->pos.x;}
+int Camera::getPosY(){return this->pos.y;}
 
-SDL_Rect Camera::getRect(){return this->camera;}
+SDL_Rect Camera::getRect(){return {this->pos.x, this->pos.y, this->size.w, this->size.h};}

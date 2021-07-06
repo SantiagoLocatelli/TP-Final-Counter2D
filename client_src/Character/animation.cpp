@@ -9,6 +9,7 @@ Animation::Animation(SdlTexture& texture):texture(texture) {
     // esto solo lo hago porque se el formato de la textura
     this->numFrames = (this->texture.getHeight()*2)/(this->texture.getWidth()/2);
     this->size = this->texture.getWidth()/2;
+    printf("numero de frames: %i\n", this->numFrames);
 }
 
 
@@ -33,15 +34,15 @@ void Animation::advanceFrame(){
     }
 }
 
-Animation& Animation::operator=(Animation&& other){ 
-    this->numFrames = other.numFrames;
-    this->currentFrame = other.currentFrame;
-    this->size = other.size;
-    this->texture = std::move(other.texture);
-    return *this;
-}
-Animation::Animation(Animation&& other):texture(other.texture){
-    this->numFrames = other.numFrames;
-    this->currentFrame = other.currentFrame;
-    this->size = other.size;
-}
+// Animation& Animation::operator=(Animation&& other){ 
+//     this->numFrames = other.numFrames;
+//     this->currentFrame = other.currentFrame;
+//     this->size = other.size;
+//     this->texture = other.texture;
+//     return *this;
+// }
+// Animation::Animation(Animation&& other):texture(other.texture){
+//     this->numFrames = other.numFrames;
+//     this->currentFrame = other.currentFrame;
+//     this->size = other.size;
+// }

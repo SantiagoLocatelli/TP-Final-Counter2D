@@ -23,6 +23,8 @@ GameViewer::GameViewer(int window_w, int window_h): window(WINDOW_LABEL, window_
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window_w, window_h))){
 
+    loadMap();
+    loadWeapons();
 }
 
 
@@ -109,7 +111,6 @@ void GameViewer::renderMap(Coordenada cam){
 }
 
 void GameViewer::renderMainPlayer(Coordenada cam){
-    this->mainPlayer.update(level.mainPlayer);
     this->mainPlayer.render(cam);
 }
 
@@ -130,7 +131,20 @@ void GameViewer::render(){
 }
 
 
-void GameViewer::update(LevelInfo level){this->level = level;}
+void GameViewer::update(LevelInfo level){
+    this->level = level;
+    this->players.clear();
+    this->mainPlayer.update(level.mainPlayer);
+
+    for (PlayerInfo pjInfo : level.players) {
+
+        Character pj(pjInfo, this->pjTexture);
+        this->players.push_back(std::move(pj));     
+    }
+
+    this->cam.centerCamera(level.mainPlayer.pos, level.mainPlayer.size);
+    this->cam.keepInBounds(level.width, level.height);
+}
 void GameViewer::setCrossHair(Coordenada pos){this->mainPlayer.setCrossHair(pos);}
 
 Coordenada GameViewer::mainPlayerRelativePos(){

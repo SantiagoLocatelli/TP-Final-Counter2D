@@ -19,8 +19,8 @@ public:
     void advanceFrame();
 
 
-    Animation& operator=(Animation&&);
-    Animation(Animation&& other);
+    // Animation& operator=(Animation&&);
+    // Animation(Animation&& other);
 };
 
 #endif

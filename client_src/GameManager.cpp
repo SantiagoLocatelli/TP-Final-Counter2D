@@ -6,7 +6,7 @@
 
 GameManager::GameManager(MapInfo map, ModelInfo model, int window_w, int window_h):
     map(map), game(window_w, window_h){
-    this->update(model);
+    this->initializeLevel(model);
 }
 
 
@@ -33,6 +33,7 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.degrees = Math::radiansToDegrees(prot.angle);
     player.pos.x = Math::ruleOfThree(prot.pos.x, this->map.length, (int)(this->map.length*PIXELS_PER_METER));
     player.pos.y = Math::ruleOfThree(prot.pos.y, this->map.height, (int)(this->map.height*PIXELS_PER_METER));
+    printf("coordenada personaje: x: %i, y: %i\n", player.pos.x, player.pos.y);
     player.weapon = prot.weapon;
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
@@ -41,16 +42,13 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 void GameManager::updateBox(Box& box, ProtBox prot){
     box.pos.x = Math::ruleOfThree(prot.x, 1, PIXELS_PER_METER);
     box.pos.y = Math::ruleOfThree(prot.y, 1, PIXELS_PER_METER);
+    printf("coordenada caja: x: %i, y: %i\n", box.pos.x, box.pos.y);
     box.size.w = PIXELS_PER_METER;
     box.size.h = PIXELS_PER_METER;
 }
 
 void GameManager::update(ModelInfo model){
 
-    LevelInfo level;
-
-    level.width = this->map.length*PIXELS_PER_METER;
-    level.height = this->map.height*PIXELS_PER_METER;
 
     // Si esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
@@ -73,6 +71,7 @@ void GameManager::update(ModelInfo model){
         this->updatePlayer(player, *it);
         level.players.push_back(player);
     }
+    printf("cantidad de jugadores ademas del main: %i\n", level.players.size());
 
     for (auto it = model.bullets.begin(); it != model.bullets.end(); it++){
         BulletInfo bullet;
@@ -86,13 +85,23 @@ void GameManager::update(ModelInfo model){
         level.drops.push_back(drop);
     }
 
+
+    this->game.update(level);
+}
+
+
+void GameManager::initializeLevel(ModelInfo model){
+    
+    level.width = this->map.length*PIXELS_PER_METER;
+    level.height = this->map.height*PIXELS_PER_METER;
+
     for (auto it = this->map.boxes.begin(); it != this->map.boxes.end(); it++) {
         Box box;
         this->updateBox(box, *it);
         level.boxes.push_back(box);
     }
 
-    this->game.update(level);
+    this->update(model);
 }
 
 void GameManager::render(){this->game.render();}
