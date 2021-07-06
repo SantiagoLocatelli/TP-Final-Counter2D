@@ -66,7 +66,7 @@ void GameManager::renderWeapons(int camX, int camY){
     for(auto it = this->model.drops.begin(); it != this->model.drops.end(); it++) {
         int posX = Math::ruleOfThree(it->pos.x, this->level.w_meters, this->level.width) - camX;
         int posY = Math::ruleOfThree(it->pos.y, this->level.h_meters, this->level.height) - camY;
-        this->weapons[it->type]->render(posX, posY, 50, 50);
+        this->weapons[it->type]->render(posX, posY, 100, 100);
     }
 }
 
