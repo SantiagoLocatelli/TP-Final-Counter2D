@@ -14,6 +14,9 @@ Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
 }
 
 void Stencil::setPosition(Coordenada pos, float degrees){
+    this->rect.x = pos.x;
+    this->rect.y = pos.y;
+    this->degrees = degrees;
 }
 
 

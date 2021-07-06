@@ -14,6 +14,8 @@ struct Color {
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
+
+
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
     cam(window_w, window_h),
@@ -82,11 +84,8 @@ void GameViewer::loadMap() {
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordenada cam) {
-    for (Character player: this->players){
-        if (!player.isDead()) {
-            player.render(cam.x, cam.y);
-            //en un futuro agregar para renderizar el pj con el arma.
-        }
+    for (auto it = this->players.begin(); it != this->players.end(); it++){
+        it->render(cam.x, cam.y);
     }
 }
 
@@ -132,18 +131,11 @@ void GameViewer::render(){
 
 
 void GameViewer::update(LevelInfo level){
-    this->level = level;
     this->players.clear();
     this->mainPlayer.update(level.mainPlayer);
 
 
     // revisar el constructor por movimiento del character
-    
-    // for (PlayerInfo pjInfo : level.players) {
-
-    //     Character pj(pjInfo, this->pjTexture);
-    //     this->players.push_back(std::move(pj));     
-    // }
 
     this->cam.centerCamera(level.mainPlayer.pos, level.mainPlayer.size);
     this->cam.keepInBounds(level.width, level.height);

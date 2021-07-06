@@ -10,7 +10,7 @@
 class GameManager {
 private:
 
-    GameViewer game; 
+    MapInfo map;
     LevelInfo level;
     
     void updatePlayer(PlayerInfo& player, ProtPlayer prot);
@@ -21,9 +21,9 @@ private:
 
 public:
 
-    GameManager(const MapInfo& map, const ModelInfo& model, int window_w, int window_h);
+    GameManager(MapInfo map);
     
-    void update(const ModelInfo& model);
+    LevelInfo updatedLevel(const ModelInfo& model);
     void render();
     Coordenada getRelativePlayerPos();
     void setCrossHair(Coordenada pos);

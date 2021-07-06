@@ -3,10 +3,7 @@
 
 #define PIXELS_PER_METER 100
 
-GameManager::GameManager(const MapInfo& map, const ModelInfo& model, int window_w, int window_h):
-    game(window_w, window_h, this->initializeLevel(map, model)){
-    
-}
+GameManager::GameManager(MapInfo map):map(map){}
 
 
 void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
@@ -32,7 +29,6 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.degrees = Math::radiansToDegrees(prot.angle);
     player.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
     player.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
-    printf("coordenada personaje: x: %i, y: %i\n", player.pos.x, player.pos.y);
     player.weapon = prot.weapon;
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
@@ -41,17 +37,15 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 void GameManager::updateBox(BoxInfo& box, ProtBox prot){
     box.pos.x = Math::ruleOfThree(prot.x, 1.0, PIXELS_PER_METER);
     box.pos.y = Math::ruleOfThree(prot.y, 1.0, PIXELS_PER_METER);
-    printf("coordenada caja: x: %i, y: %i\n", box.pos.x, box.pos.y);
     box.size.w = PIXELS_PER_METER;
     box.size.h = PIXELS_PER_METER;
 }
 
-void GameManager::update(const ModelInfo& model){
+LevelInfo GameManager::updatedLevel(const ModelInfo& model){
 
     this->level.players.clear();
     this->level.drops.clear();
     this->level.bullets.clear();
-
 
     // Si esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
@@ -74,13 +68,11 @@ void GameManager::update(const ModelInfo& model){
         this->updatePlayer(player, *it);
         level.players.push_back(player);
     }
-    printf("cantidad de jugadores ademas del main: %i\n", level.players.size());
 
     for (auto it = model.bullets.begin(); it != model.bullets.end(); it++){
         BulletInfo bullet;
         this->updateBullet(bullet, *it);
         level.bullets.push_back(bullet);
-
     }
 
     for (auto it = model.drops.begin(); it != model.drops.end(); it++) {
@@ -90,7 +82,7 @@ void GameManager::update(const ModelInfo& model){
     }
 
 
-    this->game.update(level);
+    return this->level;
 }
 
 void printBox(BoxInfo box){
@@ -102,22 +94,12 @@ LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& mode
     
     level.width = map.length*PIXELS_PER_METER;
     level.height = map.height*PIXELS_PER_METER;
-    printf("anchura %i\n", level.width);
-    printf("altura %i\n", level.height);
 
     BoxInfo box;
-    int i = 0;
-    for (const ProtBox& prot : map.boxes) {
+    for (ProtBox prot : map.boxes) {
         this->updateBox(box, prot);
-        printBox(box);
-        level.boxes[i] = box;
-        i++;
+        level.boxes.emplace_back(box);
     }
 
-    this->update(model);
-    return this->level;
+    return this->updatedLevel(model);
 }
-
-void GameManager::render(){this->game.render();}
-Coordenada GameManager::getRelativePlayerPos(){this->game.mainPlayerRelativePos();}
-void GameManager::setCrossHair(Coordenada pos){this->game.setCrossHair(pos);}

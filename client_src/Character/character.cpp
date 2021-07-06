@@ -32,13 +32,13 @@ SDL_Rect Character::getRect(){return {this->player.pos.x, this->player.pos.x, th
 WeaponType Character::getIdWeapon(){return this->player.weapon;}
 float Character::getDegrees(){return this->player.degrees;}
 
-// Character& Character::operator=(Character&& other){
-//     this->an = std::move(other.an);
-//     this->player = other.player;
-//     return *this;
-// }
+Character& Character::operator=(Character&& other){
+    this->an = std::move(other.an);
+    this->player = other.player;
+    return *this;
+}
 
-// Character::Character(Character&& other): 
-//     an(std::move(other.an)){
-//     this->player = other.player;
-// }
+Character::Character(Character&& other): 
+    an(std::move(other.an)){
+    this->player = other.player;
+}

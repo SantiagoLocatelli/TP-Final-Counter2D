@@ -1,7 +1,7 @@
 #include "eventManager.h"
 #include "gameMath.h"
 
-EventManager::EventManager(Protocol& com, bool& quit, GameManager& game):com(com), quit(quit), game(game){}
+EventManager::EventManager(Protocol& com, bool& quit, GameViewer& game):com(com), quit(quit), game(game){}
 
 void EventManager::run(){
 
@@ -64,7 +64,7 @@ void EventManager::run(){
                 this->com.send_event(event);
                 break;
             case SDL_MOUSEMOTION:
-                Coordenada pos = this->game.getRelativePlayerPos();
+                Coordenada pos = this->game.mainPlayerRelativePos();
                 float radians = Math::calculateRadians({pos.x, pos.y}, {e.motion.x, e.motion.y});
                 game.setCrossHair({e.motion.x, e.motion.y});
                 event.type = SET_ANGLE;

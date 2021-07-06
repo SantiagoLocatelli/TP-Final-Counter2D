@@ -14,20 +14,20 @@ int main(int argc, char* argv[]){
     ModelInfo model;
     server.recv_model_info(model);
 
-    printf("%i\n", map.length);
-    printf("%i\n", map.height);
-    GameManager game(map, model, window_w, window_h);
+    GameManager gameManager(map);
+    GameViewer gameViewer(window_w, window_h, gameManager.updatedLevel(model)); 
 
     bool quit = false;
-    EventManager eventManager(server, quit, game);
+    EventManager eventManager(server, quit, gameViewer);
     eventManager.start();
     Stopwatch stopwatch;
 
     while (!quit && !model.game_ended) {
         stopwatch.start();
         server.recv_model_info(model);
-        game.update(model);
-        game.render();
+        
+        gameViewer.update(gameManager.updatedLevel(model));
+        gameViewer.render();
         while (stopwatch.msPassed() < 33) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
