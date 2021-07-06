@@ -14,8 +14,9 @@ int main(int argc, char* argv[]){
     ModelInfo model;
     server.recv_model_info(model);
 
-    GameManager gameManager(map);
-    GameViewer gameViewer(window_w, window_h, gameManager.updatedLevel(model)); 
+    LevelInfo level;
+    GameManager::initializeLevel(map, model, level);
+    GameViewer gameViewer(window_w, window_h, level); 
 
     bool quit = false;
     EventManager eventManager(server, quit, gameViewer);
@@ -26,7 +27,8 @@ int main(int argc, char* argv[]){
         stopwatch.start();
         server.recv_model_info(model);
         
-        gameViewer.update(gameManager.updatedLevel(model));
+        GameManager::updatedLevel(model, level);
+        gameViewer.update(level);
         gameViewer.render();
         while (stopwatch.msPassed() < 33) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));

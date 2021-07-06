@@ -18,6 +18,7 @@ const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
+    level(level),
     cam(window_w, window_h),
     pjTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b), 
     bullet(renderer),
@@ -27,6 +28,9 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
 
     loadMap();
     loadWeapons();
+    for (PlayerInfo player : level.players) {
+        this->players.push_back(std::move(Character(player, this->pjTexture)));
+    }
 }
 
 
@@ -72,6 +76,8 @@ void GameViewer::loadWeapons(){
 
     this->weaponsOnFloor[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/glock_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
     this->weaponsOnFloor[GOD_GUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    this->weaponsOnFloor[SNIPER] = new SdlTexture(this->renderer, "../../common_src/img/weapons/awp_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    this->weaponsOnFloor[RIFLE] = new SdlTexture(this->renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
 
@@ -131,14 +137,31 @@ void GameViewer::render(){
 
 
 void GameViewer::update(LevelInfo level){
-    this->players.clear();
+    this->level = level;
+
     this->mainPlayer.update(level.mainPlayer);
 
+    this->level.drops.clear();
+    this->level.drops.insert(this->level.drops.begin(), level.drops.begin(), level.drops.end());
 
+    this->level.players.clear();
+    this->level.players.insert(this->level.players.begin(), level.players.begin(), level.players.end());
+    
+    this->level.bullets.clear();
+    this->level.bullets.insert(this->level.bullets.begin(), level.bullets.begin(), level.bullets.end());
+
+    auto it = this->players.begin();
+    auto end = this->players.end();
+    for (PlayerInfo player : this->level.players) {
+        if (!player.dead && it != end) {
+            it->update(player);
+        }
+    }
     // revisar el constructor por movimiento del character
 
-    this->cam.centerCamera(level.mainPlayer.pos, level.mainPlayer.size);
+    this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.width, level.height);
+    
 }
 void GameViewer::setCrossHair(Coordenada pos){this->mainPlayer.setCrossHair(pos);}
 

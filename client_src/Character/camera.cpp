@@ -5,9 +5,9 @@ Camera::Camera(int width, int height){
     this->pos = {0, 0};
 }
 
-void Camera::centerCamera(Coordenada pos, Size size){
-    this->pos.x = pos.x - this->size.w / 2;
-    this->pos.y = pos.y - this->size.h / 2;
+void Camera::centerCamera(Coordenada pos){
+    this->pos.x = pos.x;
+    this->pos.y = pos.y;
 }
 
 void Camera::centerCameraOnMouse(int tile_width, int level_width, int level_height){

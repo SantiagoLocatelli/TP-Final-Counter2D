@@ -11,7 +11,7 @@ class Camera {
 
     public:
         Camera(int camera_width, int camera_height);
-        void centerCamera(Coordenada pos, Size size);
+        void centerCamera(Coordenada pos);
         void centerCameraOnMouse(int tile_width, int level_width, int level_height);
         void keepInBounds(int level_w, int level_h);
 

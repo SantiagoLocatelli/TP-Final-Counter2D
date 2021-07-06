@@ -10,23 +10,12 @@
 class GameManager {
 private:
 
-    MapInfo map;
-    LevelInfo level;
-    
-    void updatePlayer(PlayerInfo& player, ProtPlayer prot);
-    void updateBullet(BulletInfo& bullet, Bullet prot);
-    void updateDrop(DropInfo& drop, ProtDrop prot);
-    void updateBox(BoxInfo& box, ProtBox prot);
-    LevelInfo initializeLevel(const MapInfo& map, const ModelInfo& model);
-
 public:
 
-    GameManager(MapInfo map);
+    GameManager();
     
-    LevelInfo updatedLevel(const ModelInfo& model);
-    void render();
-    Coordenada getRelativePlayerPos();
-    void setCrossHair(Coordenada pos);
+    static void initializeLevel(const MapInfo& map, const ModelInfo& model, LevelInfo& level);
+    static void updatedLevel(const ModelInfo& model, LevelInfo& level);
 };
 
 #endif

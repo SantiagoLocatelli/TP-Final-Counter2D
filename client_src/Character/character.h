@@ -11,7 +11,8 @@ class Character{
 
     private:
 		
-		Animation an;
+		SdlTexture& texture;
+		// Animation an;
 		PlayerInfo player;
 
     public:
