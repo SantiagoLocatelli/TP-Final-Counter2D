@@ -17,9 +17,8 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::sha
     this->renderText = false;
     this->selectedTexture = NULL;
     std::vector<SDL_Rect> aux;
-    std::vector<std::string> labels = {"Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
-    SdlMixer chunk();
     Presenter::fillSize(aux);
+    std::vector<std::string> labels = {"Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
     for (unsigned int i = 0; i < aux.size(); i++){
         std::string width = std::to_string(aux[i].w);
         std::string height = std::to_string(aux[i].h);
