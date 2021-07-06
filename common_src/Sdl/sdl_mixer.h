@@ -11,6 +11,7 @@ class SdlMixer{
     public:
         SdlMixer(std::string musicPath);
         SdlMixer(std::string musicPath, std::vector<std::string>& chunkPaths);
+        SdlMixer(std::vector<std::string>& chunkPath);
         void play();
         void stop();
         void pause();

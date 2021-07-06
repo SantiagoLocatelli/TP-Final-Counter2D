@@ -19,8 +19,8 @@ std::unique_ptr<Presenter> MenueManager::createEditor(){
     return std::move(std::unique_ptr<Presenter>(new Editor(this->textures, this->map, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
 }
 
-std::unique_ptr<Presenter> MenueManager::createMenue(){
-    return std::move(std::unique_ptr<Presenter>(new Menue(renderer, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
+std::unique_ptr<Presenter> MenueManager::createOptionsMenue(){
+    return std::move(std::unique_ptr<Presenter>(new OptionsMenue(renderer, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
 }
 
 void MenueManager::loadToFile(){
