@@ -128,7 +128,7 @@ void GameManager::loadWeapons(){
     // this->weapons.push_back(std::move(awp));
 
     this->weapons[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/glock_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weapons[GOD_GUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    this->weapons[GOD_GUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/awp_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
 void GameManager::initializeGame(ModelInfo model){
