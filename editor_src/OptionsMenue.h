@@ -11,15 +11,16 @@
 #include "presenter.h"
 class OptionsMenue : public Presenter{
     private:
+        SdlTexture widthTexture;
+        SdlTexture heightTexture;
         std::map<std::shared_ptr<SdlTexture>, std::string> options;
         std::shared_ptr<SdlTexture> selectedTexture;
         std::vector<SdlTexture> textTexture;
         std::vector<std::shared_ptr<SdlTexture>> inputOrder;
         bool renderText;
-        std::vector<SdlTexture> widthTexture;
-        std::vector<SdlTexture> heightTexture;
         SdlTexture backgroundTexture;
         std::unique_ptr<SdlMixer> chunk;
+
 
     public:
         OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string,

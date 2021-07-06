@@ -11,7 +11,9 @@
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
 OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
  std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH)
-  : Presenter(bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND){
+  : Presenter(bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
+    widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
+    heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->renderText = false;
@@ -30,8 +32,6 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::sha
         this->options.emplace(std::move(textureHeight), height);
 
         this->textTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, labels[i], 255, 255, 255);
-        this->widthTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255);
-        this->heightTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255);
     }
 }
 
@@ -54,8 +54,8 @@ void OptionsMenue::render(){
         if (i % 2 == 0){
             posY += 50;
             this->textTexture[i/2].render(100, posY);
-            this->widthTexture[i/2].render(200, posY);
-            this->heightTexture[i/2].render(400, posY);
+            this->widthTexture.render(200, posY);
+            this->heightTexture.render(400,posY);
             posX = 300;
         }
         this->inputOrder[i]->render(posX, posY);
@@ -74,12 +74,12 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     posX = 300;
                 }
                 if (inputOrder[i]->isMouseTouching(posX, posY)){
+                    this->chunk->playChunk(0);
                     if (selectedTexture != NULL){
                         this->selectedTexture->setColor(255, 255, 255);
                     }
                     this->selectedTexture = inputOrder[i];
                     this->selectedTexture->setColor(255, 255, 0);
-                    this->chunk->playChunk(0);
                     break;
                 }
                 posX = 500;
