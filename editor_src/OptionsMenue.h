@@ -23,7 +23,7 @@ class OptionsMenue : public Presenter{
 
 
     public:
-        OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string,
+        OptionsMenue(SdlRenderer& renderer, std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string,
          std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH);
         void render() override;
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;

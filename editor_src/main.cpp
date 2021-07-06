@@ -17,17 +17,9 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-//The frame rate
-const int FRAMES_PER_SECOND = 20;
-
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
 const int LEVEL_HEIGHT = 960;
-
-
-//Tile constants
-const int TILE_WIDTH = 80;
-const int TILE_HEIGHT = 80;
 
 
 template<typename T, typename... Args>

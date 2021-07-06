@@ -10,6 +10,7 @@
 #include "TextureMap.h"
 class MenueManager{
     private:
+        std::vector<int> mapSize;
         SdlRenderer& renderer;
         TextureMap map;
         std::string mapID;

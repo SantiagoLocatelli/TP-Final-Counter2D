@@ -9,9 +9,9 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
  std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH)
-  : Presenter(bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
+  : Presenter(mapSize, bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
     widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
     heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255){
     std::vector<std::string> vec = {CHUNK_PATH};

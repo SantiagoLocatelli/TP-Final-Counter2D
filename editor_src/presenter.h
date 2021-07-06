@@ -10,6 +10,7 @@
 #include "../client_src/Character/camera.h"
 class Presenter{
     private:
+        std::vector<int> mapSize;
 
         std::map<std::string, std::shared_ptr<Draggable>> bombSites;
 
@@ -17,7 +18,7 @@ class Presenter{
 
         Camera camera;
     public:
-        Presenter(std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+        Presenter(std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
          std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH);
         virtual void render() = 0;
         virtual void handleEvents(SDL_Event* event, SdlRenderer& renderer) = 0;

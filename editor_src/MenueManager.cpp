@@ -10,7 +10,7 @@ MenueManager::MenueManager(SdlRenderer& r, const std::string path, int screenWid
     this->mapID = path;
     TextureFactory factory;
     factory.unmarshalTextures(TEXTURE_PATH, this->map);
-    factory.unmarshalMap(path.c_str(), this->map, this->textures, r);
+    factory.unmarshalMap(path.c_str(), this->map, this->textures, this->mapSize, r);
     factory.unmarshalBombSites(path.c_str(), this->bombSites, r);
     factory.unmarshalSpawnSites(path.c_str(), this->spawnSites, r);
 }
@@ -53,6 +53,8 @@ void MenueManager::loadToFile(){
     //creation of yaml file
     YAML::Emitter out;
     out << YAML::BeginMap;
+
+        out << YAML::Key << "size" << YAML::Value << YAML::Flow << this->mapSize;
     
         out << YAML::Key << "map" << YAML::Value << YAML::Flow << textureTypes;
         

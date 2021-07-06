@@ -19,7 +19,7 @@ class Editor : public Presenter{
         bool renderSpawnSites;
 
     public:
-        Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
+        Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
          std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, int screenW, int screenH);
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void render() override;

@@ -6,8 +6,9 @@ const int TILE_WIDTH = 80;
 const int LEVEL_WIDTH = 1280;
 const int LEVEL_HEIGHT = 960;
 
-Presenter::Presenter(std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, 
+Presenter::Presenter(std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, 
 int screenW, int screenH) : camera(screenW, screenH){
+    this->mapSize = mapSize;
     this->bombSites = bombSites;
     this->spawnSites = spawnSites;
 }

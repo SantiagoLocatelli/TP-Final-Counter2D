@@ -14,10 +14,10 @@ std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
-Editor::Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, 
+Editor::Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::vector<int>& mapSize, 
 std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
 std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,
-int screenW, int screenH) : Presenter(bombSites, spawnSites, screenW, screenH), map(m){
+int screenW, int screenH) : Presenter(mapSize, bombSites, spawnSites, screenW, screenH), map(m){
     this->textures = textures;
     this->currentType = 0;
     this->renderBombSites = false;
@@ -117,7 +117,7 @@ void Editor::put_tile(SdlRenderer& renderer){
         textureX += TILE_WIDTH;
 
         //If we've gone too far
-        if (textureX >= LEVEL_WIDTH){
+        if (textureX >= this->mapSize[0]){
             //Move back
             textureX = 0;
 
@@ -137,7 +137,7 @@ void Editor::render(){
         x += TILE_WIDTH;
 
         //If we've gone too far
-        if (x >= LEVEL_WIDTH){
+        if (x >= this->mapSize[0]{
             //Move back
             x = 0;
 
