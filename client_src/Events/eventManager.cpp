@@ -6,11 +6,12 @@ EventManager::EventManager(Protocol& com, bool& quit, GameManager& game):com(com
 void EventManager::run(){
 
     SDL_Event e;
-    while (SDL_WaitEvent(&e) != 0 && !quit){
+    while (!quit && SDL_WaitEvent(&e) != 0){
         Event event;
         switch (e.type) {
             case SDL_QUIT:
-                this->quit = true; break;
+                this->quit = true; 
+                break;
 
             //Ambos casos hacen lo mismo
             case SDL_KEYUP:
@@ -71,4 +72,12 @@ void EventManager::run(){
                 this->com.send_event(event);
         }
     }
+
+    com.close();
+}
+
+void EventManager::stop(){
+    SDL_Event e;
+    e.type = SDL_QUIT;
+    SDL_PushEvent(&e);
 }

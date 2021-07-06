@@ -4,7 +4,7 @@
 #include <string>
 #include "Direction.h"
 
-enum EventType: char {TOGGLE_MOVEMENT, SET_ANGLE, TOGGLE_WEAPON};
+enum EventType: char {TOGGLE_MOVEMENT, SET_ANGLE, TOGGLE_WEAPON, CREATE_PLAYER};
 
 union EventInfo{
     Direction dir; //Para TOGGLE_MOVEMENT

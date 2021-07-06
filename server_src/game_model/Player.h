@@ -28,7 +28,7 @@ class Player: public Hittable{
         //Métodos de movimiento/posicion
         void toggleMovement(Direction dir);
         void updateVelocity();
-        std::array<float, 2> getPosition();
+        std::array<float, 2> getPosition() const;
         void setAngle(float angle);
         float getAngle() const;
 

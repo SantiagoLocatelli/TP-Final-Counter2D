@@ -77,6 +77,7 @@ void GameManager::update(ModelInfo model){
         BulletInfo bullet;
         this->updateBullet(bullet, *it);
         level.bullets.push_back(bullet);
+
     }
 
     for (auto it = model.drops.begin(); it != model.drops.end(); it++) {

@@ -59,7 +59,6 @@ void Player::toggleMovement(Direction dir){
 void Player::updateVelocity(){
     if (dead)
         GeneralException("Error en Player::updateVelocity: El jugador está muerto\n");
-    //TODO: Muy hardcodeado, arreglar esto
     b2Vec2 new_imp(0,0);
     if (movement[UP])
         new_imp.y += -1;
@@ -71,12 +70,12 @@ void Player::updateVelocity(){
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= 6;
+    new_imp *= 6; //TODO: Aca se elige la velocidad del jugador
     body->SetLinearVelocity(new_imp);
 }
 
 
-std::array<float, 2> Player::getPosition(){
+std::array<float, 2> Player::getPosition() const{
     if (dead)
         GeneralException("Error en Player::getPosition: El jugador está muerto\n");
 

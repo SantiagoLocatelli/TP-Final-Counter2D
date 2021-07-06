@@ -6,7 +6,7 @@
 int main(int argc, char* argv[]){
 
     Protocol server(Socket("localhost", argv[1], false));
-    int window_w = 1000, window_h = 1000;
+    int window_w = 400, window_h = 400;
 
     MapInfo map;
     server.recv_map_info(map);
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
     eventManager.start();
     Stopwatch stopwatch;
 
-    while (!quit /*|| !model.game_ended*/) {
+    while (!quit && !model.game_ended) {
         stopwatch.start();
         server.recv_model_info(model);
         game.update(model);
@@ -30,7 +30,8 @@ int main(int argc, char* argv[]){
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }
-
+    
+    eventManager.stop();
     eventManager.join();
 	return 0;
 }

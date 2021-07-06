@@ -8,7 +8,7 @@
 #include <chrono>
 
 void executeEvent(GameProxy &game, Event &event, int id){
-    //TODO: Hacer con un MapExecuter
+    //TODO: Hacer con polimorfismo
     switch (event.type){
     case TOGGLE_MOVEMENT:
         game.toggleMovement(id, event.info.dir);
@@ -21,6 +21,9 @@ void executeEvent(GameProxy &game, Event &event, int id){
     case TOGGLE_WEAPON:
         game.toggleWeapon(id);
         break;
+
+    case CREATE_PLAYER:
+        game.createPlayer();
     }    
 }
 
@@ -33,12 +36,6 @@ int main(int argc, char const *argv[]){
         EventQueue queue;
         GameProxy game("../../server_src/mapa.yaml");
 
-        //TODO: Agarrado con alambres. Solo para la prueba 
-        game.createPlayer();
-        printf("Personaje Creado\n");
-        game.createPlayer();
-        printf("Personaje Creado\n");
-
         
         Accepter accepter(argv[1], queue, emitter);
         accepter.start();
@@ -46,9 +43,11 @@ int main(int argc, char const *argv[]){
         Stopwatch stopwatch;
         emitter.emitMap(game.getMapInfo());
 
-        //std::this_thread::sleep_for(std::chrono::seconds(60));
+        while (getchar() != 's'){
+            std::this_thread::sleep_for(std::chrono::seconds(1)); 
+        }
 
-        while (!game.ended()){
+        do{
             stopwatch.start();
             while (stopwatch.msPassed() < 33){
                 //TODO: Sacar este busy wait
@@ -64,8 +63,8 @@ int main(int argc, char const *argv[]){
             game.step();
             emitter.emitModel(std::move(game.getModelInfo()));
             game.clearFrameEvents();
-        }
-        
+        } while (!game.ended());
+
         accepter.stop();
         accepter.join();
     } catch (const std::exception &e){
