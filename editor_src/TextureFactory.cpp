@@ -25,17 +25,17 @@ void TextureFactory::unmarshalTextures(const char *yamlFile, TextureMap& map){
         paths.push_back(it->as<std::string>());
     }
 
-    for (int i = 0; i < keys.size(); i++){
+    for (unsigned int i = 0; i < keys.size(); i++){
         map.insert(keys[i], paths[i]);
     }
 }
 
-void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::shared_ptr<SdlTexture>>& textures,
+void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::list<std::unique_ptr<SdlTexture>>& textures,
  std::vector<int>& mapSize, SdlRenderer& renderer){
     //Open the map
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
 
-    YAML::Node size = yaml_map["size"];
+    YAML::Node size = yaml_map["mapSize"];
     mapSize = size.as<std::vector<int>>();
 
     //Initialize the objects

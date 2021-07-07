@@ -2,25 +2,20 @@
 #include "yaml-cpp/yaml.h"
 #include <fstream>
 #include <utility>
+#include <memory>
 #define TEXTURE_PATH "../../common_src/maps/textures.yaml"
+#define TILE_SIZE 80
+#define LEVEL_WIDTH 1280
 
 MenueManager::MenueManager(SdlRenderer& r, const std::string path, int screenWidth, int screenHeight) : renderer(r){
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
     this->mapID = path;
     TextureFactory factory;
-    factory.unmarshalTextures(TEXTURE_PATH, this->map);
-    factory.unmarshalMap(path.c_str(), this->map, this->textures, this->mapSize, r);
+    factory.unmarshalTextures(TEXTURE_PATH, this->textureMap);
+    factory.unmarshalMap(path.c_str(), this->textureMap, this->textures, this->mapSize, r);
     factory.unmarshalBombSites(path.c_str(), this->bombSites, r);
     factory.unmarshalSpawnSites(path.c_str(), this->spawnSites, r);
-}
-
-std::unique_ptr<Presenter> MenueManager::createEditor(){
-    return std::move(std::unique_ptr<Presenter>(new Editor(this->textures, this->map, this->mapSize, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
-}
-
-std::unique_ptr<Presenter> MenueManager::createOptionsMenue(){
-    return std::move(std::unique_ptr<Presenter>(new OptionsMenue(renderer, this->mapSize, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
 }
 
 void MenueManager::loadToFile(){
@@ -54,7 +49,7 @@ void MenueManager::loadToFile(){
     YAML::Emitter out;
     out << YAML::BeginMap;
 
-        out << YAML::Key << "size" << YAML::Value << YAML::Flow << this->mapSize;
+        out << YAML::Key << "mapSize" << YAML::Value << YAML::Flow << this->mapSize;
     
         out << YAML::Key << "map" << YAML::Value << YAML::Flow << textureTypes;
         
@@ -95,4 +90,151 @@ void MenueManager::loadToFile(){
     //load into file
     std::ofstream fout(this->mapID.c_str()); 
     fout << out.c_str();
+}
+
+void MenueManager::renderTextures(const SDL_Rect& camera){
+    int x = 0, y = 0;
+    for (auto &texture : this->textures){
+        texture->render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE);
+        
+        //Move to next tile spot
+        x += TILE_SIZE;
+
+        //If we've gone too far
+        if (x >= this->mapSize[0]){
+            //Move back
+            x = 0;
+
+            //Move to the next row
+            y += TILE_SIZE;
+        }
+    }
+}
+
+
+void MenueManager::renderBombSites(const SDL_Rect& camera){
+    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+    while (iterator != this->bombSites.end()){
+        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
+        iterator->second->setAlpha(100);
+        iterator->second->render(camera);
+        ++iterator;
+    }
+}
+
+void MenueManager::renderSpawnSites(const SDL_Rect& camera){
+    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+    while (iterator != this->spawnSites.end()){
+        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
+        iterator->second->setAlpha(100);
+        iterator->second->render(camera);
+        ++iterator;
+    }
+}
+
+void MenueManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
+    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+    while (iterator != this->bombSites.end()){
+        iterator->second->handleEvent(event, camera);
+        ++iterator;
+    }
+}
+void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera){
+    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+    while (iterator != this->spawnSites.end()){
+        iterator->second->handleEvent(event, camera);
+        ++iterator;
+    }
+}
+
+//numeros pares con el 0 son los width numeros impares son los height
+void MenueManager::changeSizeOfSites(std::vector<int>& vector){ 
+    int insertPosition = 0;
+    int newColumns = vector[0]/TILE_SIZE - this->mapSize[0]/TILE_SIZE;
+    int rows = vector[1]/TILE_SIZE;
+    for (int i = 0; i < rows; i++){
+        insertPosition += this->mapSize[0]/TILE_SIZE;
+        if (insertPosition > this->textures.size()){
+            for (int j = 0; j < vector[0]/TILE_SIZE; j++){
+                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5], 5));
+            }
+            insertPosition += newColumns;
+        }else{
+            for (int j = 0; j < newColumns; j++){
+                auto it = textures.begin();
+                std::advance(it,insertPosition);
+                this->textures.insert(it, std::unique_ptr<SdlTexture>
+                (new SdlTexture(this->renderer, this->textureMap[5], 5)));
+                insertPosition++;
+            }
+        }
+    }
+    this->mapSize[0] = vector[0];
+    this->mapSize[1] = vector[1];
+    this->bombSites["A"]->setWidthAndHeight(vector[2], vector[3]);
+    this->bombSites["B"]->setWidthAndHeight(vector[4], vector[5]);
+    this->spawnSites["T"]->setWidthAndHeight(vector[6], vector[7]);
+    this->spawnSites["CT"]->setWidthAndHeight(vector[8], vector[9]);
+}
+
+void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
+    int x = 0, y = 0;
+    
+    //Get mouse offsets
+    SDL_GetMouseState(&x, &y);
+    
+    //Adjust to camera
+    x += camera.x;
+    y += camera.y;
+
+    int textureX = 0, textureY = 0;
+
+	for (unsigned int i = 0; i < this->textures.size(); i++){
+        //If the mouse is inside the tile
+        if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
+            auto it = textures.begin();
+            std::advance(it,i);
+            textures.erase(it);
+            it = textures.begin();
+            std::advance(it,i);
+            textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[type], type)));
+			break;
+        }
+        //Move to next tile spot
+        textureX += TILE_SIZE;
+
+        //If we've gone too far
+        if (textureX >= this->mapSize[0]){
+            //Move back
+            textureX = 0;
+
+            //Move to the next row
+            textureY += TILE_SIZE;
+        }
+    }
+}
+
+void MenueManager::fillSize(std::vector<SDL_Rect>& vector){
+    vector = {{0,0,mapSize[0], mapSize[1]}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(),
+     spawnSites["CT"]->getBox()};
+}
+
+int MenueManager::getMapWidth(){
+    return this->mapSize[0];
+}
+
+int MenueManager::getMapHeight(){
+    return this->mapSize[1];
+}
+
+int MenueManager::getTextureMapSize(){
+    return this->textureMap.size();
+}
+
+int MenueManager::getTexturesSize(){
+    return textures.size();
+}
+
+std::string MenueManager::getTypeName(const int& type){
+    return this->textureMap[type];
 }

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TILE_SIZE 80
-#define MIN_MAP_SIZE 1040 // Tienen que ser multiplos del alto o ancho del tile (en este caso 80)
+#define MIN_MAP_SIZE 640 // Tienen que ser multiplos del alto o ancho del tile (en este caso 80)
 #define MAX_MAP_SIZE 2000
 #define MIN_SIZE 100
 #define MAX_SIZE 999
@@ -12,9 +12,8 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::vector<int>& mapSize, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
- std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH)
-  : Presenter(mapSize, bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
+OptionsMenue::OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH)
+  : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
     widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
     heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255){
     std::vector<std::string> vec = {CHUNK_PATH};
@@ -131,9 +130,9 @@ void OptionsMenue::aceptChanges(){
                 sizeOfMap = MAX_MAP_SIZE;
             }else if (sizeOfMap < MIN_MAP_SIZE){
                 sizeOfMap = MIN_MAP_SIZE;
-            }else if (int mod = (sizeOfMap % TILE_SIZE) != 0){
+            }else if (sizeOfMap % TILE_SIZE != 0){
                 // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
-                sizeOfMap += (TILE_SIZE - mod);
+                sizeOfMap += (TILE_SIZE - (sizeOfMap % TILE_SIZE));
             }
             vector.push_back(sizeOfMap);
         }

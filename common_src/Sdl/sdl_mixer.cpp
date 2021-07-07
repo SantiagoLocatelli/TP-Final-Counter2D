@@ -26,7 +26,7 @@ SdlMixer::SdlMixer(std::string musicPath, std::vector<std::string>& chunkPaths){
         for (auto chunk : chunkPaths){
             this->mChunks.push_back(Mix_LoadWAV(chunk.c_str()));
             if (this->mChunks.back() == NULL){
-                printf("Failed to load chunk: %s sound effect! number: SDL_mixer Error: %s\n", chunk, Mix_GetError());
+                printf("Failed to load chunk: %s sound effect! number: SDL_mixer Error: %s\n", chunk.c_str(), Mix_GetError());
             }
         }
     }
@@ -39,7 +39,7 @@ SdlMixer::SdlMixer(std::vector<std::string>& chunkPaths){
         for (auto chunk : chunkPaths){
             this->mChunks.push_back(Mix_LoadWAV(chunk.c_str()));
             if (this->mChunks.back() == NULL){
-                printf("Failed to load chunk: %s sound effect! number: SDL_mixer Error: %s\n", chunk, Mix_GetError());
+                printf("Failed to load chunk: %s sound effect! number: SDL_mixer Error: %s\n", chunk.c_str(), Mix_GetError());
             }
         }
     }
@@ -74,5 +74,4 @@ SdlMixer::~SdlMixer(){
         Mix_FreeChunk(chunk);
     }
     Mix_Quit();
-	delete this->mMusic;
 }

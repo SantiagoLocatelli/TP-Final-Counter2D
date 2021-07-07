@@ -9,16 +9,8 @@
 #define TILE_HEIGHT 80
 #define LEVEL_WIDTH 1280
 
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
 
-Editor::Editor(std::vector<std::shared_ptr<SdlTexture>>& textures, TextureMap& m, std::vector<int>& mapSize, 
-std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
-std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,
-int screenW, int screenH) : Presenter(mapSize, bombSites, spawnSites, screenW, screenH), map(m){
-    this->textures = textures;
+Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
     this->currentType = 0;
     this->renderBombSites = false;
     this->renderSpawnSites = false;
@@ -54,12 +46,12 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
             //Scroll through tiles
             currentType--;
             if (currentType < 0){
-                currentType = this->map.size() - 1;
+                currentType = Presenter::getTextureMapSize() - 1;
             }
         }else if (event->wheel.y < 0){
             //Scroll through tiles
             currentType++;
-            if (currentType > this->map.size() - 1){
+            if (currentType >= Presenter::getTextureMapSize() - 1){
                 currentType = 0;
             }
         }
@@ -91,60 +83,11 @@ void Editor::stopPresentingSpawnSites(){
 }
 
 void Editor::put_tile(SdlRenderer& renderer){
-    //Mouse offsets
-    SDL_Rect camera = Presenter::getCameraBox();
-    int x = 0, y = 0;
-    
-    //Get mouse offsets
-    SDL_GetMouseState(&x, &y);
-    
-    //Adjust to camera
-    x += camera.x;
-    y += camera.y;
-
-    int textureX = 0, textureY = 0;
-
-	for (int i = 0; i < textures.size(); i++){
-        //If the mouse is inside the tile
-        if ((x > textureX) && (x < textureX + TILE_WIDTH) && (y > textureY) && (y < textureY + TILE_HEIGHT)){
-            //Get rid of old tile
-			textures.erase(textures.begin() + i);
-            std::unique_ptr<SdlTexture> texture(new SdlTexture(renderer, map[this->currentType], currentType));
-			textures.insert(textures.begin() + i, std::move(texture));
-			break;
-        }
-        //Move to next tile spot
-        textureX += TILE_WIDTH;
-
-        //If we've gone too far
-        if (textureX >= Presenter::getMapWidth()){
-            //Move back
-            textureX = 0;
-
-            //Move to the next row
-            textureY += TILE_HEIGHT;
-        }
-    }
+    Presenter::changeTexture(currentType);
 }
 
 void Editor::render(){
-    int x = 0, y = 0;
-    SDL_Rect camera = Presenter::getCameraBox();
-    for (auto &texture : this->textures){
-        texture->render(x - camera.x, y - camera.y, TILE_WIDTH, TILE_HEIGHT);
-        
-        //Move to next tile spot
-        x += TILE_WIDTH;
-
-        //If we've gone too far
-        if (x >= Presenter::getMapWidth()){
-            //Move back
-            x = 0;
-
-            //Move to the next row
-            y += TILE_HEIGHT;
-        }
-    }
+    Presenter::renderTextures();
     if (renderBombSites){
         Presenter::renderBombSites();
     }
@@ -154,11 +97,11 @@ void Editor::render(){
 }
 
 std::string Editor::getTitle(){
-    return this->map[this->currentType];
+    return Presenter::getTypeName(currentType);
 }
 
-void Editor::createMap(SdlRenderer& renderer){
+/*void Editor::createMap(SdlRenderer& renderer){
     for (int i = 0; i < 192; i++){
         this->textures.emplace_back(new SdlTexture(renderer, this->map[0], 0));
     }
-}
+}*/
