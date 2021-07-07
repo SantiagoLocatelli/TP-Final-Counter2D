@@ -3,6 +3,9 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
+#define TILE_SIZE 80
+#define MIN_MAP_SIZE 1040 // Tienen que ser multiplos del alto o ancho del tile (en este caso 80)
+#define MAX_MAP_SIZE 2000
 #define MIN_SIZE 100
 #define MAX_SIZE 999
 #define FONT_SIZE 26
@@ -20,7 +23,7 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::vector<int>& mapSize, std
     this->selectedTexture = NULL;
     std::vector<SDL_Rect> aux;
     Presenter::fillSize(aux);
-    std::vector<std::string> labels = {"Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
+    std::vector<std::string> labels = {"Map Size:", "Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
     for (unsigned int i = 0; i < aux.size(); i++){
         std::string width = std::to_string(aux[i].w);
         std::string height = std::to_string(aux[i].h);
@@ -111,15 +114,30 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
 
 void OptionsMenue::aceptChanges(){
     std::vector<int> vector;
+    int i = 0;
     for (auto &input : inputOrder){
         std::string aux = this->options[input];
-        if (aux.length() < 3){
-            vector.push_back(MIN_SIZE);
-        }else if (aux.length() > 3){
-            vector.push_back(MAX_SIZE);
+        if (i > 1){
+            if (aux.length() < 3){
+                vector.push_back(MIN_SIZE);
+            }else if (aux.length() > 3){
+                vector.push_back(MAX_SIZE);
+            }else{
+                vector.push_back(std::stoi(aux, nullptr));
+            }
         }else{
-            vector.push_back(std::stoi(aux, nullptr));
+            int sizeOfMap = std::stoi(aux, nullptr);
+            if (sizeOfMap > MAX_MAP_SIZE){
+                sizeOfMap = MAX_MAP_SIZE;
+            }else if (sizeOfMap < MIN_MAP_SIZE){
+                sizeOfMap = MIN_MAP_SIZE;
+            }else if (int mod = (sizeOfMap % TILE_SIZE) != 0){
+                // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
+                sizeOfMap += (TILE_SIZE - mod);
+            }
+            vector.push_back(sizeOfMap);
         }
+        i++;
     }
     Presenter::changeSizeOfSites(vector);
 }

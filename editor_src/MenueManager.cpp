@@ -16,11 +16,11 @@ MenueManager::MenueManager(SdlRenderer& r, const std::string path, int screenWid
 }
 
 std::unique_ptr<Presenter> MenueManager::createEditor(){
-    return std::move(std::unique_ptr<Presenter>(new Editor(this->textures, this->map, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
+    return std::move(std::unique_ptr<Presenter>(new Editor(this->textures, this->map, this->mapSize, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
 }
 
 std::unique_ptr<Presenter> MenueManager::createOptionsMenue(){
-    return std::move(std::unique_ptr<Presenter>(new OptionsMenue(renderer, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
+    return std::move(std::unique_ptr<Presenter>(new OptionsMenue(renderer, this->mapSize, this->bombSites, this->spawnSites, screenWidth, screenHeight)));
 }
 
 void MenueManager::loadToFile(){

@@ -117,7 +117,7 @@ void Editor::put_tile(SdlRenderer& renderer){
         textureX += TILE_WIDTH;
 
         //If we've gone too far
-        if (textureX >= this->mapSize[0]){
+        if (textureX >= Presenter::getMapWidth()){
             //Move back
             textureX = 0;
 
@@ -137,7 +137,7 @@ void Editor::render(){
         x += TILE_WIDTH;
 
         //If we've gone too far
-        if (x >= this->mapSize[0]{
+        if (x >= Presenter::getMapWidth()){
             //Move back
             x = 0;
 

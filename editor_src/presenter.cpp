@@ -2,7 +2,7 @@
 #include "TextureFactory.h"
 #include <fstream>
 #include <stdio.h>
-const int TILE_WIDTH = 80;
+const int TILE_SIZE = 80;
 const int LEVEL_WIDTH = 1280;
 const int LEVEL_HEIGHT = 960;
 
@@ -53,17 +53,27 @@ void Presenter::centerCamera(){
 }
 
 void Presenter::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(),
+    vector = {{0,0,mapSize[0], mapSize[1]}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(),
      spawnSites["CT"]->getBox()};
 }
 
 void Presenter::changeSizeOfSites(std::vector<int>& vector){
-    this->bombSites["A"]->setWidthAndHeight(vector[0], vector[1]);
-    this->bombSites["B"]->setWidthAndHeight(vector[2], vector[3]);
-    this->spawnSites["T"]->setWidthAndHeight(vector[4], vector[5]);
-    this->spawnSites["CT"]->setWidthAndHeight(vector[6], vector[7]);
+    this->newColumns = this->mapSize[0]/TILE_SIZE - vector[0]/TILE_SIZE;
+    this->initPosition = this->mapSize[0]/TILE_SIZE;
+    this->bombSites["A"]->setWidthAndHeight(vector[2], vector[3]);
+    this->bombSites["B"]->setWidthAndHeight(vector[4], vector[5]);
+    this->spawnSites["T"]->setWidthAndHeight(vector[6], vector[7]);
+    this->spawnSites["CT"]->setWidthAndHeight(vector[8], vector[9]);
 }
 
 SDL_Rect Presenter::getCameraBox(){
     return this->camera.getRect();
+}
+
+int Presenter::getMapWidth(){
+    return this->mapSize[0];
+}
+
+int Presenter::getMapHeight(){
+    return this->mapSize[1];
 }

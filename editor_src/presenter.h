@@ -32,5 +32,7 @@ class Presenter{
         void fillSize(std::vector<SDL_Rect>& vector);
         virtual void aceptChanges(){};
         void changeSizeOfSites(std::vector<int>& vector);
+        int getMapWidth();
+        int getMapHeight();
 };
 #endif
