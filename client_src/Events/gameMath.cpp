@@ -34,7 +34,7 @@ float Math::calculateRadians(coordenada_t center, coordenada_t point){
 }
 
 int Math::ruleOfThree(float x_f, float total_f, int total_i){
-    int porcentage = (x_f*100.0)/ (float)total_f;
+    int porcentage = (x_f*100.0)/total_f;
     return (total_i*porcentage)/100;
 }
 

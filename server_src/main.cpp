@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]){
     try{
         Emitter emitter;
         EventQueue queue;
-        GameProxy game("../../server_src/mapa_mediano.yaml");
+        GameProxy game("../../server_src/mapa.yaml");
 
         
         Accepter accepter(argv[1], queue, emitter);

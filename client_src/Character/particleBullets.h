@@ -8,15 +8,15 @@
 class ParticleBullets{
 private:
 
-    int posX = 0, posY = 0;
-    int dstPosX = 0, dstPosY = 0;
+    Coordenada pos;
+    Coordenada dst;
     SdlRenderer& renderer;
 
 public:
 
     ParticleBullets(SdlRenderer& renderer);
-    void setTrajectory(LevelInfo level, Bullet bullet, int camX, int camY);
-    void render();
+    void setTrajectory(Coordenada pos, Coordenada dst);
+    void render(Coordenada cam);
 };
 
 #endif
