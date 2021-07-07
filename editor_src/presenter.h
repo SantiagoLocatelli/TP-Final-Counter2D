@@ -10,7 +10,6 @@
 #include "../client_src/Character/camera.h"
 class Presenter{
     private:
-        std::string mapID;
 
         std::map<std::string, std::shared_ptr<Draggable>> bombSites;
 

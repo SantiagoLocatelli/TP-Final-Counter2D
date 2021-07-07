@@ -19,7 +19,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
         world->addBox(b.x, b.y);
     }
 
-    world->addDrop(new GodGun(world), 2.5f, 2.5f);
+    world->addDrop(new GodGun(world), 5.5f, 5.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "editor.h"
-#include "menue.h"
+#include "OptionsMenue.h"
 #include "TextureFactory.h"
 #include "TextureMap.h"
 class MenueManager{
@@ -20,7 +20,7 @@ class MenueManager{
     public:
         MenueManager(SdlRenderer& r, const std::string path, int screenWidth, int screenHeight);
         std::unique_ptr<Presenter> createEditor();
-        std::unique_ptr<Presenter> createMenue();
+        std::unique_ptr<Presenter> createOptionsMenue();
         void loadToFile();
 };
 #endif

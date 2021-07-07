@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include <stack>
-#include "menue.h"
+#include "OptionsMenue.h"
 #include "editor.h"
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_window.h"
@@ -68,7 +68,7 @@ int main(int argc, char* args[]){
                         presenter.top()->aceptChanges();
                         presenter.pop();
                     }else{
-                        presenter.push(std::move(menueManager.createMenue()));
+                        presenter.push(std::move(menueManager.createOptionsMenue()));
                     }
                 }
             }

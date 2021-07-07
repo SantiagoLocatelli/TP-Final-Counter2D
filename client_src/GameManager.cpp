@@ -76,6 +76,7 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
         BulletInfo bullet;
         updateBullet(bullet, *it);
         level.bullets.push_back(bullet);
+
     }
 
     for (auto it = model.drops.begin(); it != model.drops.end(); it++) {
@@ -90,6 +91,8 @@ void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, Le
     
     level.width = map.length*PIXELS_PER_METER;
     level.height = map.height*PIXELS_PER_METER;
+    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, this->pjTexture);
+    this->players.push_back(std::move(pj));
 
     BoxInfo box;
     for (ProtBox prot : map.boxes) {
