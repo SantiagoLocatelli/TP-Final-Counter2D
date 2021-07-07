@@ -1,13 +1,12 @@
 #include "Player.h"
 #include "Pistol.h"
-#include "GodGun.h"
 #include "../../common_src/GeneralException.h"
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y)
-:health(100), angle(0), world(world), dead(false)
+:health(100), angle(0), world(world), dead(false), shooting(false)
 , weapon(new Pistol(&world)){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
@@ -109,7 +108,17 @@ float Player::getAngle() const{
 void Player::toggleWeapon(){
     if (dead)
         GeneralException("Error en Player::toggleWeapon: El jugador está muerto\n");
+    
+    shooting = !shooting;
     weapon->toggle();
+}
+
+bool Player::isShooting() const{
+    return shooting;
+}
+
+WeaponType Player::getWeaponType() const{
+    return weapon->getType();
 }
 
 bool Player::isDead() const{

@@ -7,6 +7,7 @@
 #include "../../common_src/Direction.h"
 #include "Hittable.h"
 #include "Weapon.h"
+#include "../../common_src/WeaponType.h"
 
 class World;
 class Weapon;
@@ -19,6 +20,7 @@ class Player: public Hittable{
         World &world;
         b2Body *body;
         bool dead;
+        bool shooting;
         std::array<bool, 4> movement;
         Weapon *weapon; //Tiene que ser un puntero por cosas de forward delcaration
 
@@ -37,6 +39,8 @@ class Player: public Hittable{
         void recvDamage(float damage) override;
         float getHealth() const;
         bool isDead() const;
+        bool isShooting() const;
+        WeaponType getWeaponType() const;
 
         //Inventario
         void dropWeapon();
