@@ -72,9 +72,10 @@ void EventManager::run(){
                 event.info.angle = radians;
                 this->com.send_event(event);
                 break;
-        }
+            }
 
-        com.close();
+            com.close();
+        }
     } catch (const std::exception &e){
         std::cerr << "ERROR en `EventManager`: " << e.what() << std::endl;
     }

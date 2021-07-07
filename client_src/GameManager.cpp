@@ -91,8 +91,6 @@ void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, Le
     
     level.width = map.length*PIXELS_PER_METER;
     level.height = map.height*PIXELS_PER_METER;
-    Character pj(PIXELS_PER_METER, PIXELS_PER_METER, this->pjTexture);
-    this->players.push_back(std::move(pj));
 
     BoxInfo box;
     for (ProtBox prot : map.boxes) {

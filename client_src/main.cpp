@@ -12,9 +12,6 @@ int main(int argc, char* argv[]){
         MapInfo map;
         server.recv_map_info(map);
 
-        MapInfo map;
-        server.recv_map_info(map);
-
         ModelInfo model;
         server.recv_model_info(model);
 
@@ -40,8 +37,9 @@ int main(int argc, char* argv[]){
         
             eventManager.stop();
             eventManager.join();
+        }
     } catch (const std::exception &e){
         std::cerr << "ERROR:" << e.what() << std::endl;
     }
-	  return 0;
+    return 0;
 }

@@ -4,7 +4,6 @@
 #include "../../common_src/Sdl/sdl_texture.h"
 #include "../../common_src/Protocol.h"
 #include "../levelInfo.h"
-#include "animation.h"
 
 
 class Character{
@@ -12,7 +11,6 @@ class Character{
     private:
 		
 		SdlTexture& texture;
-		// Animation an;
 		PlayerInfo player;
 
     public:

@@ -5,7 +5,6 @@ MainCharacter::MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, Cross
     health(player.health), ammo(player.ammo){}
 
 void MainCharacter::render(Coordenada cam){
-    printf("rendirizando el main character\n");
     this->cr.render();
     this->st.render(cam.x, cam.y);
     Character::render(cam.x, cam.y);
