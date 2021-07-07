@@ -1,7 +1,7 @@
 #include "Weapon.h"
 
-Weapon::Weapon(World *world, float damage)
-:owner(nullptr), world(world), damage(damage){}
+Weapon::Weapon(World *world, float damage, WeaponType type)
+:owner(nullptr), world(world), damage(damage), type(type){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -26,3 +26,8 @@ void Weapon::shootBullet(float spread){
         world->addBullet(ray);
     }
 }
+
+WeaponType Weapon::getType(){
+    return type;
+}
+
