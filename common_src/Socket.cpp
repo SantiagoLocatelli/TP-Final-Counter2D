@@ -40,6 +40,11 @@ Socket::Socket(const char *host, const char* service, bool is_server)
 
         if (skt != FAILURE) {
             if (is_server){
+                int option = 1;
+                err = setsockopt(skt, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+                if (err == FAILURE){
+                    break;
+                }
                 err = bind(skt, ptr->ai_addr, ptr->ai_addrlen);
             } else {
                 err = connect(skt, ptr->ai_addr, ptr->ai_addrlen);
