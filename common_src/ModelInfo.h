@@ -15,6 +15,7 @@ struct ProtPlayer{
     Position pos;
     float angle; //En radianes
     WeaponType weapon;
+    bool shooting;
 };
 
 struct You: public ProtPlayer{
