@@ -9,21 +9,22 @@
 #include "../common_src/Sdl/button.h"
 #include "../common_src/Sdl/sdl_mixer.h"
 #include "presenter.h"
+#include "MenueManager.h"
 class OptionsMenue : public Presenter{
     private:
+        SdlTexture backgroundTexture;
+        SdlTexture widthTexture;
+        SdlTexture heightTexture;
         std::map<std::shared_ptr<SdlTexture>, std::string> options;
         std::shared_ptr<SdlTexture> selectedTexture;
         std::vector<SdlTexture> textTexture;
         std::vector<std::shared_ptr<SdlTexture>> inputOrder;
         bool renderText;
-        std::vector<SdlTexture> widthTexture;
-        std::vector<SdlTexture> heightTexture;
-        SdlTexture backgroundTexture;
         std::unique_ptr<SdlMixer> chunk;
 
+
     public:
-        OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string,
-         std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH);
+        OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH);
         void render() override;
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         std::string getTitle() override;

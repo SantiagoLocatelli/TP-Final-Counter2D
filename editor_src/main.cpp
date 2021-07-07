@@ -17,17 +17,9 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-//The frame rate
-const int FRAMES_PER_SECOND = 20;
-
 //The dimensions of the level
 const int LEVEL_WIDTH = 1280;
 const int LEVEL_HEIGHT = 960;
-
-
-//Tile constants
-const int TILE_WIDTH = 80;
-const int TILE_HEIGHT = 80;
 
 
 template<typename T, typename... Args>
@@ -43,7 +35,8 @@ int main(int argc, char* args[]){
     MenueManager menueManager(renderer, "../../common_src/maps/map.yaml", SCREEN_WIDTH, SCREEN_HEIGHT);
 
     std::stack<std::unique_ptr<Presenter>> presenter;
-    presenter.push(std::move(menueManager.createEditor()));
+    
+    presenter.emplace(std::unique_ptr<Presenter>(new Editor(menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
     
 
     //Main loop flag
@@ -68,7 +61,7 @@ int main(int argc, char* args[]){
                         presenter.top()->aceptChanges();
                         presenter.pop();
                     }else{
-                        presenter.push(std::move(menueManager.createOptionsMenue()));
+                        presenter.emplace(std::unique_ptr<Presenter>(new OptionsMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
                     }
                 }
             }
