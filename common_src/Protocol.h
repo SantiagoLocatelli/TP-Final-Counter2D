@@ -3,6 +3,8 @@
 
 #include "Socket.h"
 #include <stdint.h>
+#include <list>
+#include "GameInfo.h"
 #include "MapInfo.h"
 #include "ModelInfo.h"
 #include "Event.h"
@@ -38,8 +40,8 @@ class Protocol{
         void send_model_info(const ModelInfo &modelInfo);
         void recv_model_info(ModelInfo &modelInfo);
 
-        void send_game_list(const GameList &gameList);
-        void recv_game_list(const GameList &gameList);
+        void send_game_list(const std::list<GameInfo> &gameList);
+        void recv_game_list(std::list<GameInfo> &gameList);
 
         void send_event(const Event event);
         void recv_event(Event &event);

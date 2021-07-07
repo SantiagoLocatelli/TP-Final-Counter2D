@@ -2,7 +2,7 @@
 #define _EVENT_H_
 
 #include <string>
-#include "GameList.h"
+#include "GameInfo.h"
 #include "Direction.h"
 
 enum EventType: char {TOGGLE_MOVEMENT, SET_ANGLE, TOGGLE_WEAPON, CREATE_PLAYER,
