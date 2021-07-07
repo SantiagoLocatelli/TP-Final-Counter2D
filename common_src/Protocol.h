@@ -38,6 +38,8 @@ class Protocol{
         void send_model_info(const ModelInfo &modelInfo);
         void recv_model_info(ModelInfo &modelInfo);
 
+        void send_game_list(const GameList &gameList);
+        void recv_game_list(const GameList &gameList);
 
         void send_event(const Event event);
         void recv_event(Event &event);
