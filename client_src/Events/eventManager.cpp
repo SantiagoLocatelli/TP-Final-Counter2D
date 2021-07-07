@@ -48,34 +48,33 @@ void EventManager::run(){
                     }
                     break; 
 
-            /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
-            //case SDL_MOUSEBUTTONUP: Por ahora solo cuando apreta el boton 
-            case SDL_MOUSEBUTTONDOWN:
-                switch (e.button.button){
-                    case SDL_BUTTON_LEFT:
-                        event.type = TOGGLE_WEAPON;
-                        break;
-                    case SDL_BUTTON_RIGHT:
-                        // apuntar con mira o cambiar modo
-                        break;
-                    case SDL_BUTTON_MIDDLE:
-                        // cualquier que se les ocurra
-                        break;
-                }
-                this->com.send_event(event);
-                break;
-            case SDL_MOUSEMOTION:
-                Coordenada pos = this->game.mainPlayerRelativePos();
-                float radians = Math::calculateRadians({pos.x, pos.y}, {e.motion.x, e.motion.y});
-                game.setCrossHair({e.motion.x, e.motion.y});
-                event.type = SET_ANGLE;
-                event.info.angle = radians;
-                this->com.send_event(event);
-                break;
+                /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
+                //case SDL_MOUSEBUTTONUP: Por ahora solo cuando apreta el boton 
+                case SDL_MOUSEBUTTONDOWN:
+                    switch (e.button.button){
+                        case SDL_BUTTON_LEFT:
+                            event.type = TOGGLE_WEAPON;
+                            break;
+                        case SDL_BUTTON_RIGHT:
+                            // apuntar con mira o cambiar modo
+                            break;
+                        case SDL_BUTTON_MIDDLE:
+                            // cualquier que se les ocurra
+                            break;
+                    }
+                    this->com.send_event(event);
+                    break;
+                case SDL_MOUSEMOTION:
+                    Coordenada pos = game.mainPlayerRelativePos();
+                    float radians = Math::calculateRadians({pos.x, pos.y}, {e.motion.x, e.motion.y});
+                    game.setCrossHair({e.motion.x, e.motion.y});
+                    event.type = SET_ANGLE;
+                    event.info.angle = radians;
+                    this->com.send_event(event);
             }
-
-            com.close();
         }
+
+        com.close();
     } catch (const std::exception &e){
         std::cerr << "ERROR en `EventManager`: " << e.what() << std::endl;
     }
