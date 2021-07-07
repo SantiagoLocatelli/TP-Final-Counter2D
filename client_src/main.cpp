@@ -15,28 +15,31 @@ int main(int argc, char* argv[]){
         ModelInfo model;
         server.recv_model_info(model);
 
-        GameManager game(map, model, window_w, window_h);
+        LevelInfo level;
+        GameManager::initializeLevel(map, model, level);
+        GameViewer gameViewer(window_w, window_h, level); 
 
         bool quit = false;
-        EventManager eventManager(server, quit, game);
+        EventManager eventManager(server, quit, gameViewer);
         eventManager.start();
         Stopwatch stopwatch;
 
         while (!quit && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
-            game.update(model);
-            game.render();
+
+            GameManager::updatedLevel(model, level);
+            gameViewer.update(level);
+            gameViewer.render();
             while (stopwatch.msPassed() < 33) {
-                // le mandas mecha
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-        }
         
-        eventManager.stop();
-        eventManager.join();
+            eventManager.stop();
+            eventManager.join();
+        }
     } catch (const std::exception &e){
         std::cerr << "ERROR:" << e.what() << std::endl;
     }
-	return 0;
+    return 0;
 }

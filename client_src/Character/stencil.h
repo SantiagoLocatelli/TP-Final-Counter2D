@@ -4,7 +4,7 @@
 #include "../../common_src/Sdl/sdl_texture.h"
 #include "../../common_src/Sdl/sdl_renderer.h"
 #include "../../common_src/ModelInfo.h"
-#include "levelInfo.h"
+#include "../levelInfo.h"
 
 
 class Stencil {
@@ -15,7 +15,7 @@ private:
 
 public:
     Stencil(SdlRenderer& renderer, int w, int h);
-    void setPosition(ProtPlayer player, const LevelInfo level);
+    void setPosition(Coordenada pos, float degrees);
     void render(int camX, int camY);
 
     Stencil& operator=(Stencil&&);

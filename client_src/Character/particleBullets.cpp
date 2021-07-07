@@ -2,20 +2,17 @@
 #include "../Events/gameMath.h"
 
 #define WIDTH_SHOT 5
-#define SHOT_PATH "../../common_src/img/shot.png"
 
 ParticleBullets::ParticleBullets(SdlRenderer& renderer):renderer(renderer){}
 
-void ParticleBullets::setTrajectory(LevelInfo level, Bullet bullet, int camX, int camY){
+void ParticleBullets::setTrajectory(Coordenada pos, Coordenada dst){
 
-    this->posX = Math::ruleOfThree(bullet.pos.x, level.w_meters, level.width) - camX;
-    this->posY = Math::ruleOfThree(bullet.pos.y, level.h_meters, level.height) - camY;
-    int distance = Math::ruleOfThree(bullet.distance, level.w_meters, level.width);
-    this->dstPosX = Math::cosOppHyp(bullet.angle, distance) + this->posX;
-    this->dstPosY = Math::senoOppHyp(bullet.angle, distance) + this->posY;
+    this->pos = pos;
+    this->dst = dst;
 }
 
-void ParticleBullets::render(){
-    this->renderer.setDrawColor(0x66, 0x66, 0x66, 120);
-    this->renderer.drawLine(this->posX, this->posY, this->dstPosX, this->dstPosY);
+void ParticleBullets::render(Coordenada cam){
+    this->renderer.setDrawColor(0x06, 0x06, 0x06, 120);
+    this->renderer.drawLine(this->pos.x - cam.x, this->pos.y - cam.y, 
+        this->dst.x - cam.x, this->dst.y - cam.y);
 }

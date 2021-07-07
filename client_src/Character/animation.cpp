@@ -33,14 +33,15 @@ void Animation::advanceFrame(){
     }
 }
 
-Animation& Animation::operator=(Animation&& other){ 
+Animation& Animation::operator=(const Animation& other){ 
     this->numFrames = other.numFrames;
     this->currentFrame = other.currentFrame;
     this->size = other.size;
-    this->texture = std::move(other.texture);
+    this->texture = other.texture;
     return *this;
 }
-Animation::Animation(Animation&& other):texture(other.texture){
+
+Animation::Animation(const Animation& other):texture(other.texture){
     this->numFrames = other.numFrames;
     this->currentFrame = other.currentFrame;
     this->size = other.size;
