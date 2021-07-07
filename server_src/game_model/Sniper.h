@@ -1,16 +1,16 @@
-#ifndef _GOD_GUN_H_
-#define _GOD_GUN_H_
+#ifndef _SNIPER_H_
+#define _SNIPER_H_
 
 #include "Weapon.h"
 
-#define GOD_GUN_DAMAGE 300
+#define SNIPER_DAMAGE 300
 
-class GodGun: public Weapon{
+class Sniper: public Weapon{
     protected:
         float calculateDamage(float distance) override;
 
     public:
-        GodGun(World *world);
+        Sniper(World *world);
         void toggle() override;
 };
 
