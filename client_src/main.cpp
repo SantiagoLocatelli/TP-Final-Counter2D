@@ -34,10 +34,10 @@ int main(int argc, char* argv[]){
             while (stopwatch.msPassed() < 33) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-        
-            eventManager.stop();
-            eventManager.join();
         }
+
+        eventManager.stop();
+        eventManager.join();
     } catch (const std::exception &e){
         std::cerr << "ERROR:" << e.what() << std::endl;
     }
