@@ -33,7 +33,8 @@ class Protocol{
     
     public:
         explicit Protocol(Socket skt);
-
+        Protocol(Protocol&& other); 
+        
         void send_map_info(const MapInfo &mapInfo);
         void recv_map_info(MapInfo &mapInfo);
 

@@ -5,6 +5,8 @@
 
 Protocol::Protocol(Socket skt):skt(std::move(skt)){}
 
+Protocol::Protocol(Protocol&& other):skt(std::move(other.skt)){} 
+
 void Protocol::send_short(const uint16_t &buf){
     uint16_t ns = htons(buf);
     skt.send_buffer((char *)&ns, 2);
