@@ -44,8 +44,6 @@ int main(int argc, char* args[]){
 
     //Event handler
     SDL_Event event;
-
-    SDL_StartTextInput();
     
     //While application is running
     while (!quit){
@@ -78,6 +76,5 @@ int main(int argc, char* args[]){
         renderer.updateScreen();
     }
     menueManager.loadToFile();
-    SDL_StopTextInput();
     return 0;
 }
