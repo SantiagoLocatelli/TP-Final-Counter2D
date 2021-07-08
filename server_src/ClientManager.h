@@ -18,7 +18,7 @@ class ClientManager: public Thread{
         void run() override;
         
     public:
-        explicit ClientManager(Socket skt, EventQueue &queue, Emitter &emitter, int id);
+        ClientManager(Protocol protocol, EventQueue &queue, Emitter &emitter, int id);
         bool finished();
 
         virtual ~ClientManager() = default;

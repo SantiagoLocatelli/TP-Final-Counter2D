@@ -3,9 +3,7 @@
 #include <utility>
 #include <iostream>
 
-ClientManager::ClientManager(Socket skt, EventQueue &queue, Emitter &emitter
-, int id):protocol(std::move(skt)), emitter(emitter), id(id), receiver(protocol
-, queue, id), keep_sending(true){}
+ClientManager::ClientManager(Protocol protocol, EventQueue &queue, Emitter &emitter, int id):protocol(std::move(protocol)), emitter(emitter), id(id), receiver(this->protocol, queue, id), keep_sending(true){}
 
 void ClientManager::run(){
     try{
