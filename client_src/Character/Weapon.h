@@ -15,7 +15,7 @@ private:
 public:
     Weapon(SdlTexture& weapon, SdlTexture& anim, Size size);
     void update(WeaponInfo info);
-    void render(float degrees, bool animated, Coordenada center);
+    void render(Coordenada cam, float degrees, bool animated);
 
     Weapon& operator=(Weapon&&);
     Weapon(Weapon&&);

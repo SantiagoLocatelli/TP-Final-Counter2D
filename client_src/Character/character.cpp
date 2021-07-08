@@ -29,7 +29,7 @@ void Character::render(int camX, int camY){
     SDL_Rect dst = {this->player.pos.x - camX - this->player.size.w/2, this->player.pos.y - camY - this->player.size.h/2, this->player.size.w, this->player.size.h};
     SDL_Rect src = getSourceTexture();
 
-    this->weapon.render(this->player.degrees, this->player.shooting, this->player.pos);
+    this->weapon.render({camX, camY}, this->player.degrees, this->player.shooting);
     this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, this->player.degrees + PHASE_SHIFT);
 }
 
