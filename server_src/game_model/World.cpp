@@ -126,3 +126,14 @@ std::list<Drop*> World::getDrops(){
 void World::destroyBody(b2Body *body){
     bodiesToDestroy.push_back(body);
 }
+
+World::~World(){
+    for (b2Body* b = b2world.GetBodyList(); b; b = b->GetNext()){
+        b2Fixture *fixture = b->GetFixtureList();
+        Drop *drop = (Drop *)fixture->GetUserData().pointer;
+        if (drop != nullptr){
+            //Si estoy aca es porque este b2Body era un Drop
+            delete drop;
+        }
+    }
+}

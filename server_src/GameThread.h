@@ -5,17 +5,18 @@
 #include "GameProxy.h"
 #include "ClientManager.h"
 #include "EventHandler.h"
-#include "Emitter.h"
+#include "ModelQueue.h"
 #include "EventQueue.h"
 #include <list>
 #include <string>
+#include <memory>
 
 class GameThread: public Thread{
     private:
         GameProxy game;
-        std::list<ClientManager*> clients;
-        Emitter emitter;
-        EventQueue queue;
+        std::list<std::unique_ptr<ClientManager>> clients;
+        std::list<ModelQueue> modelQueues;
+        EventQueue eventQueue;
         EventHandler eventHandler;
         bool gameEnded;
         int playerNumber;

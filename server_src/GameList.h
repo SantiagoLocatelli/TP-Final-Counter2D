@@ -10,17 +10,19 @@
 #include <list>
 #include <string>
 #include <utility>
+#include <memory>
 
 class GameList{
     private:
         std::map<std::string, GameInfo> gameInfoList;
-        std::map<std::string, GameThread*> gameList;
+        std::map<std::string, std::unique_ptr<GameThread>> gameList;
         std::mutex m;
     
     public:
         void createGame(GameInfo gameInfo);
         void joinGame(std::string name, Protocol protocol);
         std::list<GameInfo> getList();
+        ~GameList();
 };
 
 #endif

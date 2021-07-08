@@ -4,11 +4,13 @@
 
 #include <iostream>
 #include <chrono>
+#include <memory>
 
 GameThread::GameThread(std::string map_path):game(map_path), eventHandler(game), gameEnded(false), playerNumber(0){}
 
 void GameThread::addPlayer(Protocol protocol){
-    clients.push_back(new ClientManager(std::move(protocol), queue, emitter, playerNumber));
+    modelQueues.emplace_back();
+    clients.push_back(std::unique_ptr<ClientManager>(new ClientManager(std::move(protocol), eventQueue, modelQueues.back(), game.getMapInfo(), playerNumber)));
     playerNumber++;
     game.createPlayer();
 }
@@ -18,22 +20,19 @@ bool GameThread::ended(){
 }
 
 void GameThread::run(){
-    for (auto cli: clients){
+    for (std::unique_ptr<ClientManager> &cli: clients){
         cli->start();
     }
     try{
         
         Stopwatch stopwatch;
-
-        emitter.emitMap(game.getMapInfo());
-
         do{
             stopwatch.start();
             while (stopwatch.msPassed() < 33){
                 //TODO: Sacar este busy wait
-                if (!queue.isEmpty()){
+                if (!eventQueue.isEmpty()){
                     int id;
-                    Event event = queue.pop(id);
+                    Event event = eventQueue.pop(id);
                     eventHandler.executeEvent(event, id);
                 } else {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -41,7 +40,10 @@ void GameThread::run(){
             }
 
             game.step();
-            emitter.emitModel(std::move(game.getModelInfo()));
+            auto model = std::make_shared<CompleteModelInfo>(std::move(game.getModelInfo()));
+            for (ModelQueue &queue : modelQueues){
+                queue.push(model);
+            }
             game.clearFrameEvents();
         } while (!game.ended());
     } catch (const std::exception &e){
@@ -49,8 +51,7 @@ void GameThread::run(){
     }
     
     gameEnded = true;
-    for (ClientManager *cli: clients){
+    for (std::unique_ptr<ClientManager> &cli: clients){
         cli->join();
-        delete cli;
     }
 }

@@ -6,7 +6,7 @@ void GameList::createGame(GameInfo gameInfo){
     std::string path = "../../server_src/";
     path += gameInfo.map;
     path += ".yaml";
-    gameList[gameInfo.name] = new GameThread(path);
+    gameList[gameInfo.name] = std::unique_ptr<GameThread>(new GameThread(path));
     gameInfo.players = 0;
     gameInfoList[gameInfo.name] = gameInfo;
 }
@@ -31,4 +31,10 @@ std::list<GameInfo> GameList::getList(){
     }
 
     return list;
+}
+
+GameList::~GameList(){
+    for (auto &pair: gameList){
+        pair.second->join();
+    }
 }
