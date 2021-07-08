@@ -14,7 +14,7 @@
 class GameList{
     private:
         std::map<std::string, GameInfo> gameInfoList;
-        std::map<std::string, std::pair<GameThread*, int>> gameList;
+        std::map<std::string, GameThread*> gameList;
         std::mutex m;
     
     public:
