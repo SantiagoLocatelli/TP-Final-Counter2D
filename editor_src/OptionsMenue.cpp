@@ -3,22 +3,26 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
+#define TILE_SIZE 80
+#define MIN_MAP_SIZE 640 // Tienen que ser multiplos del alto o ancho del tile (en este caso 80)
+#define MAX_MAP_SIZE 2000
 #define MIN_SIZE 100
 #define MAX_SIZE 999
 #define FONT_SIZE 26
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
- std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH)
-  : Presenter(bombSites, spawnSites, screenW, screenH), backgroundTexture(renderer, BACKGROUND){
+OptionsMenue::OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH)
+  : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
+    widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
+    heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->renderText = false;
     this->selectedTexture = NULL;
     std::vector<SDL_Rect> aux;
     Presenter::fillSize(aux);
-    std::vector<std::string> labels = {"Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
+    std::vector<std::string> labels = {"Map Size:", "Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
     for (unsigned int i = 0; i < aux.size(); i++){
         std::string width = std::to_string(aux[i].w);
         std::string height = std::to_string(aux[i].h);
@@ -30,8 +34,6 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, std::map<std::string, std::sha
         this->options.emplace(std::move(textureHeight), height);
 
         this->textTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, labels[i], 255, 255, 255);
-        this->widthTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255);
-        this->heightTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255);
     }
 }
 
@@ -54,8 +56,8 @@ void OptionsMenue::render(){
         if (i % 2 == 0){
             posY += 50;
             this->textTexture[i/2].render(100, posY);
-            this->widthTexture[i/2].render(200, posY);
-            this->heightTexture[i/2].render(400, posY);
+            this->widthTexture.render(200, posY);
+            this->heightTexture.render(400,posY);
             posX = 300;
         }
         this->inputOrder[i]->render(posX, posY);
@@ -74,12 +76,12 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     posX = 300;
                 }
                 if (inputOrder[i]->isMouseTouching(posX, posY)){
+                    this->chunk->playChunk(0);
                     if (selectedTexture != NULL){
                         this->selectedTexture->setColor(255, 255, 255);
                     }
                     this->selectedTexture = inputOrder[i];
                     this->selectedTexture->setColor(255, 255, 0);
-                    this->chunk->playChunk(0);
                     break;
                 }
                 posX = 500;
@@ -111,15 +113,30 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
 
 void OptionsMenue::aceptChanges(){
     std::vector<int> vector;
+    int i = 0;
     for (auto &input : inputOrder){
         std::string aux = this->options[input];
-        if (aux.length() < 3){
-            vector.push_back(MIN_SIZE);
-        }else if (aux.length() > 3){
-            vector.push_back(MAX_SIZE);
+        if (i > 1){
+            if (aux.length() < 3){
+                vector.push_back(MIN_SIZE);
+            }else if (aux.length() > 3){
+                vector.push_back(MAX_SIZE);
+            }else{
+                vector.push_back(std::stoi(aux, nullptr));
+            }
         }else{
-            vector.push_back(std::stoi(aux, nullptr));
+            int sizeOfMap = std::stoi(aux, nullptr);
+            if (sizeOfMap > MAX_MAP_SIZE){
+                sizeOfMap = MAX_MAP_SIZE;
+            }else if (sizeOfMap < MIN_MAP_SIZE){
+                sizeOfMap = MIN_MAP_SIZE;
+            }else if (sizeOfMap % TILE_SIZE != 0){
+                // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
+                sizeOfMap += (TILE_SIZE - (sizeOfMap % TILE_SIZE));
+            }
+            vector.push_back(sizeOfMap);
         }
+        i++;
     }
     Presenter::changeSizeOfSites(vector);
 }

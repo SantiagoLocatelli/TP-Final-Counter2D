@@ -4,21 +4,22 @@
 #include "../common_src/Thread.h"
 #include "../common_src/Protocol.h"
 #include "EventQueue.h"
-#include "Emitter.h"
 #include "EventReceiver.h"
+#include "ModelQueue.h"
 
 class ClientManager: public Thread{
     private:
         Protocol protocol;
-        Emitter &emitter;
         int id;
         EventReceiver receiver;
         bool keep_sending;
+        ModelQueue &modelQueue;
+        MapInfo map;
 
         void run() override;
         
     public:
-        explicit ClientManager(Socket skt, EventQueue &queue, Emitter &emitter, int id);
+        ClientManager(Protocol protocol, EventQueue &eventQueue, ModelQueue &modelQueue, MapInfo map, int id);
         bool finished();
 
         virtual ~ClientManager() = default;

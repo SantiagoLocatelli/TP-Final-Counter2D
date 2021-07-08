@@ -2,22 +2,21 @@
 #include "../common_src/SocketClosedException.h"
 #include <utility>
 #include <iostream>
+#include <memory>
 
-ClientManager::ClientManager(Socket skt, EventQueue &queue, Emitter &emitter
-, int id):protocol(std::move(skt)), emitter(emitter), id(id), receiver(protocol
-, queue, id), keep_sending(true){}
+ClientManager::ClientManager(Protocol protocol, EventQueue &eventQueue, ModelQueue &modelQueue, MapInfo map, int id):protocol(std::move(protocol)), id(id), receiver(this->protocol, eventQueue, id), keep_sending(true), modelQueue(modelQueue), map(map){}
 
 void ClientManager::run(){
     try{
-        protocol.send_map_info(emitter.recvMap());
+        protocol.send_map_info(map);
 
         receiver.start();
         while (keep_sending){
-            CompleteModelInfo &model = emitter.recvModel();
-            ModelInfo modelInfo = model.getModelInfo(id);
+            std::shared_ptr<CompleteModelInfo> model = modelQueue.pop();
+            ModelInfo modelInfo = model->getModelInfo(id);
             protocol.send_model_info(modelInfo);
 
-            keep_sending = !model.ended();
+            keep_sending = !model->ended();
         }
     } catch (const SocketClosedException &e){
     } catch (const std::exception &e){

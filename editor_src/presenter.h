@@ -4,32 +4,35 @@
 #include <memory>
 #include <map>
 #include <vector>
-#include "../common_src/Sdl/sdl_renderer.h"
-#include "../common_src/Sdl/sdl_texture.h"
-#include "../common_src/Sdl/draggable.h"
 #include "../client_src/Character/camera.h"
+#include "MenueManager.h"
 class Presenter{
     private:
-
-        std::map<std::string, std::shared_ptr<Draggable>> bombSites;
-
-        std::map<std::string, std::shared_ptr<Draggable>> spawnSites;
+        MenueManager& menueManager;
 
         Camera camera;
     public:
-        Presenter(std::map<std::string, std::shared_ptr<Draggable>>& bombSites,
-         std::map<std::string, std::shared_ptr<Draggable>>& spawnSites,int screenW, int screenH);
+        Presenter(MenueManager& menueManager, int screenW, int screenH);
         virtual void render() = 0;
         virtual void handleEvents(SDL_Event* event, SdlRenderer& renderer) = 0;
         virtual std::string getTitle() = 0;
+        virtual void aceptChanges(){};
+
         void renderBombSites();
         void renderSpawnSites();
         void centerCamera();
-        SDL_Rect getCameraBox();
         void handleBombSitesEvent(SDL_Event* event);
         void handleSpawnSitesEvent(SDL_Event* event);
         void fillSize(std::vector<SDL_Rect>& vector);
-        virtual void aceptChanges(){};
         void changeSizeOfSites(std::vector<int>& vector);
+        void renderTextures();
+        void changeTexture(const int& type);
+
+        SDL_Rect getCameraBox();
+        int getMapWidth();
+        int getMapHeight();
+        int getTextureMapSize();
+        int getTexturesSize();
+        std::string getTypeName(const int& type);
 };
 #endif

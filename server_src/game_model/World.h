@@ -46,6 +46,8 @@ class World{
 
         void destroyBody(b2Body *body);
 
+        ~World();
+
         World(const World&) = delete;
         World& operator=(const World&) = delete;
 };

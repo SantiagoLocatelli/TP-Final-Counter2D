@@ -3,23 +3,15 @@
 #include <iostream>
 #include <utility>
 
-Accepter::Accepter(char const *port, EventQueue &queue, Emitter &emitter)
-:skt(NULL, port, true), queue(queue), emitter(emitter){}
+Accepter::Accepter(char const *port, GameList &gameList):skt(NULL, port, true),gameList(gameList){}
 
 
 void Accepter::run(){
-    int id = 0;
-    bool keep_accepting = true;
-    while (keep_accepting){
+    bool keepAccepting = true;
+    while (keepAccepting){
         try{
             Socket cli_skt = skt.accept_one();
-            ClientManager *client = new ClientManager(std::move(cli_skt)
-            , queue, emitter, id);
-
-            Event e;
-            e.type = CREATE_PLAYER;
-            queue.push(id, e);
-            id++;
+            LobbyManager *client = new LobbyManager(std::move(cli_skt), gameList);
 
             clientList.push_back(client);
             client->start();
@@ -37,13 +29,13 @@ void Accepter::run(){
                 }
             }
         } catch (const SocketClosedException &e){
-            keep_accepting = false;
+            keepAccepting = false;
         } catch (const std::exception &e){
-            keep_accepting = false;
+            keepAccepting = false;
             std::cerr << "ERROR: " << e.what();
         } catch(...){
             std::cerr << "Error desconocido.\n";
-            keep_accepting = false;
+            keepAccepting = false;
         }
     }
 
