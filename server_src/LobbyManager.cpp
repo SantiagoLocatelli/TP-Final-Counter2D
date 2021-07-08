@@ -3,7 +3,7 @@
 #include <iostream>
 #include <utility>
 
-LobbyManager::LobbyManager(Socket skt, GameList &gameList):protocol(std::move(skt)), gameList(gameList), keepReceiving(true){}
+LobbyManager::LobbyManager(Socket skt, GameList &gameList):gameList(gameList), protocol(std::move(skt)), keepReceiving(true){}
 
 void LobbyManager::run(){
     try{

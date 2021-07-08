@@ -2,6 +2,7 @@
 #define _EVENT_HANDLER_H_
 
 #include "GameProxy.h"
+#include "../common_src/Event.h"
 
 class EventHandler{
     private:

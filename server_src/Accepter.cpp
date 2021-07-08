@@ -7,7 +7,6 @@ Accepter::Accepter(char const *port, GameList &gameList):skt(NULL, port, true),g
 
 
 void Accepter::run(){
-    int id = 0;
     bool keepAccepting = true;
     while (keepAccepting){
         try{

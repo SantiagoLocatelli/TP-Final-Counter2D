@@ -16,6 +16,8 @@ class LobbyManager: public Thread{
     public:
         LobbyManager(Socket skt, GameList &gameList);
         bool finished();
+
+        virtual ~LobbyManager() = default;
 };
 
 #endif

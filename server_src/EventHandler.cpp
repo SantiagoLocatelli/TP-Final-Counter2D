@@ -20,5 +20,9 @@ void EventHandler::executeEvent(Event event, int id){
 
     case CREATE_PLAYER:
         game.createPlayer();
+        break;
+
+    default:
+    break;
     }
 }
