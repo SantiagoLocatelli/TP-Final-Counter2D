@@ -4,6 +4,7 @@
 #include <sstream>
 
 SdlWindow::SdlWindow(std::string name, int width, int height){
+    SDL_StartTextInput();
     if(SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0){
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
     }else{
@@ -40,6 +41,7 @@ void SdlWindow::setTitle(std::string title){
 }
 
 SdlWindow::~SdlWindow(){
+    SDL_StopTextInput();
     SDL_DestroyWindow(this->mWindow);
     SDL_Quit();
 }
