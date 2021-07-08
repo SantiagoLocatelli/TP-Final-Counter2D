@@ -7,9 +7,11 @@ LobbyManager::LobbyManager(Socket skt, GameList &gameList):protocol(std::move(sk
 
 void LobbyManager::run(){
     try{
+        Event event;
+        std::list<GameInfo> list;
         while (keepReceiving){
-            Event event;
             protocol.recv_event(event);
+
             switch (event.type){
             case CREATE_GAME:
                 gameList.createGame(event.info.gameInfo);
@@ -21,7 +23,7 @@ void LobbyManager::run(){
                 keepReceiving = false;
                 break;
             case LIST_GAMES:
-                std::list<GameInfo> &list = gameList.getList();
+                list = gameList.getList();
                 protocol.send_game_list(list);
                 break;
             
@@ -34,4 +36,8 @@ void LobbyManager::run(){
         std::cout << "ERROR en `LobbyManager`: " << e.what() << std::endl;
         protocol.close();
     }
+}
+
+bool LobbyManager::finished(){
+    return !keepReceiving;
 }

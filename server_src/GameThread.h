@@ -25,6 +25,6 @@ class GameThread: public Thread{
         explicit GameThread(char map[]);
         void addPlayer(Protocol protocol);
         bool ended();
-}
+};
 
 #endif
