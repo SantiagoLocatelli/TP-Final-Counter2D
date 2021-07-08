@@ -17,9 +17,9 @@ private:
 
 public:
 
-    MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, CrossHair cr, Stencil st);
+    MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, CrossHair cr, Stencil st, Weapon weapon);
     void render(Coordenada cam);
-    void update(MainPlayerInfo info);
+    void update(MainPlayerInfo info, Weapon weapon);
     void setCrossHair(Coordenada pos);
 };
 

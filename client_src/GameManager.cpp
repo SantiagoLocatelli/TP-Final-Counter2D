@@ -3,14 +3,17 @@
 
 #define PIXELS_PER_METER 100
 
+const struct Size SIZE_SMALL_GUN = {16, 32};
+const struct Size SIZE_BIG_GUN = {30, 60};
+
 GameManager::GameManager(){}
 
 
 void updateBullet(BulletInfo& bullet, Bullet prot) {
-    bullet.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
-    bullet.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
+    bullet.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER) + Math::cosOppHyp(prot.angle, PIXELS_PER_METER/2);
+    bullet.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER) + Math::senoOppHyp(prot.angle, PIXELS_PER_METER/2);
     
-    int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER);
+    int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER) + 5;
     bullet.dst.x = Math::cosOppHyp(prot.angle, distance) + bullet.pos.x;
     bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
 }
@@ -23,16 +26,38 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
     drop.size.h = PIXELS_PER_METER/2;
 }
 
+void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
+    // weapon.type = prot.weapon;
+    weapon.type = PISTOL;
+
+    // SMALL GUN    
+    if (weapon.type == KNIFE || weapon.type == PISTOL) {
+        weapon.pos.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
+
+        weapon.size = SIZE_SMALL_GUN;
+    } else if (weapon.type == RIFLE || weapon.type == SNIPER || weapon.type == SHOTGUN) {
+        // BIG GUN
+        weapon.pos.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-50)/2)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-50)/2)) + player.y;
+
+        weapon.size = SIZE_BIG_GUN;
+    }
+
+    weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
+    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
+}
+
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.dead = prot.dead;
     player.degrees = Math::radiansToDegrees(prot.angle);
     player.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
     player.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
-    player.weapon = prot.weapon;
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
-    // printf("pj x: %i\n", player.pos.x);
-    // printf("pj y: %i\n", player.pos.y);
+    player.shooting = prot.shooting;
+
+    updateWeapon(player.weapon, prot, player.pos);
 }
 
 void updateBox(BoxInfo& box, ProtBox prot){
@@ -55,8 +80,7 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
         level.mainPlayer.health = model.you.health;
         level.mainPlayer.ammo = model.you.ammo;
         updatePlayer(level.mainPlayer, model.you);
-        // printf("main pj x: %i\n", level.mainPlayer.pos.x);
-        // printf(" mian pj y: %i\n\n", level.mainPlayer.pos.y);
+
     } else {
         auto it = model.players.begin();
         auto end = model.players.end();
@@ -76,7 +100,6 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
         BulletInfo bullet;
         updateBullet(bullet, *it);
         level.bullets.push_back(bullet);
-
     }
 
     for (auto it = model.drops.begin(); it != model.drops.end(); it++) {
