@@ -11,12 +11,10 @@ Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
 
 
 void Weapon::render(float degrees, bool animated, Coordenada center){
-    SDL_Point cnt = {center.x, center.y};
     this->weapon.render(this->info.pos.x - this->info.size.w/2, this->info.pos.y - this->info.size.h/2, this->info.size.w, this->info.size.h, NULL, degrees + 90.0);
     if (animated) {
         this->anim.render(this->info.pos.x - this->info.size.w/2, this->info.pos.y - this->info.size.h/2, this->info.size.w, this->info.size.h,NULL, degrees);
     } 
-    
 }
 
 void Weapon::update(WeaponInfo info){
