@@ -180,3 +180,27 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
 void Protocol::close(){
     skt.close_socket();
 }
+
+void Protocol::send_game_list(const std::list<GameInfo> &gameList){
+    send_short(gameList.size());
+    for (const GameInfo &game : gameList){
+        skt.send_buffer(game.name, 30);
+        skt.send_buffer(game.map, 30);
+        send_short(game.players);
+        send_short(game.max_players);
+    }
+}
+
+void Protocol::recv_game_list(std::list<GameInfo> &gameList){
+        uint16_t len;
+        recv_short(len);
+        gameList.clear();
+    for (int i = 0; i < len; i++){
+        GameInfo game;
+        skt.recv_buffer(game.name, 30);
+        skt.recv_buffer(game.map, 30);
+        recv_short(game.players);
+        recv_short(game.max_players);
+        gameList.push_back(game);
+    } 
+}
