@@ -3,24 +3,20 @@
 
 #include "../common_src/Thread.h"
 #include "../common_src/Socket.h"
-#include "EventQueue.h"
-#include "Emitter.h"
-#include "ClientManager.h"
-
+#include "LobbyManager.h"
+#include "GameList.h"
 #include <list>
 
 class Accepter : public Thread{
     private:
         Socket skt;
-        EventQueue &queue;
-        Emitter &emitter;
-        std::list<ClientManager*> clientList;
+        GameList &gameList;
+        std::list<LobbyManager*> clientList;
 
         void run() override;
 
     public:
-        explicit Accepter(char const *port
-        , EventQueue &queue, Emitter &emitter);
+        explicit Accepter(char const *port, GameList &gameList);
 
         void stop();
 };
