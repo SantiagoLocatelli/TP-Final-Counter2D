@@ -32,6 +32,7 @@ class MenueManager{
         void fillSize(std::vector<SDL_Rect>& vector);
         void changeSizeOfSites(std::vector<int>& vector);
         void changeTexture(const int& type, const SDL_Rect& camera);
+        void changeMapSize(const int& width, const int& height);
 
         int getMapWidth();
         int getMapHeight();

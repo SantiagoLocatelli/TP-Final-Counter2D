@@ -148,33 +148,57 @@ void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camer
 }
 
 //numeros pares con el 0 son los width numeros impares son los height
-void MenueManager::changeSizeOfSites(std::vector<int>& vector){ 
-    int insertPosition = 0;
-    int newColumns = vector[0]/TILE_SIZE - this->mapSize[0]/TILE_SIZE;
-    int rows = vector[1]/TILE_SIZE;
-    for (int i = 0; i < rows; i++){
-        insertPosition += this->mapSize[0]/TILE_SIZE;
-        if (insertPosition > this->textures.size()){
-            for (int j = 0; j < vector[0]/TILE_SIZE; j++){
-                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5], 5));
-            }
-            insertPosition += newColumns;
-        }else{
-            for (int j = 0; j < newColumns; j++){
-                auto it = textures.begin();
-                std::advance(it,insertPosition);
-                this->textures.insert(it, std::unique_ptr<SdlTexture>
-                (new SdlTexture(this->renderer, this->textureMap[5], 5)));
-                insertPosition++;
-            }
-        }
-    }
+void MenueManager::changeSizeOfSites(std::vector<int>& vector){
+    changeMapSize(vector[0], vector[1]);
     this->mapSize[0] = vector[0];
     this->mapSize[1] = vector[1];
     this->bombSites["A"]->setWidthAndHeight(vector[2], vector[3]);
     this->bombSites["B"]->setWidthAndHeight(vector[4], vector[5]);
     this->spawnSites["T"]->setWidthAndHeight(vector[6], vector[7]);
     this->spawnSites["CT"]->setWidthAndHeight(vector[8], vector[9]);
+}
+
+void MenueManager::changeMapSize(const int& width, const int& height){
+    int endOfRowPosition = 0;
+    int newColumns = width/TILE_SIZE - this->mapSize[0]/TILE_SIZE;
+    int rows = height/TILE_SIZE;
+    int newRows = rows - this->mapSize[1]/TILE_SIZE;
+    //Me fijo si sacaron filas
+    if (newRows < 0){
+        for (int i = 0; i < (newRows * -1); i++){
+            for (int i = 0; i < (this->mapSize[0]/TILE_SIZE); i++){
+                this->textures.pop_back();
+            }
+        }
+    }
+    for (int i = 0; i < rows; i++){
+        endOfRowPosition += this->mapSize[0]/TILE_SIZE;
+        //si agregan filas
+        if ((unsigned int) endOfRowPosition > this->textures.size()){
+            for (int j = 0; j < width/TILE_SIZE; j++){
+                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5], 5));
+            }
+            endOfRowPosition += newColumns;
+        //si agregar columnas
+        }else if (newColumns >= 0){
+            for (int j = 0; j < newColumns; j++){
+                auto it = this->textures.begin();
+                std::advance(it, endOfRowPosition);
+                this->textures.insert(it, std::unique_ptr<SdlTexture>
+                (new SdlTexture(this->renderer, this->textureMap[5], 5)));
+                endOfRowPosition++;
+            }
+        //si sacan columnas
+        }else{
+            endOfRowPosition += newColumns + 1;
+            for (int j = 0; j < (newColumns * -1); j++){
+                auto it = this->textures.begin();
+                std::advance(it, endOfRowPosition);
+                this->textures.erase(it);
+            }
+            endOfRowPosition -= newColumns + 1;
+        }
+    }
 }
 
 void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){

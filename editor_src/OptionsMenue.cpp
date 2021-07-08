@@ -125,14 +125,17 @@ void OptionsMenue::aceptChanges(){
                 vector.push_back(std::stoi(aux, nullptr));
             }
         }else{
-            int sizeOfMap = std::stoi(aux, nullptr);
-            if (sizeOfMap > MAX_MAP_SIZE){
-                sizeOfMap = MAX_MAP_SIZE;
-            }else if (sizeOfMap < MIN_MAP_SIZE){
-                sizeOfMap = MIN_MAP_SIZE;
-            }else if (sizeOfMap % TILE_SIZE != 0){
-                // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
-                sizeOfMap += (TILE_SIZE - (sizeOfMap % TILE_SIZE));
+            int sizeOfMap = MIN_MAP_SIZE;
+            if (aux.length() != 0){
+                sizeOfMap = std::stoi(aux, nullptr);
+                if (sizeOfMap > MAX_MAP_SIZE){
+                    sizeOfMap = MAX_MAP_SIZE;
+                }else if (sizeOfMap < MIN_MAP_SIZE){
+                    sizeOfMap = MIN_MAP_SIZE;
+                }else if (sizeOfMap % TILE_SIZE != 0){
+                    // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
+                    sizeOfMap += (TILE_SIZE - (sizeOfMap % TILE_SIZE));
+                }
             }
             vector.push_back(sizeOfMap);
         }
