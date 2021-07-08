@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "Events/gameMath.h"
 
-#define PIXELS_PER_METER 100
+#define PIXELS_PER_METER 80
 
 const struct Size SIZE_SMALL_GUN = {16, 32};
 const struct Size SIZE_BIG_GUN = {30, 60};
@@ -22,8 +22,8 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
     drop.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
     drop.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     drop.type = prot.type;
-    drop.size.w = PIXELS_PER_METER/2;
-    drop.size.h = PIXELS_PER_METER/2;
+    drop.size.w = PIXELS_PER_METER;
+    drop.size.h = PIXELS_PER_METER;
 }
 
 void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
