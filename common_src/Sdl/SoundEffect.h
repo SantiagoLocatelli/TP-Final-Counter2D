@@ -11,9 +11,15 @@ private:
 public:
 
     SoundEffect(std::string path);
+    ~SoundEffect();
+
+    void play(int repeat);
+    void playTimed(int repeat, int ticks);
+    // va de 0 a 128
+    void setearVolume(int volume);
 
     SoundEffect(SoundEffect&&);
-    SoundEffect operator=(SoundEffect&&);
+    SoundEffect& operator=(SoundEffect&&);
 };
 
 #endif

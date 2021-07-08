@@ -4,6 +4,7 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_mixer.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
@@ -18,6 +19,8 @@ private:
     
     SdlWindow window;
     SdlRenderer renderer;
+    SdlMixer mixer;
+    
     Camera cam;
 
     LevelInfo level;
