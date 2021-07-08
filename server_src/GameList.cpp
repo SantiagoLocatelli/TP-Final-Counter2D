@@ -3,7 +3,10 @@
 void GameList::createGame(GameInfo gameInfo){
     //TODO: Chequear que no se puedan crear partidas con el mismo nombre
     const std::lock_guard<std::mutex> lock(m);
-    gameList[gameInfo.name] = new GameThread(gameInfo.map);
+    std::string path = "../../server_src/";
+    path += gameInfo.map;
+    path += ".yaml";
+    gameList[gameInfo.name] = new GameThread(path);
     gameInfo.players = 0;
     gameInfoList[gameInfo.name] = gameInfo;
 }

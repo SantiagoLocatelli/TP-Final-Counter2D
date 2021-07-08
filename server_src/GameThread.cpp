@@ -5,7 +5,7 @@
 #include <iostream>
 #include <chrono>
 
-GameThread::GameThread(char map[]):game(map), eventHandler(game), gameEnded(false), playerNumber(0){}
+GameThread::GameThread(std::string map_path):game(map_path), eventHandler(game), gameEnded(false), playerNumber(0){}
 
 void GameThread::addPlayer(Protocol protocol){
     clients.push_back(new ClientManager(std::move(protocol), queue, emitter, playerNumber));

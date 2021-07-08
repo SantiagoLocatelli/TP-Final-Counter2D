@@ -8,6 +8,7 @@
 #include "Emitter.h"
 #include "EventQueue.h"
 #include <list>
+#include <string>
 
 class GameThread: public Thread{
     private:
@@ -22,7 +23,7 @@ class GameThread: public Thread{
         void run();
     
     public:
-        explicit GameThread(char map[]);
+        explicit GameThread(std::string map_path);
         void addPlayer(Protocol protocol);
         bool ended();
 };
