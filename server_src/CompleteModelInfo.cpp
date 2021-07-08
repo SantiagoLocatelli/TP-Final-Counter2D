@@ -7,10 +7,14 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
             info.you = players[i];
         } else {
             ProtPlayer p;
-            p.pos.x = players[i].pos.x;
-            p.pos.y = players[i].pos.y;
-            p.angle = players[i].angle;
             p.dead = players[i].dead;
+            if (!p.dead){
+                p.pos.x = players[i].pos.x;
+                p.pos.y = players[i].pos.y;
+                p.angle = players[i].angle;
+                p.weapon = players[i].weapon;
+                p.shooting = players[i].shooting;
+            }
             info.players.push_back(p);
         }
     }

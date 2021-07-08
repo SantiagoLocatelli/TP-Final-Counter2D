@@ -1,6 +1,6 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "game_model/GodGun.h"
+#include "game_model/Sniper.h"
 #include <utility>
 
 #include <list>
@@ -19,7 +19,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
         world->addBox(b.x, b.y);
     }
 
-    //world->addDrop(new GodGun(world), 5.5f, 5.5f);
+    world->addDrop(new Sniper(world), 5.5f, 5.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){
@@ -39,6 +39,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.pos.y = pos[1];
                 you.angle = p.getAngle();
                 you.health = p.getHealth();
+                you.weapon = p.getWeaponType();
+                you.shooting = p.isShooting();
                 you.ammo = 0;
             }
             info.players.push_back(you);
@@ -57,7 +59,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
         ProtDrop d;
         d.pos.x = drop->getPosition()[0];
         d.pos.y = drop->getPosition()[1];
-        d.type = GOD_GUN; //TODO: Agregar forma de que las weapon me digan su tipo
+        d.type = drop->getWeapon()->getType();
         info.drops.push_back(d);
     }
 

@@ -1,26 +1,38 @@
 #include "Weapon.h"
 
 
-Weapon::Weapon(SdlTexture weapon, int width, int heigth):
-    weapon(std::move(weapon)), width(width), heigth(heigth){}
-
-
-void Weapon::render(int posX, int posY, float degrees){
-    this->weapon.render(posX, posY, this->width, this->heigth, degrees);
-}
-
-void Weapon::update(){
-
+Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
+    weapon(weapon), anim(anim){
+    this->info.pos = {0,0};
+    this->info.size = size;
+    this->info.posAnim = {0, 0};
+    this->info.type = KNIFE;
 }
 
 
+void Weapon::render(float degrees, bool animated, Coordenada center){
+    SDL_Point cnt = {center.x, center.y};
+    this->weapon.render(this->info.pos.x - this->info.size.w/2, this->info.pos.y - this->info.size.h/2, this->info.size.w, this->info.size.h, NULL, degrees + 90.0);
+    if (animated) {
+        this->anim.render(this->info.pos.x - this->info.size.w/2, this->info.pos.y - this->info.size.h/2, this->info.size.w, this->info.size.h,NULL, degrees);
+    } 
+    
+}
 
-// Weapon& Weapon::operator=(Weapon&& other){
-//     this->arma_actual = other.arma_actual;
-//     this->weapons = other.weapons;
-//     return *this;
-// }
+void Weapon::update(WeaponInfo info){
+    this->info.pos = info.pos;
+    this->info.posAnim = info.posAnim;
+    this->info.size = info.size;
+    this->info.type = info.type;
+}
 
-// Weapon::Weapon(Weapon&& other): weapons(other.weapons){
-//     this->arma_actual = other.arma_actual;
-// }
+
+Weapon& Weapon::operator=(Weapon&& other){
+    this->info = other.info;
+    this->weapon = other.weapon;
+    this->anim = other.anim;
+    return *this;
+}
+Weapon::Weapon(Weapon&& other):weapon(other.weapon), anim(other.anim){
+    this->info = other.info;
+}

@@ -23,27 +23,26 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, SdlTexture*> weaponOnPj;
+    std::map<WeaponType, SdlTexture*> animWeaponOnPj;
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
     std::map<std::string, SdlTexture*> textures;
 
 
     ParticleBullets bullet;
     std::list<Character> players;
-    MainCharacter mainPlayer;
+    MainCharacter* mainPlayer;
 
     // provisorio para poder renderizar a los demas pjs
     SdlTexture pjTexture;
 
-
-    void renderPlayers(Coordenada cam);
-    void renderMap(Coordenada cam);
-    void renderShots(Coordenada cam);
-    void renderWeapons(Coordenada cam);
+    void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordenada cam);
+    void renderPlayers(Coordenada cam);
+    void renderWeapons(Coordenada cam);
+    void renderShots(Coordenada cam);
+    void renderMap(Coordenada cam);
     
-    void addPlayer(const char* pathTexture, struct Color color);
-    
-    void loadWeapons();
+    void loadTexturesWeapons();
     void loadMap();
 
 public:
