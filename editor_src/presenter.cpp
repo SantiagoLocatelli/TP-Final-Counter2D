@@ -2,67 +2,65 @@
 #include "TextureFactory.h"
 #include <fstream>
 #include <stdio.h>
-const int TILE_WIDTH = 80;
-const int LEVEL_WIDTH = 1280;
-const int LEVEL_HEIGHT = 960;
+#define TILE_SIZE 80
 
-Presenter::Presenter(std::map<std::string, std::shared_ptr<Draggable>>& bombSites, std::map<std::string, std::shared_ptr<Draggable>>& spawnSites, 
-int screenW, int screenH) : camera(screenW, screenH){
-    this->bombSites = bombSites;
-    this->spawnSites = spawnSites;
+Presenter::Presenter(MenueManager& m, int screenW, int screenH) : menueManager(m), camera(screenW, screenH){}
+
+void Presenter::renderTextures(){
+    this->menueManager.renderTextures(this->camera.getRect());
 }
 
 void Presenter::renderBombSites(){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
-    while (iterator != this->bombSites.end()){
-        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
-        iterator->second->setAlpha(100);
-        iterator->second->render(this->camera.getRect());
-        ++iterator;
-    }
+    this->menueManager.renderBombSites(this->camera.getRect());
 }
 
 void Presenter::renderSpawnSites(){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
-    while (iterator != this->spawnSites.end()){
-        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
-        iterator->second->setAlpha(100);
-        iterator->second->render(this->camera.getRect());
-        ++iterator;
-    }
+    this->menueManager.renderSpawnSites(this->camera.getRect());
 }
 
 void Presenter::handleBombSitesEvent(SDL_Event* event){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
-    while (iterator != this->bombSites.end()){
-        iterator->second->handleEvent(event, this->camera.getRect());
-        ++iterator;
-    }
+    this->menueManager.handleBombSitesEvent(event, this->camera.getRect());
 }
 void Presenter::handleSpawnSitesEvent(SDL_Event* event){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
-    while (iterator != this->spawnSites.end()){
-        iterator->second->handleEvent(event, this->camera.getRect());
-        ++iterator;
-    }
+    this->menueManager.handleSpawnSitesEvent(event, this->camera.getRect());
 }
 
 void Presenter::centerCamera(){
-    this->camera.centerCameraOnMouse(TILE_WIDTH, LEVEL_WIDTH, LEVEL_HEIGHT);
+    this->camera.centerCameraOnMouse(TILE_SIZE, this->menueManager.getMapWidth(), this->menueManager.getMapHeight());
 }
 
 void Presenter::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(),
-     spawnSites["CT"]->getBox()};
+    this->menueManager.fillSize(vector);
 }
 
 void Presenter::changeSizeOfSites(std::vector<int>& vector){
-    this->bombSites["A"]->setWidthAndHeight(vector[0], vector[1]);
-    this->bombSites["B"]->setWidthAndHeight(vector[2], vector[3]);
-    this->spawnSites["T"]->setWidthAndHeight(vector[4], vector[5]);
-    this->spawnSites["CT"]->setWidthAndHeight(vector[6], vector[7]);
+    this->menueManager.changeSizeOfSites(vector);
+}
+
+void Presenter::changeTexture(const int& type){
+    this->menueManager.changeTexture(type, this->camera.getRect());
 }
 
 SDL_Rect Presenter::getCameraBox(){
     return this->camera.getRect();
+}
+
+int Presenter::getMapWidth(){
+    return this->menueManager.getMapWidth();
+}
+
+int Presenter::getMapHeight(){
+    return this->menueManager.getMapHeight();
+}
+
+int Presenter::getTextureMapSize(){
+    return this->menueManager.getTextureMapSize();
+}
+
+int Presenter::getTexturesSize(){
+    return this->menueManager.getTexturesSize();
+}
+
+std::string Presenter::getTypeName(const int& type){
+    return this->menueManager.getTypeName(type);
 }
