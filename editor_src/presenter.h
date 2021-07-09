@@ -24,7 +24,7 @@ class Presenter{
         void handleBombSitesEvent(SDL_Event* event);
         void handleSpawnSitesEvent(SDL_Event* event);
         void fillSize(std::vector<SDL_Rect>& vector);
-        void changeSizeOfSites(std::vector<int>& vector);
+        void changeSizeOfSites(std::vector<float>& vector);
         void renderTextures();
         void changeTexture(const int& type);
 
@@ -34,5 +34,6 @@ class Presenter{
         int getTextureMapSize();
         int getTexturesSize();
         std::string getTypeName(const int& type);
+        int getTileSize();
 };
 #endif

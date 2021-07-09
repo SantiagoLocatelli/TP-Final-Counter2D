@@ -2,7 +2,6 @@
 #include "TextureFactory.h"
 #include <fstream>
 #include <stdio.h>
-#define TILE_SIZE 80
 
 Presenter::Presenter(MenueManager& m, int screenW, int screenH) : menueManager(m), camera(screenW, screenH){}
 
@@ -26,14 +25,14 @@ void Presenter::handleSpawnSitesEvent(SDL_Event* event){
 }
 
 void Presenter::centerCamera(){
-    this->camera.centerCameraOnMouse(TILE_SIZE, this->menueManager.getMapWidth(), this->menueManager.getMapHeight());
+    this->camera.centerCameraOnMouse(this->menueManager.getTileSize(), this->menueManager.getMapWidth(), this->menueManager.getMapHeight());
 }
 
 void Presenter::fillSize(std::vector<SDL_Rect>& vector){
     this->menueManager.fillSize(vector);
 }
 
-void Presenter::changeSizeOfSites(std::vector<int>& vector){
+void Presenter::changeSizeOfSites(std::vector<float>& vector){
     this->menueManager.changeSizeOfSites(vector);
 }
 
@@ -63,4 +62,8 @@ int Presenter::getTexturesSize(){
 
 std::string Presenter::getTypeName(const int& type){
     return this->menueManager.getTypeName(type);
+}
+
+int Presenter::getTileSize(){
+    return this->menueManager.getTileSize();
 }

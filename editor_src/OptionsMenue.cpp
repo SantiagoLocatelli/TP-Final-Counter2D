@@ -3,11 +3,10 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
-#define TILE_SIZE 80
-#define MIN_MAP_SIZE 640 // Tienen que ser multiplos del alto o ancho del tile (en este caso 80)
-#define MAX_MAP_SIZE 2000
-#define MIN_SIZE 100
-#define MAX_SIZE 999
+#define MIN_MAP_SIZE 5
+#define MAX_MAP_SIZE 30
+#define MIN_SIZE 1
+#define MAX_SIZE 5
 #define FONT_SIZE 26
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
@@ -101,7 +100,7 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //Special text input event
         else if (event->type == SDL_TEXTINPUT){
             char aux = event->text.text[0];
-            if (aux >= 48 && aux <= 57){
+            if ((aux >= 48 && aux <= 57) || aux == 46){
                 //Append character
                 inputText += event->text.text;
                 this->renderText = true;
@@ -112,32 +111,33 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
 }
 
 void OptionsMenue::aceptChanges(){
-    std::vector<int> vector;
+    std::vector<float> vector;
     int i = 0;
     for (auto &input : inputOrder){
         std::string aux = this->options[input];
         if (i > 1){
-            if (aux.length() < 3){
+            if (aux.length() < 1 || aux == "."){
                 vector.push_back(MIN_SIZE);
-            }else if (aux.length() > 3){
-                vector.push_back(MAX_SIZE);
             }else{
-                vector.push_back(std::stoi(aux, nullptr));
+                float value = std::stof(aux, nullptr);
+                if (value > MAX_SIZE){
+                    value = MAX_SIZE;
+                }else if (value < MIN_SIZE){
+                    value = MIN_SIZE;
+                }
+                vector.push_back(value);
             }
         }else{
             int sizeOfMap = MIN_MAP_SIZE;
             if (aux.length() != 0){
-                sizeOfMap = std::stoi(aux, nullptr);
+                sizeOfMap = std::stof(aux, nullptr);
                 if (sizeOfMap > MAX_MAP_SIZE){
                     sizeOfMap = MAX_MAP_SIZE;
                 }else if (sizeOfMap < MIN_MAP_SIZE){
                     sizeOfMap = MIN_MAP_SIZE;
-                }else if (sizeOfMap % TILE_SIZE != 0){
-                    // como tiene que ser multiplo del ancho del tile redondeo para arriba si no lo es
-                    sizeOfMap += (TILE_SIZE - (sizeOfMap % TILE_SIZE));
                 }
             }
-            vector.push_back(sizeOfMap);
+            vector.push_back((int) sizeOfMap);
         }
         i++;
     }

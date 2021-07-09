@@ -5,9 +5,6 @@
 #include <memory>
 #include <utility>
 #define TEXTURE_PATH "../../common_src/maps/textures.yaml"
-#define TILE_WIDTH 80
-#define TILE_HEIGHT 80
-#define LEVEL_WIDTH 1280
 
 
 Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
