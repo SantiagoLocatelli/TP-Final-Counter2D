@@ -17,7 +17,7 @@ void Weapon::shootBullet(){
 
     //Le agrego un desvio a la bala
     float r = ((float) rand()) / (float) RAND_MAX;
-    float spread = (2*r-1)*(config["spread"]);
+    float spread = (2*r-1)*(config.at("spread"));
     std::array<float, 2> pos = owner->getPosition();
     ray.x = pos[0];
     ray.y = pos[1];
@@ -42,9 +42,9 @@ void Weapon::toggle(){
 float Weapon::calculateDamage(float distance){
     //Calculo el daño entre el min y max
     float r = ((float) rand()) / (float) RAND_MAX;
-    float damage = config["minDamage"] + (r * (config["maxDamage"] - config["minDamage"]));
+    float damage = config.at("minDamage") + (r * (config.at("maxDamage") - config.at("minDamage")));
     //El daño disminuye con la distancia
-    damage *= 1/(distance*config["falloff"]+1);
+    damage *= 1/(distance*config.at("falloff")+1);
 
     return damage;
 }

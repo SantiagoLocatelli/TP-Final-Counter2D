@@ -7,7 +7,7 @@
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config)
 :health(100), angle(0), world(world), dead(false), shooting(false)
-, weapon(new Pistol(&world, config)), speed(config.getPlayer()["speed"]){
+, weapon(new Pistol(&world, config)), speed(config.getPlayer().at("speed")){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -39,6 +39,7 @@ Player::Player(Player&& other): world(other.world){
     this->health = other.health;
     this->dead = other.dead;
     this->angle = other.angle;
+    this->speed = other.speed;
 
     this->movement = std::move(other.movement);
 
@@ -69,7 +70,7 @@ void Player::updateVelocity(){
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= speed;
+    new_imp *= this->speed;
     body->SetLinearVelocity(new_imp);
 }
 
