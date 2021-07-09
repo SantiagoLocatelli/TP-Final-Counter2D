@@ -17,7 +17,10 @@ GameProxy::GameProxy(const std::string &yaml_path){
         world->addBox(b[0], b[1]);
     }
 
-    mapInfo.tiles = parser.get_tiles();
+    for (int t: parser.get_tiles()){
+        mapInfo.tiles.push_back((uint8_t) t);
+    }
+
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 

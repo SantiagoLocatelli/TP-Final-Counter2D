@@ -30,8 +30,8 @@ std::list<std::array<int,2>> WorldParser::get_boxes(){
     return boxList;
 }
 
-std::vector<uint8_t> WorldParser::get_tiles(){
-    return mapYaml["map"].as<std::vector<uint8_t>>();
+std::vector<int> WorldParser::get_tiles(){
+    return mapYaml["map"].as<std::vector<int>>();
 }
 
 std::list<RectArea> WorldParser::get_sites(){

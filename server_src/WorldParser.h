@@ -17,7 +17,7 @@ class WorldParser{
         explicit WorldParser(const std::string &yamlPath);
         void get_size(uint16_t &length, uint16_t &height);
         std::list<std::array<int, 2>> get_boxes();
-        std::vector<uint8_t> get_tiles();
+        std::vector<int> get_tiles();
         std::list<RectArea> get_sites();
         std::list<RectArea> get_spawn();
 };
