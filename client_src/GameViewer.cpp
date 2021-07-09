@@ -179,8 +179,8 @@ void GameViewer::render(){
 
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    SdlTexture ammo = this->ttf.createTextureFromText(ammoText, {HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b});
-    ammo.render(cam.x + this->cam.getWidth() - MARGIN , cam.y - this->cam.getHeight() - MARGIN);
+    SDL_Point dst = {cam.x + this->cam.getWidth() - MARGIN , cam.y - this->cam.getHeight() - MARGIN};
+    this->ttf.render(ammoText, dst, {HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b});
 
     renderer.updateScreen();
 }

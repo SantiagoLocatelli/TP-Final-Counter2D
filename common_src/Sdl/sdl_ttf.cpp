@@ -11,10 +11,13 @@ SdlTtf::SdlTtf(SdlRenderer& renderer, std::string path, int size):renderer(rende
 		printf( "Failed to load the font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
     printf("termino de inicilizarse ttf\n");
-    // SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, "Boca", {0xff,0xff,0xff});
-    // SdlTexture texture(this->renderer, textSurface);
-    // SDL_FreeSurface( textSurface );
-    // texture.render(250, 250);
+    SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, "Boca", {0xff,0xff,0xff});
+    if (textSurface == NULL) {
+        printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
+    } else {
+        // this->text = new SdlTexture(this->renderer, textSurface);
+        // SDL_FreeSurface( textSurface );
+    }
 }
 
 SdlTtf::~SdlTtf(){
@@ -25,14 +28,26 @@ SdlTtf::~SdlTtf(){
     }
 }
 
-SdlTexture SdlTtf::createTextureFromText(std::string text, struct Color color){
-    SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
-	if( textSurface == NULL ){
-        printf("- %s -\n", text.c_str());
-		printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
-	} 
+// void SdlTtf::createTextureFromText(std::string text, struct Color color){
+//     SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
+// 	if( textSurface == NULL ){
+//         printf("- %s -\n", text.c_str());
+// 		printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
+// 	} 
 
-    SdlTexture texture(this->renderer, textSurface);
-    SDL_FreeSurface( textSurface );
-    return texture;
+//     SdlTexture texture(this->renderer, textSurface);
+//     SDL_FreeSurface( textSurface );
+// }
+
+void SdlTtf::render(std::string text, SDL_Point dst, struct Color color) {
+    SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
+    if( textSurface == NULL ){
+		printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
+	} else {
+
+        SdlTexture texture(this->renderer, textSurface);
+        texture.render(dst.x, dst.y);
+
+        SDL_FreeSurface( textSurface );
+    }
 }
