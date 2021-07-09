@@ -10,7 +10,8 @@ class Hittable{
     
     public:
         virtual float isHitBy(Ray ray);
-        void virtual recvDamage(float damage) = 0;
+        virtual void recvDamage(float damage) = 0;
+        b2Vec2 getPosition();
 };
 
 #endif
