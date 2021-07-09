@@ -1,4 +1,5 @@
 #include "GameViewer.h"
+#include <cstdio>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -7,36 +8,40 @@
 #define BOX "BOX"
 #define BACKGROUND "BG"
 #define SIZE_KNIFE 35
+#define MARGIN 50
 
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
+const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 
 #define PATH_SHOT "../../common_src/sound/weapons/glock18.wav"
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
-    level(level),
+    ttf(renderer, "../../common_src/img/digital-7.ttf", 50),
     cam(window_w, window_h),
-    pjTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b), 
-    bullet(renderer),
-    ttf(renderer, "../../common_src/img/digital-7.ttf", 50){
+    level(level),
+    bullet(renderer){
 
-
+    SDL_ShowCursor(SDL_DISABLE);
     loadTexturesWeapons();
     loadSoundsEffects();
+    loadSkins();
     loadMap();
 
     WeaponType mainType = level.mainPlayer.weapon.type;
+    printf("size  1 w: %i, h: %i\n", level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
     Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, this->shot[mainType]);
-    this->mainPlayer = new MainCharacter( level.mainPlayer, pjTexture, 
+    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->skins[CT]), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-                std::move(Stencil(this->renderer, window_w, window_h)), std::move(mainWeapon));
+                std::move(Stencil(this->renderer, window_w, window_h)), mainWeapon);
 
     for (PlayerInfo player : level.players) {
         //crear cuchillo y cargarlo al personaje
         WeaponType type = player.weapon.type;
+        printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
         Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, this->shot[type]);
-        this->players.push_back(std::move(Character(player, this->pjTexture, std::move(weapon))));
+        this->players.push_back(std::move(Character(player, *(this->skins[CT]), weapon)));
     }
 }
 
@@ -68,6 +73,10 @@ GameViewer::~GameViewer(){
 }
 
 
+void GameViewer::loadSkins(){
+    this->skins[CT] = new SdlTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b);
+}
+
 void GameViewer::loadSoundsEffects(){
 
     this->shot[PISTOL] = SoundEffect(PATH_SHOT);
@@ -83,9 +92,8 @@ void GameViewer::loadSoundsEffects(){
     this->playerEffects[DROPPING] = SoundEffect("../../common_src/sound/player/drop.wav");
     this->playerEffects[PICKING_UP] = SoundEffect("../../common_src/sound/player/pickup.wav");
     this->playerEffects[STEP] = SoundEffect("../../common_src/sound/player/pl_step.wav");
-    this->playerEffects[DYING] = SoundEffect("../../common_src/sound/player/ .wav");
+    // this->playerEffects[DYING] = SoundEffect("../../common_src/sound/player/ .wav");
 }
-
 
 void GameViewer::loadTexturesWeapons(){
 
@@ -100,10 +108,10 @@ void GameViewer::loadTexturesWeapons(){
     // FALTA CARGAR EL EFECTO DE LAS ARMAS
     this->animWeaponOnPj[KNIFE] = new SdlTexture(this->renderer, "../../common_src/img/weapons/knifeslash.bmp", 0x00, 0x00, 0x00);
     //buscar un efecto de arma piola
-    // this->animWeaponOnPj[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    // this->animWeaponOnPj[RIFLE] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    // this->animWeaponOnPj[SNIPER] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    // this->animWeaponOnPj[SHOTGUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
+    this->animWeaponOnPj[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
+    this->animWeaponOnPj[RIFLE] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
+    this->animWeaponOnPj[SNIPER] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
+    this->animWeaponOnPj[SHOTGUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
 
     this->weaponsOnFloor[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/glock_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
     this->weaponsOnFloor[SHOTGUN] = new SdlTexture(this->renderer, "../../common_src/img/weapons/m3_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
@@ -118,12 +126,10 @@ void GameViewer::loadTexturesWeapons(){
     this->weaponOnHud[BOMB] = new SdlTexture(this->renderer, "../../common_src/img/weapons/bomb_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
-
 void GameViewer::loadMap() {
     this->textures[BACKGROUND] = new SdlTexture(this->renderer, "../../common_src/img/bg.png");
     this->textures[BOX] = new SdlTexture(this->renderer, "../../common_src/img/green_crate.bmp");
 }
-
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordenada cam) {
@@ -171,6 +177,11 @@ void GameViewer::render(){
     renderWeapons(cam);
     renderMainPlayer(cam);
 
+    char ammoText[100];
+    sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
+    SdlTexture ammo = this->ttf.createTextureFromText(ammoText, {HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b});
+    ammo.render(cam.x + this->cam.getWidth() - MARGIN , cam.y - this->cam.getHeight() - MARGIN);
+
     renderer.updateScreen();
 }
 
@@ -180,8 +191,11 @@ void GameViewer::update(LevelInfo level){
     this->level = level;
 
     WeaponType mainType = level.mainPlayer.weapon.type;
-    Weapon weapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, this->shot[mainType]);
-    this->mainPlayer->update(level.mainPlayer, std::move(weapon));
+    // printf("tipo 1: %i\n", mainType);
+    // printf("size  1 w: %i, h: %i\n",level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
+
+    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, this->shot[mainType]);
+    this->mainPlayer->update(level.mainPlayer, mainWeapon);
 
     this->level.drops.clear();
     this->level.drops.insert(this->level.drops.begin(), level.drops.begin(), level.drops.end());
@@ -197,8 +211,10 @@ void GameViewer::update(LevelInfo level){
     for (PlayerInfo player : this->level.players) {
         if (!player.dead && it != end) {
             WeaponType type = player.weapon.type;
-            Weapon weaponPj(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, this->shot[type]);
-            it->update(player, std::move(weaponPj));
+            // printf("tipo 2: %i\n", type);
+            // printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
+            Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, this->shot[type]);
+            it->update(player, weapon);
         }
     }
     // revisar el constructor por movimiento del character

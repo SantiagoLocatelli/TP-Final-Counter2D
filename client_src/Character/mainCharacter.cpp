@@ -14,7 +14,7 @@ void MainCharacter::update(MainPlayerInfo info, Weapon weapon){
     this->ammo = info.ammo;
     this->health = info.health;
     this->st.setPosition(info.pos, info.degrees);
-    Character::update(info, std::move(weapon));
+    Character::update(info, weapon);
 }
 
 void MainCharacter::setCrossHair(Coordenada pos){

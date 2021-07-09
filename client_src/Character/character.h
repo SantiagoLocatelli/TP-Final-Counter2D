@@ -7,6 +7,7 @@
 #include "Weapon.h"
 
 enum Effect : int {STEP, DYING, RELOADING, DROPPING, PICKING_UP};
+enum SkinType : int {CT};
 
 class Character{
 
@@ -29,6 +30,7 @@ class Character{
 		int getPosY();
 		bool isDead();
 		float getDegrees();
+		WeaponType getWeaponType();
 
 		Character& operator=(Character&&);
 		Character(Character&& other);

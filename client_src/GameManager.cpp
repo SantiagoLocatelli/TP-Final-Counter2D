@@ -4,7 +4,7 @@
 #define PIXELS_PER_METER 80
 
 const struct Size SIZE_SMALL_GUN = {16, 32};
-const struct Size SIZE_BIG_GUN = {30, 60};
+const struct Size SIZE_BIG_GUN = {20, 60};
 
 GameManager::GameManager(){}
 
@@ -27,8 +27,8 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
 }
 
 void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
-    // weapon.type = prot.weapon;
-    weapon.type = PISTOL;
+    weapon.type = prot.weapon;
+    // weapon.type = PISTOL;
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL) {

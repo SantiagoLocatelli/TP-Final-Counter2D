@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
-    SDL_Surface *surf; 
+    // SDL_Surface *surf; 
 	this->mTexture = this->renderer.createTexture(w,h);
 }
 
@@ -192,22 +192,28 @@ int SdlTexture::getHeight()const{return this->mHeight;}
 
 
 SdlTexture& SdlTexture::operator=(const SdlTexture& other){
-	this->mWidth = other.mWidth;
-	this->type = other.type;
-	this->renderer = other.renderer;
-	this->mTexture = other.mTexture;
-	this->mHeight = other.mHeight;
-	this->path = other.path;
+	if (other.mTexture != NULL) {
+		this->mWidth = other.mWidth;
+		this->type = other.type;
+		this->renderer = other.renderer;
+		this->mTexture = other.mTexture;
+		this->mHeight = other.mHeight;
+		this->path = other.path;
+	}
 	return *this;
 }
 
 
 SdlTexture& SdlTexture::operator=(SdlTexture&& other){
-	this->mWidth = other.mWidth;
-	this->mHeight = other.mHeight;
-	this->mTexture = other.mTexture;
-	this->renderer = other.renderer;
-	this->type = other.type;
+	if (this->mTexture != NULL) {
+
+		this->mWidth = other.mWidth;
+		this->mHeight = other.mHeight;
+		this->mTexture = other.mTexture;
+		this->renderer = other.renderer;
+		this->type = other.type;
+		other.mTexture = NULL;
+	}
 	return *this;
 }
 

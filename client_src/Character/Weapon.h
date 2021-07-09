@@ -21,8 +21,11 @@ public:
     void update(WeaponInfo info);
     void render(Coordenada cam, float degrees, bool animated);
 
-    Weapon& operator=(Weapon&&);
-    Weapon(Weapon&&);
+    Weapon& operator=(const Weapon&);
+    Weapon(const Weapon&);
+
+    // Weapon& operator=(Weapon&&);
+    // Weapon(Weapon&&);
 };
 
 #endif

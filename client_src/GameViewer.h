@@ -30,6 +30,7 @@ private:
     std::map<Effect, SoundEffect> playerEffects; 
     std::map<WeaponType, SoundEffect> shot; 
 
+    std::map<SkinType, SdlTexture*> skins;
     std::map<WeaponType, SdlTexture*> weaponOnPj;
     std::map<WeaponType, SdlTexture*> animWeaponOnPj;
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
@@ -41,8 +42,6 @@ private:
     std::list<Character> players;
     MainCharacter* mainPlayer;
 
-    // provisorio para poder renderizar a los demas pjs
-    SdlTexture pjTexture;
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordenada cam);
@@ -53,6 +52,7 @@ private:
     
     void loadTexturesWeapons();
     void loadSoundsEffects();
+    void loadSkins();
     void loadMap();
 
 public:

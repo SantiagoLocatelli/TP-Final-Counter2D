@@ -1,7 +1,11 @@
 #include "SoundEffect.h"
+#include "../GeneralException.h"
 
 SoundEffect::SoundEffect(std::string path) {
     this->effect = Mix_LoadWAV(path.c_str());
+    if (this->effect == NULL) {
+        throw GeneralException("No se pudo cargar el efecto de sonido: " + path);
+    }
     this->effect->volume = 64;
 }
 

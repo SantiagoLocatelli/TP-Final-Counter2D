@@ -42,19 +42,14 @@ class SdlTexture{
              SDL_Renderer*& renderer, TTF_Font*& font);
 		#endif
 
-		//Deallocates texture
 		void free();
 
-		//Set color modulation
 		void setColor( Uint8 red, Uint8 green, Uint8 blue );
 
-		//Set blending
 		void setBlendMode( SDL_BlendMode blending );
 
-		//Set alpha modulation
 		void setAlpha(Uint8 alpha);
 		
-		//Renders texture at given point
 		void render(int x, int y, int width, int height, SDL_Rect* clip = NULL, double angle = 0.0,
         	SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE)const;
 
@@ -67,7 +62,6 @@ class SdlTexture{
 		int setRenderTarget(SDL_Texture* target);
 		SDL_Texture* getRenderTarget();
 
-		//Gets image dimensions
 		int getWidth() const;
 		int getHeight() const;
     	int getType() const;
@@ -75,7 +69,6 @@ class SdlTexture{
 		SdlTexture& operator=(const SdlTexture&);
 		SdlTexture& operator=(SdlTexture&&);
 		SdlTexture(SdlTexture&& other);
-		//Deallocates memory
 		~SdlTexture();
 
 };
