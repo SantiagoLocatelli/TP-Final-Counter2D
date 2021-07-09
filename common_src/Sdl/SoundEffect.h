@@ -10,16 +10,19 @@ private:
 
 public:
 
+    SoundEffect();
     SoundEffect(std::string path);
     ~SoundEffect();
 
     void play(int repeat);
     void playTimed(int repeat, int ticks);
-    // va de 0 a 128
+    
+    // en porcentaje
     void setearVolume(int volume);
 
     SoundEffect(SoundEffect&&);
     SoundEffect& operator=(SoundEffect&&);
+    SoundEffect& operator=(const SoundEffect&);
 };
 
 #endif

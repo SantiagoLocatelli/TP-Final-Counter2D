@@ -22,6 +22,7 @@ class SdlTexture{
 		//Initializes variables
 		SdlTexture(SdlRenderer& r, int w, int h);
 		SdlTexture(SdlRenderer& renderer, std::string path);
+		SdlTexture(SdlRenderer& renderer, SDL_Surface* surface);
 		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue);
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
  			Uint8 green, Uint8 blue);

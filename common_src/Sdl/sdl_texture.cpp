@@ -61,6 +61,12 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 	}
 }
 
+// es para crear textura a partir de texto
+SdlTexture::SdlTexture(SdlRenderer& renderer, SDL_Surface* surface):renderer(renderer){
+	this->mTexture = this->renderer.createTextureFromSurface(surface);
+}
+
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string textureText, Uint8 red,
  Uint8 green, Uint8 blue) : renderer(r){
 	this->path = path;
@@ -107,8 +113,7 @@ int SdlTexture::changeTextTexture(std::string text, int size, Uint8 red,
 
 
 void SdlTexture::free(){
-	if( this->mTexture != NULL )
-	{
+	if(this->mTexture != NULL){
 		SDL_DestroyTexture( this->mTexture );
 		this->mTexture = NULL;
 		this->mWidth = 0;
@@ -235,9 +240,7 @@ SDL_Texture* SdlTexture::getRenderTarget(){
 
 SdlTexture::~SdlTexture(){
 	if (this->mTexture != NULL) {
-
 		free();
 		TTF_Quit();
-		this->mTexture = NULL;
 	}
 }

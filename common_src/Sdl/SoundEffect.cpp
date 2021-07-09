@@ -2,6 +2,11 @@
 
 SoundEffect::SoundEffect(std::string path) {
     this->effect = Mix_LoadWAV(path.c_str());
+    this->effect->volume = 64;
+}
+
+SoundEffect::SoundEffect(){
+    this->effect = NULL;
 }
 
 SoundEffect::SoundEffect(SoundEffect&& other){
@@ -19,8 +24,19 @@ SoundEffect& SoundEffect::operator=(SoundEffect&& other){
     }
 }
 
+SoundEffect& SoundEffect::operator=(const SoundEffect& other){
+    if (other.effect != NULL && other.effect != this->effect) {
+        this->effect = other.effect;
+        return *this;
+    }
+}
+
+
 SoundEffect::~SoundEffect(){
-    Mix_FreeChunk(this->effect);
+    if (this->effect != NULL) {
+        Mix_FreeChunk(this->effect);
+        this->effect = NULL;
+    }
 }
 
 void SoundEffect::play(int repeat){
@@ -32,5 +48,6 @@ void SoundEffect::playTimed(int repeat, int ticks) {
 }
 
 void SoundEffect::setearVolume(int volume){
-    Mix_VolumeChunk(this->effect, volume);
+    // el maximo es 128 (SDL), lo mapeo a procentaje
+    this->effect->volume = volume*128/100;
 }

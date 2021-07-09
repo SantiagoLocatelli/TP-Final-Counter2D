@@ -6,6 +6,8 @@
 #include "../levelInfo.h"
 #include "Weapon.h"
 
+enum Effect : int {STEP, DYING, RELOADING, DROPPING, PICKING_UP};
+
 class Character{
 
     private:
