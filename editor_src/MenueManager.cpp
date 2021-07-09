@@ -28,16 +28,16 @@ void MenueManager::loadToFile(){
     SDL_Rect spawnSiteCT = this->spawnSites["CT"]->getBox();
 
     // position of bombs
-    std::vector<float> positionA = {(float)(bombSiteA.x/TILE_SIZE), (float)(bombSiteA.y/TILE_SIZE)};
-    std::vector<float> positionB = {(float)(bombSiteB.x/TILE_SIZE), (float)(bombSiteB.y/TILE_SIZE)};
-    std::vector<float> sizeA = {(float)(bombSiteA.w/TILE_SIZE), (float)(bombSiteA.h/TILE_SIZE)};
-    std::vector<float> sizeB = {(float)(bombSiteB.w/TILE_SIZE), (float)(bombSiteB.h/TILE_SIZE)};
+    std::vector<float> positionA = { (float) bombSiteA.x/ (float) TILE_SIZE, (float) bombSiteA.y/ (float) TILE_SIZE};
+    std::vector<float> positionB = {(float) bombSiteB.x/ (float) TILE_SIZE, (float) bombSiteB.y/ (float) TILE_SIZE};
+    std::vector<float> sizeA = {(float) bombSiteA.w/ (float) TILE_SIZE, (float) bombSiteA.h/ (float) TILE_SIZE};
+    std::vector<float> sizeB = {(float) bombSiteB.w/ (float) TILE_SIZE, (float) bombSiteB.h/ (float) TILE_SIZE};
 
     // position of spawns
-    std::vector<float> positionT = {(float)(spawnSiteT.x/TILE_SIZE), (float)(spawnSiteT.y/TILE_SIZE)};
-    std::vector<float> sizeT = {(float)(spawnSiteT.w/TILE_SIZE), (float)(spawnSiteT.h/TILE_SIZE)};
-    std::vector<float> positionCT = {(float)(spawnSiteCT.x/TILE_SIZE), (float)(spawnSiteCT.y/TILE_SIZE)};
-    std::vector<float> sizeCT = {(float)(spawnSiteCT.w/TILE_SIZE), (float)(spawnSiteCT.h/TILE_SIZE)};
+    std::vector<float> positionT = {(float) spawnSiteT.x/(float) TILE_SIZE, (float) spawnSiteT.y/(float) TILE_SIZE};
+    std::vector<float> sizeT = {(float) spawnSiteT.w/(float) TILE_SIZE, (float) spawnSiteT.h/(float) TILE_SIZE};
+    std::vector<float> positionCT = {(float) spawnSiteCT.x/(float) TILE_SIZE, (float) spawnSiteCT.y/(float) TILE_SIZE};
+    std::vector<float> sizeCT = {(float) spawnSiteCT.w/(float) TILE_SIZE, (float) spawnSiteCT.h/(float) TILE_SIZE};
     
     
     for (auto &texture : this->textures){
@@ -238,7 +238,7 @@ void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
 }
 
 void MenueManager::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {{0,0,(int) mapSize[0] * TILE_SIZE, (int) mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
+    vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
     changeToMeters(vector);
 }
 
