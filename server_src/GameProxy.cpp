@@ -1,6 +1,6 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "game_model/Sniper.h"
+#include "game_model/Shotgun.h"
 #include <utility>
 
 #include <list>
@@ -19,7 +19,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
         world->addBox(b.x, b.y);
     }
 
-    world->addDrop(new Sniper(world), 5.5f, 5.5f);
+    world->addDrop(new Shotgun(world), 5.5f, 5.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){
