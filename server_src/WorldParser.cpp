@@ -11,16 +11,16 @@ void WorldParser::get_size(uint16_t &length, uint16_t &height){
     height = size[1];
 }
 
-std::list<int [2]> WorldParser::get_boxes(){
+std::list<std::array<int,2>> WorldParser::get_boxes(){
     TextureMap textureMap;
-    std::list<int [2]> boxList;
+    std::list<std::array<int,2>> boxList;
     std::vector<int> map = mapYaml["map"].as<std::vector<int>>();
     uint16_t height, length;
     get_size(length, height);
     
     for (size_t i = 0; i < map.size(); i++){
         if (textureMap[map[i]].isBox){
-            int b[2];
+            std::array<int, 2> b;
             b[0] = i%length;
             b[1] = i/height;
             boxList.push_back(b);
