@@ -43,6 +43,7 @@ class Player: public Hittable{
         bool isDead() const;
         bool isShooting() const;
         WeaponType getWeaponType() const;
+        void reloadWeapon();
 
         //Inventario
         void dropWeapon();

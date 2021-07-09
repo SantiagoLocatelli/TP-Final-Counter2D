@@ -141,3 +141,7 @@ void Player::takeWeapon(Weapon *weapon){
     weapon->changeOwner(this);
     this->weapon = weapon;
 }
+
+void Player::reloadWeapon(){
+    weapon->reload();
+}

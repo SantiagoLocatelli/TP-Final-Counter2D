@@ -36,7 +36,9 @@ void EventManager::run(){
                                 event.info.dir = RIGHT; 
                                 break;
                             case SDLK_e: /*plantar bomba*/break;
-                            case SDLK_r: /*recargar*/break;
+                            case SDLK_r:
+                                event.type = RELOAD_WEAPON;
+                                break;
                             case SDLK_1: /*cambiar arma a 1*/break;
                             case SDLK_2: /*cambiar arma a 2*/break;
                             case SDLK_3: /*cambiar arma a 3*/break;

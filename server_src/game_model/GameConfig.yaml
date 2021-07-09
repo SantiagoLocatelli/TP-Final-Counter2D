@@ -11,6 +11,8 @@ Weapons:
     spread: 0.1
     falloff: 0
     speed: 0.7 #Tiempo entre disparos
+    capacity: 2 #Balas por recarga
+    reloadTime: 2
   Rifle:
     maxDamage: 22
     minDamage: 18
@@ -18,12 +20,16 @@ Weapons:
     falloff: 0
     burstTime: 1 #Tiempo entre disparos de la misma ráfaga
     speed: 1 #Tiempo entre ráfagas
+    capacity: 30 #Balas por recarga
+    reloadTime: 3
   Sniper:
     maxDamage: 90
     minDamage: 120
     spread: 0.05
     falloff: 0
     speed: 2.5 #Tiempo entre disparos
+    capacity: 5 #Balas por recarga 
+    reloadTime: 5
   Shotgun:
     bullets: 10
     maxDamage: 20
@@ -31,3 +37,5 @@ Weapons:
     spread: 0.4
     falloff: 0
     speed: 2 #Tiempo entre disparos
+    capacity: 5
+    reloadTime: 3

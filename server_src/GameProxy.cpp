@@ -88,6 +88,10 @@ void GameProxy::toggleWeapon(int id){
     world->getPlayers()[id].toggleWeapon();
 }
 
+void GameProxy::reloadWeapon(int id){
+    world->getPlayers()[id].reloadWeapon();
+}
+
 bool GameProxy::ended(){
     int alive_players = 0;
     for (const Player &p: world->getPlayers()){

@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type):owner(nullptr), world(world), type(type), config(config.getWeapon(type)){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type):owner(nullptr), world(world), type(type), config(config.getWeapon(type)), bullets(0){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -36,7 +36,10 @@ WeaponType Weapon::getType(){
 }
 
 void Weapon::toggle(){
-    shootBullet();
+    if (bullets > 0){
+        shootBullet();
+        bullets--;
+    }
 }
 
 float Weapon::calculateDamage(float distance){
@@ -49,3 +52,6 @@ float Weapon::calculateDamage(float distance){
     return damage;
 }
 
+void Weapon::reload(){
+    bullets = config.at("capacity");
+}
