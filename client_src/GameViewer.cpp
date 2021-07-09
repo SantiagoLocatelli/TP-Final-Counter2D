@@ -74,6 +74,7 @@ bool isInVector(std::vector<uint8_t> vector, uint8_t element) {
     bool foundIt = false;
     while (i < max && !foundIt) {
         foundIt = (vector[i] == element);
+        i++;
     }
     return foundIt;
 }
@@ -154,7 +155,7 @@ void GameViewer::renderMap(Coordenada cam){
         uint8_t tile = this->level.tiles[i].id;
         Coordenada pos = this->level.tiles[i].pos;
         Size size = this->level.tiles[i].size;
-        this->tiles[tile]->render(pos.x, pos.y, size.w, size.h);
+        this->tiles[tile]->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
     }
 }
 
@@ -169,7 +170,7 @@ void GameViewer::render(){
 
     Coordenada cam = {this->cam.getPosX(), this->cam.getPosY()};
     
-    // renderMap(cam);
+    renderMap(cam);
     renderShots(cam);
     renderPlayers(cam);
     renderWeapons(cam);
