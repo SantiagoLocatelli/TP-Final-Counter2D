@@ -53,7 +53,7 @@ void World::step(){
     bodiesToDestroy.clear();
 }
 
-bool World::rayCast(Ray &ray, Hittable *&hittable){
+float World::rayCast(Ray ray, Hittable *&hittable){
     float min_dist = -1;
     for (Player &p: players){
         if (!p.isDead()){
@@ -66,7 +66,6 @@ bool World::rayCast(Ray &ray, Hittable *&hittable){
             if (min_dist == -1 || dist < min_dist){
                 min_dist = dist;
                 hittable = &p;
-                ray.distance = dist;
             }
         }
     }
@@ -82,11 +81,10 @@ bool World::rayCast(Ray &ray, Hittable *&hittable){
         if (min_dist == -1 || dist < min_dist){
             min_dist = dist;
             hittable = &b;
-            ray.distance = dist;
         }
     }
 
-    return min_dist != -1;
+    return min_dist;
 }
 
 void World::deleteBody(b2Body *body){
@@ -136,4 +134,9 @@ World::~World(){
             delete drop;
         }
     }
+}
+
+std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, float length){
+    EntityChecker checker(b2world);
+    return checker.getHittableInArea(b2Vec2(x,y), b2Vec2(x+length, y+heigth));
 }

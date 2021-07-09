@@ -26,7 +26,7 @@ class Weapon{
         World *getWorld();
         WeaponType getType();
         virtual void toggle();
-        void reload();
+        virtual void reload();
         void shootBullet();
         virtual ~Weapon() = default;
 };

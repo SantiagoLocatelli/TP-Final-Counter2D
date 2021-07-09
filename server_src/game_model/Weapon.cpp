@@ -22,11 +22,14 @@ void Weapon::shootBullet(){
     ray.x = pos[0];
     ray.y = pos[1];
     ray.angle = owner->getAngle() + spread;
+    ray.distance = config.at("maxRange");
     Hittable *hit = nullptr;
 
-    if (world->rayCast(ray, hit)){
-        float actual_damage = calculateDamage(ray.distance);
+    float distance = world->rayCast(ray, hit);
+    if (distance != -1){
+        float actual_damage = calculateDamage(distance);
         hit->recvDamage(actual_damage);
+        ray.distance = distance;
         world->addBullet(ray);
     }
 }
