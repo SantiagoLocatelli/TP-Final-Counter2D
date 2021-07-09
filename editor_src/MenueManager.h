@@ -21,7 +21,7 @@ class MenueManager{
         std::map<std::string, std::shared_ptr<Draggable>> spawnSites;
         int screenWidth, screenHeight;
     public:
-        MenueManager(SdlRenderer& r, const std::string path, int screenWidth, int screenHeight);
+        MenueManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
 
         void renderTextures(const SDL_Rect& camera);
@@ -34,6 +34,8 @@ class MenueManager{
         void changeTexture(const int& type, const SDL_Rect& camera);
         void changeMapSize(const int& width, const int& height);
         void changeToMeters(std::vector<SDL_Rect>& vector);
+        void createMap();
+        void editMap();
 
         int getMapWidth();
         int getMapHeight();

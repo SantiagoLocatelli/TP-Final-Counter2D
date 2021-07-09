@@ -6,15 +6,37 @@
 #define TEXTURE_PATH "../../common_src/maps/textures.yaml"
 #define TILE_SIZE 80
 
-MenueManager::MenueManager(SdlRenderer& r, const std::string path, int screenWidth, int screenHeight) : renderer(r){
+MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
-    this->mapID = path;
     TextureFactory factory;
     factory.unmarshalTextures(TEXTURE_PATH, this->textureMap);
-    factory.unmarshalMap(path.c_str(), this->textureMap, this->textures, this->mapSize, r);
-    factory.unmarshalBombSites(path.c_str(), this->bombSites, r, TILE_SIZE);
-    factory.unmarshalSpawnSites(path.c_str(), this->spawnSites, r, TILE_SIZE);
+}
+
+void MenueManager::createMap(){
+    this->mapSize = {10, 10};
+    for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
+        this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[0], 0));
+    }
+    std::vector<std::string> auxBombs = {"A", "B"};
+    std::vector<std::string> auxSpawns = {"T", "CT"};
+    for (int i = 0; i < 2; i++){
+        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, "../../common_src/img/bombSite.png", 0, i * 100, 255, 0, 0));
+        bombSites[auxBombs[i]]->setWidthAndHeight(100, 100);
+
+        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, "../../common_src/img/spawnSite.png", 200, (i * 100), 0, 255, 0));
+        spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
+    }
+
+    this->mapID = "../../common_src/maps/mapaDePrueba.yaml";
+}
+
+void MenueManager::editMap(){
+    TextureFactory factory;
+    this->mapID = "../../common_src/maps/mapaMetros.yaml";
+    factory.unmarshalMap(mapID.c_str(), this->textureMap, this->textures, this->mapSize, this->renderer);
+    factory.unmarshalBombSites(mapID.c_str(), this->bombSites, this->renderer, TILE_SIZE);
+    factory.unmarshalSpawnSites(mapID.c_str(), this->spawnSites, this->renderer, TILE_SIZE);
 }
 
 void MenueManager::loadToFile(){
@@ -238,7 +260,7 @@ void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
 }
 
 void MenueManager::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
+    vector = {{0,0,(int) (mapSize[0] * TILE_SIZE), (int)(mapSize[1] * TILE_SIZE)}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
     changeToMeters(vector);
 }
 
@@ -250,6 +272,7 @@ void MenueManager::changeToMeters(std::vector<SDL_Rect>& vector){
         value.h = value.h/TILE_SIZE;
     }
 }
+
 
 
 int MenueManager::getMapWidth(){

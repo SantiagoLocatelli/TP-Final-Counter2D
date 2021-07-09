@@ -40,6 +40,14 @@ void Presenter::changeTexture(const int& type){
     this->menueManager.changeTexture(type, this->camera.getRect());
 }
 
+void Presenter::createMap(){
+    this->menueManager.createMap();
+}
+
+void Presenter::editMap(){
+    this->menueManager.editMap();
+}
+
 SDL_Rect Presenter::getCameraBox(){
     return this->camera.getRect();
 }

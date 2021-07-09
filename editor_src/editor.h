@@ -16,6 +16,8 @@ class Editor : public Presenter{
 
         bool renderSpawnSites;
 
+        bool changeScene;
+
     public:
         Editor(MenueManager& m, int screenW, int screenH);
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
@@ -23,6 +25,7 @@ class Editor : public Presenter{
         void put_tile(SdlRenderer& renderer);
         std::string getTitle() override;
         void createMap(SdlRenderer& renderer);
+        bool finish() override;
 
         void presentBombSites();
         void stopPresentingBombSites();

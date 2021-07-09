@@ -17,6 +17,7 @@ class Presenter{
         virtual void handleEvents(SDL_Event* event, SdlRenderer& renderer) = 0;
         virtual std::string getTitle() = 0;
         virtual void aceptChanges(){};
+        virtual bool finish() = 0;
 
         void renderBombSites();
         void renderSpawnSites();
@@ -27,6 +28,8 @@ class Presenter{
         void changeSizeOfSites(std::vector<float>& vector);
         void renderTextures();
         void changeTexture(const int& type);
+        void createMap();
+        void editMap();
 
         SDL_Rect getCameraBox();
         int getMapWidth();

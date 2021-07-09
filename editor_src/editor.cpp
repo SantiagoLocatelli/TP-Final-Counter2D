@@ -11,9 +11,11 @@ Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW
     this->currentType = 0;
     this->renderBombSites = false;
     this->renderSpawnSites = false;
+    this->changeScene = false;
 }
 
 void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+    Presenter::centerCamera();
     if (event->type == SDL_MOUSEBUTTONDOWN){
         //On left mouse click
         if (event->button.button == SDL_BUTTON_RIGHT){
@@ -27,6 +29,8 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //spawnsites
         }else if (event->key.keysym.sym == SDLK_2){
             presentSpawnSites();
+        }else if (event->key.keysym.sym == SDLK_ESCAPE){
+            this->changeScene = true;
         }
         //Manage key ups events
     }else if (event->type == SDL_KEYUP){
@@ -97,8 +101,10 @@ std::string Editor::getTitle(){
     return Presenter::getTypeName(currentType);
 }
 
-/*void Editor::createMap(SdlRenderer& renderer){
-    for (int i = 0; i < 192; i++){
-        this->textures.emplace_back(new SdlTexture(renderer, this->map[0], 0));
+bool Editor::finish(){
+    if (changeScene){
+        changeScene = false;
+        return true;
     }
-}*/
+    return false;
+}
