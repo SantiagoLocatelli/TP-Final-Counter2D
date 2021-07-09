@@ -17,3 +17,7 @@ TextureMap::TextureMap(){
 TextureInfo TextureMap::operator[](int key){
 	return this->map.at(key);
 }
+
+int TextureMap::size(){
+    return this->map.size();
+}

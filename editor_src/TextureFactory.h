@@ -11,7 +11,6 @@
 #include <string>
 class TextureFactory{
     public:
-        void unmarshalTextures(const char *yamlFile, TextureMap& map);
         void unmarshalMap(const char *yamlFile, TextureMap& map, std::list<std::unique_ptr<SdlTexture>>& textures,
          std::vector<int>& mapSize, SdlRenderer& renderer);
         void unmarshalBombSites(const char *yamlFile, std::map<std::string, std::shared_ptr<Draggable>>& bombSites,

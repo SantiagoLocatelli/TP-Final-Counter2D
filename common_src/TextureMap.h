@@ -16,6 +16,7 @@ class TextureMap{
     public:
         TextureMap();
         TextureInfo operator[](int key);
+        int size();
 };
 
 #endif
