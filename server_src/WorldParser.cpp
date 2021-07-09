@@ -64,7 +64,7 @@ std::list<RectArea> WorldParser::get_sites(){
 std::list<RectArea> WorldParser::get_spawn(){
     std::list<RectArea> list;
     std::vector<float> position = mapYaml["spawnSite"]["T"]["position"].as<std::vector<float>>();
-    std::vector<float> size = mapYaml["bombSite"]["T"]["size"].as<std::vector<float>>();
+    std::vector<float> size = mapYaml["spawnSite"]["T"]["size"].as<std::vector<float>>();
 
     RectArea r;
     r.x = position[0];
