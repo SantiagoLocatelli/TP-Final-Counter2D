@@ -11,7 +11,6 @@ MenueManager::MenueManager(SdlRenderer& r, const std::string path, int screenWid
     this->screenWidth = screenWidth;
     this->mapID = path;
     TextureFactory factory;
-    factory.unmarshalTextures(TEXTURE_PATH, this->textureMap);
     factory.unmarshalMap(path.c_str(), this->textureMap, this->textures, this->mapSize, r);
     factory.unmarshalBombSites(path.c_str(), this->bombSites, r, TILE_SIZE);
     factory.unmarshalSpawnSites(path.c_str(), this->spawnSites, r, TILE_SIZE);
@@ -174,8 +173,8 @@ void MenueManager::changeMapSize(const int& width, const int& height){
         endOfRowPosition += this->mapSize[0];
         //si agregan filas
         if ((unsigned int) endOfRowPosition > this->textures.size()){
-            for (int j = 0; j < width; j++){
-                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5], 5));
+            for (int j = 0; j < width/TILE_SIZE; j++){
+                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5].texturePath, 5));
             }
             endOfRowPosition += newColumns;
         //si agregar columnas
@@ -184,7 +183,7 @@ void MenueManager::changeMapSize(const int& width, const int& height){
                 auto it = this->textures.begin();
                 std::advance(it, endOfRowPosition);
                 this->textures.insert(it, std::unique_ptr<SdlTexture>
-                (new SdlTexture(this->renderer, this->textureMap[5], 5)));
+                (new SdlTexture(this->renderer, this->textureMap[5].texturePath, 5)));
                 endOfRowPosition++;
             }
         //si sacan columnas
@@ -220,7 +219,7 @@ void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
             textures.erase(it);
             it = textures.begin();
             std::advance(it,i);
-            textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[type], type)));
+            textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[type].texturePath, type)));
 			break;
         }
         //Move to next tile spot
@@ -269,7 +268,7 @@ int MenueManager::getTexturesSize(){
 }
 
 std::string MenueManager::getTypeName(const int& type){
-    return this->textureMap[type];
+    return this->textureMap[type].texturePath;
 }
 
 int MenueManager::getTileSize(){

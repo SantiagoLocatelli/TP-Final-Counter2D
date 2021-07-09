@@ -9,6 +9,7 @@
 #include "Character/character.h"
 #include "Character/camera.h"
 #include <string>   
+#include <vector>
 #include <list>
 #include <map>
 
@@ -25,7 +26,7 @@ private:
     std::map<WeaponType, SdlTexture*> weaponOnPj;
     std::map<WeaponType, SdlTexture*> animWeaponOnPj;
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
-    std::map<std::string, SdlTexture*> textures;
+    std::map<uint8_t, SdlTexture*> tiles;
 
 
     ParticleBullets bullet;
@@ -43,7 +44,7 @@ private:
     void renderMap(Coordenada cam);
     
     void loadTexturesWeapons();
-    void loadMap();
+    void loadTiles();
 
 public:
 

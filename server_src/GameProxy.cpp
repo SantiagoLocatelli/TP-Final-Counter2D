@@ -13,11 +13,16 @@ GameProxy::GameProxy(const std::string &yaml_path){
 
     world = new World(mapInfo.length, mapInfo.height);
 
-    mapInfo.boxes = std::move(parser.get_boxes());
-
-    for (ProtBox b: mapInfo.boxes){
-        world->addBox(b.x, b.y);
+    for (auto b: parser.get_boxes()){
+        world->addBox(b[0], b[1]);
     }
+
+    for (int t: parser.get_tiles()){
+        mapInfo.tiles.push_back((uint8_t) t);
+    }
+
+    mapInfo.bombSites = parser.get_sites();
+    mapInfo.spawnSites = parser.get_spawn();
 
     world->addDrop(new Sniper(world), 5.5f, 5.5f);
 }

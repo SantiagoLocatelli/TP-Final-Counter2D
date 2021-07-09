@@ -1,19 +1,23 @@
 #ifndef _MAP_INFO_H_
 #define _MAP_INFO_H_
 
+#include <vector>
 #include <list>
 #include <stdint.h>
 
-
-struct ProtBox{
-    uint16_t x;
-    uint16_t y;
+struct RectArea{
+    float x;
+    float y;
+    float width;
+    float height;
 };
 
 struct MapInfo{
     uint16_t height;
     uint16_t length;
-    std::list<ProtBox> boxes;
+    std::vector<uint8_t> tiles; //La matriz de casillas "aplastada" en un vector
+    std::list<RectArea> bombSites;
+    std::list<RectArea> spawnSites;
 };
 
 #endif

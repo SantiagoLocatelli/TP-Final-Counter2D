@@ -60,12 +60,12 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     updateWeapon(player.weapon, prot, player.pos);
 }
 
-void updateBox(BoxInfo& box, ProtBox prot){
-    box.pos.x = Math::ruleOfThree(prot.x, 1.0, PIXELS_PER_METER);
-    box.pos.y = Math::ruleOfThree(prot.y, 1.0, PIXELS_PER_METER);
-    box.size.w = PIXELS_PER_METER;
-    box.size.h = PIXELS_PER_METER;
-}
+// void updateBox(BoxInfo& box, ProtBox prot){
+//     box.pos.x = Math::ruleOfThree(prot.x, 1.0, PIXELS_PER_METER);
+//     box.pos.y = Math::ruleOfThree(prot.y, 1.0, PIXELS_PER_METER);
+//     box.size.w = PIXELS_PER_METER;
+//     box.size.h = PIXELS_PER_METER;
+// }
 
 void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
 
@@ -109,6 +109,13 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
     }
 }
 
+void translateRect(BoxInfo& box, RectArea rect){
+    box.pos.x = Math::ruleOfThree(rect.x, 1.0, PIXELS_PER_METER);
+    box.pos.y = Math::ruleOfThree(rect.y, 1.0, PIXELS_PER_METER);
+    box.size.w = Math::ruleOfThree(rect.width, 1.0, PIXELS_PER_METER);
+    box.size.h = Math::ruleOfThree(rect.height, 1.0, PIXELS_PER_METER);
+}
+
 
 void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, LevelInfo& level){
     
@@ -116,9 +123,29 @@ void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, Le
     level.height = map.height*PIXELS_PER_METER;
 
     BoxInfo box;
-    for (ProtBox prot : map.boxes) {
-        updateBox(box, prot);
-        level.boxes.emplace_back(box);
+    for (auto it = map.bombSites.begin(); it != map.bombSites.end(); it++) {
+        translateRect(box, *it);
+        level.bombSites.push_back(box);
+    }
+
+    for (auto it = map.spawnSites.begin(); it != map.spawnSites.end(); it++) {
+        translateRect(box, *it);
+        level.spawnSites.push_back(box);
+    }
+
+
+    int maxRow = map.height;
+    int maxCol = map.length;
+
+    TileInfo tile;
+    tile.size.w = PIXELS_PER_METER;
+    tile.size.h = PIXELS_PER_METER;
+
+    for(int i = 0; i < map.tiles.size(); i++){
+        tile.id = map.tiles[i];
+        tile.pos.x = (i%map.length)*PIXELS_PER_METER; 
+        tile.pos.y = (i/map.height)*PIXELS_PER_METER; 
+        level.tiles.push_back(tile);
     }
 
     updatedLevel(model, level);
