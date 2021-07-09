@@ -1,0 +1,33 @@
+Player:
+  speed: 6
+
+Weapons:
+  Knife:
+    damage: 10
+    speed: 1 
+  Pistol:
+    maxDamage: 15
+    minDamage: 25
+    spread: 0.1
+    falloff: 0
+    speed: 0.7 #Tiempo entre disparos
+  Rifle:
+    maxDamage: 22
+    minDamage: 18
+    spread: 0.1
+    falloff: 0
+    burstTime: 1 #Tiempo entre disparos de la misma ráfaga
+    speed: 1 #Tiempo entre ráfagas
+  Sniper:
+    maxDamage: 90
+    minDamage: 120
+    spread: 0.05
+    falloff: 0
+    speed: 2.5 #Tiempo entre disparos
+  Shotgun:
+    bullets: 10
+    maxDamage: 20
+    minDamage: 15
+    spread: 0.4
+    falloff: 0
+    speed: 2 #Tiempo entre disparos
