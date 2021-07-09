@@ -3,14 +3,9 @@
 
 #include "Weapon.h"
 
-#define PISTOL_MAX_DAMAGE 15
-#define PISTOL_MIN_DAMAGE 25
-#define PISTOL_SPREAD 0.1
-#define PISTOL_FALLOFF 0.2
-
 class Pistol: public Weapon{
     public:
-        explicit Pistol(World *world);
+        explicit Pistol(World *world, GameConfig &config);
 };
 
 #endif

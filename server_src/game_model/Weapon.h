@@ -4,6 +4,9 @@
 #include "World.h"
 #include "Player.h"
 #include "../../common_src/WeaponType.h"
+#include "GameConfig.h"
+#include <map>
+#include <string>
 
 class Player;
 class World;
@@ -12,16 +15,12 @@ class Weapon{
     protected:
         Player *owner;
         World *world;
-        float maxDamage;
-        float minDamage;
-        float spread;
-        float damageFalloff;
-
         WeaponType type;
+        std::map<std::string, float> config;
 
         virtual float calculateDamage(float distance);
     public:
-        Weapon(World *world, float maxDamage, float minDamage, float spread, float damageFalloff, WeaponType type);
+        Weapon(World *world, GameConfig &config, WeaponType type);
         void changeOwner(Player *newOwner);
         World *getWorld();
         WeaponType getType();

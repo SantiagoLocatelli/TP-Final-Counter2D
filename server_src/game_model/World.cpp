@@ -31,7 +31,7 @@ void World::createPlayer(){
     } while (checker.areaHasEntities(b2Vec2(start_x-0.5, start_y-0.5)
     , b2Vec2(start_x+0.5, start_y+0.5)));
 
-    players.emplace_back(std::move(Player(*this, start_x, start_y)));
+    players.emplace_back(std::move(Player(*this, start_x, start_y, config)));
 }
 
 std::vector<Player> &World::getPlayers(){

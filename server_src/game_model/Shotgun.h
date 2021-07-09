@@ -12,7 +12,7 @@
 
 class Shotgun: public Weapon{
     public:
-        explicit Shotgun(World *world);
+        explicit Shotgun(World *world, GameConfig &config);
         void toggle() override;
 };
 

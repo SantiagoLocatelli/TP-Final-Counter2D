@@ -12,6 +12,7 @@
 #include "Ray.h"
 #include "Drop.h"
 #include "CollisionHandler.h"
+#include "GameConfig.h"
 
 class Drop;
 class Player;
@@ -24,9 +25,10 @@ class World{
         std::list<Ray> bullets;
         int player_number;
         CollisionHandler collisionHandler;
-        std::list<b2Body*> bodiesToDestroy;        
+        std::list<b2Body*> bodiesToDestroy; 
 
     public:
+        GameConfig config;       
         b2World b2world;
 
         World(int grid_length, int grid_height);

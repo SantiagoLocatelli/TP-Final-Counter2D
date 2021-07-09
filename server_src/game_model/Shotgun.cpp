@@ -1,10 +1,10 @@
 #include "Shotgun.h"
 
-Shotgun::Shotgun(World *world):Weapon(world, SHOTGUN_MAX_DAMAGE, SHOTGUN_MIN_DAMAGE, SHOTGUN_SPREAD, SHOTGUN_FALLOFF, SHOTGUN){}
+Shotgun::Shotgun(World *world, GameConfig &config):Weapon(world, config, SHOTGUN){}
 
 
 void Shotgun::toggle(){
-    for (int i = 0; i < SHOTGUN_BULLETS; i++){
+    for (int i = 0; i < config["bullets"]; i++){
         shootBullet();
     }
 }

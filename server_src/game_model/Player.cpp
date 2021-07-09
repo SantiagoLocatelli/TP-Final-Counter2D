@@ -5,9 +5,9 @@
 #include <iostream>
 #include <utility>
 
-Player::Player(World &world, float start_x, float start_y)
+Player::Player(World &world, float start_x, float start_y, GameConfig &config)
 :health(100), angle(0), world(world), dead(false), shooting(false)
-, weapon(new Pistol(&world)){
+, weapon(new Pistol(&world, config)), speed(config.getPlayer()["speed"]){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -69,7 +69,7 @@ void Player::updateVelocity(){
         new_imp.x += 1;
 
     new_imp.Normalize();
-    new_imp *= 6; //TODO: Aca se elige la velocidad del jugador
+    new_imp *= speed;
     body->SetLinearVelocity(new_imp);
 }
 
