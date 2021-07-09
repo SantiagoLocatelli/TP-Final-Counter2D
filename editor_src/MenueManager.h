@@ -12,7 +12,7 @@
 #include "../common_src/Sdl/draggable.h"
 class MenueManager{
     private:
-        std::vector<int> mapSize;
+        std::vector<float> mapSize;
         SdlRenderer& renderer;
         TextureMap textureMap;
         std::string mapID;
@@ -30,15 +30,17 @@ class MenueManager{
         void handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera);
         void handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera);
         void fillSize(std::vector<SDL_Rect>& vector);
-        void changeSizeOfSites(std::vector<int>& vector);
+        void changeSizeOfSites(std::vector<float>& vector);
         void changeTexture(const int& type, const SDL_Rect& camera);
         void changeMapSize(const int& width, const int& height);
+        void changeToMeters(std::vector<SDL_Rect>& vector);
 
         int getMapWidth();
         int getMapHeight();
         int getTextureMapSize();
         int getTexturesSize();
         std::string getTypeName(const int& type);
+        int getTileSize();
         
 };
 #endif

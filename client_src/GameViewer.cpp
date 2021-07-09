@@ -1,5 +1,6 @@
 #include "GameViewer.h"
 #include <cstdio>
+#include "../../common_src/TextureMap.h"
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -27,7 +28,7 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     loadTexturesWeapons();
     loadSoundsEffects();
     loadSkins();
-    loadMap();
+    loadTiles();
 
     WeaponType mainType = level.mainPlayer.weapon.type;
     printf("size  1 w: %i, h: %i\n", level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
@@ -63,18 +64,50 @@ GameViewer::~GameViewer(){
         this->weaponOnPj.clear();
     }
 
-    if (!this->textures.empty()) {
-        for(auto it = this->textures.begin(); it != this->textures.end(); it++) {
+    if (!this->tiles.empty()) {
+        for(auto it = this->tiles.begin(); it != this->tiles.end(); it++) {
             SdlTexture* aux = it->second;
             delete aux;
         }
-        this->textures.clear();
+        this->tiles.clear();
     }
 }
 
 
 void GameViewer::loadSkins(){
     this->skins[CT] = new SdlTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b);
+}
+
+
+bool isInVector(std::vector<uint8_t> vector, uint8_t element) {
+    int max = (int) vector.size();
+    int i = 0;
+    bool foundIt = false;
+    while (i < max && !foundIt) {
+        foundIt = (vector[i] == element);
+        i++;
+    }
+    return foundIt;
+}
+
+void selectDistinct(std::vector<TileInfo> tiles, std::vector<uint8_t>& distinctTiles) {
+    for (TileInfo tile : tiles) {
+        if (!isInVector(distinctTiles, tile.id)) {
+            distinctTiles.push_back(tile.id);
+        }
+    }
+}
+
+void GameViewer::loadTiles(){
+    std::vector<uint8_t> distinctTiles;
+    TextureMap textureMap;
+
+    selectDistinct(level.tiles, distinctTiles);
+    
+    for (uint8_t tile : distinctTiles) {
+        this->tiles[tile] = new SdlTexture(this->renderer, textureMap[tile].texturePath); 
+    }
+
 }
 
 void GameViewer::loadSoundsEffects(){
@@ -86,7 +119,6 @@ void GameViewer::loadSoundsEffects(){
     this->shot[BOMB] = SoundEffect("../../common_src/sound/weapons/c4.wav");
     this->shot[SHOTGUN] = SoundEffect("../../common_src/sound/weapons/xm1014.wav");
     // this->shot[DEFUSER] = SoundEffect("../../common_src/sound/weapons/.wav");
-
 
     this->playerEffects[DYING] = SoundEffect("../../common_src/sound/player/die.wav");
     this->playerEffects[DROPPING] = SoundEffect("../../common_src/sound/player/drop.wav");
@@ -126,10 +158,6 @@ void GameViewer::loadTexturesWeapons(){
     this->weaponOnHud[BOMB] = new SdlTexture(this->renderer, "../../common_src/img/weapons/bomb_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
-void GameViewer::loadMap() {
-    this->textures[BACKGROUND] = new SdlTexture(this->renderer, "../../common_src/img/bg.png");
-    this->textures[BOX] = new SdlTexture(this->renderer, "../../common_src/img/green_crate.bmp");
-}
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordenada cam) {
@@ -154,9 +182,12 @@ void GameViewer::renderWeapons(Coordenada cam){
 }
 
 void GameViewer::renderMap(Coordenada cam){
-    this->textures[BACKGROUND]->render(0, 0, this->level.width, this->level.height);
-    for (BoxInfo box : this->level.boxes){
-        this->textures[BOX]->render(box.pos.x - cam.x, box.pos.y - cam.y, box.size.w, box.size.h);
+    int max = (int)this->level.tiles.size();
+    for (int i = 0; i < max; i++) {
+        uint8_t tile = this->level.tiles[i].id;
+        Coordenada pos = this->level.tiles[i].pos;
+        Size size = this->level.tiles[i].size;
+        this->tiles[tile]->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
     }
 }
 

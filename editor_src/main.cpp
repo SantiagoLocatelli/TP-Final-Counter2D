@@ -17,11 +17,6 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-//The dimensions of the level
-const int LEVEL_WIDTH = 1280;
-const int LEVEL_HEIGHT = 960;
-
-
 template<typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
@@ -32,7 +27,7 @@ int main(int argc, char* args[]){
     SdlWindow window("Editor", 640, 480);
     SdlRenderer renderer(&window);
 
-    MenueManager menueManager(renderer, "../../common_src/maps/map.yaml", SCREEN_WIDTH, SCREEN_HEIGHT);
+    MenueManager menueManager(renderer, "../../common_src/maps/mapaMetros.yaml", SCREEN_WIDTH, SCREEN_HEIGHT);
 
     std::stack<std::unique_ptr<Presenter>> presenter;
     

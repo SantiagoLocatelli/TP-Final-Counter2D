@@ -66,11 +66,24 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
     send_short(mapInfo.height);
     send_short(mapInfo.length);
 
-    //Envío el largo de la lista
-    send_short(mapInfo.boxes.size());
-    for (ProtBox b: mapInfo.boxes){
-        send_short(b.x);
-        send_short(b.y);
+    for (int i = 0; i < mapInfo.height*mapInfo.length; i++){
+        send_byte(mapInfo.tiles[i]);
+    }
+
+    send_short(mapInfo.bombSites.size());
+    for (const RectArea &r: mapInfo.bombSites){
+        send_float(r.x);
+        send_float(r.y);
+        send_float(r.height);
+        send_float(r.width);
+    }
+
+    send_short(mapInfo.spawnSites.size());
+    for (const RectArea &r: mapInfo.spawnSites){
+        send_float(r.x);
+        send_float(r.y);
+        send_float(r.height);
+        send_float(r.width);
     }
 }
 
@@ -78,15 +91,33 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
     recv_short(mapInfo.height);
     recv_short(mapInfo.length);
 
-    //Envío el largo de la lista
+    for (int i = 0; i < mapInfo.height*mapInfo.length; i++){
+        uint8_t tile;
+        recv_byte((char &)tile);
+        mapInfo.tiles.push_back(tile);
+    }
+
     uint16_t len;
     recv_short(len);
-    mapInfo.boxes.clear();
+    mapInfo.bombSites.clear();
     for (int i = 0; i < len; i++){
-        ProtBox b;
-        recv_short(b.x);
-        recv_short(b.y);
-        mapInfo.boxes.push_back(b);
+        RectArea r;
+        recv_float(r.x);
+        recv_float(r.y);
+        recv_float(r.height);
+        recv_float(r.width);
+        mapInfo.bombSites.push_back(r);
+    }
+
+    recv_short(len);
+    mapInfo.spawnSites.clear();
+    for (int i = 0; i < len; i++){
+        RectArea r;
+        recv_float(r.x);
+        recv_float(r.y);
+        recv_float(r.height);
+        recv_float(r.width);
+        mapInfo.spawnSites.push_back(r);
     }
 }
 

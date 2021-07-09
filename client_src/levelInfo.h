@@ -2,6 +2,7 @@
 #define __LEVEL_INFO_H__
 
 #include <list>
+#include <vector>
 #include "../../common_src/ModelInfo.h"
 
 struct Coordenada {
@@ -51,20 +52,24 @@ struct BulletInfo {
     Coordenada dst;
 };
 
+struct TileInfo {
+    uint8_t id;
+    Coordenada pos;
+    Size size;
+};
+
 struct LevelInfo{
     int height;
     int width;
     
+    std::vector<TileInfo> tiles;
+    std::list<BoxInfo> bombSites;
+    std::list<BoxInfo> spawnSites;
+
     MainPlayerInfo mainPlayer;
-
-    std::list<BoxInfo> boxes;
-
     std::list<DropInfo> drops;
-
     std::list<PlayerInfo> players;
-
     std::list<BulletInfo> bullets;
-
 };
 
 #endif
