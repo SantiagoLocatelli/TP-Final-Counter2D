@@ -92,7 +92,9 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
     recv_short(mapInfo.length);
 
     for (int i = 0; i < mapInfo.height*mapInfo.length; i++){
-        recv_byte((char &)mapInfo.tiles[i]);
+        uint8_t tile;
+        recv_byte((char &)tile);
+        mapInfo.tiles.push_back(tile);
     }
 
     uint16_t len;
