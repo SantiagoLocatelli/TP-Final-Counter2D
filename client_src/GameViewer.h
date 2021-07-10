@@ -3,16 +3,14 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
-#include "../common_src/Sdl/sdl_mixer.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
 #include "Character/camera.h"
+#include "TextureManager.h"
 #include "SoundEffects.h"
 #include <string>   
-#include <vector>
 #include <list>
-#include <map>
 
 class GameViewer{
 
@@ -21,18 +19,11 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     SoundEffects sounds;
+    TextureManager textureManager;
 
     Camera cam;
 
     LevelInfo level;
-
-    std::map<SkinType, SdlTexture*> skins;
-    std::map<WeaponType, SdlTexture*> weaponOnPj;
-    std::map<WeaponType, SdlTexture*> animWeaponOnPj;
-    std::map<WeaponType, SdlTexture*> weaponsOnFloor;
-    std::map<WeaponType, SdlTexture*> weaponOnHud;
-    std::map<uint8_t, SdlTexture*> tiles;
-
 
     ParticleBullets bullet;
     std::list<Character> players;
@@ -47,9 +38,7 @@ private:
     void renderMap(Coordenada cam);
     void renderHud();
     
-    void loadTexturesWeapons();
     void loadSkins();
-    void loadTiles();
 
 public:
 
