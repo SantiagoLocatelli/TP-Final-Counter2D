@@ -23,6 +23,16 @@ void GameThread::run(){
     for (std::unique_ptr<ClientManager> &cli: clients){
         cli->start();
     }
+
+    //TODO: Quiero ver si esto arregla el problema del lag. Funciona!!
+    auto model = std::make_shared<CompleteModelInfo>(std::move(game.getModelInfo()));
+    for (ModelQueue &queue : modelQueues){
+        queue.push(model);
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(2)); 
+
+
     try{
         
         Stopwatch stopwatch;
