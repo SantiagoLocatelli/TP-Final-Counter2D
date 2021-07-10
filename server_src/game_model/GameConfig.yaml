@@ -3,7 +3,7 @@ Player:
 
 Weapons:
   Knife:
-    damage: 10
+    damage: 15
     speed: 1 
   Pistol:
     maxDamage: 15
@@ -13,6 +13,7 @@ Weapons:
     speed: 0.7 #Tiempo entre disparos
     capacity: 2 #Balas por recarga
     reloadTime: 2
+    maxRange: 100
   Rifle:
     maxDamage: 22
     minDamage: 18
@@ -22,6 +23,7 @@ Weapons:
     speed: 1 #Tiempo entre ráfagas
     capacity: 30 #Balas por recarga
     reloadTime: 3
+    maxRange: 100
   Sniper:
     maxDamage: 90
     minDamage: 120
@@ -30,6 +32,7 @@ Weapons:
     speed: 2.5 #Tiempo entre disparos
     capacity: 5 #Balas por recarga 
     reloadTime: 5
+    maxRange: 100
   Shotgun:
     bullets: 10
     maxDamage: 20
@@ -39,3 +42,4 @@ Weapons:
     speed: 2 #Tiempo entre disparos
     capacity: 5
     reloadTime: 3
+    maxRange: 100

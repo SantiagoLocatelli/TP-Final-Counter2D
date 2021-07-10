@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "Pistol.h"
 #include "../../common_src/GeneralException.h"
+#include "Pistol.h"
 #include <cmath>
 #include <iostream>
 #include <utility>

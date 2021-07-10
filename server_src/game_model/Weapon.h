@@ -16,8 +16,8 @@ class Weapon{
         Player *owner;
         World *world;
         WeaponType type;
-        int bullets;
         std::map<std::string, float> config;
+        int bullets;
 
         virtual float calculateDamage(float distance);
     public:
