@@ -22,6 +22,7 @@ void SoundEffects::loadPlayerSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         PlayerEffect effect = (PlayerEffect)sound.second;
         this->playerEffects[effect] = Mix_LoadWAV(sound.first.c_str());
+        this->playerEffects[effect]->volume = 64;
         i++;
     }
 }
@@ -34,6 +35,7 @@ void SoundEffects::loadWeaponSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         WeaponEffect effect = (WeaponEffect)sound.second;
         this->weaponsEffects[effect] = Mix_LoadWAV(sound.first.c_str());
+        this->weaponsEffects[effect]->volume = 64;
         i++;
     }
 }

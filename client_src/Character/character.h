@@ -31,6 +31,7 @@ class Character{
 		bool isDead();
 		float getDegrees();
 		WeaponType getWeaponType();
+		PlayerInfo getInfo();
 
 		Character& operator=(const Character&);
 		Character(const Character& other);

@@ -176,8 +176,17 @@ void GameViewer::renderPlayers(Coordenada cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
             it->render(cam.x, cam.y);
+
+            PlayerInfo player = it->getInfo();
+            for (PlayerEffect effect : player.sounds) {
+                this->sounds.playPlayerSound(effect);
+            }
+            if (player.shooting) {
+                this->sounds.playWeaponSound(player.weapon.sound);
+            }
         }
     }
+    
 }
 
 void GameViewer::renderShots(Coordenada cam){
@@ -242,8 +251,6 @@ void GameViewer::update(LevelInfo level){
     this->level = level;
 
     WeaponType mainType = level.mainPlayer.weapon.type;
-    // printf("tipo 1: %i\n", mainType);
-    // printf("size  1 w: %i, h: %i\n",level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
 
     Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size);
     this->mainPlayer->update(level.mainPlayer, mainWeapon);
@@ -262,8 +269,6 @@ void GameViewer::update(LevelInfo level){
     for (PlayerInfo player : this->level.players) {
         if (!player.dead && it != end) {
             WeaponType type = player.weapon.type;
-            // printf("tipo 2: %i\n", type);
-            // printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
             Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size);
             it->update(player, weapon);
         }

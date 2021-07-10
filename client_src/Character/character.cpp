@@ -25,7 +25,6 @@ SDL_Rect Character::getSourceTexture(){
 void Character::render(int camX, int camY){
     SDL_Rect dst = {this->player.pos.x - camX - this->player.size.w/2, this->player.pos.y - camY - this->player.size.h/2, this->player.size.w, this->player.size.h};
     SDL_Rect src = getSourceTexture();
-    if (this->player.shooting) printf("te voy aromper toda la geta\n");
     
     this->weapon.render({camX, camY}, this->player.degrees, this->player.shooting);
     this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, this->player.degrees + PHASE_SHIFT);
@@ -53,6 +52,7 @@ int Character::getPosY(){return this->player.pos.y;}
 int Character::getPosX(){return this->player.pos.x;}
 SDL_Rect Character::getRect(){return {this->player.pos.x, this->player.pos.x, this->player.size.w, this->player.size.h};}
 float Character::getDegrees(){return this->player.degrees;}
+PlayerInfo Character::getInfo(){return this->player;}
 
 // Character& Character::operator=(Character&& other){
 //     this->texture = other.texture;

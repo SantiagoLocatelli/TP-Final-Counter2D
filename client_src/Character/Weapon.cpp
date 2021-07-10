@@ -12,8 +12,8 @@ Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
 
 void Weapon::render(Coordenada cam, float degrees, bool animated){
     this->weapon.render(this->info.pos.x - this->info.size.w/2 - cam.x, this->info.pos.y - this->info.size.h/2 - cam.y, this->info.size.w, this->info.size.h, NULL, degrees + 90.0);
+    
     if (animated) {
-        // this->soundEffect.play(0);  
         this->anim.render(this->info.pos.x - this->info.size.w/2 - cam.x, this->info.pos.y - this->info.size.h/2 - cam.y, this->info.size.w, this->info.size.h,NULL, degrees);
     } 
 }
