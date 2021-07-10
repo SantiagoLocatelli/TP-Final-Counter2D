@@ -11,7 +11,7 @@ Weapons:
     spread: 0.1
     falloff: 0
     speed: 0.7 #Tiempo entre disparos
-    capacity: 2 #Balas por recarga
+    capacity: 10 #Balas por recarga
     reloadTime: 2
     maxRange: 100
   Rifle:

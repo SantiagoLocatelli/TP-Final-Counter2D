@@ -162,7 +162,6 @@ void GameViewer::loadTexturesWeapons(){
     this->weaponsOnFloor[SNIPER] = new SdlTexture(this->renderer, "../../common_src/img/weapons/awp_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
     this->weaponsOnFloor[RIFLE] = new SdlTexture(this->renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
     this->weaponsOnFloor[BOMB] = new SdlTexture(this->renderer, "../../common_src/img/weapons/bomb_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-}
 
     this->weaponOnHud[PISTOL] = new SdlTexture(this->renderer, "../../common_src/img/weapons/glock_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
     this->weaponOnHud[SNIPER] = new SdlTexture(this->renderer, "../../common_src/img/weapons/awp_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
