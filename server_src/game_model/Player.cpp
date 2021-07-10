@@ -51,7 +51,7 @@ Player::Player(Player&& other): world(other.world){
 
     this->movement = std::move(other.movement);
     
-    for (int i = 0; i < other.weapons.size(); i++){
+    for (size_t i = 0; i < other.weapons.size(); i++){
         if (other.weapons[i] != nullptr){
             other.weapons[i]->changeOwner(this);
         }
@@ -148,7 +148,7 @@ Player::~Player(){
 
 void Player::dropWeapon(){
     if (currentWeapon != KNIFE_SLOT){ //El cuchillo no se puede tirar
-        //Lo quiero tirar frente al jugador
+        //TODO: Arreglar los dropeos para que sean consistentes en la distancia
         float x_pos = body->GetPosition().x + std::cos(angle);
         float y_pos = body->GetPosition().y + std::sin(angle);
         new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
