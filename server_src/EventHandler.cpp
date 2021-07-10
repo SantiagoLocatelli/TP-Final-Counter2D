@@ -17,12 +17,20 @@ void EventHandler::executeEvent(Event event, int id){
     case TOGGLE_WEAPON:
         game.toggleWeapon(id);
         break;
+    
+    case RELOAD_WEAPON:
+        game.reloadWeapon(id);
+        break;
 
-    case CREATE_PLAYER:
-        game.createPlayer();
+    case CHANGE_WEAPON:
+        game.changeWeapon(id, event.info.slot);
+        break;
+    
+    case DROP_WEAPON:
+        game.dropWeapon(id);
         break;
 
     default:
-    break;
+        break;
     }
 }

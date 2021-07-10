@@ -1,6 +1,6 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "game_model/Sniper.h"
+#include "game_model/Shotgun.h"
 #include <utility>
 
 #include <list>
@@ -24,7 +24,7 @@ GameProxy::GameProxy(const std::string &yaml_path){
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 
-    world->addDrop(new Sniper(world), 5.5f, 5.5f);
+    world->addDrop(new Shotgun(world, world->config), 5.5f, 5.5f);
 }
 
 MapInfo GameProxy::getMapInfo(){
@@ -92,6 +92,19 @@ void GameProxy::setAngle(int id, float angle){
 void GameProxy::toggleWeapon(int id){
     world->getPlayers()[id].toggleWeapon();
 }
+
+void GameProxy::reloadWeapon(int id){
+    world->getPlayers()[id].reloadWeapon();
+}
+
+void GameProxy::changeWeapon(int id, WeaponSlot slot){
+    world->getPlayers()[id].changeWeapon(slot);
+}
+
+void GameProxy::dropWeapon(int id){
+    world->getPlayers()[id].dropWeapon();
+}
+
 
 bool GameProxy::ended(){
     int alive_players = 0;

@@ -12,6 +12,7 @@
 #include "Ray.h"
 #include "Drop.h"
 #include "CollisionHandler.h"
+#include "GameConfig.h"
 
 class Drop;
 class Player;
@@ -24,16 +25,18 @@ class World{
         std::list<Ray> bullets;
         int player_number;
         CollisionHandler collisionHandler;
-        std::list<b2Body*> bodiesToDestroy;        
+        std::list<b2Body*> bodiesToDestroy; 
 
     public:
+        GameConfig config;       
         b2World b2world;
 
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
         void createPlayer();
         void step();
-        bool rayCast(Ray &ray, Hittable *&hittable);
+        float rayCast(Ray ray, Hittable *&hittable);
+        std::list<Hittable *> &hittablesInArea(float x, float y, float heigth, float length);
 
         void deleteBody(b2Body *body);
         std::vector<Player> &getPlayers();

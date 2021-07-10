@@ -3,7 +3,10 @@
 
 #include "World.h"
 #include "Player.h"
-#include "../../common_src/WeaponType.h"
+#include "../../common_src/WeaponUtils.h"
+#include "GameConfig.h"
+#include <map>
+#include <string>
 
 class Player;
 class World;
@@ -12,17 +15,21 @@ class Weapon{
     protected:
         Player *owner;
         World *world;
-        float damage;
         WeaponType type;
+        WeaponSlot slot;
+        std::map<std::string, float> config;
+        int bullets;
 
-        virtual float calculateDamage(float distance) = 0;
+        virtual float calculateDamage(float distance);
     public:
-        Weapon(World *world, float damage, WeaponType type);
+        Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot);
         void changeOwner(Player *newOwner);
         World *getWorld();
         WeaponType getType();
-        virtual void toggle() = 0;
-        void shootBullet(float spread);
+        WeaponSlot getSlot();
+        virtual void toggle();
+        virtual void reload();
+        void shootBullet();
         virtual ~Weapon() = default;
 };
 
