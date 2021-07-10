@@ -10,7 +10,7 @@ SoundEffects::SoundEffects(){
         sprintf(err, "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
         throw GeneralException(err);
     }
-
+    Mix_Volume(-1, 64);
     loadPlayerSounds();
     loadWeaponSounds();
 }
@@ -22,7 +22,7 @@ void SoundEffects::loadPlayerSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         PlayerEffect effect = (PlayerEffect)sound.second;
         this->playerEffects[effect] = Mix_LoadWAV(sound.first.c_str());
-        this->playerEffects[effect]->volume = 64;
+        Mix_VolumeChunk(this->playerEffects[effect], 64);
         i++;
     }
 }
@@ -35,18 +35,18 @@ void SoundEffects::loadWeaponSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         WeaponEffect effect = (WeaponEffect)sound.second;
         this->weaponsEffects[effect] = Mix_LoadWAV(sound.first.c_str());
-        this->weaponsEffects[effect]->volume = 64;
+        Mix_VolumeChunk(this->weaponsEffects[effect], 64);
         i++;
     }
 }
 
 
 void SoundEffects::playPlayerSound(PlayerEffect effect){
-    Mix_PlayChannel(-1, this->playerEffects[effect], 0);
+    Mix_PlayChannel(-1, this->playerEffects[effect], 1);
 }
 
 void SoundEffects::playWeaponSound(WeaponEffect effect){
-    Mix_PlayChannel(-1, this->weaponsEffects[effect], 0);
+    Mix_PlayChannel(-1, this->weaponsEffects[effect], 1);
 }
 
 
