@@ -44,8 +44,8 @@ void Presenter::createMap(){
     this->menueManager.createMap();
 }
 
-void Presenter::editMap(){
-    this->menueManager.editMap();
+void Presenter::editMap(const std::string& mapID){
+    this->menueManager.editMap(mapID);
 }
 
 SDL_Rect Presenter::getCameraBox(){

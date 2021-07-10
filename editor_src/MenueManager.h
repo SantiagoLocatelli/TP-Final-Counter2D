@@ -35,7 +35,7 @@ class MenueManager{
         void changeMapSize(const int& width, const int& height);
         void changeToMeters(std::vector<SDL_Rect>& vector);
         void createMap();
-        void editMap();
+        void editMap(const std::string& mapID);
 
         int getMapWidth();
         int getMapHeight();

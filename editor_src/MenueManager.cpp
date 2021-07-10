@@ -31,9 +31,9 @@ void MenueManager::createMap(){
     this->mapID = "../../common_src/maps/mapaDePrueba.yaml";
 }
 
-void MenueManager::editMap(){
+void MenueManager::editMap(const std::string& mapID){
     TextureFactory factory;
-    this->mapID = "../../common_src/maps/mapaMetros.yaml";
+    this->mapID = mapID;
     factory.unmarshalMap(mapID.c_str(), this->textureMap, this->textures, this->mapSize, this->renderer);
     factory.unmarshalBombSites(mapID.c_str(), this->bombSites, this->renderer, TILE_SIZE);
     factory.unmarshalSpawnSites(mapID.c_str(), this->spawnSites, this->renderer, TILE_SIZE);

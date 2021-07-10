@@ -29,7 +29,7 @@ class Presenter{
         void renderTextures();
         void changeTexture(const int& type);
         void createMap();
-        void editMap();
+        void editMap(const std::string& mapID);
 
         SDL_Rect getCameraBox();
         int getMapWidth();
