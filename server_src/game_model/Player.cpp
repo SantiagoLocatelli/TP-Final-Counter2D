@@ -40,6 +40,7 @@ Player::Player(Player&& other): world(other.world){
     this->dead = other.dead;
     this->angle = other.angle;
     this->speed = other.speed;
+    this->shooting = other.shooting;
 
     this->movement = std::move(other.movement);
 
