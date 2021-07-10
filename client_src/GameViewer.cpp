@@ -240,7 +240,7 @@ void GameViewer::render(){
     renderPlayers(cam);
     renderWeapons(cam);
     renderMainPlayer(cam);
-    renderHud();
+    //renderHud();
 
     renderer.updateScreen();
 }
