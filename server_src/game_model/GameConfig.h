@@ -1,7 +1,7 @@
 #ifndef _GAME_CONFIG_H_
 #define _GAME_CONFIG_H_
 
-#include "../../common_src/WeaponType.h"
+#include "../../common_src/WeaponUtils.h"
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <map>

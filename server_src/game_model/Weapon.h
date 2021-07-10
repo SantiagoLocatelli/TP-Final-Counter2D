@@ -3,7 +3,7 @@
 
 #include "World.h"
 #include "Player.h"
-#include "../../common_src/WeaponType.h"
+#include "../../common_src/WeaponUtils.h"
 #include "GameConfig.h"
 #include <map>
 #include <string>

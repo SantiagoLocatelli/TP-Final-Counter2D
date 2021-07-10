@@ -3,7 +3,7 @@
 
 #include <list>
 #include <stdint.h>
-#include "WeaponType.h"
+#include "WeaponUtils.h"
 
 struct Position{
     float x;

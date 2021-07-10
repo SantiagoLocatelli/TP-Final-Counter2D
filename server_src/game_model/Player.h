@@ -7,7 +7,7 @@
 #include "../../common_src/Direction.h"
 #include "Hittable.h"
 #include "Weapon.h"
-#include "../../common_src/WeaponType.h"
+#include "../../common_src/WeaponUtils.h"
 #include "GameConfig.h"
 
 class World;
@@ -25,6 +25,7 @@ class Player: public Hittable{
         std::array<bool, 4> movement;
         Weapon *weapon; //Tiene que ser un puntero por cosas de forward delcaration
         float speed;
+
 
     public:
         Player(World &world, float start_x, float start_y, GameConfig &config);
@@ -48,6 +49,7 @@ class Player: public Hittable{
         //Inventario
         void dropWeapon();
         void takeWeapon(Weapon *weapon);
+        void changeWeapon(WeaponSlot slot);
 
         ~Player();
 
