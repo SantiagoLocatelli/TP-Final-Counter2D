@@ -134,14 +134,12 @@ void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, Le
     }
 
 
-    int maxRow = map.height;
-    int maxCol = map.length;
-
     TileInfo tile;
     tile.size.w = PIXELS_PER_METER;
     tile.size.h = PIXELS_PER_METER;
 
-    for(int i = 0; i < map.tiles.size(); i++){
+    int max = (int)map.tiles.size();
+    for(int i = 0; i < max; i++){
         tile.id = map.tiles[i];
         tile.pos.x = (i%map.length)*PIXELS_PER_METER; 
         tile.pos.y = (i/map.height)*PIXELS_PER_METER; 

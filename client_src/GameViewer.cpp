@@ -4,12 +4,13 @@
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
-#define PATH_TEXTURE "../../common_src/img/players/ct1.bmp"
+#define PATH_CT1 "../../common_src/img/players/ct1.bmp"
+#define PATH_FONT "../../common_src/img/digital-7.ttf"
 #define SIZE_CROSSHAIR 25
 #define BOX "BOX"
 #define BACKGROUND "BG"
 #define SIZE_KNIFE 35
-#define MARGIN 50
+#define MARGIN 15
 
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
@@ -19,7 +20,7 @@ const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
-    ttf(renderer, "../../common_src/img/digital-7.ttf", 50),
+    // ttf(renderer, "../../common_src/img/digital-7.ttf", 50),
     cam(window_w, window_h),
     level(level),
     bullet(renderer){
@@ -32,7 +33,7 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
 
     WeaponType mainType = level.mainPlayer.weapon.type;
     printf("size  1 w: %i, h: %i\n", level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
-    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, this->shot[mainType]);
+    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, *(this->shot[mainType]));
     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->skins[CT]), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window_w, window_h)), mainWeapon);
@@ -41,7 +42,7 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
         //crear cuchillo y cargarlo al personaje
         WeaponType type = player.weapon.type;
         printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
-        Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, this->shot[type]);
+        Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, *(this->shot[type]));
         this->players.push_back(std::move(Character(player, *(this->skins[CT]), weapon)));
     }
 }
@@ -71,11 +72,51 @@ GameViewer::~GameViewer(){
         }
         this->tiles.clear();
     }
+
+    if (!this->weaponOnHud.empty()) {
+        for(auto it = this->weaponOnHud.begin(); it != this->weaponOnHud.end(); it++) {
+            SdlTexture* aux = it->second;
+            delete aux;
+        }
+        this->weaponOnHud.clear();
+    }
+
+    if (!this->animWeaponOnPj.empty()) {
+        for(auto it = this->animWeaponOnPj.begin(); it != this->animWeaponOnPj.end(); it++) {
+            SdlTexture* aux = it->second;
+            delete aux;
+        }
+        this->animWeaponOnPj.clear();
+    }
+
+    if (!this->skins.empty()) {
+        for(auto it = this->skins.begin(); it != this->skins.end(); it++) {
+            SdlTexture* aux = it->second;
+            delete aux;
+        }
+        this->skins.clear();
+    }
+
+    if (!this->shot.empty()) {
+        for(auto it = this->shot.begin(); it != this->shot.end(); it++) {
+            SoundEffect* aux = it->second;
+            delete aux;
+        }
+        this->shot.clear();
+    }
+
+    if (!this->playerEffects.empty()) {
+        for(auto it = this->playerEffects.begin(); it != this->playerEffects.end(); it++) {
+            SoundEffect* aux = it->second;
+            delete aux;
+        }
+        this->playerEffects.clear();
+    }
 }
 
 
 void GameViewer::loadSkins(){
-    this->skins[CT] = new SdlTexture(this->renderer, PATH_TEXTURE, NEGRO.r, NEGRO.g, NEGRO.b);
+    this->skins[CT] = new SdlTexture(this->renderer, PATH_CT1, NEGRO.r, NEGRO.g, NEGRO.b);
 }
 
 
@@ -112,19 +153,19 @@ void GameViewer::loadTiles(){
 
 void GameViewer::loadSoundsEffects(){
 
-    this->shot[PISTOL] = SoundEffect(PATH_SHOT);
-    this->shot[KNIFE] = SoundEffect("../../common_src/sound/weapons/knife_slash.wav");
-    this->shot[RIFLE] = SoundEffect("../../common_src/sound/weapons/ak47.wav");
-    this->shot[SNIPER] = SoundEffect("../../common_src/sound/weapons/awp.wav");
-    this->shot[BOMB] = SoundEffect("../../common_src/sound/weapons/c4.wav");
-    this->shot[SHOTGUN] = SoundEffect("../../common_src/sound/weapons/xm1014.wav");
-    // this->shot[DEFUSER] = SoundEffect("../../common_src/sound/weapons/.wav");
+    this->shot[PISTOL] = new SoundEffect(PATH_SHOT);
+    this->shot[KNIFE] = new SoundEffect("../../common_src/sound/weapons/knife_slash.wav");
+    this->shot[RIFLE] = new SoundEffect("../../common_src/sound/weapons/ak47.wav");
+    this->shot[SNIPER] = new SoundEffect("../../common_src/sound/weapons/awp.wav");
+    this->shot[BOMB] = new SoundEffect("../../common_src/sound/weapons/c4.wav");
+    this->shot[SHOTGUN] = new SoundEffect("../../common_src/sound/weapons/xm1014.wav");
+    // this->shot[DEFUSER] = new SoundEffect("../../common_src/sound/weapons/.wav");
 
-    this->playerEffects[DYING] = SoundEffect("../../common_src/sound/player/die.wav");
-    this->playerEffects[DROPPING] = SoundEffect("../../common_src/sound/player/drop.wav");
-    this->playerEffects[PICKING_UP] = SoundEffect("../../common_src/sound/player/pickup.wav");
-    this->playerEffects[STEP] = SoundEffect("../../common_src/sound/player/pl_step.wav");
-    // this->playerEffects[DYING] = SoundEffect("../../common_src/sound/player/ .wav");
+    this->playerEffects[DYING] = new SoundEffect("../../common_src/sound/player/die.wav");
+    this->playerEffects[DROPPING] = new SoundEffect("../../common_src/sound/player/drop.wav");
+    this->playerEffects[PICKING_UP] = new SoundEffect("../../common_src/sound/player/pickup.wav");
+    this->playerEffects[STEP] = new SoundEffect("../../common_src/sound/player/pl_step.wav");
+    // this->playerEffects[DYING] = new SoundEffect("../../common_src/sound/player/ .wav");
 }
 
 void GameViewer::loadTexturesWeapons(){
@@ -195,6 +236,18 @@ void GameViewer::renderMainPlayer(Coordenada cam){
     this->mainPlayer->render(cam);
 }
 
+
+void GameViewer::renderHud(){
+    char ammoText[100];
+    sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
+    SDL_Point dst = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
+
+    SdlTexture ammo(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    ammo.setAlpha(100);
+    ammo.setBlendMode(SDL_BLENDMODE_BLEND);
+    ammo.render(dst.x - ammo.getWidth(), dst.y - ammo.getHeight());
+}
+
 void GameViewer::render(){
 
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -207,11 +260,7 @@ void GameViewer::render(){
     renderPlayers(cam);
     renderWeapons(cam);
     renderMainPlayer(cam);
-
-    char ammoText[100];
-    sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    SDL_Point dst = {cam.x + this->cam.getWidth() - MARGIN , cam.y - this->cam.getHeight() - MARGIN};
-    this->ttf.render(ammoText, dst, {HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b});
+    renderHud();
 
     renderer.updateScreen();
 }
@@ -225,7 +274,7 @@ void GameViewer::update(LevelInfo level){
     // printf("tipo 1: %i\n", mainType);
     // printf("size  1 w: %i, h: %i\n",level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
 
-    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, this->shot[mainType]);
+    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size, *(this->shot[mainType]));
     this->mainPlayer->update(level.mainPlayer, mainWeapon);
 
     this->level.drops.clear();
@@ -244,7 +293,7 @@ void GameViewer::update(LevelInfo level){
             WeaponType type = player.weapon.type;
             // printf("tipo 2: %i\n", type);
             // printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
-            Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, this->shot[type]);
+            Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size, *(this->shot[type]));
             it->update(player, weapon);
         }
     }

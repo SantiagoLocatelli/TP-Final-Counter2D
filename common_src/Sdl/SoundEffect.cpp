@@ -6,7 +6,7 @@ SoundEffect::SoundEffect(std::string path) {
     if (this->effect == NULL) {
         throw GeneralException("No se pudo cargar el efecto de sonido: " + path);
     }
-    this->effect->volume = 64;
+    this->effect->volume = 32;
 }
 
 SoundEffect::SoundEffect(){
@@ -37,6 +37,7 @@ SoundEffect& SoundEffect::operator=(const SoundEffect& other){
 
 
 SoundEffect::~SoundEffect(){
+    printf("entre a deletear al efecto de sonido\n");
     if (this->effect != NULL) {
         Mix_FreeChunk(this->effect);
         this->effect = NULL;

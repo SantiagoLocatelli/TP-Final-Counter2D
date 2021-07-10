@@ -22,14 +22,14 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     SdlMixer mixer;
-    SdlTtf ttf;
+    // SdlTtf ttf;
 
     Camera cam;
 
     LevelInfo level;
 
-    std::map<Effect, SoundEffect> playerEffects; 
-    std::map<WeaponType, SoundEffect> shot; 
+    std::map<Effect, SoundEffect*> playerEffects; 
+    std::map<WeaponType, SoundEffect*> shot; 
 
     std::map<SkinType, SdlTexture*> skins;
     std::map<WeaponType, SdlTexture*> weaponOnPj;
@@ -50,6 +50,7 @@ private:
     void renderWeapons(Coordenada cam);
     void renderShots(Coordenada cam);
     void renderMap(Coordenada cam);
+    void renderHud();
     
     void loadTexturesWeapons();
     void loadSoundsEffects();
