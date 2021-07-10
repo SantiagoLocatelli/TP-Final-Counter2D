@@ -23,7 +23,8 @@ class Player: public Hittable{
         bool dead;
         bool shooting;
         std::array<bool, 4> movement;
-        Weapon *weapon; //Tiene que ser un puntero por cosas de forward delcaration
+        std::array<Weapon*, 4> weapons;
+        WeaponSlot currentWeapon;
         float speed;
 
 

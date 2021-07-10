@@ -1,13 +1,13 @@
 #include "Player.h"
 #include "../../common_src/GeneralException.h"
 #include "Pistol.h"
+#include "Knife.h"
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config)
-:health(100), angle(0), world(world), dead(false), shooting(false)
-, weapon(new Pistol(&world, config)), speed(config.getPlayer().at("speed")){
+:health(100), angle(0), world(world), dead(false), shooting(false), speed(config.getPlayer().at("speed")){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -24,7 +24,13 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config)
 
     fixture = body->CreateFixture(&fixtureDef);
 
-    weapon->changeOwner(this);
+    weapons[KNIFE_SLOT] = new Knife(&world, config);
+    weapons[KNIFE_SLOT]->changeOwner(this);
+    weapons[SECONDARY] = new Pistol(&world, config);
+    weapons[SECONDARY]->changeOwner(this);
+    weapons[PRIMARY] = nullptr; //TODO: Ojo, peligroso
+    weapons[BOMB_SLOT] = nullptr; //TODO: Ojo, peligroso
+    currentWeapon = KNIFE_SLOT;
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -41,15 +47,20 @@ Player::Player(Player&& other): world(other.world){
     this->angle = other.angle;
     this->speed = other.speed;
     this->shooting = other.shooting;
+    this->currentWeapon = other.currentWeapon;
 
     this->movement = std::move(other.movement);
-
-    other.weapon->changeOwner(this);
-    weapon = other.weapon;
+    
+    for (int i = 0; i < other.weapons.size(); i++){
+        if (other.weapons[i] != nullptr){
+            other.weapons[i]->changeOwner(this);
+        }
+        this->weapons[i] = other.weapons[i];
+        other.weapons[i] = nullptr;
+    }
 
     this->fixture = other.fixture;
 
-    other.weapon = nullptr;
     other.body = nullptr;
 }
 
@@ -112,7 +123,7 @@ void Player::toggleWeapon(){
         GeneralException("Error en Player::toggleWeapon: El jugador está muerto\n");
     
     shooting = !shooting;
-    weapon->toggle();
+    weapons[currentWeapon]->toggle();
 }
 
 bool Player::isShooting() const{
@@ -120,7 +131,7 @@ bool Player::isShooting() const{
 }
 
 WeaponType Player::getWeaponType() const{
-    return weapon->getType();
+    return weapons[currentWeapon]->getType();
 }
 
 bool Player::isDead() const{
@@ -128,21 +139,39 @@ bool Player::isDead() const{
 }
 
 Player::~Player(){
-    if (weapon != nullptr)
-        delete weapon;
+    for(Weapon* w: weapons){
+        if (w != nullptr){
+            delete w;
+        }
+    }
 }
 
 void Player::dropWeapon(){
-    new Drop(world, body->GetPosition().x, body->GetPosition().y, weapon);
-    weapon = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+    if (currentWeapon != KNIFE_SLOT){ //El cuchillo no se puede tirar
+        //Lo quiero tirar frente al jugador
+        float x_pos = body->GetPosition().x + std::cos(angle);
+        float y_pos = body->GetPosition().y + std::sin(angle);
+        new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
+        weapons[currentWeapon] = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+        currentWeapon = KNIFE_SLOT;
+    }
 }
 
 void Player::takeWeapon(Weapon *weapon){
-    delete this->weapon;
+    if (weapons[weapon->getSlot()] != nullptr){
+        delete weapons[weapon->getSlot()];
+    }
     weapon->changeOwner(this);
-    this->weapon = weapon;
+    weapons[weapon->getSlot()] = weapon;
 }
 
 void Player::reloadWeapon(){
-    weapon->reload();
+    weapons[currentWeapon]->reload();
+}
+
+void Player::changeWeapon(WeaponSlot slot){
+    //Solo cambio de arma si tengo un arma en ese slot
+    if (weapons[slot] != nullptr){
+        currentWeapon = slot;
+    }
 }

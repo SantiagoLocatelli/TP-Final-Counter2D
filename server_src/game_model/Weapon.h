@@ -16,15 +16,17 @@ class Weapon{
         Player *owner;
         World *world;
         WeaponType type;
+        WeaponSlot slot;
         std::map<std::string, float> config;
         int bullets;
 
         virtual float calculateDamage(float distance);
     public:
-        Weapon(World *world, GameConfig &config, WeaponType type);
+        Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot);
         void changeOwner(Player *newOwner);
         World *getWorld();
         WeaponType getType();
+        WeaponSlot getSlot();
         virtual void toggle();
         virtual void reload();
         void shootBullet();

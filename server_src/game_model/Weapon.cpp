@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type):owner(nullptr), world(world), type(type), config(config.getWeapon(type)), bullets(0){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -39,6 +39,10 @@ WeaponType Weapon::getType(){
     return type;
 }
 
+WeaponSlot Weapon::getSlot(){
+    return slot;
+}
+
 void Weapon::toggle(){
     if (bullets > 0){
         shootBullet();
@@ -51,7 +55,7 @@ float Weapon::calculateDamage(float distance){
     float r = ((float) rand()) / (float) RAND_MAX;
     float damage = config.at("minDamage") + (r * (config.at("maxDamage") - config.at("minDamage")));
     //El daño disminuye con la distancia
-    damage *= 1/(distance*config.at("falloff")+1);
+    damage *= 1/(distance*config.at("falloff")+1); //TODO: Cambiar a una caida lineal de daño
 
     return damage;
 }

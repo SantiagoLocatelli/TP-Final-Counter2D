@@ -1,5 +1,5 @@
 #include "Sniper.h"
 
-Sniper::Sniper(World *world, GameConfig &config):Weapon(world, config, SNIPER){
+Sniper::Sniper(World *world, GameConfig &config):Weapon(world, config, SNIPER, PRIMARY){
     reload();
 }

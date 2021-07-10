@@ -1,7 +1,7 @@
 #include "Knife.h"
 #include <set>
 
-Knife::Knife(World *world, GameConfig &config):Weapon(world, config, KNIFE){}
+Knife::Knife(World *world, GameConfig &config):Weapon(world, config, KNIFE, KNIFE_SLOT){}
 
 void Knife::toggle(){
     std::set<Hittable*> hit;
