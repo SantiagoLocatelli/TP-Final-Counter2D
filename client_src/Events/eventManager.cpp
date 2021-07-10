@@ -39,11 +39,25 @@ void EventManager::run(){
                             case SDLK_r:
                                 event.type = RELOAD_WEAPON;
                                 break;
-                            case SDLK_1: /*cambiar arma a 1*/break;
-                            case SDLK_2: /*cambiar arma a 2*/break;
-                            case SDLK_3: /*cambiar arma a 3*/break;
-                            case SDLK_4: /*cambiar arma a 4*/break;
-                            case SDLK_g: /*dropear arma*/break;
+                            case SDLK_1: 
+                                event.type = CHANGE_WEAPON;
+                                event.info.slot = KNIFE_SLOT;
+                                break;
+                            case SDLK_2:
+                                event.type = CHANGE_WEAPON;
+                                event.info.slot = SECONDARY;
+                                break;
+                            case SDLK_3:
+                                event.type = CHANGE_WEAPON;
+                                event.info.slot = PRIMARY;
+                                break;
+                            case SDLK_4:
+                                event.type = CHANGE_WEAPON;
+                                event.info.slot = BOMB_SLOT;
+                                break;
+                            case SDLK_g:
+                                event.type = DROP_WEAPON;
+                                break;
                         }
 
                         this->com.send_event(event);
