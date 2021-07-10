@@ -1,8 +1,8 @@
 #include "Weapon.h"
 
 
-Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size, SoundEffect& sound):
-    weapon(weapon), anim(anim), soundEffect(sound){
+Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
+    weapon(weapon), anim(anim){
     this->info.pos = {0,0};
     this->info.size = size;
     this->info.posAnim = {0, 0};
@@ -11,7 +11,6 @@ Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size, SoundEffect& sou
 
 
 void Weapon::render(Coordenada cam, float degrees, bool animated){
-    // printf("el tipo de arma es: %d\n", this->info.type);
     this->weapon.render(this->info.pos.x - this->info.size.w/2 - cam.x, this->info.pos.y - this->info.size.h/2 - cam.y, this->info.size.w, this->info.size.h, NULL, degrees + 90.0);
     if (animated) {
         // this->soundEffect.play(0);  
@@ -31,10 +30,9 @@ Weapon& Weapon::operator=(const Weapon& other){
     this->info = other.info;
     this->weapon = other.weapon;
     this->anim = other.anim;
-    this->soundEffect = other.soundEffect;
     return *this;
 }
-Weapon::Weapon(const Weapon& other):weapon(other.weapon), anim(other.anim), soundEffect(other.soundEffect){
+Weapon::Weapon(const Weapon& other):weapon(other.weapon), anim(other.anim){
     this->info = other.info;
 }
 

@@ -6,7 +6,7 @@
 #include "../levelInfo.h"
 #include "Weapon.h"
 
-enum Effect : int {STEP, DYING, RELOADING, DROPPING, PICKING_UP};
+
 enum SkinType : int {CT};
 
 class Character{
@@ -32,7 +32,10 @@ class Character{
 		float getDegrees();
 		WeaponType getWeaponType();
 
-		Character& operator=(Character&&);
-		Character(Character&& other);
+		Character& operator=(const Character&);
+		Character(const Character& other);
+
+		// Character& operator=(Character&&);
+		// Character(Character&& other);
 };
 #endif

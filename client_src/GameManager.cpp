@@ -28,7 +28,6 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
 
 void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
     weapon.type = prot.weapon;
-    // weapon.type = PISTOL;
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL) {
@@ -46,13 +45,47 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
 
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
+
+    if (prot.shooting) {
+        if (prot.weapon == PISTOL) {
+            weapon.sound = SHOT_PISTOL;
+        } else if (prot.weapon == RIFLE) {
+            weapon.sound = SHOT_RIFLE;
+        } else if (prot.weapon == SHOTGUN) {
+            weapon.sound = SHOT_SHOTGUN;
+        } else if (prot.weapon == SNIPER) {
+            weapon.sound = SHOT_SHOTGUN;
+        } else if (prot.weapon == KNIFE) {
+            weapon.sound = KNIFE_HIT;
+        }
+    }
+
+}
+
+
+bool equalCoords(Coordenada coord1, Coordenada coord2){
+    return (coord1.x == coord2.x && coord1.y == coord2.y);
 }
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
+    player.sounds.clear();
+
+    Coordenada newPos;
+    newPos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
+    newPos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
+    if(!equalCoords(newPos, player.pos)){
+        player.sounds.push_back(STEP);
+    }
+    player.pos = newPos;
+
+    if (!player.dead && prot.dead) {
+        player.sounds.push_back(DYING);
+    }
     player.dead = prot.dead;
+
+    // FALTA AGREGAR CUANDO DROPEA Y CUANDO PICK UP
+
     player.degrees = Math::radiansToDegrees(prot.angle);
-    player.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
-    player.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
     player.shooting = prot.shooting;
@@ -60,16 +93,9 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     updateWeapon(player.weapon, prot, player.pos);
 }
 
-// void updateBox(BoxInfo& box, ProtBox prot){
-//     box.pos.x = Math::ruleOfThree(prot.x, 1.0, PIXELS_PER_METER);
-//     box.pos.y = Math::ruleOfThree(prot.y, 1.0, PIXELS_PER_METER);
-//     box.size.w = PIXELS_PER_METER;
-//     box.size.h = PIXELS_PER_METER;
-// }
 
-void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
+LevelInfo GameManager::updatedLevel(const ModelInfo& model){
 
-    level.players.clear();
     level.drops.clear();
     level.bullets.clear();
 
@@ -90,10 +116,10 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
         if (it != end) updatePlayer(level.mainPlayer, *it);
     }
 
-    for (auto it = model.players.begin(); it != model.players.end(); it++){
-        PlayerInfo player;
-        updatePlayer(player, *it);
-        level.players.push_back(player);
+    auto player = this->level.players.begin();
+    for (auto prot = model.players.begin(); prot != model.players.end(); prot++){
+        updatePlayer(*player, *prot);
+        player++;
     }
 
     for (auto it = model.bullets.begin(); it != model.bullets.end(); it++){
@@ -107,6 +133,8 @@ void GameManager::updatedLevel(const ModelInfo& model, LevelInfo& level){
         updateDrop(drop, *it);
         level.drops.push_back(drop);
     }
+
+    return level;
 }
 
 void translateRect(BoxInfo& box, RectArea rect){
@@ -117,7 +145,7 @@ void translateRect(BoxInfo& box, RectArea rect){
 }
 
 
-void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, LevelInfo& level){
+LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model){
     
     level.width = map.length*PIXELS_PER_METER;
     level.height = map.height*PIXELS_PER_METER;
@@ -146,5 +174,11 @@ void GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model, Le
         level.tiles.push_back(tile);
     }
 
-    updatedLevel(model, level);
+    for (auto it = model.players.begin(); it != model.players.end(); it++){
+        PlayerInfo player;
+        updatePlayer(player, *it);
+        level.players.push_back(player);
+    }
+
+    return updatedLevel(model);
 }

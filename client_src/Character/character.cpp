@@ -54,13 +54,24 @@ int Character::getPosX(){return this->player.pos.x;}
 SDL_Rect Character::getRect(){return {this->player.pos.x, this->player.pos.x, this->player.size.w, this->player.size.h};}
 float Character::getDegrees(){return this->player.degrees;}
 
-Character& Character::operator=(Character&& other){
+// Character& Character::operator=(Character&& other){
+//     this->texture = other.texture;
+//     this->player = other.player;
+//     this->weapon = other.weapon;
+//     return *this;
+// }
+
+// Character::Character(Character&& other):texture(other.texture), weapon(other.weapon){
+//     this->player = other.player;
+// }
+
+Character& Character::operator=(const Character& other){
     this->texture = other.texture;
     this->player = other.player;
-    this->weapon = std::move(other.weapon);
+    this->weapon = other.weapon;
     return *this;
 }
 
-Character::Character(Character&& other):texture(other.texture), weapon(std::move(other.weapon)){
+Character::Character(const Character& other):texture(other.texture), weapon(other.weapon){
     this->player = other.player;
 }

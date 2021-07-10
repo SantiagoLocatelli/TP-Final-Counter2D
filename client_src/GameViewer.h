@@ -4,12 +4,11 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
 #include "../common_src/Sdl/sdl_mixer.h"
-#include "../common_src/Sdl/sdl_ttf.h"
-#include "../common_src/Sdl/SoundEffect.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
 #include "Character/camera.h"
+#include "SoundEffects.h"
 #include <string>   
 #include <vector>
 #include <list>
@@ -21,15 +20,11 @@ private:
     
     SdlWindow window;
     SdlRenderer renderer;
-    SdlMixer mixer;
-    // SdlTtf ttf;
+    SoundEffects sounds;
 
     Camera cam;
 
     LevelInfo level;
-
-    std::map<Effect, SoundEffect*> playerEffects; 
-    std::map<WeaponType, SoundEffect*> shot; 
 
     std::map<SkinType, SdlTexture*> skins;
     std::map<WeaponType, SdlTexture*> weaponOnPj;
@@ -53,7 +48,6 @@ private:
     void renderHud();
     
     void loadTexturesWeapons();
-    void loadSoundsEffects();
     void loadSkins();
     void loadTiles();
 
