@@ -22,6 +22,14 @@ void EventHandler::executeEvent(Event event, int id){
         game.reloadWeapon(id);
         break;
 
+    case CHANGE_WEAPON:
+        game.changeWeapon(id, event.info.slot);
+        break;
+    
+    case DROP_WEAPON:
+        game.dropWeapon(id);
+        break;
+
     default:
         break;
     }
