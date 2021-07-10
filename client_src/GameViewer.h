@@ -1,13 +1,14 @@
 #ifndef __GAME_VIEWER_H__
 #define __GAME_VIEWER_H__
 
-
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_mixer.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
 #include "Character/camera.h"
+#include "SoundEffects.h"
 #include <string>   
 #include <vector>
 #include <list>
@@ -19,13 +20,17 @@ private:
     
     SdlWindow window;
     SdlRenderer renderer;
+    SoundEffects sounds;
+
     Camera cam;
 
     LevelInfo level;
 
+    std::map<SkinType, SdlTexture*> skins;
     std::map<WeaponType, SdlTexture*> weaponOnPj;
     std::map<WeaponType, SdlTexture*> animWeaponOnPj;
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
+    std::map<WeaponType, SdlTexture*> weaponOnHud;
     std::map<uint8_t, SdlTexture*> tiles;
 
 
@@ -33,8 +38,6 @@ private:
     std::list<Character> players;
     MainCharacter* mainPlayer;
 
-    // provisorio para poder renderizar a los demas pjs
-    SdlTexture pjTexture;
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordenada cam);
@@ -42,8 +45,10 @@ private:
     void renderWeapons(Coordenada cam);
     void renderShots(Coordenada cam);
     void renderMap(Coordenada cam);
+    void renderHud();
     
     void loadTexturesWeapons();
+    void loadSkins();
     void loadTiles();
 
 public:

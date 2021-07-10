@@ -2,8 +2,11 @@
 #define __WEAPON_H__
 
 #include "../../common_src/Sdl/sdl_texture.h"
-#include <list>
+#include "../SoundEffects.h"
 #include "../levelInfo.h"
+#include <string>
+#include <list>
+
 
 class Weapon {
 private:
@@ -17,8 +20,11 @@ public:
     void update(WeaponInfo info);
     void render(Coordenada cam, float degrees, bool animated);
 
-    Weapon& operator=(Weapon&&);
-    Weapon(Weapon&&);
+    Weapon& operator=(const Weapon&);
+    Weapon(const Weapon&);
+
+    // Weapon& operator=(Weapon&&);
+    // Weapon(Weapon&&);
 };
 
 #endif

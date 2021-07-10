@@ -6,6 +6,9 @@
 #include "../levelInfo.h"
 #include "Weapon.h"
 
+
+enum SkinType : int {CT};
+
 class Character{
 
     private:
@@ -27,8 +30,13 @@ class Character{
 		int getPosY();
 		bool isDead();
 		float getDegrees();
+		WeaponType getWeaponType();
+		PlayerInfo getInfo();
 
-		Character& operator=(Character&&);
-		Character(Character&& other);
+		Character& operator=(const Character&);
+		Character(const Character& other);
+
+		// Character& operator=(Character&&);
+		// Character(Character&& other);
 };
 #endif

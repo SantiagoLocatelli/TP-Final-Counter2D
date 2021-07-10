@@ -4,6 +4,8 @@
 #include "../levelInfo.h"
 #include "SDL2/SDL.h"
 
+
+
 class Camera {
     private:
         Coordenada pos;

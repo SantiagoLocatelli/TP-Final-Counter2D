@@ -51,7 +51,9 @@ int main(int argc, char* argv[]){
         server.recv_model_info(model);
 
         LevelInfo level;
-        GameManager::initializeLevel(map, model, level);
+        GameManager gameManager;
+        
+        level = gameManager.initializeLevel(map, model);
         GameViewer gameViewer(window_w, window_h, level); 
 
         bool quit = false;
@@ -63,7 +65,7 @@ int main(int argc, char* argv[]){
             stopwatch.start();
             server.recv_model_info(model);
 
-            GameManager::updatedLevel(model, level);
+            level = gameManager.updatedLevel(model);
             gameViewer.update(level);
             gameViewer.render();
             while (stopwatch.msPassed() < 33) {

@@ -1,0 +1,7 @@
+# enum PlayerEffect : int {
+#     STEP, DYING, DROPPING, PICKING_UP};
+
+- [../../common_src/sound/player/pl_step.wav, 0]
+- [../../common_src/sound/player/die.wav, 1]
+- [../../common_src/sound/player/drop.wav, 2]
+- [../../common_src/sound/player/pickup.wav, 3]

@@ -9,6 +9,7 @@ class SdlMixer{
         Mix_Music* mMusic;
         std::vector<Mix_Chunk*> mChunks;
     public:
+        SdlMixer();
         SdlMixer(std::string musicPath);
         SdlMixer(std::string musicPath, std::vector<std::string>& chunkPaths);
         SdlMixer(std::vector<std::string>& chunkPath);

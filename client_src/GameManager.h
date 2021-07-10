@@ -5,17 +5,19 @@
 #include "../common_src/ModelInfo.h"
 #include "GameViewer.h"
 #include "levelInfo.h"
+#include "SoundEffects.h"
 
 
 class GameManager {
 private:
+    LevelInfo level;
 
 public:
 
     GameManager();
     
-    static void initializeLevel(const MapInfo& map, const ModelInfo& model, LevelInfo& level);
-    static void updatedLevel(const ModelInfo& model, LevelInfo& level);
+    LevelInfo initializeLevel(const MapInfo& map, const ModelInfo& model);
+    LevelInfo updatedLevel(const ModelInfo& model);
 };
 
 #endif

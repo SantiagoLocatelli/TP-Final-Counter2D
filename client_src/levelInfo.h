@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include "../../common_src/ModelInfo.h"
+#include "SoundEffects.h"
 
 struct Coordenada {
     int x;
@@ -31,6 +32,7 @@ struct WeaponInfo {
     Size size;
     Coordenada posAnim;
     WeaponType type;
+    WeaponEffect sound;
 };
 
 struct PlayerInfo {
@@ -40,6 +42,7 @@ struct PlayerInfo {
     bool shooting;
     bool dead;
     WeaponInfo weapon;
+    std::list<PlayerEffect> sounds;
 };
 
 struct MainPlayerInfo: public PlayerInfo {

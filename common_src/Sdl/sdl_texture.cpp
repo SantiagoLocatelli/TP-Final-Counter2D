@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
-    SDL_Surface *surf; 
+    // SDL_Surface *surf; 
 	this->mTexture = this->renderer.createTexture(w,h);
 }
 
@@ -61,6 +61,12 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 	}
 }
 
+// es para crear textura a partir de texto
+SdlTexture::SdlTexture(SdlRenderer& renderer, SDL_Surface* surface):renderer(renderer){
+	this->mTexture = this->renderer.createTextureFromSurface(surface);
+}
+
+
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string textureText, Uint8 red,
  Uint8 green, Uint8 blue) : renderer(r){
 	this->path = path;
@@ -78,37 +84,36 @@ int SdlTexture::changeTextTexture(std::string text, int size, Uint8 red,
 		SDL_DestroyTexture(this->mTexture);
 	}
 	TTF_Font* font = TTF_OpenFont(this->path.c_str(), size);
-		if (font == NULL){
-			printf("Failed to load %s font! SDL_ttf Error: %s\n", path.c_str(), TTF_GetError());
-		}else{
-			//Render text surface
-			SDL_Color textColor = {red, green, blue};
-			SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-			if (textSurface != NULL){
-				//Create texture from surface pixels
-				this->mTexture = this->renderer.createTextureFromSurface(textSurface);
-				if (this->mTexture == NULL){
-					printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-				}else{
-					//Get image dimensions
-					mWidth = textSurface->w;
-					mHeight = textSurface->h;
-					SDL_FreeSurface(textSurface);
-					return 0;
-				}
-				//Get rid of old surface
-				SDL_FreeSurface(textSurface);
+	if (font == NULL){
+		printf("Failed to load %s font! SDL_ttf Error: %s\n", path.c_str(), TTF_GetError());
+	}else{
+		//Render text surface
+		SDL_Color textColor = {red, green, blue};
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+		if (textSurface != NULL){
+			//Create texture from surface pixels
+			this->mTexture = this->renderer.createTextureFromSurface(textSurface);
+			if (this->mTexture == NULL){
+				printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 			}else{
-				printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+				//Get image dimensions
+				mWidth = textSurface->w;
+				mHeight = textSurface->h;
+				SDL_FreeSurface(textSurface);
+				return 0;
 			}
+			//Get rid of old surface
+			SDL_FreeSurface(textSurface);
+		}else{
+			printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 		}
+	}
 	return -1;
 }
 
 
 void SdlTexture::free(){
-	if( this->mTexture != NULL )
-	{
+	if(this->mTexture != NULL){
 		SDL_DestroyTexture( this->mTexture );
 		this->mTexture = NULL;
 		this->mWidth = 0;
@@ -187,22 +192,28 @@ int SdlTexture::getHeight()const{return this->mHeight;}
 
 
 SdlTexture& SdlTexture::operator=(const SdlTexture& other){
-	this->mWidth = other.mWidth;
-	this->type = other.type;
-	this->renderer = other.renderer;
-	this->mTexture = other.mTexture;
-	this->mHeight = other.mHeight;
-	this->path = other.path;
+	if (other.mTexture != NULL) {
+		this->mWidth = other.mWidth;
+		this->type = other.type;
+		this->renderer = other.renderer;
+		this->mTexture = other.mTexture;
+		this->mHeight = other.mHeight;
+		this->path = other.path;
+	}
 	return *this;
 }
 
 
 SdlTexture& SdlTexture::operator=(SdlTexture&& other){
-	this->mWidth = other.mWidth;
-	this->mHeight = other.mHeight;
-	this->mTexture = other.mTexture;
-	this->renderer = other.renderer;
-	this->type = other.type;
+	if (this->mTexture != NULL) {
+
+		this->mWidth = other.mWidth;
+		this->mHeight = other.mHeight;
+		this->mTexture = other.mTexture;
+		this->renderer = other.renderer;
+		this->type = other.type;
+		other.mTexture = NULL;
+	}
 	return *this;
 }
 
@@ -235,9 +246,7 @@ SDL_Texture* SdlTexture::getRenderTarget(){
 
 SdlTexture::~SdlTexture(){
 	if (this->mTexture != NULL) {
-
 		free();
 		TTF_Quit();
-		this->mTexture = NULL;
 	}
 }
