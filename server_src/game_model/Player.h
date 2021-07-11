@@ -53,6 +53,7 @@ class Player: public Hittable{
         void dropWeapon();
         void takeWeapon(Weapon *weapon);
         void changeWeapon(WeaponSlot slot);
+        void step(float delta);
 
         ~Player();
 

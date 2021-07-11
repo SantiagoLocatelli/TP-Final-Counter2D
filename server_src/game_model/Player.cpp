@@ -180,3 +180,11 @@ void Player::changeWeapon(WeaponSlot slot){
 Team Player::getTeam() const{
     return team;
 }
+
+void Player::step(float delta){
+    for (Weapon* w: weapons){
+        if (w != nullptr){
+            w->step(delta);
+        }
+    }
+}

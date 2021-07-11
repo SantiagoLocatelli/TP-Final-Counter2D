@@ -37,8 +37,10 @@ std::vector<Player> &World::getPlayers(){
 void World::step(){
     timer += config.getGame().at("frameTime");
     for (Player &p: players){
-        if (!p.isDead())
+        if (!p.isDead()){
             p.updateVelocity();
+            p.step(config.getGame().at("frameTime"));
+        }
     }
     b2world.Step(config.getGame().at("frameTime"), 10, 9);
 

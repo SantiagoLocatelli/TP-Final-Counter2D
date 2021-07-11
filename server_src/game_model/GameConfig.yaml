@@ -1,5 +1,5 @@
 Game:
-  roundTime: 15 # En segundos
+  roundTime: 10000 # En segundos
   bombTime: 30 # Tiempo hasta explosión
   frameTime: 0.033
 
@@ -15,7 +15,7 @@ Weapons:
     minDamage: 25
     spread: 0.1
     falloff: 0
-    speed: 0.7 #Tiempo entre disparos
+    speed: 0.2 #Tiempo entre disparos
     capacity: 10 #Balas por recarga
     reloadTime: 2
     maxRange: 100
