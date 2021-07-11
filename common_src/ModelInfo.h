@@ -3,7 +3,7 @@
 
 #include <list>
 #include <stdint.h>
-#include "WeaponUtils.h"
+#include "Utils.h"
 
 struct Position{
     float x;
@@ -16,6 +16,7 @@ struct ProtPlayer{
     float angle; //En radianes
     WeaponType weapon;
     bool shooting;
+    Team team;
 };
 
 struct You: public ProtPlayer{
