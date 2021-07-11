@@ -13,6 +13,7 @@
 #include "Drop.h"
 #include "CollisionHandler.h"
 #include "GameConfig.h"
+#include "../../common_src/Utils.h"
 
 class Drop;
 class Player;
@@ -33,7 +34,7 @@ class World{
 
         World(int grid_length, int grid_height);
         void addBox(int grid_x, int grid_y);
-        void createPlayer();
+        void createPlayer(RectArea spawn, Team team);
         void step();
         float rayCast(Ray ray, Hittable *&hittable);
         std::list<Hittable *> &hittablesInArea(float x, float y, float heigth, float length);

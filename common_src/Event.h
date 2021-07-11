@@ -3,7 +3,7 @@
 
 #include <string>
 #include "GameInfo.h"
-#include "WeaponUtils.h"
+#include "Utils.h"
 #include "Direction.h"
 
 enum EventType: char {TOGGLE_MOVEMENT, SET_ANGLE, TOGGLE_WEAPON, RELOAD_WEAPON, CHANGE_WEAPON, DROP_WEAPON, CREATE_GAME, JOIN_GAME, LIST_GAMES};

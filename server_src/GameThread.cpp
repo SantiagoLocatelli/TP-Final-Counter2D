@@ -12,8 +12,12 @@ void GameThread::addPlayer(Protocol protocol){
     const std::lock_guard<std::mutex> lock(m);
     modelQueues.emplace_back();
     clients.push_back(std::unique_ptr<ClientManager>(new ClientManager(std::move(protocol), eventQueue, modelQueues.back(), game.getMapInfo(), playerNumber)));
+    if (playerNumber%2 == 0){
+        game.createPlayer(TERROR);
+    } else {
+        game.createPlayer(COUNTER);
+    }
     playerNumber++;
-    game.createPlayer();
 }
 
 bool GameThread::ended(){

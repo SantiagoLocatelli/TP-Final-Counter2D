@@ -1,6 +1,7 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
 #include "game_model/Shotgun.h"
+#include "../common_src/Utils.h"
 #include <utility>
 
 #include <list>
@@ -46,6 +47,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.health = p.getHealth();
                 you.weapon = p.getWeaponType();
                 you.shooting = p.isShooting();
+                you.team = p.getTeam();
                 you.ammo = 0;
             }
             info.players.push_back(you);
@@ -77,8 +79,12 @@ void GameProxy::step(){
     world->step();
 }
 
-void GameProxy::createPlayer(){
-    world->createPlayer();
+void GameProxy::createPlayer(Team team){
+    if (team == TERROR){
+        world->createPlayer(mapInfo.spawnSites[0], team);
+    } else {
+        world->createPlayer(mapInfo.spawnSites[1], team);
+    }
 }
 
 void GameProxy::toggleMovement(int id, Direction direction){

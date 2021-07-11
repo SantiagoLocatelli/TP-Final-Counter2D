@@ -34,8 +34,8 @@ std::vector<int> WorldParser::get_tiles(){
     return mapYaml["map"].as<std::vector<int>>();
 }
 
-std::list<RectArea> WorldParser::get_sites(){
-    std::list<RectArea> list;
+std::vector<RectArea> WorldParser::get_sites(){
+    std::vector<RectArea> v;
     std::vector<float> position = mapYaml["bombSite"]["A"]["position"].as<std::vector<float>>();
     std::vector<float> size = mapYaml["bombSite"]["A"]["size"].as<std::vector<float>>();
 
@@ -44,7 +44,7 @@ std::list<RectArea> WorldParser::get_sites(){
     r.y = position[1];
     r.width = size[0];
     r.height = size[1];
-    list.push_back(r);
+    v.push_back(r);
     try{
         position = mapYaml["bombSite"]["B"]["position"].as<std::vector<float>>();
         size = mapYaml["bombSite"]["B"]["size"].as<std::vector<float>>();
@@ -53,16 +53,16 @@ std::list<RectArea> WorldParser::get_sites(){
         r.y = position[1];
         r.width = size[0];
         r.height = size[1];
-        list.push_back(r);
+        v.push_back(r);
     } catch (const YAML::TypedBadConversion<std::vector<float>> &e){
         //Esto significa que no hay B site
     }
 
-    return list;
+    return v;
 }
 
-std::list<RectArea> WorldParser::get_spawn(){
-    std::list<RectArea> list;
+std::vector<RectArea> WorldParser::get_spawn(){
+    std::vector<RectArea> v;
     std::vector<float> position = mapYaml["spawnSite"]["T"]["position"].as<std::vector<float>>();
     std::vector<float> size = mapYaml["spawnSite"]["T"]["size"].as<std::vector<float>>();
 
@@ -71,7 +71,7 @@ std::list<RectArea> WorldParser::get_spawn(){
     r.y = position[1];
     r.width = size[0];
     r.height = size[1];
-    list.push_back(r);
+    v.push_back(r);
 
     position = mapYaml["spawnSite"]["CT"]["position"].as<std::vector<float>>();
     size = mapYaml["spawnSite"]["CT"]["size"].as<std::vector<float>>();
@@ -80,7 +80,7 @@ std::list<RectArea> WorldParser::get_spawn(){
     r.y = position[1];
     r.width = size[0];
     r.height = size[1];
-    list.push_back(r);
+    v.push_back(r);
 
-    return list;
+    return v;
 }
