@@ -3,7 +3,7 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
-#define MIN_MAP_SIZE 5
+#define MIN_MAP_SIZE 8 // multiplicado por el tile_size tiene que dar el tamaño de la pantalla
 #define MAX_MAP_SIZE 30
 #define MIN_SIZE 1
 #define MAX_SIZE 5

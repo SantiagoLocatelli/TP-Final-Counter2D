@@ -211,13 +211,11 @@ void MenueManager::changeMapSize(const int& width, const int& height){
             }
         //si sacan columnas
         }else{
-            endOfRowPosition += newColumns + 1;
             for (int j = 0; j < (newColumns * -1); j++){
                 auto it = this->textures.begin();
-                std::advance(it, endOfRowPosition);
+                std::advance(it, ((this->mapSize[0] * (rows - i) ) - j) - 1);
                 this->textures.erase(it);
             }
-            endOfRowPosition -= newColumns + 1;
         }
     }
 }
