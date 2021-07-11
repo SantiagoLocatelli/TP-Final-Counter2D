@@ -10,7 +10,7 @@ const SDL_Rect SRC_DEFUSER = { 32, 32, 32, 32};
 const SDL_Rect SRC_PISTOL = {32, 32, 32, 32};
 
 Character::Character(PlayerInfo player, SdlTexture& texture, Weapon weapon):
-    texture(texture), player(player), weapon(std::move(weapon)){}
+    texture(texture), player(player), weapon(weapon){}
 
 
 SDL_Rect Character::getSourceTexture(){

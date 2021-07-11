@@ -191,6 +191,16 @@ int SdlTexture::getWidth()const{return this->mWidth;}
 int SdlTexture::getHeight()const{return this->mHeight;}
 
 
+SdlTexture::SdlTexture(const SdlTexture& other):renderer(other.renderer){
+	if (other.mTexture != NULL) {
+		this->mHeight = other.mHeight;
+		this->mWidth = other.mWidth;
+		this->type = other.type;
+		this->mTexture = other.mTexture;
+	}
+}
+
+
 SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 	if (other.mTexture != NULL) {
 		this->mWidth = other.mWidth;

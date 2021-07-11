@@ -1,7 +1,7 @@
 #include "mainCharacter.h"
 
 MainCharacter::MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, CrossHair cr, Stencil st, Weapon weapon):
-    Character(player, pjTexture, std::move(weapon)), cr(std::move(cr)), st(std::move(st)),
+    Character(player, pjTexture, weapon), cr(std::move(cr)), st(std::move(st)),
     health(player.health), ammo(player.ammo){}
 
 void MainCharacter::render(Coordenada cam){
