@@ -1,3 +1,8 @@
+Game:
+  roundTime: 15 # En segundos
+  bombTime: 30 # Tiempo hasta explosión
+  frameTime: 0.033
+
 Player:
   speed: 6
 

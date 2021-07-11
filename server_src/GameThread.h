@@ -14,6 +14,7 @@
 
 class GameThread: public Thread{
     private:
+        GameConfig gameConfig;
         GameProxy game;
         std::list<std::unique_ptr<ClientManager>> clients;
         std::list<ModelQueue> modelQueues;

@@ -3,7 +3,7 @@
 #include "EntityChecker.h"
 #include "../../common_src/GeneralException.h"
 
-World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(0,0)){
+World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), timer(0), b2world(b2Vec2(0,0)), config(config){
     gridSize[0] = grid_length;
     gridSize[1] = grid_height;
     b2world.SetContactListener(&collisionHandler);
@@ -35,11 +35,12 @@ std::vector<Player> &World::getPlayers(){
 }
 
 void World::step(){
+    timer += config.getGame().at("frameTime");
     for (Player &p: players){
         if (!p.isDead())
             p.updateVelocity();
     }
-    b2world.Step(1.0/30.0, 10, 9);
+    b2world.Step(config.getGame().at("frameTime"), 10, 9);
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
@@ -135,4 +136,8 @@ World::~World(){
 std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, float length){
     EntityChecker checker(b2world);
     return checker.getHittableInArea(b2Vec2(x,y), b2Vec2(x+length, y+heigth));
+}
+
+float World::getTime(){
+    return timer;
 }

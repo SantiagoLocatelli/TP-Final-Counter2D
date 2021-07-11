@@ -26,13 +26,14 @@ class World{
         std::list<Ray> bullets;
         int player_number;
         CollisionHandler collisionHandler;
-        std::list<b2Body*> bodiesToDestroy; 
+        std::list<b2Body*> bodiesToDestroy;
+        float timer;
 
     public:
-        GameConfig config;       
         b2World b2world;
+        GameConfig &config;     
 
-        World(int grid_length, int grid_height);
+        World(int grid_length, int grid_height, GameConfig &config);
         void addBox(int grid_x, int grid_y);
         void createPlayer(RectArea spawn, Team team);
         void step();
@@ -47,6 +48,7 @@ class World{
 
         void addDrop(Weapon *weapon, float x, float y);
         std::list<Drop*> getDrops();
+        float getTime();
 
         void destroyBody(b2Body *body);
 

@@ -30,3 +30,8 @@ std::map<std::string, float> GameConfig::getWeapon(WeaponType type){
 std::map<std::string, float> GameConfig::getPlayer(){
     return configFile["Player"].as<std::map<std::string, float>>();
 }
+
+std::map<std::string, float> GameConfig::getGame(){
+    return configFile["Game"].as<std::map<std::string, float>>();
+}
+

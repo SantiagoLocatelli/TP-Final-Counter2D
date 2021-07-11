@@ -6,7 +6,7 @@
 #include <chrono>
 #include <memory>
 
-GameThread::GameThread(std::string map_path):game(map_path), eventHandler(game), gameEnded(false), playerNumber(0){}
+GameThread::GameThread(std::string map_path):game(map_path, gameConfig), eventHandler(game), gameEnded(false), playerNumber(0){}
 
 void GameThread::addPlayer(Protocol protocol){
     const std::lock_guard<std::mutex> lock(m);
@@ -43,7 +43,7 @@ void GameThread::run(){
         Stopwatch stopwatch;
         do{
             stopwatch.start();
-            while (stopwatch.msPassed() < 33){
+            while (stopwatch.msPassed() < (size_t)(gameConfig.getGame().at("frameTime")*1000)){
                 //TODO: Sacar este busy wait
                 if (!eventQueue.isEmpty()){
                     int id;
