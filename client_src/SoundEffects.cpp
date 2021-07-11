@@ -3,7 +3,6 @@
 #include "yaml-cpp/yaml.h"
 #include <string>
 
-
 SoundEffects::SoundEffects(){
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
         char err[200];
@@ -29,7 +28,7 @@ void SoundEffects::loadPlayerSounds(){
 
 
 void SoundEffects::loadWeaponSounds(){
-    YAML::Node yaml_map = YAML::LoadFile("../../client_src/yaml/weaponSounds.yaml");
+    YAML::Node yaml_map = YAML::LoadFile("../../client_src/yaml/weaponsSounds.yaml");
 	int i = 0;
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();

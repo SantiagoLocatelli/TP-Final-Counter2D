@@ -11,12 +11,12 @@
 class Weapon {
 private:
 
-    SdlTexture& weapon;
-    SdlTexture& anim;
+    SdlTexture weapon;
+    SdlTexture anim;
     WeaponInfo info;
 
 public:
-    Weapon(SdlTexture& weapon, SdlTexture& anim, Size size);
+    Weapon(SdlTexture weapon, SdlTexture anim, Size size);
     void update(WeaponInfo info);
     void render(Coordenada cam, float degrees, bool animated);
 

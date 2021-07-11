@@ -1,51 +1,93 @@
 #include "TextureManager.h"
+#include "yaml-cpp/yaml.h"
 #include "levelInfo.h"
+#include <iostream>
 
-#define PATH_CT1 "../../common_src/img/players/ct1.bmp"
+#define PATH "../../client_src/yaml/"
 
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
 TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tiles){
-
+    loadTexturesWeapons(renderer);
+    loadTiles(renderer, tiles);
+    loadSkins(renderer);
 }
 
+void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
+    std::stringstream path;
+    path << PATH;
+    path << "weaponsOnFloor.yaml";
+    std::cout <<  path.str() << std::endl;
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        WeaponType weapon = (WeaponType) texture.second;
+        this->weaponsOnFloor[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+    }
+}
+
+void TextureManager::loadWeaponsOnHud(SdlRenderer& renderer){
+    std::stringstream path;
+    path << PATH;
+    path << "weaponsOnHud.yaml";
+    std::cout <<  path.str() << std::endl;
+
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        WeaponType weapon = (WeaponType) texture.second;
+        this->weaponsOnHud[weapon] = new SdlTexture(renderer, texture.first, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
+    }
+}
+
+void TextureManager::loadWeaponsOnPlayer(SdlRenderer& renderer){
+    std::stringstream path;
+    path << PATH;
+    path << "weaponsOnPlayer.yaml";
+
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        WeaponType weapon = (WeaponType) texture.second;
+        this->weaponsOnPj[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+    }
+}
+
+void TextureManager::loadWeaponsAnim(SdlRenderer& renderer){
+    std::stringstream path;
+    path << PATH;
+    path << "weaponsAnim.yaml";
+
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        WeaponType weapon = (WeaponType) texture.second;
+        this->animWeaponOnPj[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+    }
+}
 
 void TextureManager::loadTexturesWeapons(SdlRenderer& renderer){
-
-//enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB, DEFUSER};
-
-    this->weaponOnPj[KNIFE] = new SdlTexture(renderer, "../../common_src/img/weapons/knife.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponOnPj[PISTOL] = new SdlTexture(renderer, "../../common_src/img/weapons/glock.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponOnPj[RIFLE] = new SdlTexture(renderer, "../../common_src/img/weapons/ak47.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponOnPj[SNIPER] = new SdlTexture(renderer, "../../common_src/img/weapons/awp.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponOnPj[SHOTGUN] = new SdlTexture(renderer, "../../common_src/img/weapons/m3.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    
-    // FALTA CARGAR EL EFECTO DE LAS ARMAS
-    this->animWeaponOnPj[KNIFE] = new SdlTexture(renderer, "../../common_src/img/weapons/knifeslash.bmp", 0x00, 0x00, 0x00);
-    //buscar un efecto de arma piola
-    this->animWeaponOnPj[PISTOL] = new SdlTexture(renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    this->animWeaponOnPj[RIFLE] = new SdlTexture(renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    this->animWeaponOnPj[SNIPER] = new SdlTexture(renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-    this->animWeaponOnPj[SHOTGUN] = new SdlTexture(renderer, "../../common_src/img/weapons/explosion.png", 0x00, 0x00, 0x00);
-
-    this->weaponsOnFloor[PISTOL] = new SdlTexture(renderer, "../../common_src/img/weapons/glock_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponsOnFloor[SHOTGUN] = new SdlTexture(renderer, "../../common_src/img/weapons/m3_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponsOnFloor[SNIPER] = new SdlTexture(renderer, "../../common_src/img/weapons/awp_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponsOnFloor[RIFLE] = new SdlTexture(renderer, "../../common_src/img/weapons/ak47_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-    this->weaponsOnFloor[BOMB] = new SdlTexture(renderer, "../../common_src/img/weapons/bomb_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
-
-    this->weaponOnHud[PISTOL] = new SdlTexture(renderer, "../../common_src/img/weapons/glock_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
-    this->weaponOnHud[SNIPER] = new SdlTexture(renderer, "../../common_src/img/weapons/awp_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
-    this->weaponOnHud[RIFLE] = new SdlTexture(renderer, "../../common_src/img/weapons/ak47_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
-    this->weaponOnHud[SHOTGUN] = new SdlTexture(renderer, "../../common_src/img/weapons/m3_m.bmp", FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b);
-    this->weaponOnHud[BOMB] = new SdlTexture(renderer, "../../common_src/img/weapons/bomb_d.bmp", NEGRO.r, NEGRO.g, NEGRO.b);
+    // enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB, DEFUSER};
+    loadWeaponsAnim(renderer);
+    loadWeaponsOnFloor(renderer);
+    loadWeaponsOnPlayer(renderer);
+    loadWeaponsOnHud(renderer);
 }
 
 
 void TextureManager::loadSkins(SdlRenderer& renderer){
-    this->skins[CT] = new SdlTexture(renderer, PATH_CT1, NEGRO.r, NEGRO.g, NEGRO.b);
+    std::stringstream path;
+    path << PATH;
+    path << "playerSkins.yaml";
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        SkinType skin = (SkinType) texture.second;
+        this->skins[skin] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+    }
 }
+
 
 
 bool isInVector(std::vector<uint8_t> vector, uint8_t element) {
@@ -76,7 +118,6 @@ void TextureManager::loadTiles(SdlRenderer& renderer, std::vector<TileInfo> tile
     for (uint8_t tile : distinctTiles) {
         this->tiles[tile] = new SdlTexture(renderer, textureMap[tile].texturePath); 
     }
-
 }
 
 
@@ -89,12 +130,12 @@ TextureManager::~TextureManager(){
         this->weaponsOnFloor.clear();
     }
 
-    if (!this->weaponOnPj.empty()) {
-        for(auto it = this->weaponOnPj.begin(); it != this->weaponOnPj.end(); it++) {
+    if (!this->weaponsOnPj.empty()) {
+        for(auto it = this->weaponsOnPj.begin(); it != this->weaponsOnPj.end(); it++) {
             SdlTexture* aux = it->second;
             delete aux;
         }
-        this->weaponOnPj.clear();
+        this->weaponsOnPj.clear();
     }
 
     if (!this->tiles.empty()) {
@@ -105,12 +146,12 @@ TextureManager::~TextureManager(){
         this->tiles.clear();
     }
 
-    if (!this->weaponOnHud.empty()) {
-        for(auto it = this->weaponOnHud.begin(); it != this->weaponOnHud.end(); it++) {
+    if (!this->weaponsOnHud.empty()) {
+        for(auto it = this->weaponsOnHud.begin(); it != this->weaponsOnHud.end(); it++) {
             SdlTexture* aux = it->second;
             delete aux;
         }
-        this->weaponOnHud.clear();
+        this->weaponsOnHud.clear();
     }
 
     if (!this->animWeaponOnPj.empty()) {
@@ -130,3 +171,10 @@ TextureManager::~TextureManager(){
     }
 
 }
+
+SdlTexture TextureManager::getWeaponOnHud(WeaponType weapon){return *(this->weaponsOnHud[weapon]);}
+SdlTexture TextureManager::getWeaponOnPj(WeaponType weapon){return *(this->weaponsOnPj[weapon]);}
+SdlTexture TextureManager::getWeaponOnFloor(WeaponType weapon){return *(this->weaponsOnFloor[weapon]);}
+SdlTexture TextureManager::getWeaponAnim(WeaponType weapon){return *(this->animWeaponOnPj[weapon]);}
+SdlTexture TextureManager::getSkin(SkinType skin){return *(this->skins[skin]);}
+SdlTexture TextureManager::getTiles(uint8_t tile){return *(this->tiles[tile]);}

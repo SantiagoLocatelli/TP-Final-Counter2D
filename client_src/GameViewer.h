@@ -9,8 +9,8 @@
 #include "Character/camera.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
-#include <string>   
 #include <list>
+#include <map>
 
 class GameViewer{
 
@@ -25,6 +25,7 @@ private:
 
     LevelInfo level;
 
+    std::map<WeaponType, Weapon> weapons;
     ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
@@ -37,9 +38,9 @@ private:
     void renderShots(Coordenada cam);
     void renderMap(Coordenada cam);
     void renderHud();
-    
-    void loadSkins();
 
+    void loadWeapons();
+    
 public:
 
     GameViewer(int window_w, int window_h, LevelInfo level);

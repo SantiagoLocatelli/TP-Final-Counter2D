@@ -9,8 +9,8 @@
 
 
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
+const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
-#define PATH_SHOT "../../common_src/sound/weapons/glock18.wav"
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
     renderer(&window), 
@@ -20,26 +20,31 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
-    loadSkins();
+    loadWeapons();
 
     WeaponType mainType = level.mainPlayer.weapon.type;
-    printf("size  1 w: %i, h: %i\n", level.mainPlayer.weapon.size.w, level.mainPlayer.weapon.size.h);
-    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size);
-    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->skins[CT]), 
+    Weapon mainWeapon(this->textureManager.getWeaponOnPj(mainType), this->textureManager.getWeaponAnim(mainType), level.mainPlayer.weapon.size);
+    this->mainPlayer = new MainCharacter( level.mainPlayer, this->textureManager.getSkin(CT1), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window_w, window_h)), mainWeapon);
+
 
     for (PlayerInfo player : level.players) {
         //crear cuchillo y cargarlo al personaje
         WeaponType type = player.weapon.type;
-        printf("size  2 w: %i, h: %i\n", player.weapon.size.w, player.weapon.size.h);
-        Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size);
-        this->players.push_back(Character(player, *(this->skins[CT]), weapon));
+        Weapon weapon(this->textureManager.getWeaponOnPj(type), this->textureManager.getWeaponAnim(type), player.weapon.size);
+        this->players.push_back(Character(player, this->textureManager.getSkin(CT1), weapon));
     }
 }
 
+GameViewer::~GameViewer(){
+    delete this->mainPlayer;
+}
+
+void GameViewer::loadWeapons(){
 
 
+}
 
 
 
@@ -70,7 +75,7 @@ void GameViewer::renderShots(Coordenada cam){
 
 void GameViewer::renderWeapons(Coordenada cam){
     for(DropInfo wp : level.drops){
-        this->weaponsOnFloor[wp.type]->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
+        this->textureManager.getWeaponOnFloor(wp.type).render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
     }
 }
 
@@ -80,7 +85,7 @@ void GameViewer::renderMap(Coordenada cam){
         uint8_t tile = this->level.tiles[i].id;
         Coordenada pos = this->level.tiles[i].pos;
         Size size = this->level.tiles[i].size;
-        this->tiles[tile]->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
+        this->textureManager.getTiles(tile).render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
     }
 }
 
@@ -124,7 +129,7 @@ void GameViewer::update(LevelInfo level){
 
     WeaponType mainType = level.mainPlayer.weapon.type;
 
-    Weapon mainWeapon(*(this->weaponOnPj[mainType]), *(this->animWeaponOnPj[mainType]), level.mainPlayer.weapon.size);
+    Weapon mainWeapon(this->textureManager.getWeaponOnPj(mainType), this->textureManager.getWeaponAnim(mainType), level.mainPlayer.weapon.size);
     this->mainPlayer->update(level.mainPlayer, mainWeapon);
 
     this->level.drops.clear();
@@ -141,7 +146,7 @@ void GameViewer::update(LevelInfo level){
     for (PlayerInfo player : this->level.players) {
         if (!player.dead && it != end) {
             WeaponType type = player.weapon.type;
-            Weapon weapon(*(this->weaponOnPj[type]), *(this->animWeaponOnPj[type]), player.weapon.size);
+            Weapon weapon(this->textureManager.getWeaponOnPj(type), this->textureManager.getWeaponAnim(type), player.weapon.size);
             it->update(player, weapon);
         }
     }
