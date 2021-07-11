@@ -18,8 +18,8 @@ class WorldParser{
         void get_size(uint16_t &length, uint16_t &height);
         std::list<std::array<int, 2>> get_boxes();
         std::vector<int> get_tiles();
-        std::list<RectArea> get_sites();
-        std::list<RectArea> get_spawn();
+        std::vector<RectArea> get_sites();
+        std::vector<RectArea> get_spawn();
 };
 
 #endif
