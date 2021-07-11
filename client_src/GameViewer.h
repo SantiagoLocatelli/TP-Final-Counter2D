@@ -39,8 +39,6 @@ private:
     void renderMap(Coordenada cam);
     void renderHud();
 
-    void loadWeapons();
-    
 public:
 
     GameViewer(int window_w, int window_h, LevelInfo level);

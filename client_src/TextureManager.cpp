@@ -83,7 +83,6 @@ void TextureManager::loadSkins(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         SkinType skin = (SkinType) texture.second;
-        std::cout << texture.first << std::endl;
         this->skins[skin] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
     }
 }
