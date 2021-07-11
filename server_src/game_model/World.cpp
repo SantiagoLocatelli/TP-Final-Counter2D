@@ -1,6 +1,5 @@
 #include "World.h"
 #include <utility>
-#include <random>
 #include "EntityChecker.h"
 #include "../../common_src/GeneralException.h"
 
@@ -16,22 +15,19 @@ void World::addBox(int grid_x, int grid_y){
     boxes.push_back(Box(b2world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
 }
 
-void World::createPlayer(){
+void World::createPlayer(RectArea spawn, Team team){
     float start_x, start_y;
     EntityChecker checker(b2world);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> genX(0, gridSize[0]);
-    std::uniform_real_distribution<float> genY(0, gridSize[1]);
-
     do{
-        start_x = genX(gen);
-        start_y = genY(gen);
+        float r = ((float) rand()) / (float) RAND_MAX;
+        start_x = spawn.x + (r*spawn.width);
+        r = ((float) rand()) / (float) RAND_MAX;
+        start_y = spawn.y + (r*spawn.height);
     } while (checker.areaHasEntities(b2Vec2(start_x-0.5, start_y-0.5)
     , b2Vec2(start_x+0.5, start_y+0.5)));
 
-    players.emplace_back(std::move(Player(*this, start_x, start_y, config)));
+    players.emplace_back(std::move(Player(*this, start_x, start_y, config, team)));
 }
 
 std::vector<Player> &World::getPlayers(){

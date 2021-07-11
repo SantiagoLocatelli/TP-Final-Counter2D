@@ -7,7 +7,7 @@
 #include "../../common_src/Direction.h"
 #include "Hittable.h"
 #include "Weapon.h"
-#include "../../common_src/WeaponUtils.h"
+#include "../../common_src/Utils.h"
 #include "GameConfig.h"
 
 class World;
@@ -26,10 +26,11 @@ class Player: public Hittable{
         std::array<Weapon*, 4> weapons;
         WeaponSlot currentWeapon;
         float speed;
+        Team team;
 
 
     public:
-        Player(World &world, float start_x, float start_y, GameConfig &config);
+        Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 
         //Métodos de movimiento/posicion
         void toggleMovement(Direction dir);
@@ -37,6 +38,7 @@ class Player: public Hittable{
         std::array<float, 2> getPosition() const;
         void setAngle(float angle);
         float getAngle() const;
+        Team getTeam() const;
 
         //Métodos de disparos/vida
         void toggleWeapon();

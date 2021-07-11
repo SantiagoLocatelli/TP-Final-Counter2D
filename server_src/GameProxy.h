@@ -23,8 +23,8 @@ class GameProxy{
         MapInfo getMapInfo();
         CompleteModelInfo getModelInfo();
 
-        //Crea un jugador y devuelve el id que lo representa
-        void createPlayer();
+        //Crea un jugador 
+        void createPlayer(Team team);
 
         //TODO: Es muy engorroso tener una funcion diferente para cada accion.
         void toggleMovement(int id, Direction direction);

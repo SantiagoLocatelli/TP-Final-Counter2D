@@ -11,8 +11,12 @@ GameThread::GameThread(std::string map_path):game(map_path), eventHandler(game),
 void GameThread::addPlayer(Protocol protocol){
     modelQueues.emplace_back();
     clients.push_back(std::unique_ptr<ClientManager>(new ClientManager(std::move(protocol), eventQueue, modelQueues.back(), game.getMapInfo(), playerNumber)));
+    if (playerNumber%2 == 0){
+        game.createPlayer(TERROR);
+    } else {
+        game.createPlayer(COUNTER);
+    }
     playerNumber++;
-    game.createPlayer();
 }
 
 bool GameThread::ended(){

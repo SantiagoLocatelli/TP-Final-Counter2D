@@ -6,8 +6,8 @@
 #include <iostream>
 #include <utility>
 
-Player::Player(World &world, float start_x, float start_y, GameConfig &config)
-:health(100), angle(0), world(world), dead(false), shooting(false), speed(config.getPlayer().at("speed")){
+Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
+:health(100), angle(0), world(world), dead(false), shooting(false), speed(config.getPlayer().at("speed")), team(team){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -48,6 +48,7 @@ Player::Player(Player&& other): world(other.world){
     this->speed = other.speed;
     this->shooting = other.shooting;
     this->currentWeapon = other.currentWeapon;
+    this->team = other.team;
 
     this->movement = std::move(other.movement);
     
@@ -174,4 +175,8 @@ void Player::changeWeapon(WeaponSlot slot){
     if (weapons[slot] != nullptr){
         currentWeapon = slot;
     }
+}
+
+Team Player::getTeam() const{
+    return team;
 }
