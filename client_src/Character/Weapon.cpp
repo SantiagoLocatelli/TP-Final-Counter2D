@@ -1,7 +1,7 @@
 #include "Weapon.h"
 
 
-Weapon::Weapon(SdlTexture weapon, SdlTexture anim, Size size):
+Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
     weapon(weapon), anim(anim){
     this->info.pos = {0,0};
     this->info.size = size;

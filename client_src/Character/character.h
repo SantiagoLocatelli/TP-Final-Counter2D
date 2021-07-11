@@ -18,7 +18,7 @@ class Character{
 		SDL_Rect getSourceTexture();
 
     public:
-		Character(PlayerInfo player, SdlTexture texture, Weapon weapon);
+		Character(PlayerInfo player, SdlTexture& texture, Weapon weapon);
 
 		void update(PlayerInfo info, Weapon weapon);
 		void render(int camX, int camY);

@@ -18,7 +18,7 @@ void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
     std::stringstream path;
     path << PATH;
     path << "weaponsOnFloor.yaml";
-    std::cout <<  path.str() << std::endl;
+
     YAML::Node yaml_map = YAML::LoadFile(path.str());
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
@@ -31,7 +31,6 @@ void TextureManager::loadWeaponsOnHud(SdlRenderer& renderer){
     std::stringstream path;
     path << PATH;
     path << "weaponsOnHud.yaml";
-    std::cout <<  path.str() << std::endl;
 
     YAML::Node yaml_map = YAML::LoadFile(path.str());
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
@@ -84,6 +83,7 @@ void TextureManager::loadSkins(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         SkinType skin = (SkinType) texture.second;
+        std::cout << texture.first << std::endl;
         this->skins[skin] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
     }
 }
@@ -172,9 +172,9 @@ TextureManager::~TextureManager(){
 
 }
 
-SdlTexture TextureManager::getWeaponOnHud(WeaponType weapon){return *(this->weaponsOnHud[weapon]);}
-SdlTexture TextureManager::getWeaponOnPj(WeaponType weapon){return *(this->weaponsOnPj[weapon]);}
-SdlTexture TextureManager::getWeaponOnFloor(WeaponType weapon){return *(this->weaponsOnFloor[weapon]);}
-SdlTexture TextureManager::getWeaponAnim(WeaponType weapon){return *(this->animWeaponOnPj[weapon]);}
-SdlTexture TextureManager::getSkin(SkinType skin){return *(this->skins[skin]);}
-SdlTexture TextureManager::getTiles(uint8_t tile){return *(this->tiles[tile]);}
+SdlTexture* TextureManager::getWeaponOnHud(WeaponType weapon){return (this->weaponsOnHud[weapon]);}
+SdlTexture* TextureManager::getWeaponOnPj(WeaponType weapon){return (this->weaponsOnPj[weapon]);}
+SdlTexture* TextureManager::getWeaponOnFloor(WeaponType weapon){return (this->weaponsOnFloor[weapon]);}
+SdlTexture* TextureManager::getWeaponAnim(WeaponType weapon){return (this->animWeaponOnPj[weapon]);}
+SdlTexture* TextureManager::getSkin(SkinType skin){return (this->skins[skin]);}
+SdlTexture* TextureManager::getTiles(uint8_t tile){return (this->tiles[tile]);}

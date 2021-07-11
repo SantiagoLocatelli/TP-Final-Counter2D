@@ -38,12 +38,12 @@ public:
     TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tiles);
     ~TextureManager();
 
-    SdlTexture getWeaponOnHud(WeaponType weapon);
-    SdlTexture getWeaponOnPj(WeaponType weapon);
-    SdlTexture getWeaponOnFloor(WeaponType weapon);
-    SdlTexture getWeaponAnim(WeaponType weapon);
-    SdlTexture getSkin(SkinType skin);
-    SdlTexture getTiles(uint8_t tile);
+    SdlTexture* getWeaponOnHud(WeaponType weapon);
+    SdlTexture* getWeaponOnPj(WeaponType weapon);
+    SdlTexture* getWeaponOnFloor(WeaponType weapon);
+    SdlTexture* getWeaponAnim(WeaponType weapon);
+    SdlTexture* getSkin(SkinType skin);
+    SdlTexture* getTiles(uint8_t tile);
 };
 
 #endif

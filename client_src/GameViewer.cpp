@@ -23,8 +23,8 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     loadWeapons();
 
     WeaponType mainType = level.mainPlayer.weapon.type;
-    Weapon mainWeapon(this->textureManager.getWeaponOnPj(mainType), this->textureManager.getWeaponAnim(mainType), level.mainPlayer.weapon.size);
-    this->mainPlayer = new MainCharacter( level.mainPlayer, this->textureManager.getSkin(CT1), 
+    Weapon mainWeapon(*(this->textureManager.getWeaponOnPj(mainType)), *(this->textureManager.getWeaponAnim(mainType)), level.mainPlayer.weapon.size);
+    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window_w, window_h)), mainWeapon);
 
@@ -32,8 +32,8 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     for (PlayerInfo player : level.players) {
         //crear cuchillo y cargarlo al personaje
         WeaponType type = player.weapon.type;
-        Weapon weapon(this->textureManager.getWeaponOnPj(type), this->textureManager.getWeaponAnim(type), player.weapon.size);
-        this->players.push_back(Character(player, this->textureManager.getSkin(CT1), weapon));
+        Weapon weapon(*(this->textureManager.getWeaponOnPj(type)), *(this->textureManager.getWeaponAnim(type)), player.weapon.size);
+        this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), weapon));
     }
 }
 
@@ -75,7 +75,7 @@ void GameViewer::renderShots(Coordenada cam){
 
 void GameViewer::renderWeapons(Coordenada cam){
     for(DropInfo wp : level.drops){
-        this->textureManager.getWeaponOnFloor(wp.type).render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
+        this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
     }
 }
 
@@ -85,7 +85,7 @@ void GameViewer::renderMap(Coordenada cam){
         uint8_t tile = this->level.tiles[i].id;
         Coordenada pos = this->level.tiles[i].pos;
         Size size = this->level.tiles[i].size;
-        this->textureManager.getTiles(tile).render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
+        this->textureManager.getTiles(tile)->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
     }
 }
 
@@ -129,7 +129,7 @@ void GameViewer::update(LevelInfo level){
 
     WeaponType mainType = level.mainPlayer.weapon.type;
 
-    Weapon mainWeapon(this->textureManager.getWeaponOnPj(mainType), this->textureManager.getWeaponAnim(mainType), level.mainPlayer.weapon.size);
+    Weapon mainWeapon(*(this->textureManager.getWeaponOnPj(mainType)), *(this->textureManager.getWeaponAnim(mainType)), level.mainPlayer.weapon.size);
     this->mainPlayer->update(level.mainPlayer, mainWeapon);
 
     this->level.drops.clear();
@@ -146,7 +146,7 @@ void GameViewer::update(LevelInfo level){
     for (PlayerInfo player : this->level.players) {
         if (!player.dead && it != end) {
             WeaponType type = player.weapon.type;
-            Weapon weapon(this->textureManager.getWeaponOnPj(type), this->textureManager.getWeaponAnim(type), player.weapon.size);
+            Weapon weapon(*(this->textureManager.getWeaponOnPj(type)), *(this->textureManager.getWeaponAnim(type)), player.weapon.size);
             it->update(player, weapon);
         }
     }
