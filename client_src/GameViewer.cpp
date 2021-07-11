@@ -20,7 +20,6 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
-    loadWeapons();
 
     WeaponType mainType = level.mainPlayer.weapon.type;
     Weapon mainWeapon(*(this->textureManager.getWeaponOnPj(mainType)), *(this->textureManager.getWeaponAnim(mainType)), level.mainPlayer.weapon.size);
@@ -40,12 +39,6 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
 GameViewer::~GameViewer(){
     delete this->mainPlayer;
 }
-
-void GameViewer::loadWeapons(){
-
-
-}
-
 
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
