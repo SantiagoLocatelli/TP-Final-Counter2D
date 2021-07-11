@@ -7,12 +7,12 @@
 #include <list>
 #include <map>
 
-GameProxy::GameProxy(const std::string &yaml_path){
+GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(config){
     WorldParser parser(yaml_path);
 
     parser.get_size(mapInfo.length, mapInfo.height);
 
-    world = new World(mapInfo.length, mapInfo.height);
+    world = new World(mapInfo.length, mapInfo.height, config);
 
     for (auto b: parser.get_boxes()){
         world->addBox(b[0], b[1]);
@@ -113,6 +113,10 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
+    if (world->getTime() > config.getGame().at("roundTime")){
+        return true;
+    }
+    
     int alive_players = 0;
     for (const Player &p: world->getPlayers()){
         if (!p.isDead()){

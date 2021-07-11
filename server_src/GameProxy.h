@@ -15,9 +15,10 @@ class GameProxy{
     private:
         World* world;
         MapInfo mapInfo;
+        GameConfig &config;
     
     public:
-        explicit GameProxy(const std::string &yamlPath);
+        explicit GameProxy(const std::string &yamlPath, GameConfig &config);
         void step();        
 
         MapInfo getMapInfo();
