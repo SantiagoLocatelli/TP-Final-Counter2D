@@ -9,6 +9,7 @@
 GameThread::GameThread(std::string map_path):game(map_path), eventHandler(game), gameEnded(false), playerNumber(0){}
 
 void GameThread::addPlayer(Protocol protocol){
+    const std::lock_guard<std::mutex> lock(m);
     modelQueues.emplace_back();
     clients.push_back(std::unique_ptr<ClientManager>(new ClientManager(std::move(protocol), eventQueue, modelQueues.back(), game.getMapInfo(), playerNumber)));
     playerNumber++;

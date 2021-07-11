@@ -10,6 +10,7 @@
 #include <list>
 #include <string>
 #include <memory>
+#include <mutex>
 
 class GameThread: public Thread{
     private:
@@ -20,6 +21,7 @@ class GameThread: public Thread{
         EventHandler eventHandler;
         bool gameEnded;
         int playerNumber;
+        std::mutex m;
 
         void run();
     
