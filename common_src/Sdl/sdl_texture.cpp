@@ -176,6 +176,32 @@ bool SdlTexture::isMouseTouching(int posX, int posY){
     return inside;
 }
 
+bool SdlTexture::isMouseTouching(int posX, int posY, int width, int height){
+    //Check if mouse is in button
+    bool inside = true;
+	int mousePosX, mousePosY;
+	SDL_GetMouseState(&mousePosX, &mousePosY);
+
+    //Mouse is left of the button
+    if (mousePosX < posX){
+        inside = false;
+    }
+    //Mouse is right of the button
+    else if (mousePosX > posX + width){
+        inside = false;
+    }
+    //Mouse above the button
+    else if (mousePosY < posY){
+        inside = false;
+    }
+    //Mouse below the button
+    else if (mousePosY > posY + height){
+        inside = false;
+    }
+
+    return inside;
+}
+
 void SdlTexture::setWidthAndHeight(int width, int height){
 	this->mWidth = width;
 	this->mHeight = height;

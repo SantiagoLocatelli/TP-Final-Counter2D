@@ -19,15 +19,17 @@ class Presenter{
         virtual void aceptChanges(){};
         virtual bool finish() = 0;
 
+        void renderTextures();
         void renderBombSites();
         void renderSpawnSites();
+        void renderMapTextures();
         void centerCamera();
         void handleBombSitesEvent(SDL_Event* event);
         void handleSpawnSitesEvent(SDL_Event* event);
+        void handleSelectTexture(SDL_Event* event);
         void fillSize(std::vector<SDL_Rect>& vector);
         void changeSizeOfSites(std::vector<float>& vector);
-        void renderTextures();
-        void changeTexture(const int& type);
+        void changeTexture();
         void createMap();
         void editMap(const std::string& mapID);
 
@@ -36,7 +38,6 @@ class Presenter{
         int getMapHeight();
         int getTextureMapSize();
         int getTexturesSize();
-        std::string getTypeName(const int& type);
         int getTileSize();
 };
 #endif

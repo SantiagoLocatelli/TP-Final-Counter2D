@@ -31,6 +31,7 @@ class SdlTexture{
 		int changeTextTexture(std::string text, int size, Uint8 red, Uint8 green, Uint8 blue);
 
 		bool isMouseTouching(int posX, int posY);
+		bool isMouseTouching(int posX, int posY, int width, int height);
 
 		//Loads image at specified path
 		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);

@@ -24,7 +24,7 @@ class InitialMenue : public Presenter{
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void aceptChanges() override;
         std::string getTitle() override;
-        bool finish();
+        bool finish() override;
 
 };
 #endif

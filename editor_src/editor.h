@@ -10,8 +10,6 @@
 #include "presenter.h"
 class Editor : public Presenter{
     private:
-        int currentType;
-
         bool renderBombSites;
 
         bool renderSpawnSites;

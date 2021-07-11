@@ -17,11 +17,19 @@ void Presenter::renderSpawnSites(){
     this->menueManager.renderSpawnSites(this->camera.getRect());
 }
 
+void Presenter::renderMapTextures(){
+    this->menueManager.renderMapTextures(this->camera.getRect());
+}
+
 void Presenter::handleBombSitesEvent(SDL_Event* event){
     this->menueManager.handleBombSitesEvent(event, this->camera.getRect());
 }
 void Presenter::handleSpawnSitesEvent(SDL_Event* event){
     this->menueManager.handleSpawnSitesEvent(event, this->camera.getRect());
+}
+
+void Presenter::handleSelectTexture(SDL_Event* event){
+    this->menueManager.handleSelectTexture(event, this->camera.getRect());
 }
 
 void Presenter::centerCamera(){
@@ -36,8 +44,8 @@ void Presenter::changeSizeOfSites(std::vector<float>& vector){
     this->menueManager.changeSizeOfSites(vector);
 }
 
-void Presenter::changeTexture(const int& type){
-    this->menueManager.changeTexture(type, this->camera.getRect());
+void Presenter::changeTexture(){
+    this->menueManager.changeTexture(this->camera.getRect());
 }
 
 void Presenter::createMap(){
@@ -66,10 +74,6 @@ int Presenter::getTextureMapSize(){
 
 int Presenter::getTexturesSize(){
     return this->menueManager.getTexturesSize();
-}
-
-std::string Presenter::getTypeName(const int& type){
-    return this->menueManager.getTypeName(type);
 }
 
 int Presenter::getTileSize(){

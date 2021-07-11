@@ -8,7 +8,6 @@
 
 
 Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
-    this->currentType = 0;
     this->renderBombSites = false;
     this->renderSpawnSites = false;
     this->changeScene = false;
@@ -31,6 +30,8 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
             presentSpawnSites();
         }else if (event->key.keysym.sym == SDLK_ESCAPE){
             this->changeScene = true;
+        }else if (event->key.keysym.sym == SDLK_TAB){
+            this->changeScene = true;
         }
         //Manage key ups events
     }else if (event->type == SDL_KEYUP){
@@ -40,21 +41,6 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //spawnsites
         }else if (event->key.keysym.sym == SDLK_2){
             stopPresentingSpawnSites();
-        }
-    }else if (event->type == SDL_MOUSEWHEEL){
-        //On mouse wheel scroll
-        if (event->wheel.y > 0){
-            //Scroll through tiles
-            currentType--;
-            if (currentType < 0){
-                currentType = Presenter::getTextureMapSize() - 1;
-            }
-        }else if (event->wheel.y < 0){
-            //Scroll through tiles
-            currentType++;
-            if (currentType >= Presenter::getTextureMapSize() - 1){
-                currentType = 0;
-            }
         }
     }
 
@@ -84,7 +70,7 @@ void Editor::stopPresentingSpawnSites(){
 }
 
 void Editor::put_tile(SdlRenderer& renderer){
-    Presenter::changeTexture(currentType);
+    Presenter::changeTexture();
 }
 
 void Editor::render(){
@@ -98,7 +84,7 @@ void Editor::render(){
 }
 
 std::string Editor::getTitle(){
-    return Presenter::getTypeName(currentType);
+    return "Map Editor";
 }
 
 bool Editor::finish(){

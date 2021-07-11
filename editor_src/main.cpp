@@ -13,6 +13,7 @@
 #include "../common_src/Sdl/draggable.h"
 #include "MenueManager.h"
 #include "InitialMenue.h"
+#include "textureScreen.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -49,15 +50,18 @@ int main(int argc, char* args[]){
             //User requests quit
             if (event.type == SDL_QUIT){
                 quit = true;
-            }else if (presenter.top()->finish()){
+            }
+            presenter.top()->handleEvents(&event, renderer);
+            if (presenter.top()->finish()){
                 if (presenter.size() > 1){
                     presenter.top()->aceptChanges();
                     presenter.pop();
-                }else{
+                }else if (event.key.keysym.sym == SDLK_ESCAPE){
                     presenter.emplace(std::unique_ptr<Presenter>(new OptionsMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                }else{
+                    presenter.emplace(std::unique_ptr<Presenter>(new TextureScreen(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
                 }
             }
-            presenter.top()->handleEvents(&event, renderer);
             window.setTitle("Level Designer. Current Tile: " + presenter.top()->getTitle());
         }
 

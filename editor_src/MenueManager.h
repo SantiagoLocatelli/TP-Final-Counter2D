@@ -17,9 +17,11 @@ class MenueManager{
         TextureMap textureMap;
         std::string mapID;
         std::list<std::unique_ptr<SdlTexture>> textures;
+        std::vector<SdlTexture> textureScreen;
         std::map<std::string, std::shared_ptr<Draggable>> bombSites;
         std::map<std::string, std::shared_ptr<Draggable>> spawnSites;
         int screenWidth, screenHeight;
+        int currentType;
     public:
         MenueManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
@@ -27,11 +29,13 @@ class MenueManager{
         void renderTextures(const SDL_Rect& camera);
         void renderBombSites(const SDL_Rect& camera);
         void renderSpawnSites(const SDL_Rect& camera);
+        void renderMapTextures(const SDL_Rect& camera);
         void handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera);
         void handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera);
+        void handleSelectTexture(SDL_Event* event, const SDL_Rect& camera);
         void fillSize(std::vector<SDL_Rect>& vector);
         void changeSizeOfSites(std::vector<float>& vector);
-        void changeTexture(const int& type, const SDL_Rect& camera);
+        void changeTexture(const SDL_Rect& camera);
         void changeMapSize(const int& width, const int& height);
         void changeToMeters(std::vector<SDL_Rect>& vector);
         void createMap();
@@ -43,6 +47,6 @@ class MenueManager{
         int getTexturesSize();
         std::string getTypeName(const int& type);
         int getTileSize();
-        
+        int getCurrentType();
 };
 #endif

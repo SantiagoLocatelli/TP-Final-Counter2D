@@ -9,8 +9,12 @@
 MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
+    this->currentType = 0;
     TextureFactory factory;
     factory.unmarshalTextures(TEXTURE_PATH, this->textureMap);
+    for (int i = 0; i < textureMap.size(); i++){
+        this->textureScreen.emplace_back(r, textureMap[i], i);
+    }
 }
 
 void MenueManager::createMap(){
@@ -153,6 +157,25 @@ void MenueManager::renderSpawnSites(const SDL_Rect& camera){
     }
 }
 
+void MenueManager::renderMapTextures(const SDL_Rect& camera){
+    int x = 0, y = 0;
+    for (auto &texture : this->textureScreen){
+        texture.render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE);
+        
+        //Move to next tile spot
+        x += TILE_SIZE;
+
+        //If we've gone too far
+        if (x >= this->screenWidth){
+            //Move back
+            x = 0;
+
+            //Move to the next row
+            y += TILE_SIZE;
+        }
+    }
+}
+
 void MenueManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
     std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
     while (iterator != this->bombSites.end()){
@@ -165,6 +188,42 @@ void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camer
     while (iterator != this->spawnSites.end()){
         iterator->second->handleEvent(event, camera);
         ++iterator;
+    }
+}
+
+void MenueManager::handleSelectTexture(SDL_Event* event, const SDL_Rect& camera){
+    
+    if (event->type == SDL_MOUSEBUTTONDOWN){
+        if(event->button.button == SDL_BUTTON_LEFT){
+            int x = 0, y = 0;
+            int textureX = 0, textureY = 0;
+            
+            //Get mouse offsets
+            SDL_GetMouseState(&x, &y);
+            
+            //Adjust to camera
+            x += camera.x;
+            y += camera.y;
+
+            for (unsigned int i = 0; i < this->textureScreen.size(); i++){
+                //If the mouse is inside the tile
+                if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
+                    this->currentType = textureScreen[i].getType();
+                    break;
+                }
+                //Move to next tile spot
+                textureX += TILE_SIZE;
+
+                //If we've gone too far
+                if (textureX >= this->screenWidth){
+                    //Move back
+                    textureX = 0;
+
+                    //Move to the next row
+                    textureY += TILE_SIZE;
+                }
+            }
+        }
     }
 }
 
@@ -220,7 +279,7 @@ void MenueManager::changeMapSize(const int& width, const int& height){
     }
 }
 
-void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
+void MenueManager::changeTexture(const SDL_Rect& camera){
     int x = 0, y = 0;
     
     //Get mouse offsets
@@ -240,7 +299,7 @@ void MenueManager::changeTexture(const int& type, const SDL_Rect& camera){
             textures.erase(it);
             it = textures.begin();
             std::advance(it,i);
-            textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[type], type)));
+            textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[currentType], currentType)));
 			break;
         }
         //Move to next tile spot
@@ -287,10 +346,6 @@ int MenueManager::getTextureMapSize(){
 
 int MenueManager::getTexturesSize(){
     return textures.size();
-}
-
-std::string MenueManager::getTypeName(const int& type){
-    return this->textureMap[type];
 }
 
 int MenueManager::getTileSize(){
