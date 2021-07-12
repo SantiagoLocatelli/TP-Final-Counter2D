@@ -3,13 +3,13 @@
 #include <fstream>
 #include <utility>
 #include <memory>
-#define TEXTURE_PATH "../../common_src/maps/textures.yaml"
 #define TILE_SIZE 80
 
 MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
     this->currentType = 0;
+    this->needsToSave = "";
     for (int i = 0; i < textureMap.size(); i++){
         this->textureScreen.emplace_back(r, textureMap[i].texturePath, i);
     }
@@ -113,6 +113,8 @@ void MenueManager::loadToFile(){
     //load into file
     std::ofstream fout(this->mapID.c_str()); 
     fout << out.c_str();
+
+    this->needsToSave = "";
 }
 
 void MenueManager::renderTextures(const SDL_Rect& camera){
@@ -136,7 +138,7 @@ void MenueManager::renderTextures(const SDL_Rect& camera){
 
 
 void MenueManager::renderBombSites(const SDL_Rect& camera){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
     while (iterator != this->bombSites.end()){
         iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
         iterator->second->setAlpha(100);
@@ -146,7 +148,7 @@ void MenueManager::renderBombSites(const SDL_Rect& camera){
 }
 
 void MenueManager::renderSpawnSites(const SDL_Rect& camera){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
     while (iterator != this->spawnSites.end()){
         iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
         iterator->second->setAlpha(100);
@@ -175,23 +177,36 @@ void MenueManager::renderMapTextures(const SDL_Rect& camera){
 }
 
 void MenueManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
+    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
     while (iterator != this->bombSites.end()){
+        int auxX = iterator->second->getPosX();
+        int auxY = iterator->second->getPosY();
+
         iterator->second->handleEvent(event, camera);
+        
+        if (auxX != iterator->second->getPosX() || auxY != iterator->second->getPosY()){
+            this->needsToSave = "*";
+        }
         ++iterator;
     }
 }
 
 void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera){
-    std::map<std::string, std::shared_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
+    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
     while (iterator != this->spawnSites.end()){
+        int auxX = iterator->second->getPosX();
+        int auxY = iterator->second->getPosY();
+
         iterator->second->handleEvent(event, camera);
+
+        if (auxX != iterator->second->getPosX() || auxY != iterator->second->getPosY()){
+            this->needsToSave = "*";
+        }
         ++iterator;
     }
 }
 
 void MenueManager::handleSelectTexture(SDL_Event* event, const SDL_Rect& camera){
-    
     if (event->type == SDL_MOUSEBUTTONDOWN){
         if(event->button.button == SDL_BUTTON_LEFT){
             int x = 0, y = 0;
@@ -299,7 +314,8 @@ void MenueManager::changeTexture(const SDL_Rect& camera){
             it = textures.begin();
             std::advance(it,i);
             textures.insert(it, std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[currentType].texturePath, currentType)));
-			break;
+			this->needsToSave = "*";
+            break;
         }
         //Move to next tile spot
         textureX += TILE_SIZE;
@@ -329,7 +345,13 @@ void MenueManager::changeToMeters(std::vector<SDL_Rect>& vector){
     }
 }
 
+void MenueManager::needToSave(){
+    this->needsToSave = "*";
+}
 
+std::string MenueManager::getSaveState(){
+    return needsToSave;
+}
 
 int MenueManager::getMapWidth(){
     return this->mapSize[0] * TILE_SIZE;
@@ -349,4 +371,12 @@ int MenueManager::getTexturesSize(){
 
 int MenueManager::getTileSize(){
     return TILE_SIZE;
+}
+
+int MenueManager::getScreenWidth(){
+    return this->screenWidth;
+}
+
+int MenueManager::getScreenHeight(){
+    return this->screenHeight;
 }

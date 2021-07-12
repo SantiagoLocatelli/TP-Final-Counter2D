@@ -24,6 +24,7 @@ void Presenter::renderMapTextures(){
 void Presenter::handleBombSitesEvent(SDL_Event* event){
     this->menueManager.handleBombSitesEvent(event, this->camera.getRect());
 }
+
 void Presenter::handleSpawnSitesEvent(SDL_Event* event){
     this->menueManager.handleSpawnSitesEvent(event, this->camera.getRect());
 }
@@ -56,6 +57,14 @@ void Presenter::editMap(const std::string& mapID){
     this->menueManager.editMap(mapID);
 }
 
+void Presenter::needToSave(){
+    this->menueManager.needToSave();
+}
+
+void Presenter::saveMap(){
+    this->menueManager.loadToFile();
+}
+
 SDL_Rect Presenter::getCameraBox(){
     return this->camera.getRect();
 }
@@ -78,4 +87,12 @@ int Presenter::getTexturesSize(){
 
 int Presenter::getTileSize(){
     return this->menueManager.getTileSize();
+}
+
+int Presenter::getScreenWidth(){
+    return this->menueManager.getScreenWidth();
+}
+
+int Presenter::getScreenHeight(){
+    return this->menueManager.getScreenHeight();
 }

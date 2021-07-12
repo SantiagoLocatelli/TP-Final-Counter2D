@@ -47,6 +47,7 @@ void OptionsMenue::render(){
         }
         this->selectedTexture->setColor(255,255,0);
         this->renderText = false;
+        Presenter::needToSave();
     }
     int posY = 0;
     int posX = 0;
@@ -69,7 +70,7 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     int posY = 0;
     int posX = 300;
     if (event->type == SDL_KEYDOWN){
-        if(event->key.keysym.sym == SDLK_ESCAPE){
+        if(event->key.keysym.sym == SDLK_ESCAPE && event->key.repeat == 0){
             this->changeScene = true;
         }
     }
