@@ -6,13 +6,14 @@
 #include "EventQueue.h"
 #include "EventReceiver.h"
 #include "ModelQueue.h"
+#include <atomic>
 
 class ClientManager: public Thread{
     private:
         Protocol protocol;
         int id;
         EventReceiver receiver;
-        bool keep_sending;
+        std::atomic_bool keep_sending;
         ModelQueue &modelQueue;
         MapInfo map;
 

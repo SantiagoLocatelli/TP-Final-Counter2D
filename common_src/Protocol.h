@@ -16,9 +16,9 @@ class Protocol{
         Socket skt;
         
         //Envía un short por el socket. 
-        void send_short(const uint16_t &buf);
+        void send_uint16t(const uint16_t &buf);
         //Recibe un short por el socket.
-        void recv_short(uint16_t &buf);
+        void recv_uint16t(uint16_t &buf);
 
         void send_byte(const char &byte);
         void recv_byte(char &byte);
