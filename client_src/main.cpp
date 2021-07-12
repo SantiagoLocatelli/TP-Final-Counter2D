@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
         }
 
 
-        int window_w = 800, window_h = 800;
+        int window_w = 500, window_h = 500;
 
         MapInfo map;
         server.recv_map_info(map);
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
             level = gameManager.updatedLevel(model);
             gameViewer.update(level);
             gameViewer.render();
-            while (stopwatch.msPassed() < 33) {
+            while (stopwatch.msPassed() < FRAME_MS) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
         }

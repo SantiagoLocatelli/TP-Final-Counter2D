@@ -1,8 +1,8 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "game_model/Shotgun.h"
-#include "../common_src/Utils.h"
-#include "game_model/Bomb.h"
+#include "../game_model/Shotgun.h"
+#include "../../common_src/Utils.h"
+#include "../game_model/Bomb.h"
 #include <utility>
 
 #include <list>
@@ -53,9 +53,9 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.angle = p.getAngle();
                 you.health = p.getHealth();
                 you.weapon = p.getWeaponType();
-                you.shooting = p.isShooting();
+                you.shot = p.shot;
                 you.team = p.getTeam();
-                you.ammo = 0;
+                you.ammo = p.getAmmo();
             }
             info.players.push_back(you);
     }
@@ -64,7 +64,11 @@ CompleteModelInfo GameProxy::getModelInfo(){
         Bullet b;
         b.pos.x = ray.x;
         b.pos.y = ray.y;
-        b.angle = ray.angle;
+        if (ray.angle < 0){
+            b.angle = ray.angle + 6.2832; //Le sumo 2PI
+        } else {
+            b.angle = ray.angle; 
+        }
         b.distance = ray.distance;
         info.bullets.push_back(b);
     }
@@ -79,11 +83,13 @@ CompleteModelInfo GameProxy::getModelInfo(){
 
     info.game_ended = ended();
 
+    info.bomb = world->getBomb();
+
     return info;
 }
 
-void GameProxy::step(){
-    world->step();
+void GameProxy::step(float delta){
+    world->step(delta);
 }
 
 void GameProxy::createPlayer(Team team){
@@ -140,6 +146,9 @@ GameProxy::~GameProxy(){
 
 void GameProxy::clearFrameEvents(){
     world->clearBullets();
+    for (Player &p: world->getPlayers()){
+        p.shot = false;
+    }
 }
 
 void GameProxy::toggleDefuse(int id){

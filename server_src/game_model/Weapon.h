@@ -30,6 +30,7 @@ class Weapon{
         World *getWorld();
         WeaponType getType();
         WeaponSlot getSlot();
+        int getAmmo();
         virtual void toggle();
         virtual void reload();
         virtual void step(float delta);

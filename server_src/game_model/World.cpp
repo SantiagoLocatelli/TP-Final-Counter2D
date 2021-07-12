@@ -36,8 +36,7 @@ std::vector<Player> &World::getPlayers(){
     return players;
 }
 
-void World::step(){
-    float delta = config.getGame().at("frameTime");
+void World::step(float delta){
     timer += delta;
     for (Player &p: players){
         if (!p.isDead()){
@@ -200,4 +199,8 @@ bool World::canDefuse(float x, float y){
     }
 
     return false;
+}
+
+ProtBomb World::getBomb(){
+    return bomb;
 }

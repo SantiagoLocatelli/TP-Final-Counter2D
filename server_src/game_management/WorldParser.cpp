@@ -1,5 +1,5 @@
 #include "WorldParser.h"
-#include "../common_src/TextureMap.h"
+#include "../../common_src/TextureMap.h"
 #include <vector>
 
 WorldParser::WorldParser(const std::string &yamlPath)

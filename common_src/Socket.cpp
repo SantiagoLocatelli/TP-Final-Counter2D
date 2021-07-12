@@ -121,11 +121,15 @@ void Socket::send_buffer(const char *buf, size_t len){
 
     while (bytes_sent < len && r != FAILURE){
         r = send(fd, &(buf[bytes_sent]), len-bytes_sent, MSG_NOSIGNAL);
-        if (r == FAILURE) 
+        if (r == FAILURE) {
+            if (errno == 32){ //Broken pipe
+                throw SocketClosedException();
+            }
             throw GeneralException("Fallo en `send`: " 
             + std::string(strerror(errno)) + ".\n");
-        else 
+        } else {
             bytes_sent += r;
+        } 
     }
 }
 

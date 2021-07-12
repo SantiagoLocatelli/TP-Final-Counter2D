@@ -7,7 +7,7 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), shooting(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true){
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -46,7 +46,7 @@ Player::Player(Player&& other): world(other.world), config(other.config){
     this->health = other.health;
     this->dead = other.dead;
     this->angle = other.angle;
-    this->shooting = other.shooting;
+    this->shot = other.shot;
     this->currentWeapon = other.currentWeapon;
     this->slotToDestroy = other.slotToDestroy;
     this->team = other.team;
@@ -130,12 +130,7 @@ void Player::toggleWeapon(){
     if (dead)
         GeneralException("Error en Player::toggleWeapon: El jugador está muerto\n");
     
-    shooting = !shooting;
     weapons[currentWeapon]->toggle();
-}
-
-bool Player::isShooting() const{
-    return shooting;
 }
 
 WeaponType Player::getWeaponType() const{
@@ -232,8 +227,15 @@ void Player::toggleDefuse(){
     if (team == COUNTER && world.canDefuse(body->GetPosition().x, body->GetPosition().y)){
         defusing = !defusing;
         if (defusing){
+            canMove = false;
             defuseTime = config.getPlayer().at("defuseTime");
+        } else {
+            canMove = true;
         }
     }
     
+}
+
+int Player::getAmmo() const{
+    return weapons[currentWeapon]->getAmmo();
 }

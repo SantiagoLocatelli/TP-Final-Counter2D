@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "Utils.h"
 
+#define FRAME_MS 33
+
 
 struct Position{
     float x;
@@ -16,7 +18,7 @@ struct ProtPlayer{
     Position pos;
     float angle; //En radianes
     WeaponType weapon;
-    bool shooting;
+    bool shot;
     Team team;
 };
 
