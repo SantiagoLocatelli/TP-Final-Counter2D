@@ -165,6 +165,7 @@ void GameViewer::update(LevelInfo level){
             Weapon weapon(*(this->textureManager.getWeaponOnPj(type)), *(this->textureManager.getWeaponAnim(type)), player.weapon.size);
             it->update(player, weapon);
         }
+        it++;
     }
     // revisar el constructor por movimiento del character
 
