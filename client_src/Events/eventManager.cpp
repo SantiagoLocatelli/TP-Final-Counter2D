@@ -1,5 +1,6 @@
 #include "eventManager.h"
 #include "gameMath.h"
+#include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
 EventManager::EventManager(Protocol& com, bool& quit, GameViewer& game):com(com), quit(quit), game(game){}
@@ -93,6 +94,8 @@ void EventManager::run(){
         }
 
         com.close();
+    } catch(const SocketClosedException &e){
+        //Si me cierran el socket no quiero imprimir error. Es esperado.
     } catch (const std::exception &e){
         std::cerr << "ERROR en `EventManager`: " << e.what() << std::endl;
     }
