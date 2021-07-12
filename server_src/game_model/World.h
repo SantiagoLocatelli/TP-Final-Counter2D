@@ -14,6 +14,7 @@
 #include "CollisionHandler.h"
 #include "GameConfig.h"
 #include "../../common_src/Utils.h"
+#include "../../common_src/ModelInfo.h"
 
 class Drop;
 class Player;
@@ -26,13 +27,17 @@ class World{
         std::list<Ray> bullets;
         int player_number;
         CollisionHandler collisionHandler;
-        std::list<b2Body*> bodiesToDestroy; 
+        std::list<b2Body*> bodiesToDestroy;
+        float timer;
+        ProtBomb bomb;
+        std::list<RectArea> bombSites;
+
 
     public:
-        GameConfig config;       
         b2World b2world;
+        GameConfig &config;     
 
-        World(int grid_length, int grid_height);
+        World(int grid_length, int grid_height, GameConfig &config);
         void addBox(int grid_x, int grid_y);
         void createPlayer(RectArea spawn, Team team);
         void step();
@@ -47,8 +52,17 @@ class World{
 
         void addDrop(Weapon *weapon, float x, float y);
         std::list<Drop*> getDrops();
-
+        float getTime();
+        void addSite(RectArea site);
         void destroyBody(b2Body *body);
+
+        //TODO: Pasar estos métodos a su propia clase 
+        bool canPlant(float x, float y);
+        void plantBomb(float x, float y);
+        bool bombExploded();
+        bool canDefuse(float x, float y);
+        void defuseBomb();
+        bool bombDefused();
 
         ~World();
 

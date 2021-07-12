@@ -12,6 +12,8 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/draggable.h"
 #include "MenueManager.h"
+#include "InitialMenue.h"
+#include "textureScreen.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -27,11 +29,12 @@ int main(int argc, char* args[]){
     SdlWindow window("Editor", 640, 480);
     SdlRenderer renderer(&window);
 
-    MenueManager menueManager(renderer, "../../common_src/maps/mapaMetros.yaml", SCREEN_WIDTH, SCREEN_HEIGHT);
+    MenueManager menueManager(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     std::stack<std::unique_ptr<Presenter>> presenter;
     
     presenter.emplace(std::unique_ptr<Presenter>(new Editor(menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+    presenter.emplace(std::unique_ptr<Presenter>(new InitialMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
     
 
     //Main loop flag
@@ -43,28 +46,27 @@ int main(int argc, char* args[]){
     //While application is running
     while (!quit){
         //Handle events on queue
-        presenter.top()->centerCamera();
         while (SDL_PollEvent(&event) != 0){
             //User requests quit
             if (event.type == SDL_QUIT){
                 quit = true;
-            }else if (event.type == SDL_KEYDOWN){
-                if(event.key.keysym.sym == SDLK_ESCAPE){
-                    if (presenter.size() > 1){
-                        presenter.top()->aceptChanges();
-                        presenter.pop();
-                    }else{
-                        presenter.emplace(std::unique_ptr<Presenter>(new OptionsMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
-                    }
-                }
             }
             presenter.top()->handleEvents(&event, renderer);
+            if (presenter.top()->finish()){
+                if (presenter.size() > 1){
+                    presenter.top()->aceptChanges();
+                    presenter.pop();
+                }else if (event.key.keysym.sym == SDLK_ESCAPE){
+                    presenter.emplace(std::unique_ptr<Presenter>(new OptionsMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                }else{
+                    presenter.emplace(std::unique_ptr<Presenter>(new TextureScreen(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                }
+            }
             window.setTitle("Level Designer. Current Tile: " + presenter.top()->getTitle());
         }
 
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         renderer.clear();
-        presenter.top()->centerCamera();
 
         presenter.top()->render();
 

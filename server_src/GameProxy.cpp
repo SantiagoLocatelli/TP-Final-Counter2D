@@ -2,17 +2,18 @@
 #include "WorldParser.h"
 #include "game_model/Shotgun.h"
 #include "../common_src/Utils.h"
+#include "game_model/Bomb.h"
 #include <utility>
 
 #include <list>
 #include <map>
 
-GameProxy::GameProxy(const std::string &yaml_path){
+GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(config){
     WorldParser parser(yaml_path);
 
     parser.get_size(mapInfo.length, mapInfo.height);
 
-    world = new World(mapInfo.length, mapInfo.height);
+    world = new World(mapInfo.length, mapInfo.height, config);
 
     for (auto b: parser.get_boxes()){
         world->addBox(b[0], b[1]);
@@ -25,7 +26,13 @@ GameProxy::GameProxy(const std::string &yaml_path){
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 
+    for (const RectArea &r: mapInfo.bombSites){
+        world->addSite(r);
+    }
+
     world->addDrop(new Shotgun(world, world->config), 5.5f, 5.5f);
+
+    world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);
 }
 
 MapInfo GameProxy::getMapInfo(){
@@ -113,6 +120,10 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
+    if (world->getTime() > config.getGame().at("roundTime") || world->bombExploded() || world->bombDefused()){
+        return true;
+    }
+
     int alive_players = 0;
     for (const Player &p: world->getPlayers()){
         if (!p.isDead()){
@@ -129,4 +140,8 @@ GameProxy::~GameProxy(){
 
 void GameProxy::clearFrameEvents(){
     world->clearBullets();
+}
+
+void GameProxy::toggleDefuse(int id){
+    world->getPlayers()[id].toggleDefuse();
 }

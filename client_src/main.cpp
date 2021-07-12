@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
         }
 
 
-        int window_w = 500, window_h = 500;
+        int window_w = 800, window_h = 800;
 
         MapInfo map;
         server.recv_map_info(map);
@@ -64,7 +64,6 @@ int main(int argc, char* argv[]){
         while (!quit && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
-
             level = gameManager.updatedLevel(model);
             gameViewer.update(level);
             gameViewer.render();

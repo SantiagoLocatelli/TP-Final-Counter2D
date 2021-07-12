@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -44,8 +44,10 @@ WeaponSlot Weapon::getSlot(){
 }
 
 void Weapon::toggle(){
-    if (bullets > 0){
+    toggled = !toggled;
+    if (toggled && bullets > 0 && shootTime == 0){
         shootBullet();
+        shootTime = config.at("speed");
         bullets--;
     }
 }
@@ -61,5 +63,24 @@ float Weapon::calculateDamage(float distance){
 }
 
 void Weapon::reload(){
-    bullets = config.at("capacity");
+    if (reloadTime == 0){
+        reloadTime = config.at("reloadTime");
+    }
+}
+
+void Weapon::step(float delta){
+    if (shootTime > 0){
+        shootTime -= delta;
+        if (shootTime < 0){
+            shootTime = 0;
+        }
+    }
+
+    if (reloadTime > 0){
+        reloadTime -= delta;
+        if (reloadTime <= 0){
+            bullets = config.at("capacity");
+            reloadTime = 0;
+        }
+    }
 }

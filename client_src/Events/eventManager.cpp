@@ -35,7 +35,9 @@ void EventManager::run(){
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = RIGHT; 
                                 break;
-                            case SDLK_e: /*plantar bomba*/break;
+                            case SDLK_e: 
+                                event.type = TOGGLE_DEFUSE;
+                                break;
                             case SDLK_r:
                                 event.type = RELOAD_WEAPON;
                                 break;
@@ -65,7 +67,7 @@ void EventManager::run(){
                     break; 
 
                 /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
-                //case SDL_MOUSEBUTTONUP: Por ahora solo cuando apreta el boton 
+                case SDL_MOUSEBUTTONUP: 
                 case SDL_MOUSEBUTTONDOWN:
                     switch (e.button.button){
                         case SDL_BUTTON_LEFT:

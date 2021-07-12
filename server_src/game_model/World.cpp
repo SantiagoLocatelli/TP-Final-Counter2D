@@ -3,9 +3,10 @@
 #include "EntityChecker.h"
 #include "../../common_src/GeneralException.h"
 
-World::World(int grid_length, int grid_height):player_number(0), b2world(b2Vec2(0,0)){
+World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), timer(0), b2world(b2Vec2(0,0)), config(config){
     gridSize[0] = grid_length;
     gridSize[1] = grid_height;
+    bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
 }
 
@@ -19,6 +20,7 @@ void World::createPlayer(RectArea spawn, Team team){
     float start_x, start_y;
     EntityChecker checker(b2world);
 
+    //TODO: Tener un contador de iteraciones para frenar por si el tamaño del spawn no es suficiente
     do{
         float r = ((float) rand()) / (float) RAND_MAX;
         start_x = spawn.x + (r*spawn.width);
@@ -35,11 +37,20 @@ std::vector<Player> &World::getPlayers(){
 }
 
 void World::step(){
+    float delta = config.getGame().at("frameTime");
+    timer += delta;
     for (Player &p: players){
-        if (!p.isDead())
+        if (!p.isDead()){
             p.updateVelocity();
+            p.step(delta);
+        }
     }
-    b2world.Step(1.0/30.0, 10, 9);
+
+    if (bomb.planted){
+        bomb.timeRemaining -= delta;
+    }
+
+    b2world.Step(delta, 10, 9);
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
@@ -135,4 +146,58 @@ World::~World(){
 std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, float length){
     EntityChecker checker(b2world);
     return checker.getHittableInArea(b2Vec2(x,y), b2Vec2(x+length, y+heigth));
+}
+
+float World::getTime(){
+    return timer;
+}
+
+void World::plantBomb(float x, float y){
+    if (!bomb.planted){
+        bomb.planted = true;
+        bomb.defused = false;
+        bomb.x = x;
+        bomb.y = y;
+        bomb.timeRemaining = config.getGame().at("bombTime");
+    }
+}
+
+bool World::bombExploded(){
+    return bomb.planted && bomb.timeRemaining <= 0;
+}
+
+void World::defuseBomb(){
+    if (bomb.planted){
+        bomb.defused = true;
+    }
+}
+bool World::bombDefused(){
+    return bomb.planted && bomb.defused;
+}
+
+void World::addSite(RectArea site){
+    bombSites.push_back(site);
+}
+
+bool World::canPlant(float x, float y){
+    if (bomb.planted)
+        return false;
+
+    for (const RectArea &site: bombSites){
+        if (x > site.x && x < site.x+site.width && y > site.y && y < site.y+site.height){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool World::canDefuse(float x, float y){
+    if (bomb.planted && !bomb.defused){
+        if (b2Vec2(x-bomb.x, y-bomb.y).Length() <= config.getGame().at("bombDefuseDistance")){
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -7,7 +7,7 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), shooting(false), speed(config.getPlayer().at("speed")), team(team){
+:health(100), angle(0), world(world), dead(false), shooting(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -31,6 +31,7 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config, T
     weapons[PRIMARY] = nullptr; //TODO: Ojo, peligroso
     weapons[BOMB_SLOT] = nullptr; //TODO: Ojo, peligroso
     currentWeapon = KNIFE_SLOT;
+    slotToDestroy = KNIFE_SLOT;
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -38,17 +39,20 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config, T
     movement[LEFT] = false;
 }
 
-Player::Player(Player&& other): world(other.world){
+Player::Player(Player&& other): world(other.world), config(other.config){
     this->body = other.body;
     this->body->GetUserData().pointer = (uintptr_t)this;
 
     this->health = other.health;
     this->dead = other.dead;
     this->angle = other.angle;
-    this->speed = other.speed;
     this->shooting = other.shooting;
     this->currentWeapon = other.currentWeapon;
+    this->slotToDestroy = other.slotToDestroy;
     this->team = other.team;
+    this->defusing = other.defusing;
+    this->defuseTime = other.defuseTime;
+    this->canMove = other.canMove;
 
     this->movement = std::move(other.movement);
     
@@ -73,17 +77,20 @@ void Player::updateVelocity(){
     if (dead)
         GeneralException("Error en Player::updateVelocity: El jugador está muerto\n");
     b2Vec2 new_imp(0,0);
-    if (movement[UP])
-        new_imp.y += -1;
-    if (movement[DOWN])
-        new_imp.y += 1;
-    if (movement[LEFT])
-        new_imp.x += -1;
-    if (movement[RIGHT])
-        new_imp.x += 1;
 
-    new_imp.Normalize();
-    new_imp *= this->speed;
+    if (canMove){
+        if (movement[UP])
+            new_imp.y += -1;
+        if (movement[DOWN])
+            new_imp.y += 1;
+        if (movement[LEFT])
+            new_imp.x += -1;
+        if (movement[RIGHT])
+            new_imp.x += 1;
+
+        new_imp.Normalize();
+        new_imp *= config.getPlayer().at("speed");
+    }
     body->SetLinearVelocity(new_imp);
 }
 
@@ -158,6 +165,15 @@ void Player::dropWeapon(){
     }
 }
 
+bool Player::canTake(Weapon *weapon){
+    if (weapons[weapon->getSlot()] != nullptr)
+        return false;
+    if (weapon->getType() == BOMB && team == COUNTER)
+        return false;
+
+    return true;
+}
+
 void Player::takeWeapon(Weapon *weapon){
     if (weapons[weapon->getSlot()] != nullptr){
         delete weapons[weapon->getSlot()];
@@ -177,6 +193,47 @@ void Player::changeWeapon(WeaponSlot slot){
     }
 }
 
+void Player::destroyWeapon(WeaponSlot slot){
+    slotToDestroy = slot;
+}
+
+
 Team Player::getTeam() const{
     return team;
+}
+
+void Player::step(float delta){
+    if (slotToDestroy != KNIFE_SLOT){
+        if (weapons[slotToDestroy] != nullptr){
+            delete weapons[slotToDestroy];
+            weapons[slotToDestroy] = nullptr;
+            if (currentWeapon == slotToDestroy){
+                currentWeapon = KNIFE_SLOT;
+                slotToDestroy = KNIFE_SLOT;
+            }
+        }
+    }
+
+    if (defusing){
+        defuseTime -= delta;
+        if (defuseTime <= 0){
+            world.defuseBomb();
+        }
+    }
+
+    for (Weapon* w: weapons){
+        if (w != nullptr){
+            w->step(delta);
+        }
+    }
+}
+
+void Player::toggleDefuse(){
+    if (team == COUNTER && world.canDefuse(body->GetPosition().x, body->GetPosition().y)){
+        defusing = !defusing;
+        if (defusing){
+            defuseTime = config.getPlayer().at("defuseTime");
+        }
+    }
+    
 }

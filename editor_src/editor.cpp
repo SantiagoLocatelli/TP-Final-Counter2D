@@ -8,12 +8,13 @@
 
 
 Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
-    this->currentType = 0;
     this->renderBombSites = false;
     this->renderSpawnSites = false;
+    this->changeScene = false;
 }
 
 void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+    Presenter::centerCamera();
     if (event->type == SDL_MOUSEBUTTONDOWN){
         //On left mouse click
         if (event->button.button == SDL_BUTTON_RIGHT){
@@ -27,6 +28,10 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //spawnsites
         }else if (event->key.keysym.sym == SDLK_2){
             presentSpawnSites();
+        }else if (event->key.keysym.sym == SDLK_ESCAPE){
+            this->changeScene = true;
+        }else if (event->key.keysym.sym == SDLK_TAB){
+            this->changeScene = true;
         }
         //Manage key ups events
     }else if (event->type == SDL_KEYUP){
@@ -36,21 +41,6 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //spawnsites
         }else if (event->key.keysym.sym == SDLK_2){
             stopPresentingSpawnSites();
-        }
-    }else if (event->type == SDL_MOUSEWHEEL){
-        //On mouse wheel scroll
-        if (event->wheel.y > 0){
-            //Scroll through tiles
-            currentType--;
-            if (currentType < 0){
-                currentType = Presenter::getTextureMapSize() - 1;
-            }
-        }else if (event->wheel.y < 0){
-            //Scroll through tiles
-            currentType++;
-            if (currentType >= Presenter::getTextureMapSize() - 1){
-                currentType = 0;
-            }
         }
     }
 
@@ -80,7 +70,7 @@ void Editor::stopPresentingSpawnSites(){
 }
 
 void Editor::put_tile(SdlRenderer& renderer){
-    Presenter::changeTexture(currentType);
+    Presenter::changeTexture();
 }
 
 void Editor::render(){
@@ -94,11 +84,13 @@ void Editor::render(){
 }
 
 std::string Editor::getTitle(){
-    return Presenter::getTypeName(currentType);
+    return "Map Editor";
 }
 
-/*void Editor::createMap(SdlRenderer& renderer){
-    for (int i = 0; i < 192; i++){
-        this->textures.emplace_back(new SdlTexture(renderer, this->map[0], 0));
+bool Editor::finish(){
+    if (changeScene){
+        changeScene = false;
+        return true;
     }
-}*/
+    return false;
+}

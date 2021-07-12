@@ -1,5 +1,12 @@
+Game:
+  roundTime: 10000 # En segundos
+  bombTime: 10 # Tiempo hasta explosión
+  bombDefuseDistance: 1
+  frameTime: 0.033
+
 Player:
   speed: 6
+  defuseTime: 2
 
 Weapons:
   Knife:
@@ -10,7 +17,7 @@ Weapons:
     minDamage: 25
     spread: 0.1
     falloff: 0
-    speed: 0.7 #Tiempo entre disparos
+    speed: 0.2 #Tiempo entre disparos
     capacity: 10 #Balas por recarga
     reloadTime: 2
     maxRange: 100
@@ -43,3 +50,5 @@ Weapons:
     capacity: 5
     reloadTime: 3
     maxRange: 100
+  Bomb:
+    speed: 1

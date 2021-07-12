@@ -15,9 +15,10 @@ class GameProxy{
     private:
         World* world;
         MapInfo mapInfo;
+        GameConfig &config;
     
     public:
-        explicit GameProxy(const std::string &yamlPath);
+        explicit GameProxy(const std::string &yamlPath, GameConfig &config);
         void step();        
 
         MapInfo getMapInfo();
@@ -33,6 +34,7 @@ class GameProxy{
         void reloadWeapon(int id);
         void changeWeapon(int id, WeaponSlot slot);
         void dropWeapon(int id);
+        void toggleDefuse(int id);
 
         void clearFrameEvents();
 
