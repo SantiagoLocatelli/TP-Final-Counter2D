@@ -3,6 +3,7 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/TextTexture.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
@@ -26,7 +27,7 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, Weapon*> weapons;
-    std::map<int, SdlTexture*> hud;
+    std::map<int, TextTexture*> hud;
     ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;

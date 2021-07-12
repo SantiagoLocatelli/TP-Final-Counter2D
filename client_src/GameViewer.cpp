@@ -17,6 +17,8 @@ const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 const struct Size SIZE_SMALL_GUN = {16, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
 
+const struct Size SIZE_SMALL_GUN_HUD = {20, 20};
+const struct Size SIZE_BIG_GUN_HUD = {40, 25};
 
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
@@ -61,7 +63,7 @@ GameViewer::~GameViewer(){
     delete this->mainPlayer;
 
     for (auto it = this->hud.begin(); it != this->hud.end(); it++) {
-        SdlTexture* aux = it->second;
+        TextTexture* aux = it->second;
         it++;
         delete aux;
     }
@@ -76,15 +78,18 @@ GameViewer::~GameViewer(){
 void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    this->hud[HUD_AMMO] = new SdlTexture(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
-    
+    // this->hud[HUD_AMMO] = new SdlTexture(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    this->hud[HUD_AMMO] = new TextTexture(this->renderer, PATH_FONT, 30);
+    this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
     sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
-    this->hud[HUD_HEALTH] = new SdlTexture(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    // this->hud[HUD_HEALTH] = new SdlTexture(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
+    this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+
 }
 
-// ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
@@ -131,29 +136,38 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 
 void GameViewer::renderHud(){
 
-    char ammoText[100];
-    sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    this->hud[HUD_AMMO]->changeTextTexture(ammoText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
+    // char ammoText[100];
+    // sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
+    // this->hud[HUD_AMMO]->changeTextTexture(ammoText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
 
     Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
-    this->hud[HUD_AMMO]->setAlpha(100);
-    this->hud[HUD_AMMO]->setBlendMode(SDL_BLENDMODE_BLEND);
-    this->hud[HUD_AMMO]->render(dstAmmo.x - this->hud[HUD_AMMO]->getWidth(), dstAmmo.y - this->hud[HUD_AMMO]->getHeight());
+    this->hud[HUD_AMMO]->render(dstAmmo);
+    // this->hud[HUD_AMMO]->setBlendMode(SDL_BLENDMODE_BLEND);
+    // this->hud[HUD_AMMO]->setAlpha(100);
+    // this->hud[HUD_AMMO]->render(dstAmmo.x - this->hud[HUD_AMMO]->getWidth(), dstAmmo.y - this->hud[HUD_AMMO]->getHeight());
 
-    char healtText[100];
-    sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
-    this->hud[HUD_HEALTH]->changeTextTexture(healtText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
+
+    // char healtText[100];
+    // sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+    // this->hud[HUD_HEALTH]->changeTextTexture(healtText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
 
     Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
-    this->hud[HUD_HEALTH]->setAlpha(100);
-    this->hud[HUD_HEALTH]->setBlendMode(SDL_BLENDMODE_BLEND);
-    this->hud[HUD_HEALTH]->render(dstHealth.x - this->hud[HUD_HEALTH]->getWidth(), dstHealth.y - this->hud[HUD_HEALTH]->getHeight());
-
+    this->hud[HUD_HEALTH]->render(dstHealth);
+    // this->hud[HUD_HEALTH]->setBlendMode(SDL_BLENDMODE_BLEND);
+    // this->hud[HUD_HEALTH]->setAlpha(100);
+    // this->hud[HUD_HEALTH]->render(dstHealth.x - this->hud[HUD_HEALTH]->getWidth(), dstHealth.y - this->hud[HUD_HEALTH]->getHeight());
 
 
     Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
     WeaponType type = this->level.mainPlayer.weapon.type;
     Size size = {25,25};
+
+    if (type == PISTOL) {
+        size = SIZE_SMALL_GUN_HUD;
+    } else if (type == RIFLE || type == SNIPER || type == SHOTGUN) {
+        size = SIZE_BIG_GUN_HUD;
+    }
+
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
         weapon.render(dstWeapon.x - size.w - MARGIN, dstWeapon.y - size.h, size.w, size.h);
@@ -180,7 +194,6 @@ void GameViewer::render(){
 
 
 void GameViewer::update(LevelInfo level){
-    this->level = level;
 
     WeaponType mainType = level.mainPlayer.weapon.type;
     this->mainPlayer->update(level.mainPlayer, this->weapons[mainType]);
@@ -203,8 +216,23 @@ void GameViewer::update(LevelInfo level){
         it++;
     }
 
+    if (this->level.mainPlayer.health != level.mainPlayer.health) {
+        char healtText[100];
+        sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+        this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+    } 
+
+
+    if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
+        char ammoText[100];
+        sprintf(ammoText, "Ammo: %d", (int)this->level.mainPlayer.ammo);
+        this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
+    } 
+
+
     this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.width, level.height);
+    this->level = level;
 }
 
 void GameViewer::setCrossHair(Coordinate pos){this->mainPlayer->setCrossHair(pos);}
