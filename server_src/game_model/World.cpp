@@ -19,6 +19,7 @@ void World::createPlayer(RectArea spawn, Team team){
     float start_x, start_y;
     EntityChecker checker(b2world);
 
+    //TODO: Tener un contador de iteraciones para frenar por si el tamaño del spawn no es suficiente
     do{
         float r = ((float) rand()) / (float) RAND_MAX;
         start_x = spawn.x + (r*spawn.width);
