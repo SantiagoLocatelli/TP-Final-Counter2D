@@ -154,6 +154,7 @@ float World::getTime(){
 void World::plantBomb(float x, float y){
     if (!bomb.planted){
         bomb.planted = true;
+        bomb.defused = false;
         bomb.x = x;
         bomb.y = y;
         bomb.timeRemaining = config.getGame().at("bombTime");
@@ -162,4 +163,13 @@ void World::plantBomb(float x, float y){
 
 bool World::bombExploded(){
     return bomb.planted && bomb.timeRemaining <= 0;
+}
+
+void World::defuseBomb(){
+    if (bomb.planted){
+        bomb.defused = true;
+    }
+}
+bool World::bombDefused(){
+    return bomb.planted && bomb.defused;
 }

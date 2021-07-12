@@ -116,10 +116,10 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
-    if (world->getTime() > config.getGame().at("roundTime")){
+    if (world->getTime() > config.getGame().at("roundTime") || world->bombExploded() || world->bombDefused()){
         return true;
     }
-    
+
     int alive_players = 0;
     for (const Player &p: world->getPlayers()){
         if (!p.isDead()){
@@ -136,4 +136,8 @@ GameProxy::~GameProxy(){
 
 void GameProxy::clearFrameEvents(){
     world->clearBullets();
+}
+
+void GameProxy::toggleDefuse(int id){
+    world->getPlayers()[id].toggleDefuse();
 }

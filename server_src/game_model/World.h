@@ -57,6 +57,8 @@ class World{
 
         void plantBomb(float x, float y);
         bool bombExploded();
+        void defuseBomb();
+        bool bombDefused();
 
         ~World();
 

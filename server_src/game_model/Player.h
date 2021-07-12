@@ -22,13 +22,14 @@ class Player: public Hittable{
         b2Body *body;
         bool dead;
         bool shooting;
+        GameConfig &config;
         std::array<bool, 4> movement;
         std::array<Weapon*, 4> weapons;
         WeaponSlot currentWeapon;
         WeaponSlot slotToDestroy;
-        float speed;
         Team team;
-
+        bool defusing;
+        float defuseTime;
 
     public:
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
@@ -56,6 +57,7 @@ class Player: public Hittable{
         void takeWeapon(Weapon *weapon);
         void destroyWeapon(WeaponSlot slot);
         void changeWeapon(WeaponSlot slot);
+        void toggleDefuse();
         void step(float delta);
 
         ~Player();

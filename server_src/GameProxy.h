@@ -34,6 +34,7 @@ class GameProxy{
         void reloadWeapon(int id);
         void changeWeapon(int id, WeaponSlot slot);
         void dropWeapon(int id);
+        void toggleDefuse(int id);
 
         void clearFrameEvents();
 

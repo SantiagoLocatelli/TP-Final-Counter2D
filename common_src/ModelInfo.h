@@ -38,6 +38,7 @@ struct ProtDrop{
 
 struct ProtBomb{
     bool planted; //Si es falso entonces todos los otros campos son inválidos
+    bool defused;
     float x;
     float y;
     float timeRemaining;

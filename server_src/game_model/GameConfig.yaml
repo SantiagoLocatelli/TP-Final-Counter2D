@@ -5,6 +5,7 @@ Game:
 
 Player:
   speed: 6
+  defuseTime: 2
 
 Weapons:
   Knife:

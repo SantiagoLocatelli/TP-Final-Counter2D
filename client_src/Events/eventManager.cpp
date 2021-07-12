@@ -35,7 +35,9 @@ void EventManager::run(){
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = RIGHT; 
                                 break;
-                            case SDLK_e: /*plantar bomba*/break;
+                            case SDLK_e: 
+                                event.type = TOGGLE_DEFUSE;
+                                break;
                             case SDLK_r:
                                 event.type = RELOAD_WEAPON;
                                 break;
