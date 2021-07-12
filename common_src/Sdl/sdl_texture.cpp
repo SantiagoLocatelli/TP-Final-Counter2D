@@ -69,21 +69,20 @@ SdlTexture::SdlTexture(SdlRenderer& renderer, SDL_Surface* surface):renderer(ren
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string textureText, Uint8 red,
  Uint8 green, Uint8 blue) : renderer(r){
-	this->path = path;
 	this->mTexture = NULL;
 	if (TTF_Init() == -1){
 		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 	}else{
-		changeTextTexture(textureText, size, red, green, blue);
+		changeTextTexture(textureText, path, size, red, green, blue);
 	}
 }
 
-int SdlTexture::changeTextTexture(std::string text, int size, Uint8 red,
+int SdlTexture::changeTextTexture(std::string text, std::string path, int size, Uint8 red,
  Uint8 green, Uint8 blue){
 	if (this->mTexture != NULL){
 		SDL_DestroyTexture(this->mTexture);
 	}
-	TTF_Font* font = TTF_OpenFont(this->path.c_str(), size);
+	TTF_Font* font = TTF_OpenFont(path.c_str(), size);
 	if (font == NULL){
 		printf("Failed to load %s font! SDL_ttf Error: %s\n", path.c_str(), TTF_GetError());
 	}else{
@@ -181,6 +180,32 @@ bool SdlTexture::isMouseTouching(int posX, int posY){
     return inside;
 }
 
+bool SdlTexture::isMouseTouching(int posX, int posY, int width, int height){
+    //Check if mouse is in button
+    bool inside = true;
+	int mousePosX, mousePosY;
+	SDL_GetMouseState(&mousePosX, &mousePosY);
+
+    //Mouse is left of the button
+    if (mousePosX < posX){
+        inside = false;
+    }
+    //Mouse is right of the button
+    else if (mousePosX > posX + width){
+        inside = false;
+    }
+    //Mouse above the button
+    else if (mousePosY < posY){
+        inside = false;
+    }
+    //Mouse below the button
+    else if (mousePosY > posY + height){
+        inside = false;
+    }
+
+    return inside;
+}
+
 void SdlTexture::setWidthAndHeight(int width, int height){
 	this->mWidth = width;
 	this->mHeight = height;
@@ -208,7 +233,7 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 		this->renderer = other.renderer;
 		this->mTexture = other.mTexture;
 		this->mHeight = other.mHeight;
-		this->path = other.path;
+		//this->path = other.path;
 	}
 	return *this;
 }

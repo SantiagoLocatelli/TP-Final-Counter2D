@@ -10,11 +10,11 @@
 #include "presenter.h"
 class Editor : public Presenter{
     private:
-        int currentType;
-
         bool renderBombSites;
 
         bool renderSpawnSites;
+
+        bool changeScene;
 
     public:
         Editor(MenueManager& m, int screenW, int screenH);
@@ -23,6 +23,7 @@ class Editor : public Presenter{
         void put_tile(SdlRenderer& renderer);
         std::string getTitle() override;
         void createMap(SdlRenderer& renderer);
+        bool finish() override;
 
         void presentBombSites();
         void stopPresentingBombSites();

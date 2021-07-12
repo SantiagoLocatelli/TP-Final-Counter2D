@@ -3,7 +3,7 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
-#define MIN_MAP_SIZE 5
+#define MIN_MAP_SIZE 8 // multiplicado por el tile_size tiene que dar el tamaño de la pantalla
 #define MAX_MAP_SIZE 30
 #define MIN_SIZE 1
 #define MAX_SIZE 5
@@ -15,6 +15,7 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, 
   : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
     widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
     heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255){
+    this->changeScene = false;
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->renderText = false;
@@ -40,9 +41,9 @@ void OptionsMenue::render(){
     if (this->renderText){
         std::string inputText = this->options[this->selectedTexture];
         if (inputText == ""){
-            this->selectedTexture->changeTextTexture(" ", FONT_SIZE, 255, 255, 255);
+            this->selectedTexture->changeTextTexture(" ", FONT_PATH, FONT_SIZE, 255, 255, 255);
         }else{
-            this->selectedTexture->changeTextTexture(inputText.c_str(), FONT_SIZE, 255, 255, 255);
+            this->selectedTexture->changeTextTexture(inputText.c_str(), FONT_PATH, FONT_SIZE, 255, 255, 255);
         }
         this->selectedTexture->setColor(255,255,0);
         this->renderText = false;
@@ -67,6 +68,11 @@ void OptionsMenue::render(){
 void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     int posY = 0;
     int posX = 300;
+    if (event->type == SDL_KEYDOWN){
+        if(event->key.keysym.sym == SDLK_ESCAPE){
+            this->changeScene = true;
+        }
+    }
     if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
             for (unsigned int i = 0; i < inputOrder.size(); i++){
@@ -142,6 +148,14 @@ void OptionsMenue::aceptChanges(){
         i++;
     }
     Presenter::changeSizeOfSites(vector);
+}
+
+bool OptionsMenue::finish(){
+    if (changeScene){
+        changeScene = false;
+        return true;
+    }
+    return false;
 }
 
 std::string OptionsMenue::getTitle(){

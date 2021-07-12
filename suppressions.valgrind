@@ -1,0 +1,2119 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+   fun:ShouldUseTextureFramebuffer
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:glXCreateContext
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+   fun:ShouldUseTextureFramebuffer
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+   fun:ShouldUseTextureFramebuffer
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_CreateTexture
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_UpdateTexture
+   fun:SDL_UpdateTexture_REAL.part.10
+   fun:SDL_UpdateTexture_REAL
+   fun:SDL_CreateTextureFromSurface_REAL
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN10BaseSpriteC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEii
+   fun:_ZN10SDLWrapper3runEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_UpdateTexture
+   fun:SDL_UpdateTexture_REAL.part.10
+   fun:SDL_UpdateTexture_REAL
+   fun:SDL_CreateTextureFromSurface_REAL
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN10BaseSpriteC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr2
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_UpdateTexture
+   fun:SDL_UpdateTexture_REAL.part.10
+   fun:SDL_UpdateTexture_REAL
+   fun:SDL_CreateTextureFromSurface_REAL
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN10BaseSpriteC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_UpdateTexture
+   fun:SDL_UpdateTexture_REAL.part.10
+   fun:SDL_UpdateTexture_REAL
+   fun:SDL_CreateTextureFromSurface_REAL
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN4TileC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiiii
+   fun:_ZN7TileMapC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_UpdateTexture
+   fun:SDL_UpdateTexture_REAL.part.10
+   fun:SDL_UpdateTexture_REAL
+   fun:SDL_CreateTextureFromSurface_REAL
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN4TileC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEiiii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:SDL_FRectEmpty
+   fun:SDL_HasIntersectionF
+   fun:SDL_RenderCopyF_REAL
+   fun:SDL_RenderCopy_REAL
+   fun:_ZN6Window6renderEP11SDL_TextureR8SDL_Rect
+   fun:_ZN7TileMap6renderEv
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:SDL_HasIntersectionF
+   fun:SDL_RenderCopyF_REAL
+   fun:SDL_RenderCopy_REAL
+   fun:_ZN6Window6renderEP11SDL_TextureR8SDL_Rect
+   fun:_ZN7TileMap6renderEv
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr2
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr2
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:SetDrawState
+   fun:SetCopyState
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:__memcmp_sse4_1
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr1
+   fun:__memcmp_sse4_1
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr1
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:X11_GL_SwapWindow
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memcpy@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:X11_GL_SwapWindow
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:X11_GL_SwapWindow
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:X11_GL_SwapWindow
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   fun:X11_GL_SwapWindow
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memset
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   fun:GL_RunCommandQueue
+   fun:FlushRenderCommands
+   fun:SDL_RenderPresent_REAL
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:SDL_DestroyTexture_REAL
+   fun:_ZNSt4pairIKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE7TextureED1Ev
+   fun:_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_7TextureESt10_Select1stIS9_ESt4lessIS5_ESaIS9_EE12_M_drop_nodeEPSt13_Rb_tree_nodeIS9_E.isra.35
+   fun:_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_7TextureESt10_Select1stIS9_ESt4lessIS5_ESaIS9_EE8_M_eraseEPSt13_Rb_tree_nodeIS9_E
+   fun:_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_7TextureESt10_Select1stIS9_ESt4lessIS5_ESaIS9_EE8_M_eraseEPSt13_Rb_tree_nodeIS9_E
+   fun:_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_7TextureESt10_Select1stIS9_ESt4lessIS5_ESaIS9_EE8_M_eraseEPSt13_Rb_tree_nodeIS9_E
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_XlcDefaultMapModifiers
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_XlcResolveLocaleName
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XimOpenIM
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   fun:SDL_LoadObject_REAL
+   fun:SDL_X11_LoadSymbols
+   fun:X11_Available
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XInitThreads
+   fun:X11_CreateDevice
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XrmInternalStringToQuark
+   fun:_XlcGetCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcAddUtf8Converters
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcAddUtf8LocaleConverters
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcSetConverter
+   fun:_XlcAddUtf8Converters
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:SDL_malloc_REAL
+   fun:SDL_strdup_REAL
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcCreateDefaultCharSet
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_dl_load_cache_lookup
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcAddCharSet
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:realloc
+   fun:SDL_realloc_REAL
+   fun:SDL_TLSSet_REAL
+   fun:SDL_GetErrBuf
+   fun:SDL_ClearError_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:realloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:realloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_CallVoidMethodInternal
+   fun:SDL_DBus_CallVoidMethod
+   fun:X11_SuspendScreenSaver
+   fun:SDL_DisableScreenSaver_REAL
+   fun:SDL_VideoInit_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:realloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_CallMethodInternal
+   fun:SDL_DBus_CallMethod
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XlcCreateDefaultCharSet
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_dl_load_cache_lookup
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcCreateDefaultCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcDefaultLoader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:SDL_DBus_Init.part.0
+   fun:SDL_DBus_Init
+   fun:SDL_DBus_GetContext
+   fun:SDL_IBus_Init
+   fun:SDL_IME_Init
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_dl_close_worker.part.0
+   fun:_dl_close_worker
+   fun:_dl_close
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:dlerror_run
+   fun:__libc_dlclose
+   fun:free_mem
+   fun:__libc_freeres
+   fun:_vgnU_freeres
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:SDL_malloc_REAL
+   fun:SDL_GetErrBuf
+   fun:SDL_ClearError_REAL
+   fun:SDL_InitSubSystem_REAL
+   fun:SDL_Init_REAL
+   fun:_ZN10SDLWrapperC1Ev
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:SDL_malloc_REAL
+   fun:SDL_GetErrBuf
+   fun:SDL_SetError_REAL
+   fun:_ZNSt4pairINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE7TextureED1Ev
+   fun:_ZN17TextureRepository10getTextureERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER6Window
+   fun:_ZN10BaseSpriteC1ER6WindowRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEii
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcAddCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:add_to_global
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:realloc
+   fun:SDL_realloc_REAL
+   fun:SDL_TLSSet_REAL
+   fun:SDL_GL_CreateContext_REAL
+   fun:GL_CreateRenderer
+   fun:SDL_CreateRenderer_REAL
+   fun:_ZN6WindowC1ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEii
+   fun:_ZN10SDLWrapper3runEv
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+   fun:start_thread
+   fun:clone
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+   fun:SDL_LoadObject_REAL
+   fun:SDL_X11_LoadSymbols
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XlcCreateLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+   fun:X11_VideoInit
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XlcCreateDefaultCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XrmInternalStringToQuark
+   fun:_XlcGetCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:realpath@@GLIBC_2.3
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:X11_GL_GetVisual
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:realpath@@GLIBC_2.3
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   fun:X11_GL_GetVisual
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+   fun:_glapi_get_proc_address
+   obj:*
+   obj:/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0.0.0
+   fun:__glDispatchMakeCurrent
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:X11_GL_InitExtensions
+   fun:X11_GL_LoadLibrary
+   fun:SDL_GL_LoadLibrary_REAL
+   fun:SDL_CreateWindow_REAL
+   fun:ShouldUseTextureFramebuffer
+   fun:SDL_VideoInit_REAL
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XrmInternalStringToQuark
+   fun:_XlcGetCharSet
+   fun:_XlcAddCT
+   fun:_XlcInitCTInfo
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XrmInternalStringToQuark
+   fun:_XlcGetLocaleDataBase
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+   fun:_XlcCreateLC
+   fun:_XlcUtf8Loader
+   fun:_XOpenLC
+   fun:_XlcCurrentLC
+   fun:XSetLocaleModifiers
+   fun:X11_InitKeyboard
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+}
