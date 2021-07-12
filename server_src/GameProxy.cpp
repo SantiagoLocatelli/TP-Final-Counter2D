@@ -26,6 +26,10 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 
+    for (const RectArea &r: mapInfo.bombSites){
+        world->addSite(r);
+    }
+
     world->addDrop(new Shotgun(world, world->config), 5.5f, 5.5f);
 
     world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);

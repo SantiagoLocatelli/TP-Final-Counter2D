@@ -32,6 +32,8 @@ class Player: public Hittable{
         float defuseTime;
 
     public:
+        bool canMove;
+        
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 
         //Métodos de movimiento/posicion

@@ -64,7 +64,6 @@ int main(int argc, char* argv[]){
         while (!quit && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
-
             level = gameManager.updatedLevel(model);
             gameViewer.update(level);
             gameViewer.render();

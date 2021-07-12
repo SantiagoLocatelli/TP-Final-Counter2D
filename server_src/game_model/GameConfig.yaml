@@ -1,6 +1,7 @@
 Game:
   roundTime: 10000 # En segundos
   bombTime: 10 # Tiempo hasta explosión
+  bombDefuseDistance: 1
   frameTime: 0.033
 
 Player:

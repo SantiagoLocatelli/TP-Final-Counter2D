@@ -173,3 +173,30 @@ void World::defuseBomb(){
 bool World::bombDefused(){
     return bomb.planted && bomb.defused;
 }
+
+void World::addSite(RectArea site){
+    bombSites.push_back(site);
+}
+
+bool World::canPlant(float x, float y){
+    if (bomb.planted)
+        return false;
+
+    for (const RectArea &site: bombSites){
+        if (x > site.x && x < site.x+site.width && y > site.y && y < site.y+site.height){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool World::canDefuse(float x, float y){
+    if (bomb.planted && !bomb.defused){
+        if (b2Vec2(x-bomb.x, y-bomb.y).Length() <= config.getGame().at("bombDefuseDistance")){
+            return true;
+        }
+    }
+
+    return false;
+}

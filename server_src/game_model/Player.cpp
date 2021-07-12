@@ -7,7 +7,7 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), shooting(false), config(config), team(team), defusing(false), defuseTime(0){
+:health(100), angle(0), world(world), dead(false), shooting(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -52,6 +52,7 @@ Player::Player(Player&& other): world(other.world), config(other.config){
     this->team = other.team;
     this->defusing = other.defusing;
     this->defuseTime = other.defuseTime;
+    this->canMove = other.canMove;
 
     this->movement = std::move(other.movement);
     
@@ -76,17 +77,20 @@ void Player::updateVelocity(){
     if (dead)
         GeneralException("Error en Player::updateVelocity: El jugador está muerto\n");
     b2Vec2 new_imp(0,0);
-    if (movement[UP])
-        new_imp.y += -1;
-    if (movement[DOWN])
-        new_imp.y += 1;
-    if (movement[LEFT])
-        new_imp.x += -1;
-    if (movement[RIGHT])
-        new_imp.x += 1;
 
-    new_imp.Normalize();
-    new_imp *= config.getPlayer().at("speed");
+    if (canMove){
+        if (movement[UP])
+            new_imp.y += -1;
+        if (movement[DOWN])
+            new_imp.y += 1;
+        if (movement[LEFT])
+            new_imp.x += -1;
+        if (movement[RIGHT])
+            new_imp.x += 1;
+
+        new_imp.Normalize();
+        new_imp *= config.getPlayer().at("speed");
+    }
     body->SetLinearVelocity(new_imp);
 }
 
@@ -225,8 +229,7 @@ void Player::step(float delta){
 }
 
 void Player::toggleDefuse(){
-    if (team == COUNTER){
-        //TODO: Chequear que el jugador esté cerca de la bomba
+    if (team == COUNTER && world.canDefuse(body->GetPosition().x, body->GetPosition().y)){
         defusing = !defusing;
         if (defusing){
             defuseTime = config.getPlayer().at("defuseTime");
