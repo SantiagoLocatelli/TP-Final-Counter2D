@@ -10,7 +10,7 @@ const SDL_Rect SRC_DEFUSER = { 32, 32, 32, 32};
 const SDL_Rect SRC_PISTOL = {32, 32, 32, 32};
 
 Character::Character(PlayerInfo player, SdlTexture& texture, Weapon weapon):
-    texture(texture), player(player), weapon(std::move(weapon)){}
+    texture(texture), player(player), weapon(weapon){}
 
 
 SDL_Rect Character::getSourceTexture(){
@@ -25,6 +25,9 @@ SDL_Rect Character::getSourceTexture(){
 void Character::render(int camX, int camY){
     SDL_Rect dst = {this->player.pos.x - camX - this->player.size.w/2, this->player.pos.y - camY - this->player.size.h/2, this->player.size.w, this->player.size.h};
     SDL_Rect src = getSourceTexture();
+
+    if (this->player.shooting) printf("estoy disparando\n");
+    else printf("no te testoy disparando\n");
     
     this->weapon.render({camX, camY}, this->player.degrees, this->player.shooting);
     this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, this->player.degrees + PHASE_SHIFT);
@@ -37,6 +40,7 @@ void Character::update(PlayerInfo info, Weapon weapon){
 
     this->weapon = weapon;
 
+    this->player.shooting = info.shooting;
     this->player.degrees = info.degrees;
     this->player.weapon = info.weapon;
     this->player.pos.x = info.pos.x;

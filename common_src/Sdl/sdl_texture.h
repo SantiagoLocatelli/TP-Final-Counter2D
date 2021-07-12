@@ -67,6 +67,7 @@ class SdlTexture{
     	int getType() const;
 
 		SdlTexture& operator=(const SdlTexture&);
+		SdlTexture(const SdlTexture& other);
 		SdlTexture& operator=(SdlTexture&&);
 		SdlTexture(SdlTexture&& other);
 		~SdlTexture();
