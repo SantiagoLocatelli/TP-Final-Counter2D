@@ -25,8 +25,8 @@ Weapons:
     minDamage: 18
     spread: 0.1
     falloff: 0
-    burstTime: 1 #Tiempo entre disparos de la misma ráfaga
-    speed: 1 #Tiempo entre ráfagas
+    burstTime: 0.1 #Tiempo entre disparos de la misma ráfaga
+    speed: 0.4 #Tiempo entre ráfagas
     capacity: 30 #Balas por recarga
     reloadTime: 3
     maxRange: 100
