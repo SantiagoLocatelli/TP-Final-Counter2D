@@ -1,6 +1,6 @@
 #include "Bomb.h"
 
-Bomb::Bomb(World *world, GameConfig &config):Weapon(world, config, SNIPER, BOMB_SLOT), plantTime(0){}
+Bomb::Bomb(World *world, GameConfig &config):Weapon(world, config, BOMB, BOMB_SLOT), plantTime(0){}
 
 void Bomb::toggle(){
     toggled = !toggled;

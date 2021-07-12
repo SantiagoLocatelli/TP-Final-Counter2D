@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
         }
 
 
-        int window_w = 500, window_h = 500;
+        int window_w = 800, window_h = 800;
 
         MapInfo map;
         server.recv_map_info(map);
