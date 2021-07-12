@@ -9,7 +9,7 @@ const SDL_Rect SRC_BIG_GUN = { 0, 64, 32, 32};
 const SDL_Rect SRC_DEFUSER = { 32, 32, 32, 32};
 const SDL_Rect SRC_PISTOL = {32, 32, 32, 32};
 
-Character::Character(PlayerInfo player, SdlTexture& texture, Weapon weapon):
+Character::Character(PlayerInfo player, SdlTexture& texture, Weapon* weapon):
     texture(texture), player(player), weapon(weapon){}
 
 
@@ -22,29 +22,33 @@ SDL_Rect Character::getSourceTexture(){
     return SRC_PISTOL;
 }
 
-void Character::render(int camX, int camY){
-    SDL_Rect dst = {this->player.pos.x - camX - this->player.size.w/2, this->player.pos.y - camY - this->player.size.h/2, this->player.size.w, this->player.size.h};
-    SDL_Rect src = getSourceTexture();
+void Character::render(Coordinate cam){
+    SDL_Rect dstPj = {this->player.pos.x - cam.x - this->player.size.w/2, this->player.pos.y - cam.y - this->player.size.h/2, this->player.size.w, this->player.size.h};
+    SDL_Rect srcPj = getSourceTexture();
 
-    this->weapon.render({camX, camY}, this->player.degrees, this->player.shooting);
-    this->texture.render(dst.x, dst.y, dst.w, dst.h, &src, this->player.degrees + PHASE_SHIFT);
+    Coordinate dstWp = {this->player.weapon.pos.x - this->player.weapon.size.w/2 - cam.x,
+                        this->player.weapon.pos.y - this->player.weapon.size.h/2 - cam.y};
+                        
+    Size sizeWp = {this->player.weapon.size.w, this->player.weapon.size.h};
+
+    //this->info.pos.x - this->info.size.w/2 - cam.x, this->info.pos.y - this->info.size.h/2 - cam.y, this->info.size.w, this->info.size.h
+    this->weapon->render(dstWp, sizeWp, this->player.degrees, this->player.shooting);
+    this->texture.render(dstPj.x, dstPj.y, dstPj.w, dstPj.h, &srcPj, this->player.degrees + PHASE_SHIFT);
 }
 
 
-void Character::update(PlayerInfo info, Weapon weapon){
-    if (info.dead) return;
+void Character::update(PlayerInfo info, Weapon* weapon){
     this->player.dead = info.dead;
+    if (info.dead) return;
 
     this->weapon = weapon;
 
     this->player.shooting = info.shooting;
     this->player.degrees = info.degrees;
     this->player.weapon = info.weapon;
-    this->player.pos.x = info.pos.x;
-    this->player.pos.y = info.pos.y;
-    this->player.size.w = info.size.w;
-    this->player.size.h = info.size.h;
-    this->weapon.update(info.weapon);
+    this->player.pos = info.pos;
+    this->player.size = info.size;
+    // printf("coordenada x: %i, y: %i\n", info.pos.x, info.pos.y);
 }
 
 WeaponType Character::getWeaponType(){return this->player.weapon.type;}

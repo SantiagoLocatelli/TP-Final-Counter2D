@@ -7,9 +7,16 @@
 #define SIZE_CROSSHAIR 25
 #define MARGIN 15
 
+#define HUD_AMMO 0
+#define HUD_HEALTH 1
+#define HUD_TIME 2
 
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
+
+const struct Size SIZE_SMALL_GUN = {16, 32};
+const struct Size SIZE_BIG_GUN = {20, 60};
+
 
 
 GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
@@ -20,32 +27,68 @@ GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WIND
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
+    loadHudTextures();
+    loadWeapons();
+    loadPlayers(window_w, window_h);
+}
 
-    WeaponType mainType = level.mainPlayer.weapon.type;
-    Weapon mainWeapon(*(this->textureManager.getWeaponOnPj(mainType)), *(this->textureManager.getWeaponAnim(mainType)), level.mainPlayer.weapon.size);
+void GameViewer::loadPlayers(int window_w, int window_h){
+
+    WeaponType mainType = this->level.mainPlayer.weapon.type;
+
     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-                std::move(Stencil(this->renderer, window_w, window_h)), mainWeapon);
+                std::move(Stencil(this->renderer, window_w, window_h)), this->weapons[mainType]);
 
 
-    for (PlayerInfo player : level.players) {
-        //crear cuchillo y cargarlo al personaje
+    for (PlayerInfo player : this->level.players) {
+
         WeaponType type = player.weapon.type;
-        Weapon weapon(*(this->textureManager.getWeaponOnPj(type)), *(this->textureManager.getWeaponAnim(type)), player.weapon.size);
-        this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), weapon));
+        this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), this->weapons[type]));
     }
+}
+
+void GameViewer::loadWeapons(){
+    this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), SIZE_SMALL_GUN);
+    this->weapons[PISTOL] = new Weapon(*(this->textureManager.getWeaponOnPj(PISTOL)), *(this->textureManager.getWeaponAnim(PISTOL)), SIZE_SMALL_GUN);
+    this->weapons[RIFLE] = new Weapon(*(this->textureManager.getWeaponOnPj(RIFLE)), *(this->textureManager.getWeaponAnim(RIFLE)), SIZE_BIG_GUN);
+    this->weapons[SNIPER] = new Weapon(*(this->textureManager.getWeaponOnPj(SNIPER)), *(this->textureManager.getWeaponAnim(SNIPER)), SIZE_BIG_GUN);
+    this->weapons[SHOTGUN] = new Weapon(*(this->textureManager.getWeaponOnPj(SHOTGUN)), *(this->textureManager.getWeaponAnim(SHOTGUN)), SIZE_BIG_GUN);
+    this->weapons[BOMB] = new Weapon(*(this->textureManager.getWeaponOnPj(BOMB)), *(this->textureManager.getWeaponAnim(BOMB)), SIZE_SMALL_GUN);
 }
 
 GameViewer::~GameViewer(){
     delete this->mainPlayer;
+
+    for (auto it = this->hud.begin(); it != this->hud.end(); it++) {
+        SdlTexture* aux = it->second;
+        it++;
+        delete aux;
+    }
+
+    for (auto it = this->weapons.begin(); it != this->weapons.end(); it++) {
+        Weapon* aux = it->second;
+        it++;
+        delete aux;
+    }
 }
 
+void GameViewer::loadHudTextures(){
+    char ammoText[100];
+    sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
+    this->hud[HUD_AMMO] = new SdlTexture(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    
+    
+    char healtText[100];
+    sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+    this->hud[HUD_HEALTH] = new SdlTexture(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+}
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
-            it->render(cam.x, cam.y);
+            it->render(cam);
 
             PlayerInfo player = it->getInfo();
             for (PlayerEffect effect : player.sounds) {
@@ -56,7 +99,6 @@ void GameViewer::renderPlayers(Coordinate cam) {
             }
         }
     }
-    
 }
 
 void GameViewer::renderShots(Coordinate cam){
@@ -89,26 +131,23 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 
 void GameViewer::renderHud(){
 
-
-
-
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
+    this->hud[HUD_AMMO]->changeTextTexture(ammoText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
 
-    SdlTexture ammo(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
-    ammo.setAlpha(100);
-    ammo.setBlendMode(SDL_BLENDMODE_BLEND);
-    ammo.render(dstAmmo.x - ammo.getWidth(), dstAmmo.y - ammo.getHeight());
+    Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
+    this->hud[HUD_AMMO]->setAlpha(100);
+    this->hud[HUD_AMMO]->setBlendMode(SDL_BLENDMODE_BLEND);
+    this->hud[HUD_AMMO]->render(dstAmmo.x - this->hud[HUD_AMMO]->getWidth(), dstAmmo.y - this->hud[HUD_AMMO]->getHeight());
 
     char healtText[100];
     sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
-    Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
+    this->hud[HUD_HEALTH]->changeTextTexture(healtText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
 
-    SdlTexture health(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
-    health.setAlpha(100);
-    health.setBlendMode(SDL_BLENDMODE_BLEND);
-    health.render(dstHealth.x - health.getWidth(), dstHealth.y - health.getHeight());
+    Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
+    this->hud[HUD_HEALTH]->setAlpha(100);
+    this->hud[HUD_HEALTH]->setBlendMode(SDL_BLENDMODE_BLEND);
+    this->hud[HUD_HEALTH]->render(dstHealth.x - this->hud[HUD_HEALTH]->getWidth(), dstHealth.y - this->hud[HUD_HEALTH]->getHeight());
 
 
 
@@ -144,9 +183,7 @@ void GameViewer::update(LevelInfo level){
     this->level = level;
 
     WeaponType mainType = level.mainPlayer.weapon.type;
-
-    Weapon mainWeapon(*(this->textureManager.getWeaponOnPj(mainType)), *(this->textureManager.getWeaponAnim(mainType)), level.mainPlayer.weapon.size);
-    this->mainPlayer->update(level.mainPlayer, mainWeapon);
+    this->mainPlayer->update(level.mainPlayer, this->weapons[mainType]);
 
     this->level.drops.clear();
     this->level.drops.insert(this->level.drops.begin(), level.drops.begin(), level.drops.end());
@@ -158,20 +195,18 @@ void GameViewer::update(LevelInfo level){
     this->level.bullets.insert(this->level.bullets.begin(), level.bullets.begin(), level.bullets.end());
 
     auto it = this->players.begin();
-    auto end = this->players.end();
     for (PlayerInfo player : this->level.players) {
-        if (!player.dead && it != end) {
+        if (!player.dead) {
             WeaponType type = player.weapon.type;
-            Weapon weapon(*(this->textureManager.getWeaponOnPj(type)), *(this->textureManager.getWeaponAnim(type)), player.weapon.size);
-            it->update(player, weapon);
+            it->update(player, this->weapons[type]);
         }
+        it++;
     }
-    // revisar el constructor por movimiento del character
 
     this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.width, level.height);
-    
 }
+
 void GameViewer::setCrossHair(Coordinate pos){this->mainPlayer->setCrossHair(pos);}
 
 Coordinate GameViewer::mainPlayerRelativePos(){

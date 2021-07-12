@@ -13,15 +13,15 @@ class Character{
 		
 		SdlTexture& texture;
 		PlayerInfo player;
-		Weapon weapon;
+		Weapon* weapon;
 
 		SDL_Rect getSourceTexture();
 
     public:
-		Character(PlayerInfo player, SdlTexture& texture, Weapon weapon);
+		Character(PlayerInfo player, SdlTexture& texture, Weapon* weapon);
 
-		void update(PlayerInfo info, Weapon weapon);
-		void render(int camX, int camY);
+		void update(PlayerInfo info, Weapon* weapon);
+		void render(Coordinate cam);
 
 		SDL_Rect getRect();
 		int getPosX();

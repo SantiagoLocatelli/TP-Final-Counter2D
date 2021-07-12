@@ -41,11 +41,11 @@ void SoundEffects::loadWeaponSounds(){
 
 
 void SoundEffects::playPlayerSound(PlayerEffect effect){
-    Mix_PlayChannel(-1, this->playerEffects[effect], 1);
+    Mix_PlayChannel(-1, this->playerEffects[effect], 0);
 }
 
 void SoundEffects::playWeaponSound(WeaponEffect effect){
-    Mix_PlayChannel(-1, this->weaponsEffects[effect], 1);
+    Mix_PlayChannel(-1, this->weaponsEffects[effect], 0);
 }
 
 

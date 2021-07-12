@@ -25,7 +25,8 @@ private:
 
     LevelInfo level;
 
-    std::map<WeaponType, Weapon> weapons;
+    std::map<WeaponType, Weapon*> weapons;
+    std::map<int, SdlTexture*> hud;
     ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
@@ -38,6 +39,10 @@ private:
     void renderShots(Coordinate cam);
     void renderMap(Coordinate cam);
     void renderHud();
+
+    void loadPlayers(int, int);
+    void loadHudTextures();
+    void loadWeapons();
 
 public:
 
