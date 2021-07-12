@@ -9,7 +9,7 @@ void TextureScreen::render(){
 }
 
 void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
-    if (event->type == SDL_KEYDOWN){
+    if (event->type == SDL_KEYDOWN && event->key.repeat == 0){
         if (event->key.keysym.sym == SDLK_TAB){
             this->changeScene = true;
         }
@@ -17,6 +17,7 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         Presenter::handleSelectTexture(event);
     }
 }
+
 void TextureScreen::aceptChanges(){}
 
 std::string TextureScreen::getTitle(){

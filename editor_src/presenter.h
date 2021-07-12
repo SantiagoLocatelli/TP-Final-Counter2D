@@ -32,6 +32,8 @@ class Presenter{
         void changeTexture();
         void createMap();
         void editMap(const std::string& mapID);
+        void needToSave();
+        void saveMap();
 
         SDL_Rect getCameraBox();
         int getMapWidth();
@@ -39,5 +41,7 @@ class Presenter{
         int getTextureMapSize();
         int getTexturesSize();
         int getTileSize();
+        int getScreenWidth();
+        int getScreenHeight();
 };
 #endif
