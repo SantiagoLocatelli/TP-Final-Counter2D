@@ -23,8 +23,6 @@ public:
     Weapon& operator=(const Weapon&);
     Weapon(const Weapon&);
 
-    // Weapon& operator=(Weapon&&);
-    // Weapon(Weapon&&);
 };
 
 #endif

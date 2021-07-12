@@ -35,14 +35,3 @@ Weapon& Weapon::operator=(const Weapon& other){
 Weapon::Weapon(const Weapon& other):weapon(other.weapon), anim(other.anim){
     this->info = other.info;
 }
-
-// Weapon& Weapon::operator=(Weapon&& other){
-//     this->info = other.info;
-//     this->weapon = other.weapon;
-//     this->anim = other.anim;
-//     this->soundEffect = other.soundEffect;
-//     return *this;
-// }
-// Weapon::Weapon(Weapon&& other):weapon(other.weapon), anim(other.anim), soundEffect(other.soundEffect){
-//     this->info = other.info;
-// }

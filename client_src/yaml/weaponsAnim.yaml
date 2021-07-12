@@ -1,0 +1,7 @@
+# enum WeaponType : char {KNIFE = 0, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
+- [../../common_src/img/weapons/anim/knifeslash.bmp, 0]
+- [../../common_src/img/weapons/anim/explosion.png, 1]
+- [../../common_src/img/weapons/anim/explosion.png, 2]
+- [../../common_src/img/weapons/anim/explosion.png, 3]
+- [../../common_src/img/weapons/anim/explosion.png, 4]
+- [../../common_src/img/weapons/anim/bomb.bmp, 5]

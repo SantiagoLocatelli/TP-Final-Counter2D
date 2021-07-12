@@ -1,0 +1,7 @@
+# enum WeaponType : char {KNIFE = 0, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
+# no se cuenta el cuchillo
+- [../../common_src/img/weapons/onHud/glock_m.bmp, 1]
+- [../../common_src/img/weapons/onHud/m3_m.bmp, 2]
+- [../../common_src/img/weapons/onHud/ak47_m.bmp, 3]
+- [../../common_src/img/weapons/onHud/awp_m.bmp, 4]
+- [../../common_src/img/weapons/onHud/bomb_m.bmp, 5]

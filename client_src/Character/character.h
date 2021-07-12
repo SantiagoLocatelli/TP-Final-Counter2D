@@ -7,8 +7,6 @@
 #include "Weapon.h"
 
 
-enum SkinType : int {CT};
-
 class Character{
 
     private:
