@@ -43,7 +43,7 @@ void GameThread::run(){
         Stopwatch stopwatch;
         do{
             stopwatch.start();
-            while (stopwatch.msPassed() < (size_t)(gameConfig.getGame().at("frameTime")*1000)){
+            while (stopwatch.msPassed() < FRAME_MS){
                 //TODO: Sacar este busy wait
                 if (!eventQueue.isEmpty()){
                     int id;
@@ -54,7 +54,7 @@ void GameThread::run(){
                 }
             }
 
-            game.step();
+            game.step((float)FRAME_MS/(float)1000);
             auto model = std::make_shared<CompleteModelInfo>(std::move(game.getModelInfo()));
             for (ModelQueue &queue : modelQueues){
                 queue.push(model);

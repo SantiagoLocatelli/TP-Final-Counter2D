@@ -82,8 +82,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
     return info;
 }
 
-void GameProxy::step(){
-    world->step();
+void GameProxy::step(float delta){
+    world->step(delta);
 }
 
 void GameProxy::createPlayer(Team team){

@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "Utils.h"
 
+#define FRAME_MS 33
+
 
 struct Position{
     float x;

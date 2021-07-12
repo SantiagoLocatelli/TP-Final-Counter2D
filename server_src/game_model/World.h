@@ -40,7 +40,7 @@ class World{
         World(int grid_length, int grid_height, GameConfig &config);
         void addBox(int grid_x, int grid_y);
         void createPlayer(RectArea spawn, Team team);
-        void step();
+        void step(float delta);
         float rayCast(Ray ray, Hittable *&hittable);
         std::list<Hittable *> &hittablesInArea(float x, float y, float heigth, float length);
 

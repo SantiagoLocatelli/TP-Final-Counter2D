@@ -19,7 +19,7 @@ class GameProxy{
     
     public:
         explicit GameProxy(const std::string &yamlPath, GameConfig &config);
-        void step();        
+        void step(float delta);        
 
         MapInfo getMapInfo();
         CompleteModelInfo getModelInfo();
