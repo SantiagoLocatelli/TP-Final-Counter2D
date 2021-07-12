@@ -26,7 +26,7 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
     drop.size.h = PIXELS_PER_METER;
 }
 
-void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
+void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapon;
 
     // SMALL GUN    
@@ -63,14 +63,14 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordenada player) {
 }
 
 
-bool equalCoords(Coordenada coord1, Coordenada coord2){
+bool equalCoords(Coordinate coord1, Coordinate coord2){
     return (coord1.x == coord2.x && coord1.y == coord2.y);
 }
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.sounds.clear();
 
-    Coordenada newPos;
+    Coordinate newPos;
     newPos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
     newPos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
     if(!equalCoords(newPos, player.pos)){

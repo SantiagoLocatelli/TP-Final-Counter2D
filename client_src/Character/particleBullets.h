@@ -8,15 +8,15 @@
 class ParticleBullets{
 private:
 
-    Coordenada pos;
-    Coordenada dst;
+    Coordinate pos;
+    Coordinate dst;
     SdlRenderer& renderer;
 
 public:
 
     ParticleBullets(SdlRenderer& renderer);
-    void setTrajectory(Coordenada pos, Coordenada dst);
-    void render(Coordenada cam);
+    void setTrajectory(Coordinate pos, Coordinate dst);
+    void render(Coordinate cam);
 };
 
 #endif

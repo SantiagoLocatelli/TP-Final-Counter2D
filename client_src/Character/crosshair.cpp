@@ -11,7 +11,7 @@ CrossHair::CrossHair(int width, int height, SdlTexture texture)
     this->area.h = height;
 }
 
-void CrossHair::setPosition(Coordenada pos){
+void CrossHair::setPosition(Coordinate pos){
     SDL_GetMouseState(&(this->area.x), &(this->area.y));
     this->area.x = pos.x - this->area.w/2;
     this->area.y = pos.y - this->area.h/2;

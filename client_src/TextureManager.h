@@ -11,10 +11,6 @@
 
 enum SkinType : int {CT1, CT2, CT3, CT4, TT1, TT2, TT3, TT4};
 
-struct Color {
-    uint8_t r,g,b;
-};
-
 class TextureManager{
 private:
 
