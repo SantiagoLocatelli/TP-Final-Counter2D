@@ -6,7 +6,11 @@
 #include "../../common_src/ModelInfo.h"
 #include "SoundEffects.h"
 
-struct Coordenada {
+struct Color {
+    uint8_t r,g,b;
+};
+
+struct Coordinate {
     int x;
     int y;
 };
@@ -17,26 +21,26 @@ struct Size {
 };
 
 struct BoxInfo {
-    Coordenada pos;
+    Coordinate pos;
     Size size;
 };
 
 struct DropInfo {
-    Coordenada pos;
+    Coordinate pos;
     Size size;
     WeaponType type;
 };
 
 struct WeaponInfo {
-    Coordenada pos;
+    Coordinate pos;
     Size size;
-    Coordenada posAnim;
+    Coordinate posAnim;
     WeaponType type;
     WeaponEffect sound;
 };
 
 struct PlayerInfo {
-    Coordenada pos;
+    Coordinate pos;
     Size size;
     float degrees;
     bool shooting;
@@ -51,13 +55,13 @@ struct MainPlayerInfo: public PlayerInfo {
 };
 
 struct BulletInfo {
-    Coordenada pos;
-    Coordenada dst;
+    Coordinate pos;
+    Coordinate dst;
 };
 
 struct TileInfo {
     uint8_t id;
-    Coordenada pos;
+    Coordinate pos;
     Size size;
 };
 

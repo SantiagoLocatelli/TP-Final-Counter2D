@@ -42,7 +42,7 @@ GameViewer::~GameViewer(){
 
 
 // ESTO EN LA VERSION FINAL NO TIENE QUE IR
-void GameViewer::renderPlayers(Coordenada cam) {
+void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
             it->render(cam.x, cam.y);
@@ -59,43 +59,66 @@ void GameViewer::renderPlayers(Coordenada cam) {
     
 }
 
-void GameViewer::renderShots(Coordenada cam){
+void GameViewer::renderShots(Coordinate cam){
     for (BulletInfo bul : level.bullets) {
         this->bullet.setTrajectory(bul.pos, bul.dst);
         this->bullet.render(cam);
     }
 }
 
-void GameViewer::renderWeapons(Coordenada cam){
+void GameViewer::renderWeapons(Coordinate cam){
     for(DropInfo wp : level.drops){
         this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
     }
 }
 
-void GameViewer::renderMap(Coordenada cam){
+void GameViewer::renderMap(Coordinate cam){
     int max = (int)this->level.tiles.size();
     for (int i = 0; i < max; i++) {
         uint8_t tile = this->level.tiles[i].id;
-        Coordenada pos = this->level.tiles[i].pos;
+        Coordinate pos = this->level.tiles[i].pos;
         Size size = this->level.tiles[i].size;
         this->textureManager.getTiles(tile)->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
     }
 }
 
-void GameViewer::renderMainPlayer(Coordenada cam){
+void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
 }
 
 
 void GameViewer::renderHud(){
+
+
+
+
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    SDL_Point dst = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
+    Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
 
     SdlTexture ammo(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
     ammo.setAlpha(100);
     ammo.setBlendMode(SDL_BLENDMODE_BLEND);
-    ammo.render(dst.x - ammo.getWidth(), dst.y - ammo.getHeight());
+    ammo.render(dstAmmo.x - ammo.getWidth(), dstAmmo.y - ammo.getHeight());
+
+    char healtText[100];
+    sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+    Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
+
+    SdlTexture health(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
+    health.setAlpha(100);
+    health.setBlendMode(SDL_BLENDMODE_BLEND);
+    health.render(dstHealth.x - health.getWidth(), dstHealth.y - health.getHeight());
+
+
+
+    Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
+    WeaponType type = this->level.mainPlayer.weapon.type;
+    Size size = {25,25};
+    if (type != KNIFE) {
+        SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
+        weapon.render(dstWeapon.x - size.w - MARGIN, dstWeapon.y - size.h, size.w, size.h);
+    }
 }
 
 void GameViewer::render(){
@@ -103,14 +126,14 @@ void GameViewer::render(){
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
-    Coordenada cam = {this->cam.getPosX(), this->cam.getPosY()};
+    Coordinate cam = {this->cam.getPosX(), this->cam.getPosY()};
     
     renderMap(cam);
     renderShots(cam);
     renderPlayers(cam);
     renderWeapons(cam);
     renderMainPlayer(cam);
-    //renderHud();
+    renderHud();
 
     renderer.updateScreen();
 }
@@ -149,9 +172,9 @@ void GameViewer::update(LevelInfo level){
     this->cam.keepInBounds(level.width, level.height);
     
 }
-void GameViewer::setCrossHair(Coordenada pos){this->mainPlayer->setCrossHair(pos);}
+void GameViewer::setCrossHair(Coordinate pos){this->mainPlayer->setCrossHair(pos);}
 
-Coordenada GameViewer::mainPlayerRelativePos(){
+Coordinate GameViewer::mainPlayerRelativePos(){
     return {this->mainPlayer->getPosX() - this->cam.getPosX(),
             this->mainPlayer->getPosY() - this->cam.getPosY()};
 }

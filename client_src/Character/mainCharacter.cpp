@@ -4,7 +4,7 @@ MainCharacter::MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, Cross
     Character(player, pjTexture, weapon), cr(std::move(cr)), st(std::move(st)),
     health(player.health), ammo(player.ammo){}
 
-void MainCharacter::render(Coordenada cam){
+void MainCharacter::render(Coordinate cam){
     this->cr.render();
     this->st.render(cam.x, cam.y);
     Character::render(cam.x, cam.y);
@@ -17,6 +17,6 @@ void MainCharacter::update(MainPlayerInfo info, Weapon weapon){
     Character::update(info, weapon);
 }
 
-void MainCharacter::setCrossHair(Coordenada pos){
+void MainCharacter::setCrossHair(Coordinate pos){
     this->cr.setPosition(pos);
 }

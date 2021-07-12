@@ -12,7 +12,7 @@ private:
 
 public:
     CrossHair(int width, int height, SdlTexture texture);
-    void setPosition(Coordenada pos);
+    void setPosition(Coordinate pos);
     void render();
 };
 
