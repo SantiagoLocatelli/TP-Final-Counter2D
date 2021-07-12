@@ -227,7 +227,10 @@ void Player::toggleDefuse(){
     if (team == COUNTER && world.canDefuse(body->GetPosition().x, body->GetPosition().y)){
         defusing = !defusing;
         if (defusing){
+            canMove = false;
             defuseTime = config.getPlayer().at("defuseTime");
+        } else {
+            canMove = true;
         }
     }
     
