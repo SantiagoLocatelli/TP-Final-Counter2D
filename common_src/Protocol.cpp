@@ -128,7 +128,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.you.pos.y);
         send_float(modelInfo.you.angle);
         send_byte(modelInfo.you.weapon);
-        send_bool(modelInfo.you.shooting);
+        send_bool(modelInfo.you.shot);
         send_float(modelInfo.you.health);
         send_uint16t(modelInfo.you.ammo);
         send_byte(modelInfo.you.team);
@@ -143,7 +143,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
             send_float(p.pos.y);
             send_float(p.angle);
             send_byte(p.weapon);
-            send_bool(p.shooting);
+            send_bool(p.shot);
             send_byte(modelInfo.you.team);
         }
     }
@@ -181,7 +181,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.you.pos.y);
         recv_float(modelInfo.you.angle);
         recv_byte((char&)modelInfo.you.weapon);
-        recv_bool(modelInfo.you.shooting);
+        recv_bool(modelInfo.you.shot);
         recv_float(modelInfo.you.health);
         recv_uint16t(modelInfo.you.ammo);
         recv_byte((char&)modelInfo.you.team);
@@ -198,7 +198,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
             recv_float(p.pos.y);
             recv_float(p.angle);
             recv_byte((char&)p.weapon);
-            recv_bool(p.shooting);
+            recv_bool(p.shot);
             recv_byte((char&)modelInfo.you.team);
         }
         modelInfo.players.push_back(p);

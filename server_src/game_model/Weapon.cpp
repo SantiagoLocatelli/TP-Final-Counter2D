@@ -14,6 +14,7 @@ World *Weapon::getWorld(){
 
 void Weapon::shootBullet(){
     Ray ray;
+    owner->shot = true;
 
     //Le agrego un desvio a la bala
     float r = ((float) rand()) / (float) RAND_MAX;

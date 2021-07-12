@@ -46,7 +46,7 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
 
-    if (prot.shooting) {
+    if (prot.shot) {
         if (prot.weapon == PISTOL) {
             weapon.sound = SHOT_PISTOL;
         } else if (prot.weapon == RIFLE) {
@@ -88,7 +88,7 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.degrees = Math::radiansToDegrees(prot.angle);
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
-    player.shooting = prot.shooting;
+    player.shooting = prot.shot;
 
     updateWeapon(player.weapon, prot, player.pos);
 }

@@ -21,7 +21,6 @@ class Player: public Hittable{
         World &world;
         b2Body *body;
         bool dead;
-        bool shooting;
         GameConfig &config;
         std::array<bool, 4> movement;
         std::array<Weapon*, 4> weapons;
@@ -33,6 +32,7 @@ class Player: public Hittable{
 
     public:
         bool canMove;
+        bool shot; //TODO: No me gusta que esto sea público
         
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 
@@ -49,7 +49,6 @@ class Player: public Hittable{
         void recvDamage(float damage) override;
         float getHealth() const;
         bool isDead() const;
-        bool isShooting() const;
         WeaponType getWeaponType() const;
         void reloadWeapon();
 

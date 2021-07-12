@@ -53,7 +53,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.angle = p.getAngle();
                 you.health = p.getHealth();
                 you.weapon = p.getWeaponType();
-                you.shooting = p.isShooting();
+                you.shot = p.shot;
                 you.team = p.getTeam();
                 you.ammo = p.getAmmo();
             }
@@ -146,6 +146,9 @@ GameProxy::~GameProxy(){
 
 void GameProxy::clearFrameEvents(){
     world->clearBullets();
+    for (Player &p: world->getPlayers()){
+        p.shot = false;
+    }
 }
 
 void GameProxy::toggleDefuse(int id){

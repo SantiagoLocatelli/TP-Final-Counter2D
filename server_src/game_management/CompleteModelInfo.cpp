@@ -13,7 +13,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
                 p.pos.y = players[i].pos.y;
                 p.angle = players[i].angle;
                 p.weapon = players[i].weapon;
-                p.shooting = players[i].shooting;
+                p.shot = players[i].shot;
             }
             info.players.push_back(p);
         }
