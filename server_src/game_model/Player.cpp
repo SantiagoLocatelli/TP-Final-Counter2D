@@ -237,3 +237,7 @@ void Player::toggleDefuse(){
     }
     
 }
+
+int Player::getAmmo() const{
+    return weapons[currentWeapon]->getAmmo();
+}

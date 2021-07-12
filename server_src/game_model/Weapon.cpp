@@ -43,6 +43,10 @@ WeaponSlot Weapon::getSlot(){
     return slot;
 }
 
+int Weapon::getAmmo(){
+    return bullets;
+}
+
 void Weapon::toggle(){
     toggled = !toggled;
     if (toggled && bullets > 0 && shootTime == 0){

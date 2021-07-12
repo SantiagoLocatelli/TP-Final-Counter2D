@@ -61,6 +61,7 @@ class Player: public Hittable{
         void changeWeapon(WeaponSlot slot);
         void toggleDefuse();
         void step(float delta);
+        int getAmmo() const;
 
         ~Player();
 

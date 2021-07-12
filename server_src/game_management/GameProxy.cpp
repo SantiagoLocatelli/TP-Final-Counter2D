@@ -55,7 +55,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.weapon = p.getWeaponType();
                 you.shooting = p.isShooting();
                 you.team = p.getTeam();
-                you.ammo = 0;
+                you.ammo = p.getAmmo();
             }
             info.players.push_back(you);
     }
