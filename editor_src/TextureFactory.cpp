@@ -3,11 +3,6 @@
 #include <utility>
 #include <stdio.h>
 
-/*TextureFactory::TextureFactory(const char *yamlTextureFile, const char *yamlMapFile){
-    YAML::Node yamlTexture = YAML::LoadFile(yamlTextureFile);
-    YAML::Node yamlMap = YAML::LoadFile(yamlMapFile);
-}*/
-
 void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::list<std::unique_ptr<SdlTexture>>& textures,
  std::vector<float>& mapSize, SdlRenderer& renderer){
     //Open the map
@@ -25,7 +20,7 @@ void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::li
     }
 }
 
-void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
+void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["bombSite"];
 
@@ -42,7 +37,7 @@ void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::stri
     bombSites["B"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 }
 
-void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::shared_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
+void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["spawnSite"];
     std::vector<float> position = Site["T"]["position"].as<std::vector<float>>();

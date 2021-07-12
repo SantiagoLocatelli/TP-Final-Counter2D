@@ -14,15 +14,11 @@
 #include "MenueManager.h"
 #include "InitialMenue.h"
 #include "textureScreen.h"
+#include "quitMenue.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
-
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
 
 int main(int argc, char* args[]){
 
@@ -49,7 +45,11 @@ int main(int argc, char* args[]){
         while (SDL_PollEvent(&event) != 0){
             //User requests quit
             if (event.type == SDL_QUIT){
-                quit = true;
+                if (menueManager.getSaveState() != ""){
+                    presenter.emplace(std::unique_ptr<Presenter>(new QuitMenue(quit, renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                }else{
+                    quit = true;
+                }
             }
             presenter.top()->handleEvents(&event, renderer);
             if (presenter.top()->finish()){
@@ -61,8 +61,10 @@ int main(int argc, char* args[]){
                 }else{
                     presenter.emplace(std::unique_ptr<Presenter>(new TextureScreen(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
                 }
+            }else if(event.key.keysym.sym == SDLK_s && SDL_GetModState() & KMOD_CTRL){
+                menueManager.loadToFile();
             }
-            window.setTitle("Level Designer. Current Tile: " + presenter.top()->getTitle());
+            window.setTitle(presenter.top()->getTitle() + menueManager.getSaveState());
         }
 
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -72,6 +74,5 @@ int main(int argc, char* args[]){
 
         renderer.updateScreen();
     }
-    menueManager.loadToFile();
     return 0;
 }
