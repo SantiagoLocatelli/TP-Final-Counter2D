@@ -25,6 +25,7 @@ class Player: public Hittable{
         std::array<bool, 4> movement;
         std::array<Weapon*, 4> weapons;
         WeaponSlot currentWeapon;
+        WeaponSlot slotToDestroy;
         float speed;
         Team team;
 
@@ -51,7 +52,9 @@ class Player: public Hittable{
 
         //Inventario
         void dropWeapon();
+        bool canTake(Weapon *weapon);
         void takeWeapon(Weapon *weapon);
+        void destroyWeapon(WeaponSlot slot);
         void changeWeapon(WeaponSlot slot);
         void step(float delta);
 

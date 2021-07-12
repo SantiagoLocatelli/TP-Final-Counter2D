@@ -31,6 +31,7 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config, T
     weapons[PRIMARY] = nullptr; //TODO: Ojo, peligroso
     weapons[BOMB_SLOT] = nullptr; //TODO: Ojo, peligroso
     currentWeapon = KNIFE_SLOT;
+    slotToDestroy = KNIFE_SLOT;
 
     movement[UP] = false;
     movement[DOWN] = false;
@@ -48,6 +49,7 @@ Player::Player(Player&& other): world(other.world){
     this->speed = other.speed;
     this->shooting = other.shooting;
     this->currentWeapon = other.currentWeapon;
+    this->slotToDestroy = other.slotToDestroy;
     this->team = other.team;
 
     this->movement = std::move(other.movement);
@@ -158,6 +160,15 @@ void Player::dropWeapon(){
     }
 }
 
+bool Player::canTake(Weapon *weapon){
+    if (weapons[weapon->getSlot()] != nullptr)
+        return false;
+    if (weapon->getType() == BOMB && team == COUNTER)
+        return false;
+
+    return true;
+}
+
 void Player::takeWeapon(Weapon *weapon){
     if (weapons[weapon->getSlot()] != nullptr){
         delete weapons[weapon->getSlot()];
@@ -177,11 +188,26 @@ void Player::changeWeapon(WeaponSlot slot){
     }
 }
 
+void Player::destroyWeapon(WeaponSlot slot){
+    slotToDestroy = slot;
+}
+
+
 Team Player::getTeam() const{
     return team;
 }
 
 void Player::step(float delta){
+    if (slotToDestroy != KNIFE_SLOT){
+        if (weapons[slotToDestroy] != nullptr){
+            delete weapons[slotToDestroy];
+            weapons[slotToDestroy] = nullptr;
+            if (currentWeapon == slotToDestroy){
+                currentWeapon = KNIFE_SLOT;
+                slotToDestroy = KNIFE_SLOT;
+            }
+        }
+    }
     for (Weapon* w: weapons){
         if (w != nullptr){
             w->step(delta);

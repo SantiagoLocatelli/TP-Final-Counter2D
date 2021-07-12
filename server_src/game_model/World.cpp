@@ -6,6 +6,7 @@
 World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), timer(0), b2world(b2Vec2(0,0)), config(config){
     gridSize[0] = grid_length;
     gridSize[1] = grid_height;
+    bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
 }
 
@@ -35,14 +36,20 @@ std::vector<Player> &World::getPlayers(){
 }
 
 void World::step(){
-    timer += config.getGame().at("frameTime");
+    float delta = config.getGame().at("frameTime");
+    timer += delta;
     for (Player &p: players){
         if (!p.isDead()){
             p.updateVelocity();
-            p.step(config.getGame().at("frameTime"));
+            p.step(delta);
         }
     }
-    b2world.Step(config.getGame().at("frameTime"), 10, 9);
+
+    if (bomb.planted){
+        bomb.timeRemaining -= delta;
+    }
+
+    b2world.Step(delta, 10, 9);
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
@@ -142,4 +149,17 @@ std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, fl
 
 float World::getTime(){
     return timer;
+}
+
+void World::plantBomb(float x, float y){
+    if (!bomb.planted){
+        bomb.planted = true;
+        bomb.x = x;
+        bomb.y = y;
+        bomb.timeRemaining = config.getGame().at("bombTime");
+    }
+}
+
+bool World::bombExploded(){
+    return bomb.planted && bomb.timeRemaining <= 0;
 }

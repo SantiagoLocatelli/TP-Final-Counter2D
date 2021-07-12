@@ -1,6 +1,6 @@
 Game:
   roundTime: 10000 # En segundos
-  bombTime: 30 # Tiempo hasta explosión
+  bombTime: 10 # Tiempo hasta explosión
   frameTime: 0.033
 
 Player:
@@ -48,3 +48,5 @@ Weapons:
     capacity: 5
     reloadTime: 3
     maxRange: 100
+  Bomb:
+    speed: 1

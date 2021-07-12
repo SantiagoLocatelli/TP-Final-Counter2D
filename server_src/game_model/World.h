@@ -14,6 +14,7 @@
 #include "CollisionHandler.h"
 #include "GameConfig.h"
 #include "../../common_src/Utils.h"
+#include "../../common_src/ModelInfo.h"
 
 class Drop;
 class Player;
@@ -28,6 +29,8 @@ class World{
         CollisionHandler collisionHandler;
         std::list<b2Body*> bodiesToDestroy;
         float timer;
+        ProtBomb bomb;
+
 
     public:
         b2World b2world;
@@ -51,6 +54,9 @@ class World{
         float getTime();
 
         void destroyBody(b2Body *body);
+
+        void plantBomb(float x, float y);
+        bool bombExploded();
 
         ~World();
 

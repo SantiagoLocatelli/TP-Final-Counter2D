@@ -22,6 +22,8 @@ void CollisionHandler::BeginContact(b2Contact* contact){
         player = (Player *)bodyB->GetUserData().pointer;
         drop = (Drop *)bodyA->GetFixtureList()->GetUserData().pointer;
     }
-
-    player->takeWeapon(drop->getTaken());
+    
+    if (player->canTake(drop->getWeapon())){
+        player->takeWeapon(drop->getTaken());
+    }
 }
