@@ -29,6 +29,10 @@ void EventHandler::executeEvent(Event event, int id){
     case DROP_WEAPON:
         game.dropWeapon(id);
         break;
+    
+    case TOGGLE_DEFUSE:
+        game.toggleDefuse(id);
+        break;
 
     default:
         break;

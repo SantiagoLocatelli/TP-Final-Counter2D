@@ -20,6 +20,10 @@ std::map<std::string, float> GameConfig::getWeapon(WeaponType type){
     case SNIPER:
         name = "Sniper";
         break;
+    case BOMB:
+        name = "Bomb";
+        break;
+    
     default:
         name = ""; //No estan en el archivo todavia
     }
@@ -30,3 +34,8 @@ std::map<std::string, float> GameConfig::getWeapon(WeaponType type){
 std::map<std::string, float> GameConfig::getPlayer(){
     return configFile["Player"].as<std::map<std::string, float>>();
 }
+
+std::map<std::string, float> GameConfig::getGame(){
+    return configFile["Game"].as<std::map<std::string, float>>();
+}
+

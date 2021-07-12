@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include "Utils.h"
 
+
 struct Position{
     float x;
     float y;
@@ -35,11 +36,20 @@ struct ProtDrop{
     Position pos;
 };
 
+struct ProtBomb{
+    bool planted; //Si es falso entonces todos los otros campos son inválidos
+    bool defused;
+    float x;
+    float y;
+    float timeRemaining;
+};
+
 struct ModelInfo{
     You you;
     std::list<ProtPlayer> players;
     std::list<Bullet> bullets;
     std::list<ProtDrop> drops;
+    ProtBomb bomb;
     bool game_ended;
 };
 

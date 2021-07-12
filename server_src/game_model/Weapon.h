@@ -19,6 +19,9 @@ class Weapon{
         WeaponSlot slot;
         std::map<std::string, float> config;
         int bullets;
+        float reloadTime;
+        float shootTime;
+        bool toggled;
 
         virtual float calculateDamage(float distance);
     public:
@@ -29,6 +32,7 @@ class Weapon{
         WeaponSlot getSlot();
         virtual void toggle();
         virtual void reload();
+        virtual void step(float delta);
         void shootBullet();
         virtual ~Weapon() = default;
 };
