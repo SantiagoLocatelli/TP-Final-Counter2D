@@ -28,8 +28,8 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config, T
     weapons[KNIFE_SLOT]->changeOwner(this);
     weapons[SECONDARY] = new Pistol(&world, config);
     weapons[SECONDARY]->changeOwner(this);
-    weapons[PRIMARY] = nullptr; //TODO: Ojo, peligroso
-    weapons[BOMB_SLOT] = nullptr; //TODO: Ojo, peligroso
+    weapons[PRIMARY] = nullptr; 
+    weapons[BOMB_SLOT] = nullptr;
     currentWeapon = KNIFE_SLOT;
     slotToDestroy = KNIFE_SLOT;
 
@@ -155,7 +155,7 @@ void Player::dropWeapon(){
         float x_pos = body->GetPosition().x + std::cos(angle);
         float y_pos = body->GetPosition().y + std::sin(angle);
         new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
-        weapons[currentWeapon] = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+        weapons[currentWeapon] = nullptr;
         currentWeapon = KNIFE_SLOT;
     }
 }

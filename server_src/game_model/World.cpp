@@ -20,14 +20,19 @@ void World::createPlayer(RectArea spawn, Team team){
     float start_x, start_y;
     EntityChecker checker(b2world);
 
-    //TODO: Tener un contador de iteraciones para frenar por si el tamaño del spawn no es suficiente
+    int tries = 0;
     do{
         float r = ((float) rand()) / (float) RAND_MAX;
         start_x = spawn.x + (r*spawn.width);
         r = ((float) rand()) / (float) RAND_MAX;
         start_y = spawn.y + (r*spawn.height);
+        tries++;
     } while (checker.areaHasEntities(b2Vec2(start_x-0.5, start_y-0.5)
-    , b2Vec2(start_x+0.5, start_y+0.5)));
+    , b2Vec2(start_x+0.5, start_y+0.5)) && tries < 50);
+
+    if (tries == 50){
+        throw GeneralException("El spawn es muy chico y no entran los jugadores\n");
+    }
 
     players.emplace_back(std::move(Player(*this, start_x, start_y, config, team)));
 }

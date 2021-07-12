@@ -31,8 +31,9 @@ class Player: public Hittable{
         float defuseTime;
 
     public:
+        //TODO: No me gusta que esto sea público
         bool canMove;
-        bool shot; //TODO: No me gusta que esto sea público
+        bool shot; 
         
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 

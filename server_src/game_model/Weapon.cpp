@@ -22,7 +22,6 @@ void Weapon::shootBullet(){
     std::array<float, 2> pos = owner->getPosition();
     ray.x = pos[0];
     ray.y = pos[1];
-    //TODO: No se pueden mandar float negativos por el socket 
     ray.angle = owner->getAngle() + spread;
     ray.distance = config.at("maxRange");
     Hittable *hit = nullptr;

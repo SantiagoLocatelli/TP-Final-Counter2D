@@ -29,7 +29,6 @@ void GameThread::run(){
         cli->start();
     }
 
-    //TODO: Quiero ver si esto arregla el problema del lag. Funciona!!
     auto model = std::make_shared<CompleteModelInfo>(std::move(game.getModelInfo()));
     for (ModelQueue &queue : modelQueues){
         queue.push(model);
@@ -44,7 +43,6 @@ void GameThread::run(){
         do{
             stopwatch.start();
             while (stopwatch.msPassed() < FRAME_MS){
-                //TODO: Sacar este busy wait
                 if (!eventQueue.isEmpty()){
                     int id;
                     Event event = eventQueue.pop(id);
