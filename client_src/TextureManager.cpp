@@ -5,6 +5,8 @@
 
 #define PATH "../../client_src/yaml/"
 
+
+
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
@@ -171,7 +173,10 @@ TextureManager::~TextureManager(){
 
 }
 
-SdlTexture* TextureManager::getWeaponOnHud(WeaponType weapon){return (this->weaponsOnHud[weapon]);}
+SdlTexture* TextureManager::getWeaponOnHud(WeaponType weapon){
+    if (weapon == KNIFE) printf("No tiene el cuchillo WeaponOnHud\n");
+    return (this->weaponsOnHud[weapon]);
+}
 SdlTexture* TextureManager::getWeaponOnPj(WeaponType weapon){return (this->weaponsOnPj[weapon]);}
 SdlTexture* TextureManager::getWeaponOnFloor(WeaponType weapon){return (this->weaponsOnFloor[weapon]);}
 SdlTexture* TextureManager::getWeaponAnim(WeaponType weapon){return (this->animWeaponOnPj[weapon]);}

@@ -5,7 +5,7 @@ Camera::Camera(int width, int height){
     this->pos = {0, 0};
 }
 
-void Camera::centerCamera(Coordenada pos){
+void Camera::centerCamera(Coordinate pos){
     this->pos.x = pos.x - this->size.w/2;
     this->pos.y = pos.y - this->size.h/2;
 }

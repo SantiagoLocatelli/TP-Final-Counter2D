@@ -106,6 +106,7 @@ int SdlTexture::changeTextTexture(std::string text, std::string path, int size, 
 		}else{
 			printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 		}
+		TTF_CloseFont(font);
 	}
 	return -1;
 }

@@ -32,11 +32,11 @@ private:
 
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
-    void renderMainPlayer(Coordenada cam);
-    void renderPlayers(Coordenada cam);
-    void renderWeapons(Coordenada cam);
-    void renderShots(Coordenada cam);
-    void renderMap(Coordenada cam);
+    void renderMainPlayer(Coordinate cam);
+    void renderPlayers(Coordinate cam);
+    void renderWeapons(Coordinate cam);
+    void renderShots(Coordinate cam);
+    void renderMap(Coordinate cam);
     void renderHud();
 
 public:
@@ -44,8 +44,8 @@ public:
     GameViewer(int window_w, int window_h, LevelInfo level);
     ~GameViewer();
 
-    void setCrossHair(Coordenada pos);
-    Coordenada mainPlayerRelativePos();
+    void setCrossHair(Coordinate pos);
+    Coordinate mainPlayerRelativePos();
     void render();
     void update(LevelInfo level);
 

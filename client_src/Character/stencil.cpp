@@ -13,7 +13,7 @@ Stencil::Stencil(SdlRenderer& renderer, int window_w, int window_h)
     this->rect.y = 0;
 }
 
-void Stencil::setPosition(Coordenada pos, float degrees){
+void Stencil::setPosition(Coordinate pos, float degrees){
     this->rect.x = pos.x;
     this->rect.y = pos.y;
     this->degrees = degrees;
