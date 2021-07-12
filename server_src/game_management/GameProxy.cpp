@@ -64,7 +64,11 @@ CompleteModelInfo GameProxy::getModelInfo(){
         Bullet b;
         b.pos.x = ray.x;
         b.pos.y = ray.y;
-        b.angle = ray.angle;
+        if (ray.angle < 0){
+            b.angle = ray.angle + 6.2832; //Le sumo 2PI
+        } else {
+            b.angle = ray.angle; 
+        }
         b.distance = ray.distance;
         info.bullets.push_back(b);
     }
