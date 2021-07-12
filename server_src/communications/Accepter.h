@@ -1,10 +1,10 @@
 #ifndef _ACCEPTER_H_
 #define _ACCEPTER_H_
 
-#include "../common_src/Thread.h"
-#include "../common_src/Socket.h"
+#include "../../common_src/Thread.h"
+#include "../../common_src/Socket.h"
 #include "LobbyManager.h"
-#include "GameList.h"
+#include "../game_management/GameList.h"
 #include <list>
 
 class Accepter : public Thread{

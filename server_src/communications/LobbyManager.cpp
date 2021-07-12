@@ -1,5 +1,5 @@
 #include "LobbyManager.h"
-#include "../common_src/GeneralException.h"
+#include "../../common_src/GeneralException.h"
 #include <iostream>
 #include <utility>
 

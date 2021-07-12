@@ -1,6 +1,6 @@
 #include "GameThread.h"
 #include <utility>
-#include "../common_src/Stopwatch.h"
+#include "../../common_src/Stopwatch.h"
 
 #include <iostream>
 #include <chrono>

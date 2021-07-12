@@ -1,7 +1,7 @@
 #ifndef _COMLETE_MODEL_INFO_H_
 #define _COMLETE_MODEL_INFO_H_
 
-#include "../common_src/ModelInfo.h"
+#include "../../common_src/ModelInfo.h"
 #include "GameProxy.h"
 #include <list>
 #include <vector>

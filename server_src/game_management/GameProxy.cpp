@@ -1,8 +1,8 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "game_model/Shotgun.h"
-#include "../common_src/Utils.h"
-#include "game_model/Bomb.h"
+#include "../game_model/Shotgun.h"
+#include "../../common_src/Utils.h"
+#include "../game_model/Bomb.h"
 #include <utility>
 
 #include <list>

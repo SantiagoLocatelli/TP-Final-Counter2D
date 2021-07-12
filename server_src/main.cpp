@@ -1,5 +1,5 @@
-#include "Accepter.h"
-#include "GameList.h"
+#include "communications/Accepter.h"
+#include "game_management/GameList.h"
 
 int main(int argc, char const *argv[]){
     if (argc != 2)

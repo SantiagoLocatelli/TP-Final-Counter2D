@@ -31,6 +31,8 @@ file(GLOB EVENTS_SRC_FILES "client_src/Events/*.cpp")
 #SERVER
 file(GLOB SERVER_SRC_FILES "server_src/*.cpp")
 file(GLOB GAME_MODEL_SRC_FILES "server_src/game_model/*.cpp")
+file(GLOB GAME_MANAGEMENT_SRC_FILES "server_src/game_management/*.cpp")
+file(GLOB COMMUNICATIONS_SRC_FILES "server_src/communications/*.cpp")
 
 #EDITOR
 file(GLOB EDITOR_SRC_FILES "editor_src/*.cpp")
@@ -44,7 +46,7 @@ add_executable(Client client_src/main.cpp ${CLIENT_SRC_FILES} ${CHARACTER_SRC_FI
 target_link_libraries(Client SDL2 SDL2_image SDL2_ttf SDL2_mixer pthread yaml-cpp)
 
 add_executable(Server server_src/main.cpp ${SERVER_SRC_FILES}
-        ${COMMON_SRC_FILES} ${GAME_MODEL_SRC_FILES})
+        ${COMMON_SRC_FILES} ${GAME_MODEL_SRC_FILES} ${GAME_MANAGEMENT_SRC_FILES} ${COMMUNICATIONS_SRC_FILES})
 target_link_libraries(Server box2d pthread yaml-cpp)
 
 add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/camera.cpp")

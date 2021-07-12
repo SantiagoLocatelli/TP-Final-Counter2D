@@ -5,7 +5,7 @@
 #include <condition_variable>
 #include <queue>
 #include <memory>
-#include "CompleteModelInfo.h"
+#include "../game_management/CompleteModelInfo.h"
 
 class ModelQueue{
     private:

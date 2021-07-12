@@ -1,9 +1,9 @@
 #ifndef _GAME_PROXY_H_
 #define _GAME_PROXY_H_
 
-#include "game_model/World.h"
-#include "game_model/Player.h"
-#include "../common_src/MapInfo.h"
+#include "../game_model/World.h"
+#include "../game_model/Player.h"
+#include "../../common_src/MapInfo.h"
 #include "CompleteModelInfo.h"
 
 class CompleteModelInfo;

@@ -1,8 +1,8 @@
 #ifndef _CLIENT_MANAGER_H_
 #define _CLIENT_MANAGER_H_
 
-#include "../common_src/Thread.h"
-#include "../common_src/Protocol.h"
+#include "../../common_src/Thread.h"
+#include "../../common_src/Protocol.h"
 #include "EventQueue.h"
 #include "EventReceiver.h"
 #include "ModelQueue.h"

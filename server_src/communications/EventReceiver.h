@@ -1,8 +1,8 @@
 #ifndef _EVENT_RECEIVER_H_
 #define _EVENT_RECEIVER_H_
 
-#include "../common_src/Thread.h"
-#include "../common_src/Protocol.h"
+#include "../../common_src/Thread.h"
+#include "../../common_src/Protocol.h"
 #include "EventQueue.h"
 
 class EventReceiver: public Thread{

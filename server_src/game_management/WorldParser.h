@@ -1,8 +1,8 @@
 #ifndef _WORLD_PARSER_H_
 #define _WORLD_PARSER_H_
 
-#include "game_model/World.h"
-#include "../common_src/MapInfo.h"
+#include "../game_model/World.h"
+#include "../../common_src/MapInfo.h"
 #include "yaml-cpp/yaml.h"
 #include <stdint.h>
 #include <string>

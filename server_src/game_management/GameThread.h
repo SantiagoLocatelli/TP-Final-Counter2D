@@ -1,12 +1,12 @@
 #ifndef _GAME_THREAD_H_
 #define _GAME_THREAD_H_
 
-#include "../common_src/Thread.h"
+#include "../../common_src/Thread.h"
 #include "GameProxy.h"
-#include "ClientManager.h"
+#include "../communications/ClientManager.h"
 #include "EventHandler.h"
-#include "ModelQueue.h"
-#include "EventQueue.h"
+#include "../communications/ModelQueue.h"
+#include "../communications/EventQueue.h"
 #include <list>
 #include <string>
 #include <memory>

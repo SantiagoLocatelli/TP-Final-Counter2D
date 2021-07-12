@@ -1,7 +1,7 @@
 #ifndef _EVENT_QUEUE_H_
 #define _EVENT_QUEUE_H_
 
-#include "../common_src/Event.h"
+#include "../../common_src/Event.h"
 #include <mutex>
 #include <utility>
 #include <queue>

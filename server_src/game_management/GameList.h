@@ -2,8 +2,8 @@
 #define _GAME_LIST_H_
 
 #include "GameProxy.h"
-#include "../common_src/GameInfo.h"
-#include "../common_src/Protocol.h"
+#include "../../common_src/GameInfo.h"
+#include "../../common_src/Protocol.h"
 #include "GameThread.h"
 #include <mutex>
 #include <map>

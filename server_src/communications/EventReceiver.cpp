@@ -1,5 +1,5 @@
 #include "EventReceiver.h"
-#include "../common_src/SocketClosedException.h"
+#include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
 EventReceiver::EventReceiver(Protocol &protocol, EventQueue &queue, int id)
