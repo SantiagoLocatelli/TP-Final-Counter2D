@@ -28,6 +28,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
     }
 
     info.game_ended = game_ended;
+    info.bomb = bomb;
 
     return info;
 }

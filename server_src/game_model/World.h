@@ -64,6 +64,8 @@ class World{
         void defuseBomb();
         bool bombDefused();
 
+        ProtBomb getBomb();
+
         ~World();
 
         World(const World&) = delete;

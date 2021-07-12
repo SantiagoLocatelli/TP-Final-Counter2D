@@ -164,6 +164,14 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
     }
 
     send_bool(modelInfo.game_ended);
+
+    send_bool(modelInfo.bomb.planted);
+    if (modelInfo.bomb.planted){
+        send_bool(modelInfo.bomb.defused);
+        send_float(modelInfo.bomb.x);
+        send_float(modelInfo.bomb.y);
+        send_float(modelInfo.bomb.timeRemaining);
+    }
 }
 
 void Protocol::recv_model_info(ModelInfo &modelInfo){
@@ -218,6 +226,14 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     }
     
     recv_bool(modelInfo.game_ended);
+
+    recv_bool(modelInfo.bomb.planted);
+    if (modelInfo.bomb.planted){
+        recv_bool(modelInfo.bomb.defused);
+        recv_float(modelInfo.bomb.x);
+        recv_float(modelInfo.bomb.y);
+        recv_float(modelInfo.bomb.timeRemaining);
+    }
 }
 
 void Protocol::close(){

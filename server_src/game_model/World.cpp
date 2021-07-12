@@ -200,3 +200,7 @@ bool World::canDefuse(float x, float y){
 
     return false;
 }
+
+ProtBomb World::getBomb(){
+    return bomb;
+}

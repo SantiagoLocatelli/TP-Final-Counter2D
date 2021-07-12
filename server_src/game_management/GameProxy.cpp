@@ -83,6 +83,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
 
     info.game_ended = ended();
 
+    info.bomb = world->getBomb();
+
     return info;
 }
 

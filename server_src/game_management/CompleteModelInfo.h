@@ -12,6 +12,7 @@ class CompleteModelInfo{
         std::list<Bullet> bullets;
         std::list<ProtDrop> drops;
         bool game_ended;
+        ProtBomb bomb;
     
     public:
         CompleteModelInfo() = default;
