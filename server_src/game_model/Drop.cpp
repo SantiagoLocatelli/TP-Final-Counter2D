@@ -10,6 +10,7 @@ Drop::Drop(World &world, float x, float y, Weapon *weapon):world(world), weapon(
     circleShape.m_radius = 0.25f;
 
     fixture = body->CreateFixture(&circleShape, 0);
+    fixture->SetSensor(true);
     fixture->GetUserData().pointer = (uintptr_t)this;
 }
 
