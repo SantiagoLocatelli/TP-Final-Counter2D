@@ -1,4 +1,5 @@
 #include "GameViewer.h"
+#include "Events/gameMath.h"
 #include <cstdio>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
@@ -34,21 +35,49 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     loadPlayers(windowSize);
 }
 
+
+SkinType getPjSkin(PlayerInfo player) {
+    printf("Team: %i\n", (int)player.team);
+    if (player.team == COUNTER) {
+        return (SkinType) Math::getRandomNumberBetween((int)CT1, (int)CT4);
+    }
+    return (SkinType) Math::getRandomNumberBetween((int)TT1, (int)TT4);
+}
+
 void GameViewer::loadPlayers(Size window){
-
-    WeaponType mainType = this->level.mainPlayer.weapon.type;
-
-    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
+    srand((unsigned)time(NULL));
+    WeaponType mainWeaponType = this->level.mainPlayer.weapon.type;
+    SkinType mainSkinType = getPjSkin(this->level.mainPlayer);
+    printf("skin type: %i\n", (int)mainSkinType);
+    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-                std::move(Stencil(this->renderer, window)), this->weapons[mainType]);
+                std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]);
 
 
     for (PlayerInfo player : this->level.players) {
 
-        WeaponType type = player.weapon.type;
-        this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), this->weapons[type]));
+        WeaponType typeWeapon = player.weapon.type;
+        SkinType typeSkin = getPjSkin(player);
+        printf("skin type: %i\n", (int)typeSkin);
+        this->players.push_back(Character(player, *(this->textureManager.getSkin(typeSkin)), this->weapons[typeWeapon]));
     }
 }
+
+// void GameViewer::loadPlayers(Size window){
+
+//     WeaponType mainType = this->level.mainPlayer.weapon.type;
+
+//     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
+//                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
+//                 std::move(Stencil(this->renderer, window)), this->weapons[mainType]);
+
+
+//     for (PlayerInfo player : this->level.players) {
+
+//         WeaponType type = player.weapon.type;
+//         this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), this->weapons[type]));
+//     }
+// }
 
 void GameViewer::loadWeapons(){
     this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), KNIFE);

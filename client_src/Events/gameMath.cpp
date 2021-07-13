@@ -45,3 +45,7 @@ int Math::senoOppHyp(float radians, int hypotenuse){
 int Math::cosOppHyp(float radians, int hypotenuse){
     return (int)(cos(radians) * (float)hypotenuse);
 }
+
+int Math::getRandomNumberBetween(int min, int max){
+    return ((rand() % (1+max-min)) + min);
+}
