@@ -30,6 +30,9 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
         world->addSite(r);
     }
 
+    world->addSpawn(mapInfo.spawnSites[0], TERROR);
+    world->addSpawn(mapInfo.spawnSites[1], COUNTER);
+
     world->addDrop(new Rifle(world, world->config), 5.5f, 5.5f);
 
     world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);
@@ -154,3 +157,8 @@ void GameProxy::clearFrameEvents(){
 void GameProxy::toggleDefuse(int id){
     world->getPlayers()[id].toggleDefuse();
 }
+
+void GameProxy::buyWeapon(int id, WeaponType type){
+    world->getPlayers()[id].buyWeapon(type);
+}
+

@@ -58,6 +58,22 @@ void EventManager::run(){
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = BOMB_SLOT;
                                 break;
+
+                            //TODO: Estos son temporales.
+                            case SDLK_8:
+                                event.type = BUY_WEAPON;
+                                event.info.type = SNIPER;
+                                break;
+                            case SDLK_9:
+                                event.type = BUY_WEAPON;
+                                event.info.type = SHOTGUN;
+                                break;
+                            case SDLK_0:
+                                event.type = BUY_WEAPON;
+                                event.info.type = RIFLE;
+                                break;
+                            
+
                             case SDLK_g:
                                 event.type = DROP_WEAPON;
                                 break;
