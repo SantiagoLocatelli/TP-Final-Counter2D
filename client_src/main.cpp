@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
         }
 
 
-        int window_w = 500, window_h = 500;
+        Size windowSize {500, 500};
 
         MapInfo map;
         server.recv_map_info(map);
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
         GameManager gameManager;
         
         level = gameManager.initializeLevel(map, model);
-        GameViewer gameViewer(window_w, window_h, level); 
+        GameViewer gameViewer(windowSize, level); 
 
         bool quit = false;
         EventManager eventManager(server, quit, gameViewer);

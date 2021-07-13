@@ -6,7 +6,7 @@ MainCharacter::MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, Cross
 
 void MainCharacter::render(Coordinate cam){
     this->cr.render();
-    this->st.render(cam.x, cam.y);
+    this->st.render(cam);
     Character::render(cam);
 }
 

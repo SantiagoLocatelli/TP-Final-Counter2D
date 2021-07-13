@@ -45,6 +45,7 @@ struct PlayerInfo {
     float degrees;
     bool shooting;
     bool dead;
+    Team team;
     WeaponInfo weapon;
     std::list<PlayerEffect> sounds;
 };
@@ -66,8 +67,7 @@ struct TileInfo {
 };
 
 struct LevelInfo{
-    int height;
-    int width;
+    Size size;
     
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;

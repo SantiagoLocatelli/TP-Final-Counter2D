@@ -46,19 +46,19 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.y;
 
-    if (prot.shot) {
-        if (prot.weapon == PISTOL) {
-            weapon.sound = SHOT_PISTOL;
-        } else if (prot.weapon == RIFLE) {
-            weapon.sound = SHOT_RIFLE;
-        } else if (prot.weapon == SHOTGUN) {
-            weapon.sound = SHOT_SHOTGUN;
-        } else if (prot.weapon == SNIPER) {
-            weapon.sound = SHOT_SHOTGUN;
-        } else if (prot.weapon == KNIFE) {
-            weapon.sound = KNIFE_HIT;
-        }
-    }
+    // if (prot.shot) {
+    //     if (prot.weapon == PISTOL) {
+    //         weapon.sound = SHOT_PISTOL;
+    //     } else if (prot.weapon == RIFLE) {
+    //         weapon.sound = SHOT_RIFLE;
+    //     } else if (prot.weapon == SHOTGUN) {
+    //         weapon.sound = SHOT_SHOTGUN;
+    //     } else if (prot.weapon == SNIPER) {
+    //         weapon.sound = SHOT_SHOTGUN;
+    //     } else if (prot.weapon == KNIFE) {
+    //         weapon.sound = KNIFE_HIT;
+    //     }
+    // }
 
 }
 
@@ -89,7 +89,7 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     player.size.w = PIXELS_PER_METER;
     player.size.h = PIXELS_PER_METER;
     player.shooting = prot.shot;
-
+    player.team = prot.team;
     updateWeapon(player.weapon, prot, player.pos);
 }
 
@@ -147,8 +147,8 @@ void translateRect(BoxInfo& box, RectArea rect){
 
 LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model){
     
-    level.width = map.length*PIXELS_PER_METER;
-    level.height = map.height*PIXELS_PER_METER;
+    level.size.w = map.length*PIXELS_PER_METER;
+    level.size.h = map.height*PIXELS_PER_METER;
 
     BoxInfo box;
     for (auto it = map.bombSites.begin(); it != map.bombSites.end(); it++) {
