@@ -43,8 +43,6 @@ class World{
         void addBox(int grid_x, int grid_y);
         void createPlayer(RectArea spawn, Team team);
         void step(float delta);
-        float rayCast(Ray ray, Hittable *&hittable);
-        std::list<Hittable *> &hittablesInArea(float x, float y, float heigth, float length);
 
         void deleteBody(b2Body *body);
         std::vector<Player> &getPlayers();

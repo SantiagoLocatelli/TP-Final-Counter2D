@@ -15,7 +15,7 @@ void Knife::toggle(){
             ray.angle = owner->getAngle() + angle;
             ray.distance = 1;
             Hittable *h;
-            if (world->rayCast(ray, h) != -1){
+            if (rayCaster.castRay(ray, h) != -1){
                 hit.insert(h);
             }
         }

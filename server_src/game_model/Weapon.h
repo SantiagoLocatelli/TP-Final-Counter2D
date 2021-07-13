@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "../../common_src/Utils.h"
 #include "GameConfig.h"
+#include "RayCaster.h"
 #include <map>
 #include <string>
 
@@ -22,6 +23,7 @@ class Weapon{
         float reloadTime;
         float shootTime;
         bool toggled;
+        RayCaster rayCaster;
 
         virtual float calculateDamage(float distance);
     public:

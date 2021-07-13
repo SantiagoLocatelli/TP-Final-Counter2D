@@ -115,7 +115,7 @@ void Player::recvDamage(float damage){
     health -= damage;
     if (health < 0){
         dead = true;
-        world.deleteBody(body);
+        world.destroyBody(body);
     }
 }
 
@@ -156,9 +156,8 @@ Player::~Player(){
 
 void Player::dropWeapon(){
     if (currentWeapon != KNIFE_SLOT){ //El cuchillo no se puede tirar
-        //TODO: Arreglar los dropeos para que sean consistentes en la distancia
-        float x_pos = body->GetPosition().x + std::cos(angle);
-        float y_pos = body->GetPosition().y + std::sin(angle);
+        float x_pos = body->GetPosition().x + 1.5*std::cos(angle);
+        float y_pos = body->GetPosition().y + 1.5*std::sin(angle);
         new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
         weapons[currentWeapon] = nullptr;
         currentWeapon = KNIFE_SLOT;

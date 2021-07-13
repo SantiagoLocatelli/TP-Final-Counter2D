@@ -65,44 +65,6 @@ void World::step(float delta){
     bodiesToDestroy.clear();
 }
 
-float World::rayCast(Ray ray, Hittable *&hittable){
-    float min_dist = -1;
-    for (Player &p: players){
-        if (!p.isDead()){
-            float dist = p.isHitBy(ray);
-
-            if (dist < 0){
-                continue;
-            }
-
-            if (min_dist == -1 || dist < min_dist){
-                min_dist = dist;
-                hittable = &p;
-            }
-        }
-    }
-
-    //TODO: Repito codigo, mejorar esta parte
-    for (Box &b: boxes){
-        float dist = b.isHitBy(ray);
-
-        if (dist < 0){
-            continue;
-        }
-
-        if (min_dist == -1 || dist < min_dist){
-            min_dist = dist;
-            hittable = &b;
-        }
-    }
-
-    return min_dist;
-}
-
-void World::deleteBody(b2Body *body){
-    b2world.DestroyBody(body);
-}
-
 void World::addBullet(Ray ray){
     bullets.push_back(ray);
 }
@@ -148,10 +110,6 @@ World::~World(){
     }
 }
 
-std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, float length){
-    EntityChecker checker(b2world);
-    return checker.getHittableInArea(b2Vec2(x,y), b2Vec2(x+length, y+heigth));
-}
 
 float World::getTime(){
     return timer;

@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false), rayCaster(world->b2world){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -26,7 +26,7 @@ void Weapon::shootBullet(){
     ray.distance = config.at("maxRange");
     Hittable *hit = nullptr;
 
-    float distance = world->rayCast(ray, hit);
+    float distance = rayCaster.castRay(ray, hit);
     if (distance != -1){
         float actual_damage = calculateDamage(distance);
         hit->recvDamage(actual_damage);
