@@ -59,7 +59,8 @@ void World::step(float delta){
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
-        delete (Drop *)b->GetFixtureList()->GetUserData().pointer;
+        if ((void *)b->GetFixtureList()->GetUserData().pointer != nullptr)
+            delete (Drop *)b->GetFixtureList()->GetUserData().pointer;
         b2world.DestroyBody(b);
     }
     bodiesToDestroy.clear();
