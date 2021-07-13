@@ -144,7 +144,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
             send_float(p.angle);
             send_byte(p.weapon);
             send_bool(p.shot);
-            send_byte(modelInfo.you.team);
+            send_byte(p.team);
         }
     }
 
@@ -199,7 +199,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
             recv_float(p.angle);
             recv_byte((char&)p.weapon);
             recv_bool(p.shot);
-            recv_byte((char&)modelInfo.you.team);
+            recv_byte((char&)p.team);
         }
         modelInfo.players.push_back(p);
     }
