@@ -51,12 +51,12 @@ void GameViewer::loadPlayers(int window_w, int window_h){
 }
 
 void GameViewer::loadWeapons(){
-    this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), SIZE_SMALL_GUN);
-    this->weapons[PISTOL] = new Weapon(*(this->textureManager.getWeaponOnPj(PISTOL)), *(this->textureManager.getWeaponAnim(PISTOL)), SIZE_SMALL_GUN);
-    this->weapons[RIFLE] = new Weapon(*(this->textureManager.getWeaponOnPj(RIFLE)), *(this->textureManager.getWeaponAnim(RIFLE)), SIZE_BIG_GUN);
-    this->weapons[SNIPER] = new Weapon(*(this->textureManager.getWeaponOnPj(SNIPER)), *(this->textureManager.getWeaponAnim(SNIPER)), SIZE_BIG_GUN);
-    this->weapons[SHOTGUN] = new Weapon(*(this->textureManager.getWeaponOnPj(SHOTGUN)), *(this->textureManager.getWeaponAnim(SHOTGUN)), SIZE_BIG_GUN);
-    this->weapons[BOMB] = new Weapon(*(this->textureManager.getWeaponOnPj(BOMB)), *(this->textureManager.getWeaponAnim(BOMB)), SIZE_SMALL_GUN);
+    this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), KNIFE);
+    this->weapons[PISTOL] = new Weapon(*(this->textureManager.getWeaponOnPj(PISTOL)), *(this->textureManager.getWeaponAnim(PISTOL)), PISTOL);
+    this->weapons[RIFLE] = new Weapon(*(this->textureManager.getWeaponOnPj(RIFLE)), *(this->textureManager.getWeaponAnim(RIFLE)), RIFLE);
+    this->weapons[SNIPER] = new Weapon(*(this->textureManager.getWeaponOnPj(SNIPER)), *(this->textureManager.getWeaponAnim(SNIPER)), SNIPER);
+    this->weapons[SHOTGUN] = new Weapon(*(this->textureManager.getWeaponOnPj(SHOTGUN)), *(this->textureManager.getWeaponAnim(SHOTGUN)), SHOTGUN);
+    this->weapons[BOMB] = new Weapon(*(this->textureManager.getWeaponOnPj(BOMB)), *(this->textureManager.getWeaponAnim(BOMB)), BOMB);
 }
 
 GameViewer::~GameViewer(){
@@ -160,13 +160,13 @@ void GameViewer::renderHud(){
 
     Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
     WeaponType type = this->level.mainPlayer.weapon.type;
-    Size size = {25,25};
+    Size size = {40, 40};
 
-    if (type == PISTOL) {
-        size = SIZE_SMALL_GUN_HUD;
-    } else if (type == RIFLE || type == SNIPER || type == SHOTGUN) {
-        size = SIZE_BIG_GUN_HUD;
-    }
+    // if (type == PISTOL) {
+    //     size = SIZE_SMALL_GUN_HUD;
+    // } else if (type == RIFLE || type == SNIPER || type == SHOTGUN) {
+    //     size = SIZE_BIG_GUN_HUD;
+    // }
 
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 

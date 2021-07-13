@@ -1,16 +1,19 @@
 #include "Weapon.h"
 
 
-Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, Size size):
-    weapon(weapon), anim(anim){
+Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, WeaponType type):
+    weapon(weapon), anim(anim), type(type){
 }
 
 
-void Weapon::render(Coordinate dst, Size size, float degrees, bool animated){
-    this->weapon.render(dst.x, dst.y, size.w, size.h, NULL, degrees + 90.0);
-    
+void Weapon::render(Coordinate dstWp, Coordinate dstAnim, Size size, float degrees, bool animated){
+    if (animated && this->type == KNIFE) {
+        this->anim.render(dstAnim.x, dstAnim.y, size.w, size.h, NULL, degrees + 90.0);
+        return;
+    }
+    this->weapon.render(dstWp.x, dstWp.y, size.w, size.h, NULL, degrees + 90.0);
     if (animated) {
-        this->anim.render(dst.x, dst.y, size.w, size.h, NULL, degrees + 90.0);
+        this->anim.render(dstAnim.x, dstAnim.y, size.w, size.h, NULL, degrees + 90.0);
     } 
 }
 

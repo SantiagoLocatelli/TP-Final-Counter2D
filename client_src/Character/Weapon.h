@@ -13,10 +13,11 @@ private:
 
     SdlTexture& weapon;
     SdlTexture& anim;
+    WeaponType type;
 
 public:
-    Weapon(SdlTexture& weapon, SdlTexture& anim, Size size);
-    void render(Coordinate dst, Size size, float degrees, bool animated);
+    Weapon(SdlTexture& weapon, SdlTexture& anim, WeaponType type);
+    void render(Coordinate dstWp, Coordinate dstAnim, Size size, float degrees, bool animated);
 
     Weapon& operator=(const Weapon&);
     Weapon(const Weapon&);
