@@ -123,7 +123,7 @@ void OptionsMenue::aceptChanges(){
     for (auto &input : inputOrder){
         std::string aux = this->options[input];
         if (i > 1){
-            if (aux.length() < 1 || aux == "."){
+            if (aux.length() < 1 || aux[0] == '.'){
                 vector.push_back(MIN_SIZE);
             }else{
                 float value = std::stof(aux, nullptr);
