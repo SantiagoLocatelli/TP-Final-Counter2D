@@ -147,8 +147,8 @@ void translateRect(BoxInfo& box, RectArea rect){
 
 LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model){
     
-    level.width = map.length*PIXELS_PER_METER;
-    level.height = map.height*PIXELS_PER_METER;
+    level.size.w = map.length*PIXELS_PER_METER;
+    level.size.h = map.height*PIXELS_PER_METER;
 
     BoxInfo box;
     for (auto it = map.bombSites.begin(); it != map.bombSites.end(); it++) {

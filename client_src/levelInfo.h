@@ -66,8 +66,7 @@ struct TileInfo {
 };
 
 struct LevelInfo{
-    int height;
-    int width;
+    Size size;
     
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;

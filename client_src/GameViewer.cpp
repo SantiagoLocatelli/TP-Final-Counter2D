@@ -231,7 +231,7 @@ void GameViewer::update(LevelInfo level){
 
 
     this->cam.centerCamera(level.mainPlayer.pos);
-    this->cam.keepInBounds(level.width, level.height);
+    this->cam.keepInBounds(level.size.w, level.size.h);
     this->level = level;
 }
 
