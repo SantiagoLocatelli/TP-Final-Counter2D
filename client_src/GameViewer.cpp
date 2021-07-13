@@ -21,26 +21,26 @@ const struct Size SIZE_SMALL_GUN_HUD = {20, 20};
 const struct Size SIZE_BIG_GUN_HUD = {40, 25};
 
 
-GameViewer::GameViewer(int window_w, int window_h, LevelInfo level): window(WINDOW_LABEL, window_w, window_h),
+GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), 
     textureManager(renderer, level.tiles),
-    cam(window_w, window_h),
+    cam(windowSize),
     level(level),
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
     loadHudTextures();
     loadWeapons();
-    loadPlayers(window_w, window_h);
+    loadPlayers(windowSize);
 }
 
-void GameViewer::loadPlayers(int window_w, int window_h){
+void GameViewer::loadPlayers(Size window){
 
     WeaponType mainType = this->level.mainPlayer.weapon.type;
 
     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-                std::move(Stencil(this->renderer, window_w, window_h)), this->weapons[mainType]);
+                std::move(Stencil(this->renderer, window)), this->weapons[mainType]);
 
 
     for (PlayerInfo player : this->level.players) {

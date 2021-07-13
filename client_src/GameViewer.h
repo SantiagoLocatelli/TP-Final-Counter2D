@@ -41,13 +41,13 @@ private:
     void renderMap(Coordinate cam);
     void renderHud();
 
-    void loadPlayers(int, int);
+    void loadPlayers(Size);
     void loadHudTextures();
     void loadWeapons();
 
 public:
 
-    GameViewer(int window_w, int window_h, LevelInfo level);
+    GameViewer(Size windowSize, LevelInfo level);
     ~GameViewer();
 
     void setCrossHair(Coordinate pos);
