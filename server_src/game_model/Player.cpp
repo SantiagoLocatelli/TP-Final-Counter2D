@@ -2,12 +2,16 @@
 #include "../../common_src/GeneralException.h"
 #include "Pistol.h"
 #include "Knife.h"
+#include "Sniper.h"
+#include "Shotgun.h"
+#include "Rifle.h"
+
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false){
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false), money(config.getPlayer().at("startingMoney")){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -53,6 +57,7 @@ Player::Player(Player&& other): world(other.world), config(other.config){
     this->defusing = other.defusing;
     this->defuseTime = other.defuseTime;
     this->canMove = other.canMove;
+    this->money = other.money;
 
     this->movement = std::move(other.movement);
     
@@ -238,4 +243,34 @@ void Player::toggleDefuse(){
 
 int Player::getAmmo() const{
     return weapons[currentWeapon]->getAmmo();
+}
+
+void Player::buyWeapon(WeaponType weaponType){
+    if (!world.canBuy(*this))
+        return;
+    
+    Weapon *weapon;
+    switch (weaponType){
+    case SNIPER:
+        weapon = new Sniper(&world, config);
+        break;
+    
+    case SHOTGUN:
+        weapon = new Shotgun(&world, config);
+        break;
+
+    case RIFLE:
+        weapon = new Rifle(&world, config);
+        break;
+    
+    default:
+        return;
+    }
+
+    if (money - weapon->getPrice() >= 0){
+        money -= weapon->getPrice();
+        takeWeapon(weapon);
+    } else {
+        delete weapon;
+    }
 }

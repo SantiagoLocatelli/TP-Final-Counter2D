@@ -35,6 +35,7 @@ class Weapon{
         virtual void reload();
         virtual void step(float delta);
         void shootBullet();
+        int getPrice();
         virtual ~Weapon() = default;
 };
 

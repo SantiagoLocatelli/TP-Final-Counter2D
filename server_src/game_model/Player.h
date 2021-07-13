@@ -29,6 +29,7 @@ class Player: public Hittable{
         Team team;
         bool defusing;
         float defuseTime;
+        int money;
 
     public:
         //TODO: No me gusta que esto sea público
@@ -62,6 +63,7 @@ class Player: public Hittable{
         void toggleDefuse();
         void step(float delta);
         int getAmmo() const;
+        void buyWeapon(WeaponType weaponType);
 
         ~Player();
 

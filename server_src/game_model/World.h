@@ -31,7 +31,9 @@ class World{
         float timer;
         ProtBomb bomb;
         std::list<RectArea> bombSites;
+        std::vector<RectArea> spawnSites;
 
+        bool positionInArea(float x, float y, RectArea area);
 
     public:
         b2World b2world;
@@ -53,16 +55,23 @@ class World{
         void addDrop(Weapon *weapon, float x, float y);
         std::list<Drop*> getDrops();
         float getTime();
+        void addSpawn(RectArea site, Team team);
         void addSite(RectArea site);
         void destroyBody(b2Body *body);
 
+        bool canBuy(Player &player);
+
         //TODO: Pasar estos métodos a su propia clase 
-        bool canPlant(float x, float y);
-        void plantBomb(float x, float y);
         bool bombExploded();
-        bool canDefuse(float x, float y);
         void defuseBomb();
         bool bombDefused();
+
+        //TODO: Hacer estas tres como canBuy (le pasas el player)
+        bool canPlant(float x, float y);
+        bool canDefuse(float x, float y);
+        void plantBomb(float x, float y);
+
+
 
         ProtBomb getBomb();
 

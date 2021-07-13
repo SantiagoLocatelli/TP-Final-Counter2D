@@ -8,6 +8,7 @@ World::World(int grid_length, int grid_height, GameConfig &config):player_number
     gridSize[1] = grid_height;
     bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
+    spawnSites.reserve(2);
 }
 
 void World::addBox(int grid_x, int grid_y){
@@ -183,12 +184,17 @@ void World::addSite(RectArea site){
     bombSites.push_back(site);
 }
 
+void World::addSpawn(RectArea site, Team team){
+    spawnSites[team] = site;
+}
+
+
 bool World::canPlant(float x, float y){
     if (bomb.planted)
         return false;
 
     for (const RectArea &site: bombSites){
-        if (x > site.x && x < site.x+site.width && y > site.y && y < site.y+site.height){
+        if (positionInArea(x, y, site)){
             return true;
         }
     }
@@ -208,4 +214,12 @@ bool World::canDefuse(float x, float y){
 
 ProtBomb World::getBomb(){
     return bomb;
+}
+
+bool World::canBuy(Player &player){
+    return positionInArea(player.getPosition()[0], player.getPosition()[1], spawnSites[player.getTeam()]);
+}
+
+bool World::positionInArea(float x, float y, RectArea area){
+    return (x > area.x && x < area.x+area.width && y > area.y && y < area.y+area.height);
 }

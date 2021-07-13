@@ -56,6 +56,10 @@ void Weapon::toggle(){
     }
 }
 
+int Weapon::getPrice(){
+    return config.at("price");
+}
+
 float Weapon::calculateDamage(float distance){
     //Calculo el daño entre el min y max
     float r = ((float) rand()) / (float) RAND_MAX;
