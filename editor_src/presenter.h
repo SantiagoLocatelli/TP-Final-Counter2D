@@ -37,6 +37,7 @@ class Presenter{
         void editMap(const std::string& mapID);
         void needToSave();
         void saveMap();
+        void goToMenue();
 
         SDL_Rect getCameraBox();
         int getMapWidth();

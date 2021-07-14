@@ -13,8 +13,13 @@ MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : 
     this->screenWidth = screenWidth;
     this->currentType = 0;
     this->needsToSave = "";
+    this->goToStart = false;
     for (int i = 0; i < textureMap.size(); i++){
-        this->textureScreen.emplace_back(r, textureMap[i].texturePath, i);
+        if (textureMap[i].isBox == 1){
+            this->wallTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
+        }else{
+            this->floorTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
+        }
     }
 }
 
@@ -33,7 +38,7 @@ void MenueManager::createMap(const std::string mapID){
         spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
     }
 
-    this->mapID = mapID;
+    this->mapID = "../../common_src/maps/" + mapID + ".yaml";
 }
 
 void MenueManager::editMap(const std::string& mapID){
@@ -166,17 +171,50 @@ void MenueManager::renderMapTextures(int& page, const int isBox){
     //el menos 2 tileSize es donde van las flechas, mientras que la fila de menos es donde esta puesto el BACK.
     int numRenderTexture = (this->screenWidth/TILE_SIZE * (this->screenHeight/TILE_SIZE - 1)) - 2;
     int i = page * numRenderTexture;
-    while ((unsigned int) i >= this->textureScreen.size()){
-        page--;
-        i = page * numRenderTexture;
-    }
-    for (; (unsigned int) i < this->textureScreen.size(); i++){
-        if (textureMap[i].isBox == isBox){
+    if (isBox == 1){
+        while ((unsigned int) i >= this->wallTextureScreen.size()){
+            page--;
+            i = page * numRenderTexture;
+        }
+        for (; (unsigned int) i < this->wallTextureScreen.size(); i++){
             if (j == numRenderTexture){
                 break;
             }
             j++;
-            textureScreen[i].render(x, y, TILE_SIZE, TILE_SIZE);
+            wallTextureScreen[i].render(x, y, TILE_SIZE, TILE_SIZE);
+            
+            //Move to next tile spot
+            x += TILE_SIZE;
+
+            //right arrow position
+            if (y == TILE_SIZE * 2 && x == this->screenWidth - TILE_SIZE){
+                x += TILE_SIZE;
+            }
+
+            //If we've gone too far
+            if (x >= this->screenWidth){
+                //Move back
+                x = 0;
+
+                //Move to the next row
+                y += TILE_SIZE;
+                // left arrow position
+                if (y == TILE_SIZE * 2){
+                    x += TILE_SIZE;
+                }
+            }
+        }
+    }else{
+        while ((unsigned int) i >= this->floorTextureScreen.size()){
+            page--;
+            i = page * numRenderTexture;
+        }
+        for (; (unsigned int) i < this->floorTextureScreen.size(); i++){
+            if (j == numRenderTexture){
+                break;
+            }
+            j++;
+            floorTextureScreen[i].render(x, y, TILE_SIZE, TILE_SIZE);
             
             //Move to next tile spot
             x += TILE_SIZE;
@@ -240,16 +278,16 @@ void MenueManager::handleSelectTexture(SDL_Event* event, int& page, const int is
 
             int numRenderTexture = (this->screenWidth/TILE_SIZE * (this->screenHeight/TILE_SIZE - 1)) - 2;
             int i = page * numRenderTexture;
-            while ((unsigned int) i >= this->textureScreen.size()){
-                page--;
-                i = page * numRenderTexture;
-            }
             
             //Get mouse offsets
             SDL_GetMouseState(&x, &y);
 
-            for (; (unsigned int) i < this->textureScreen.size(); i++){
-                if (textureMap[i].isBox == isBox){
+            if (isBox == 1){
+                while ((unsigned int) i >= this->wallTextureScreen.size()){
+                    page--;
+                    i = page * numRenderTexture;
+                }
+                for (; (unsigned int) i < this->wallTextureScreen.size(); i++){
                     if (j == numRenderTexture){
                         break;
                     }
@@ -257,7 +295,45 @@ void MenueManager::handleSelectTexture(SDL_Event* event, int& page, const int is
                     //If the mouse is inside the tile
                     if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
                         this->chunk->playChunk(0);
-                        this->currentType = textureScreen[i].getType();
+                        this->currentType = wallTextureScreen[i].getType();
+                        break;
+                    }
+                    //Move to next tile spot
+                    textureX += TILE_SIZE;
+
+                    //right arrow position
+                    if (textureY == TILE_SIZE * 2 && textureX == this->screenWidth - TILE_SIZE){
+                        textureX += TILE_SIZE;
+                    }
+
+                    //If we've gone too far
+                    if (textureX >= this->screenWidth){
+                        //Move back
+                        textureX = 0;
+
+                        //Move to the next row
+                        textureY += TILE_SIZE;
+
+                        //left arrow position
+                        if (textureY == TILE_SIZE * 2){
+                            textureX += TILE_SIZE;
+                        }
+                    }
+                }
+            }else{
+                while ((unsigned int) i >= this->floorTextureScreen.size()){
+                    page--;
+                    i = page * numRenderTexture;
+                }
+                for (; (unsigned int) i < this->floorTextureScreen.size(); i++){
+                    if (j == numRenderTexture){
+                        break;
+                    }
+                    j++;
+                    //If the mouse is inside the tile
+                    if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
+                        this->chunk->playChunk(0);
+                        this->currentType = floorTextureScreen[i].getType();
                         break;
                     }
                     //Move to next tile spot
@@ -389,6 +465,18 @@ void MenueManager::changeToMeters(std::vector<SDL_Rect>& vector){
         value.w = value.w/TILE_SIZE;
         value.h = value.h/TILE_SIZE;
     }
+}
+
+void MenueManager::goToMenue(){
+    this->goToStart = true;
+}
+
+bool MenueManager::quitToMenue(){
+    if (goToStart){
+        goToStart = false;
+        return true;
+    }
+    return false;
 }
 
 void MenueManager::needToSave(){

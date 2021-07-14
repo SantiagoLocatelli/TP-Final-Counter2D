@@ -18,13 +18,16 @@ class MenueManager{
         TextureMap textureMap;
         std::string mapID;
         std::list<std::unique_ptr<SdlTexture>> textures;
-        std::vector<SdlTexture> textureScreen;
+        std::vector<SdlTexture> floorTextureScreen;
+        std::vector<SdlTexture> wallTextureScreen;
         std::map<std::string, std::unique_ptr<Draggable>> bombSites;
         std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
         int screenWidth, screenHeight;
         int currentType;
         std::string needsToSave;
         std::unique_ptr<SdlMixer> chunk;
+
+        bool goToStart;
     public:
         MenueManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
@@ -44,7 +47,9 @@ class MenueManager{
         void createMap(const std::string mapID);
         void editMap(const std::string& mapID);
         void needToSave();
+        void goToMenue();
 
+        bool quitToMenue();
         int getMapWidth();
         int getMapHeight();
         int getTextureMapSize();

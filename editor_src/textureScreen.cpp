@@ -18,12 +18,10 @@ arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0){
 void TextureScreen::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     if (renderFloors){
-        back.render(0, screen.h - 20);
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
         Presenter::renderMapFloors(page);
     }else if (renderWalls){
-        back.render(0,screen.h - 20);
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
         Presenter::renderMapWalls(page);
@@ -32,6 +30,7 @@ void TextureScreen::render(){
         this->floors.render(screen.w/2, screen.h/3);
         this->walls.render(screen.w/3, screen.h/3);
     }
+    back.render(0, screen.h - 20);
 }
 
 void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
@@ -76,6 +75,9 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
             }else if (walls.isMouseTouching(screen.w/3, screen.h/3)){
                 this->chunk->playChunk(0);
                 renderWalls = true;
+            }else if (back.isMouseTouching(0, screen.h - 20)){
+                this->chunk->playChunk(0);
+                this->changeScene = true;
             }
         }
     }

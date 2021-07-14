@@ -15,7 +15,7 @@ class InitialMenue : public Presenter{
         bool editMap, createMap, renderText, changeScene;
         std::vector<std::string> mapsID;
         int mapPosition, page;
-        std::string mapID;
+        std::string createMapID;
     public:
         InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH);
         void render() override;

@@ -24,7 +24,7 @@ InitialMenue::InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, 
     this->changeScene = false;
     this->renderText = false;
     this->page = 0;
-    this->mapID = "Nombre del mapa...";
+    this->createMapID = "Nombre del mapa...";
 
     std::vector<std::string> files;
     DIR *dir;
@@ -41,7 +41,7 @@ InitialMenue::InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, 
     }
     parse(files);
     for (auto &file : files){
-        this->editableMaps.emplace_back(renderer, FONT_PATH, FONT_SIZE, file, 255, 255, 255);
+        this->editableMaps.emplace_back(renderer, FONT_PATH2, FONT_SIZE, file, 255, 255, 255);
         this->mapsID.emplace_back("../../common_src/maps/" + file + ".yaml");
     }
 }
@@ -62,45 +62,45 @@ void InitialMenue::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     this->background.render(0, 0, screen.w, screen.h);
     if (editMap){
-        int posX = screen.w/3 + 50, posY = screen.h/5, numerMap = 0;
+        int posY = screen.h/5, numerMap = 0;
         for (unsigned int i = page * MAPS_PER_PAGE; i < editableMaps.size(); i++){
             if (numerMap >= MAPS_PER_PAGE){
                 break;
             }
-            editableMaps[i].render(posX, posY);
+            editableMaps[i].render((screen.w - editableMaps[i].getWidth())/2, posY);
             posY += 50;
             numerMap++;
         }
-        this->arrow.render(screen.w/3 + 100, screen.h/5 + 50 * MAPS_PER_PAGE);
-        this->arrow.renderFlip(screen.w/3, screen.h/5 + 50 * MAPS_PER_PAGE, SDL_FLIP_HORIZONTAL);
+        this->arrow.render(screen.w/2 + 40, screen.h/5 + 50 * MAPS_PER_PAGE);
+        this->arrow.renderFlip(screen.w/2 - arrow.getWidth() - 60, screen.h/5 + 50 * MAPS_PER_PAGE, SDL_FLIP_HORIZONTAL);
         this->back.render(0, screen.h - 20);
     }else if (createMap){
         if (renderText){
-            if (this->mapID == ""){
+            if (this->createMapID == ""){
             this->mapName.changeTextTexture(" ", FONT_PATH2, FONT_SIZE, 255, 255, 255);
             }else{
-                this->mapName.changeTextTexture(this->mapID.c_str(), FONT_PATH2, FONT_SIZE, 255, 255, 255);
+                this->mapName.changeTextTexture(this->createMapID.c_str(), FONT_PATH2, FONT_SIZE, 255, 255, 255);
             }
         }
-        this->introduceText.render(200, 200);
-        this->mapName.render(200, 300);
+        this->introduceText.render((screen.w - introduceText.getWidth())/2, 50);
+        this->mapName.render((screen.w - mapName.getWidth())/2, screen.h/2 - 100);
         this->back.render(0, screen.h - 20);
     }
     
     else{
-        this->editarMapTexture.render(250, 100);
-        this->crearMapTexture.render(250, 200);
+        this->editarMapTexture.render((screen.w - editarMapTexture.getWidth())/2, screen.h/2 - 100);
+        this->crearMapTexture.render((screen.w - crearMapTexture.getWidth())/2, screen.h/2);
     }
 }
 
 void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+    SDL_Rect screen = Presenter::getCameraBox();
     if (createMap){
-        SDL_Rect screen = Presenter::getCameraBox();
         if (event->type == SDL_KEYDOWN){
             //Handle backspace
-            if (event->key.keysym.sym == SDLK_BACKSPACE && this->mapID.length() > 0){
+            if (event->key.keysym.sym == SDLK_BACKSPACE && this->createMapID.length() > 0){
                 //lop off character
-                this->mapID.pop_back();
+                this->createMapID.pop_back();
                 this->renderText = true;
             }else if (event->key.keysym.sym == SDLK_RETURN){
                 this->changeScene = true;
@@ -116,19 +116,18 @@ void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //Special text input event
         else if (event->type == SDL_TEXTINPUT){
             //Append character
-            this->mapID += event->text.text;
+            this->createMapID += event->text.text;
             this->renderText = true;        
         }
     }else if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
             if (editMap){
-                SDL_Rect screen = Presenter::getCameraBox();
-                if (arrow.isMouseTouching(screen.w/3 + 100, screen.h/5 + 50 * MAPS_PER_PAGE)){
+                if (arrow.isMouseTouching(screen.w/2 + 40, screen.h/5 + 50 * MAPS_PER_PAGE)){
                     this->chunk->playChunk(0);
                     if ((unsigned int) ((this->page + 1) * MAPS_PER_PAGE) < this->editableMaps.size()){
                         this->page++;
                     }
-                }else if (arrow.isMouseTouching(screen.w/3, screen.h/5 + 50 * MAPS_PER_PAGE)){
+                }else if (arrow.isMouseTouching(screen.w/2 - arrow.getWidth() - 60, screen.h/5 + 50 * MAPS_PER_PAGE)){
                     this->chunk->playChunk(0);
                     if (this->page > 0){
                         this->page--;
@@ -137,12 +136,12 @@ void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     this->chunk->playChunk(0);
                     this->editMap = false;
                 }else{
-                    int posX = screen.w/3 + 50, posY = screen.h/5, position = page * MAPS_PER_PAGE, numerMap = 0;
+                    int posY = screen.h/5, position = page * MAPS_PER_PAGE, numerMap = 0;
                     for (unsigned int i = page * MAPS_PER_PAGE; i < editableMaps.size(); i++){
                         if (numerMap >= MAPS_PER_PAGE){
                             break;
                         }
-                        if (editableMaps[i].isMouseTouching(posX, posY)){
+                        if (editableMaps[i].isMouseTouching((screen.w - editableMaps[i].getWidth())/2, posY)){
                             this->chunk->playChunk(0);
                             this->changeScene = true;
                             this->mapPosition = position; 
@@ -154,10 +153,10 @@ void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     }
                 }
             }else{
-                if (this->editarMapTexture.isMouseTouching(250, 100)){
+                if (this->editarMapTexture.isMouseTouching((screen.w - editarMapTexture.getWidth())/2, screen.h/2 - 100)){
                     this->chunk->playChunk(0);
                     this->editMap = true;
-                }else if (this->crearMapTexture.isMouseTouching(250, 200)){
+                }else if (this->crearMapTexture.isMouseTouching((screen.w - crearMapTexture.getWidth())/2, screen.h/2)){
                     this->chunk->playChunk(0);
                     this->createMap = true;
                 }
@@ -170,7 +169,7 @@ void InitialMenue::aceptChanges(){
     if (editMap){
         Presenter::editMap(this->mapsID[this->mapPosition]);
     }else if (createMap){
-        Presenter::createMap("../../common_src/maps/" + this->mapID + ".yaml");
+        Presenter::createMap(this->createMapID);
     }
 }
 

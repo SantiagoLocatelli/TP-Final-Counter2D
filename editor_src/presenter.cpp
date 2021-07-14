@@ -73,6 +73,10 @@ void Presenter::saveMap(){
     this->menueManager.loadToFile();
 }
 
+void Presenter::goToMenue(){
+    this->menueManager.goToMenue();
+}
+
 SDL_Rect Presenter::getCameraBox(){
     return this->camera.getRect();
 }
