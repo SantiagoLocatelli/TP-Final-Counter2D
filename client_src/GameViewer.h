@@ -31,6 +31,7 @@ private:
     ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
+    TextTexture textTexture;
 
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);

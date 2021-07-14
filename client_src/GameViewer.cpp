@@ -11,7 +11,10 @@
 #define HUD_AMMO 0
 #define HUD_HEALTH 1
 #define HUD_TIME 2
+#define SITE 3
 
+const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
+const struct Color ROJO = {0xff, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
@@ -27,7 +30,8 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     textureManager(renderer, level.tiles),
     cam(windowSize),
     level(level),
-    bullet(renderer){
+    bullet(renderer),
+    textTexture(renderer, PATH_FONT, 30){
 
     SDL_ShowCursor(SDL_DISABLE);
     loadHudTextures();
@@ -164,8 +168,29 @@ void GameViewer::renderHud(){
 
 
 void GameViewer::renderBombSites(Coordinate cam){
-    // auto it = this->level.bombSites.begin();
-    // it->
+
+    auto siteA = this->level.bombSites.begin();
+    
+    SDL_Rect dst = {siteA->pos.x - cam.x, siteA->pos.y - cam.y, siteA->size.w, siteA->size.h};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, 100);
+    this->renderer.fillRect(dst);
+
+    Coordinate pos = {dst.x + dst.w/2, dst.y + dst.h/2};
+    this->textTexture.setText("A", ROJO_CLARO);
+    this->textTexture.render(pos);
+
+    siteA++;
+    if (siteA != this->level.bombSites.end()) {
+            
+        dst = {siteA->pos.x - cam.x, siteA->pos.y - cam.y, siteA->size.w, siteA->size.h};
+        this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, 100);
+        this->renderer.fillRect(dst);
+
+        pos = {dst.x + dst.w/2, dst.y + dst.h/2};
+        this->textTexture.setText("B", ROJO_CLARO);
+        this->textTexture.render(pos);
+    }
+
 }
 
 void GameViewer::renderBomb(Coordinate cam){
@@ -186,7 +211,7 @@ void GameViewer::render(){
     Coordinate cam = {this->cam.getPosX(), this->cam.getPosY()};
     
     renderMap(cam);
-    // renderBombSites(cam);
+    renderBombSites(cam);
     renderBomb(cam);
     renderShots(cam);
     renderPlayers(cam);

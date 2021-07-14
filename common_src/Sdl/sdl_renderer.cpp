@@ -31,6 +31,7 @@ SDL_Texture* SdlRenderer::createTextureFromSurface(SDL_Surface* loadedSurface){
 }
 
 void SdlRenderer::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha){
+    SDL_SetRenderDrawBlendMode(this->mRenderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(this->mRenderer, r, g, b, alpha);
 }
 void SdlRenderer::drawLine(int posX, int posY, int dstPosX, int dstPosY){
