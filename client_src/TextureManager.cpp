@@ -64,7 +64,7 @@ void TextureManager::loadWeaponsAnim(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         WeaponType weapon = (WeaponType) texture.second;
-        this->animWeaponOnPj[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+        this->animWeaponOnPj[weapon] = new SdlTexture(renderer, texture.first);
     }
 }
 

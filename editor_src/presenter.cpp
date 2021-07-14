@@ -3,7 +3,7 @@
 #include <fstream>
 #include <stdio.h>
 
-Presenter::Presenter(MenueManager& m, int screenW, int screenH) : menueManager(m), camera(screenW, screenH){}
+Presenter::Presenter(MenueManager& m, int screenW, int screenH) : menueManager(m), camera({screenW, screenH}){}
 
 void Presenter::renderTextures(){
     this->menueManager.renderTextures(this->camera.getRect());

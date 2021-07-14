@@ -2,12 +2,16 @@
 #include "../../common_src/GeneralException.h"
 #include "Pistol.h"
 #include "Knife.h"
+#include "Sniper.h"
+#include "Shotgun.h"
+#include "Rifle.h"
+
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false){
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false), money(config.getPlayer().at("startingMoney")){
     b2BodyDef playerBodyDef;
     playerBodyDef.type = b2_dynamicBody;
     playerBodyDef.position.Set(start_x, start_y);
@@ -28,8 +32,8 @@ Player::Player(World &world, float start_x, float start_y, GameConfig &config, T
     weapons[KNIFE_SLOT]->changeOwner(this);
     weapons[SECONDARY] = new Pistol(&world, config);
     weapons[SECONDARY]->changeOwner(this);
-    weapons[PRIMARY] = nullptr; //TODO: Ojo, peligroso
-    weapons[BOMB_SLOT] = nullptr; //TODO: Ojo, peligroso
+    weapons[PRIMARY] = nullptr; 
+    weapons[BOMB_SLOT] = nullptr;
     currentWeapon = KNIFE_SLOT;
     slotToDestroy = KNIFE_SLOT;
 
@@ -53,6 +57,7 @@ Player::Player(Player&& other): world(other.world), config(other.config){
     this->defusing = other.defusing;
     this->defuseTime = other.defuseTime;
     this->canMove = other.canMove;
+    this->money = other.money;
 
     this->movement = std::move(other.movement);
     
@@ -107,10 +112,12 @@ std::array<float, 2> Player::getPosition() const{
 }
 
 void Player::recvDamage(float damage){
-    health -= damage;
-    if (health < 0){
-        dead = true;
-        world.deleteBody(body);
+    if (health > 0){
+        health -= damage;
+        if (health < 0){
+            dead = true;
+            world.destroyBody(body);
+        }
     }
 }
 
@@ -151,11 +158,10 @@ Player::~Player(){
 
 void Player::dropWeapon(){
     if (currentWeapon != KNIFE_SLOT){ //El cuchillo no se puede tirar
-        //TODO: Arreglar los dropeos para que sean consistentes en la distancia
-        float x_pos = body->GetPosition().x + std::cos(angle);
-        float y_pos = body->GetPosition().y + std::sin(angle);
+        float x_pos = body->GetPosition().x + 1.5*std::cos(angle);
+        float y_pos = body->GetPosition().y + 1.5*std::sin(angle);
         new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
-        weapons[currentWeapon] = nullptr; //TODO: Esto es peligroso, si el tipo dispara sin arma crashea
+        weapons[currentWeapon] = nullptr;
         currentWeapon = KNIFE_SLOT;
     }
 }
@@ -238,4 +244,34 @@ void Player::toggleDefuse(){
 
 int Player::getAmmo() const{
     return weapons[currentWeapon]->getAmmo();
+}
+
+void Player::buyWeapon(WeaponType weaponType){
+    if (!world.canBuy(*this))
+        return;
+    
+    Weapon *weapon;
+    switch (weaponType){
+    case SNIPER:
+        weapon = new Sniper(&world, config);
+        break;
+    
+    case SHOTGUN:
+        weapon = new Shotgun(&world, config);
+        break;
+
+    case RIFLE:
+        weapon = new Rifle(&world, config);
+        break;
+    
+    default:
+        return;
+    }
+
+    if (money - weapon->getPrice() >= 0){
+        money -= weapon->getPrice();
+        takeWeapon(weapon);
+    } else {
+        delete weapon;
+    }
 }

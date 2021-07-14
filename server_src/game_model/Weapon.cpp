@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false), rayCaster(world->b2world){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -22,12 +22,11 @@ void Weapon::shootBullet(){
     std::array<float, 2> pos = owner->getPosition();
     ray.x = pos[0];
     ray.y = pos[1];
-    //TODO: No se pueden mandar float negativos por el socket 
     ray.angle = owner->getAngle() + spread;
     ray.distance = config.at("maxRange");
     Hittable *hit = nullptr;
 
-    float distance = world->rayCast(ray, hit);
+    float distance = rayCaster.castRay(ray, hit);
     if (distance != -1){
         float actual_damage = calculateDamage(distance);
         hit->recvDamage(actual_damage);
@@ -57,7 +56,13 @@ void Weapon::toggle(){
     }
 }
 
+int Weapon::getPrice(){
+    return config.at("price");
+}
+
 float Weapon::calculateDamage(float distance){
+    if (distance > config.at("maxRange"))
+        return 0;
     //Calculo el daño entre el min y max
     float r = ((float) rand()) / (float) RAND_MAX;
     float damage = config.at("minDamage") + (r * (config.at("maxDamage") - config.at("minDamage")));

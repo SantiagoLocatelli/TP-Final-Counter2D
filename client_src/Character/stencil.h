@@ -14,9 +14,9 @@ private:
     float degrees = 0.0;
 
 public:
-    Stencil(SdlRenderer& renderer, int w, int h);
+    Stencil(SdlRenderer& renderer, Size size);
     void setPosition(Coordinate pos, float degrees);
-    void render(int camX, int camY);
+    void render(Coordinate cam);
 
     Stencil& operator=(Stencil&&);
     Stencil(Stencil&& other);

@@ -45,6 +45,7 @@ struct PlayerInfo {
     float degrees;
     bool shooting;
     bool dead;
+    Team team;
     WeaponInfo weapon;
     std::list<PlayerEffect> sounds;
 };
@@ -65,10 +66,18 @@ struct TileInfo {
     Size size;
 };
 
+struct BombInfo {
+    bool planted; // si es falso todos los otros campo son invalidos
+    bool defused;
+    Coordinate pos;
+    float time;
+};
+
 struct LevelInfo{
-    int height;
-    int width;
+    Size size;
     
+    BombInfo bomb;
+
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;
     std::list<BoxInfo> spawnSites;

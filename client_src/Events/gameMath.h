@@ -1,27 +1,21 @@
 #ifndef __GAMEMATH_H__
 #define __GAMEMATH_H__
 
-typedef struct coordenada{
-    int x, y;
-}coordenada_t;
+#include "../levelInfo.h"
 
 class Math{
     public:
 
-        static int manhattanDistance(coordenada_t point1, coordenada_t point2);
-
-        /**
-         * calcula los grados entre el vector point y la proyeccion del vector point 
-         * en el eje x.
-         */
-
+        static int manhattanDistance(Coordinate point1, Coordinate point2);
         static float degreesToRadians(float degrees);
         static float radiansToDegrees(float radians);
-        static float calculateRadians(coordenada_t center, coordenada_t point);
+        static float calculateRadians(Coordinate center, Coordinate point);
         static int ruleOfThree(float x_f, float total_f, int total_i);
         static int senoOppHyp(float radians, int hypotenuse);
         static int cosOppHyp(float radians, int hypotenuse);
-
+        static int getRandomNumberBetween(int min, int max);
+        static bool equalCoords(Coordinate coord1, Coordinate coord2);
+        
     private:
 };
 

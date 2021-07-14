@@ -107,7 +107,6 @@ int SdlTexture::changeTextTexture(std::string text, std::string path, int size, 
 		}else{
 			printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 		}
-		TTF_CloseFont(font);
 	}
 	return -1;
 }
@@ -266,13 +265,6 @@ SDL_Texture* SdlTexture::createTexture(int w, int h){
 	return this->renderer.createTexture(w, h);
 }
 
-int SdlTexture::setRenderTarget(SDL_Texture* target){
-    return this->renderer.setRenderTarget(target);
-}
-
-SDL_Texture* SdlTexture::getRenderTarget(){
-	return this->renderer.getRenderTarget();
-}
 
 SdlTexture::~SdlTexture(){
 	if (this->mTexture != NULL) {

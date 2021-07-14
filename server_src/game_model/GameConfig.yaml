@@ -6,6 +6,7 @@ Game:
 Player:
   speed: 6
   defuseTime: 2
+  startingMoney: 2100
 
 Weapons:
   Knife:
@@ -15,7 +16,7 @@ Weapons:
     maxDamage: 15
     minDamage: 25
     spread: 0.1
-    falloff: 0
+    falloff: 1
     speed: 0.2 #Tiempo entre disparos
     capacity: 10 #Balas por recarga
     reloadTime: 2
@@ -24,12 +25,13 @@ Weapons:
     maxDamage: 22
     minDamage: 18
     spread: 0.1
-    falloff: 0
-    burstTime: 1 #Tiempo entre disparos de la misma ráfaga
-    speed: 1 #Tiempo entre ráfagas
+    falloff: 0.1
+    burstTime: 0.1 #Tiempo entre disparos de la misma ráfaga
+    speed: 0.4 #Tiempo entre ráfagas
     capacity: 30 #Balas por recarga
     reloadTime: 3
     maxRange: 100
+    price: 1500
   Sniper:
     maxDamage: 90
     minDamage: 120
@@ -39,15 +41,17 @@ Weapons:
     capacity: 5 #Balas por recarga 
     reloadTime: 5
     maxRange: 100
+    price: 2000
   Shotgun:
     bullets: 10
     maxDamage: 20
     minDamage: 15
     spread: 0.4
-    falloff: 0
+    falloff: 0.5
     speed: 2 #Tiempo entre disparos
     capacity: 5
     reloadTime: 3
     maxRange: 100
+    price: 1200
   Bomb:
     speed: 1

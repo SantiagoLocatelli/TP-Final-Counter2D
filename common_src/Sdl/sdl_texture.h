@@ -60,8 +60,7 @@ class SdlTexture{
 		void setWidthAndHeight(int width, int height);
 
 		SDL_Texture* createTexture(int w, int h);
-		int setRenderTarget(SDL_Texture* target);
-		SDL_Texture* getRenderTarget();
+
 
 		int getWidth() const;
 		int getHeight() const;

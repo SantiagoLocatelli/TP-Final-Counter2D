@@ -3,6 +3,7 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/TextTexture.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
 #include "Character/character.h"
@@ -19,6 +20,7 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     SoundEffects sounds;
+    int delaySound = 0;
     TextureManager textureManager;
 
     Camera cam;
@@ -26,27 +28,32 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, Weapon*> weapons;
-    std::map<int, SdlTexture*> hud;
+    std::map<int, TextTexture*> hud;
     ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
+    TextTexture textTexture;
 
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordinate cam);
+    void renderBombSites(Coordinate cam);
     void renderPlayers(Coordinate cam);
     void renderWeapons(Coordinate cam);
     void renderShots(Coordinate cam);
+    void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
     void renderHud();
-
-    void loadPlayers(int, int);
+    
+    void updateHud(LevelInfo level);
+    
+    void loadPlayers(Size);
     void loadHudTextures();
     void loadWeapons();
 
 public:
 
-    GameViewer(int window_w, int window_h, LevelInfo level);
+    GameViewer(Size windowSize, LevelInfo level);
     ~GameViewer();
 
     void setCrossHair(Coordinate pos);

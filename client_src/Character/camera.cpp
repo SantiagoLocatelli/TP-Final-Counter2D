@@ -1,7 +1,7 @@
 #include "camera.h"
 
-Camera::Camera(int width, int height){
-    this->size = {width, height};
+Camera::Camera(Size size){
+    this->size = size;
     this->pos = {0, 0};
 }
 

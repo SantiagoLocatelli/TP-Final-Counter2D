@@ -8,6 +8,7 @@ World::World(int grid_length, int grid_height, GameConfig &config):player_number
     gridSize[1] = grid_height;
     bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
+    spawnSites.reserve(2);
 }
 
 void World::addBox(int grid_x, int grid_y){
@@ -20,14 +21,19 @@ void World::createPlayer(RectArea spawn, Team team){
     float start_x, start_y;
     EntityChecker checker(b2world);
 
-    //TODO: Tener un contador de iteraciones para frenar por si el tamaño del spawn no es suficiente
+    int tries = 0;
     do{
         float r = ((float) rand()) / (float) RAND_MAX;
         start_x = spawn.x + (r*spawn.width);
         r = ((float) rand()) / (float) RAND_MAX;
         start_y = spawn.y + (r*spawn.height);
+        tries++;
     } while (checker.areaHasEntities(b2Vec2(start_x-0.5, start_y-0.5)
-    , b2Vec2(start_x+0.5, start_y+0.5)));
+    , b2Vec2(start_x+0.5, start_y+0.5)) && tries < 50);
+
+    if (tries == 50){
+        throw GeneralException("El spawn es muy chico y no entran los jugadores\n");
+    }
 
     players.emplace_back(std::move(Player(*this, start_x, start_y, config, team)));
 }
@@ -53,48 +59,11 @@ void World::step(float delta){
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
-        delete (Drop *)b->GetFixtureList()->GetUserData().pointer;
+        if ((void *)b->GetFixtureList()->GetUserData().pointer != nullptr)
+            delete (Drop *)b->GetFixtureList()->GetUserData().pointer;
         b2world.DestroyBody(b);
     }
     bodiesToDestroy.clear();
-}
-
-float World::rayCast(Ray ray, Hittable *&hittable){
-    float min_dist = -1;
-    for (Player &p: players){
-        if (!p.isDead()){
-            float dist = p.isHitBy(ray);
-
-            if (dist < 0){
-                continue;
-            }
-
-            if (min_dist == -1 || dist < min_dist){
-                min_dist = dist;
-                hittable = &p;
-            }
-        }
-    }
-
-    //TODO: Repito codigo, mejorar esta parte
-    for (Box &b: boxes){
-        float dist = b.isHitBy(ray);
-
-        if (dist < 0){
-            continue;
-        }
-
-        if (min_dist == -1 || dist < min_dist){
-            min_dist = dist;
-            hittable = &b;
-        }
-    }
-
-    return min_dist;
-}
-
-void World::deleteBody(b2Body *body){
-    b2world.DestroyBody(body);
 }
 
 void World::addBullet(Ray ray){
@@ -142,10 +111,6 @@ World::~World(){
     }
 }
 
-std::list<Hittable *> &World::hittablesInArea(float x, float y, float heigth, float length){
-    EntityChecker checker(b2world);
-    return checker.getHittableInArea(b2Vec2(x,y), b2Vec2(x+length, y+heigth));
-}
 
 float World::getTime(){
     return timer;
@@ -178,12 +143,17 @@ void World::addSite(RectArea site){
     bombSites.push_back(site);
 }
 
+void World::addSpawn(RectArea site, Team team){
+    spawnSites[team] = site;
+}
+
+
 bool World::canPlant(float x, float y){
     if (bomb.planted)
         return false;
 
     for (const RectArea &site: bombSites){
-        if (x > site.x && x < site.x+site.width && y > site.y && y < site.y+site.height){
+        if (positionInArea(x, y, site)){
             return true;
         }
     }
@@ -203,4 +173,12 @@ bool World::canDefuse(float x, float y){
 
 ProtBomb World::getBomb(){
     return bomb;
+}
+
+bool World::canBuy(Player &player){
+    return positionInArea(player.getPosition()[0], player.getPosition()[1], spawnSites[player.getTeam()]);
+}
+
+bool World::positionInArea(float x, float y, RectArea area){
+    return (x > area.x && x < area.x+area.width && y > area.y && y < area.y+area.height);
 }

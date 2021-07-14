@@ -13,6 +13,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
                 p.pos.y = players[i].pos.y;
                 p.angle = players[i].angle;
                 p.weapon = players[i].weapon;
+                p.team = players[i].team;
                 p.shot = players[i].shot;
             }
             info.players.push_back(p);
@@ -42,6 +43,7 @@ CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     bullets = std::move(other.bullets);
     drops = std::move(other.drops);
     game_ended = other.game_ended;
+    bomb = other.bomb;
 }
 
 CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
@@ -53,7 +55,7 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
     bullets = std::move(other.bullets);
     drops = std::move(other.drops);
     game_ended = other.game_ended;
-    
+    bomb = other.bomb;
 
     return *this;
 }
