@@ -28,7 +28,6 @@ class World{
         int player_number;
         CollisionHandler collisionHandler;
         std::list<b2Body*> bodiesToDestroy;
-        float timer;
         ProtBomb bomb;
         std::list<RectArea> bombSites;
         std::vector<RectArea> spawnSites;
@@ -52,7 +51,6 @@ class World{
 
         void addDrop(Weapon *weapon, float x, float y);
         std::list<Drop*> getDrops();
-        float getTime();
         void addSpawn(RectArea site, Team team);
         void addSite(RectArea site);
         void destroyBody(b2Body *body);

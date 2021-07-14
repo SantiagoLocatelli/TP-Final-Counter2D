@@ -3,7 +3,7 @@
 #include "EntityChecker.h"
 #include "../../common_src/GeneralException.h"
 
-World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), timer(0), b2world(b2Vec2(0,0)), config(config){
+World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), b2world(b2Vec2(0,0)), config(config){
     gridSize[0] = grid_length;
     gridSize[1] = grid_height;
     bomb.planted = false;
@@ -43,7 +43,6 @@ std::vector<Player> &World::getPlayers(){
 }
 
 void World::step(float delta){
-    timer += delta;
     for (Player &p: players){
         if (!p.isDead()){
             p.updateVelocity();
@@ -109,11 +108,6 @@ World::~World(){
             delete drop;
         }
     }
-}
-
-
-float World::getTime(){
-    return timer;
 }
 
 void World::plantBomb(float x, float y){
