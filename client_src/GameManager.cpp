@@ -8,10 +8,16 @@ const struct Size SIZE_BIG_GUN = {20, 60};
 
 GameManager::GameManager(){}
 
+void translatePosition(Coordinate& coord, Position pos){
+
+    coord.x = Math::ruleOfThree(pos.x, 1.0, PIXELS_PER_METER);
+    coord.y = Math::ruleOfThree(pos.y, 1.0, PIXELS_PER_METER);
+}
 
 void updateBullet(BulletInfo& bullet, Bullet prot) {
-    bullet.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER) + Math::cosOppHyp(prot.angle, PIXELS_PER_METER/2);
-    bullet.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER) + Math::senoOppHyp(prot.angle, PIXELS_PER_METER/2);
+    translatePosition(bullet.pos, prot.pos);
+    bullet.pos.x += Math::cosOppHyp(prot.angle, PIXELS_PER_METER/2);
+    bullet.pos.y += Math::senoOppHyp(prot.angle, PIXELS_PER_METER/2);
     
     int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER) + 5;
     bullet.dst.x = Math::cosOppHyp(prot.angle, distance) + bullet.pos.x;
@@ -19,8 +25,7 @@ void updateBullet(BulletInfo& bullet, Bullet prot) {
 }
 
 void updateDrop(DropInfo& drop, ProtDrop prot){
-    drop.pos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
-    drop.pos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
+    translatePosition(drop.pos, prot.pos);
     drop.type = prot.type;
     drop.size.w = PIXELS_PER_METER;
     drop.size.h = PIXELS_PER_METER;
@@ -55,29 +60,28 @@ bool equalCoords(Coordinate coord1, Coordinate coord2){
 }
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
-    player.sounds.clear();
 
-    Coordinate newPos;
-    newPos.x = Math::ruleOfThree(prot.pos.x, 1.0, PIXELS_PER_METER);
-    newPos.y = Math::ruleOfThree(prot.pos.y, 1.0, PIXELS_PER_METER);
-    if(!equalCoords(newPos, player.pos)){
-        player.sounds.push_back(STEP);
-    }
-    player.pos = newPos;
-
-    if (!player.dead && prot.dead) {
-        player.sounds.push_back(DYING);
-    }
     player.dead = prot.dead;
+    if (!prot.dead) {
+        translatePosition(player.pos, prot.pos);
+        player.degrees = Math::radiansToDegrees(prot.angle);
+        player.size.w = PIXELS_PER_METER;
+        player.size.h = PIXELS_PER_METER;
+        player.shooting = prot.shot;
+        player.team = prot.team;
+        updateWeapon(player.weapon, prot, player.pos);
+    }
+}
 
-    // FALTA AGREGAR CUANDO DROPEA Y CUANDO PICK UP
 
-    player.degrees = Math::radiansToDegrees(prot.angle);
-    player.size.w = PIXELS_PER_METER;
-    player.size.h = PIXELS_PER_METER;
-    player.shooting = prot.shot;
-    player.team = prot.team;
-    updateWeapon(player.weapon, prot, player.pos);
+void updateBomb(BombInfo bomb, ProtBomb prot) {
+    if (prot.planted) {
+        translatePosition(bomb.pos, {prot.x, prot.y});
+        bomb.time = prot.timeRemaining;
+        bomb.defused = prot.defused; 
+        printf("dentro del if de updateBomb\n");
+    }
+    bomb.planted = prot.planted;
 }
 
 
@@ -100,7 +104,7 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
         while (it != end && it->dead) {
             it++;
         }
-        if (it != end) updatePlayer(level.mainPlayer, *it);
+        if (it != end) translatePosition(level.mainPlayer.pos, it->pos);
     }
 
     auto player = this->level.players.begin();
@@ -120,6 +124,8 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
         updateDrop(drop, *it);
         level.drops.push_back(drop);
     }
+
+    updateBomb(level.bomb, model.bomb);
 
     return level;
 }

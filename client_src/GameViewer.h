@@ -35,12 +35,16 @@ private:
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordinate cam);
+    void renderBombSites(Coordinate cam);
     void renderPlayers(Coordinate cam);
     void renderWeapons(Coordinate cam);
     void renderShots(Coordinate cam);
+    void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
     void renderHud();
-
+    
+    void updateHud(LevelInfo level);
+    
     void loadPlayers(Size);
     void loadHudTextures();
     void loadWeapons();

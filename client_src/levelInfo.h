@@ -76,6 +76,8 @@ struct BombInfo {
 struct LevelInfo{
     Size size;
     
+    BombInfo bomb;
+
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;
     std::list<BoxInfo> spawnSites;

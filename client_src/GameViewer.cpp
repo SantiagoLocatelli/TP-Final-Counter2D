@@ -15,7 +15,7 @@
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
-const struct Size SIZE_SMALL_GUN = {16, 32};
+const struct Size SIZE_SMALL_GUN = {22, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
 
 const struct Size SIZE_SMALL_GUN_HUD = {20, 20};
@@ -162,6 +162,22 @@ void GameViewer::renderHud(){
     }
 }
 
+
+void GameViewer::renderBombSites(Coordinate cam){
+    // auto it = this->level.bombSites.begin();
+    // it->
+}
+
+void GameViewer::renderBomb(Coordinate cam){
+    // printf("entro a renderizar la bomba\n");
+
+    if (this->level.bomb.planted) {
+        // printf("planted esta en true\n");
+        Coordinate pos = {this->level.bomb.pos.x - cam.x, this->level.bomb.pos.y - cam.y};
+        this->textureManager.getWeaponOnFloor(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+    }
+}
+
 void GameViewer::render(){
 
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -170,6 +186,8 @@ void GameViewer::render(){
     Coordinate cam = {this->cam.getPosX(), this->cam.getPosY()};
     
     renderMap(cam);
+    // renderBombSites(cam);
+    renderBomb(cam);
     renderShots(cam);
     renderPlayers(cam);
     renderWeapons(cam);
@@ -180,8 +198,24 @@ void GameViewer::render(){
 }
 
 
+void GameViewer::updateHud(LevelInfo level){
+    if (this->level.mainPlayer.health != level.mainPlayer.health) {
+        char healtText[100];
+        sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
+        this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+    } 
+
+
+    if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
+        char ammoText[100];
+        sprintf(ammoText, "Ammo: %d", (int)this->level.mainPlayer.ammo);
+        this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
+    } 
+}
+
 
 void GameViewer::update(LevelInfo level){
+    updateHud(level);
 
     WeaponType mainType = level.mainPlayer.weapon.type;
     this->mainPlayer->update(level.mainPlayer, this->weapons[mainType]);
@@ -204,18 +238,6 @@ void GameViewer::update(LevelInfo level){
         it++;
     }
 
-    if (this->level.mainPlayer.health != level.mainPlayer.health) {
-        char healtText[100];
-        sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
-        this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
-    } 
-
-
-    if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
-        char ammoText[100];
-        sprintf(ammoText, "Ammo: %d", (int)this->level.mainPlayer.ammo);
-        this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
-    } 
 
 
     this->cam.centerCamera(level.mainPlayer.pos);
