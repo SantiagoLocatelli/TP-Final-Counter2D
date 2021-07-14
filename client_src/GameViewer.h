@@ -20,6 +20,7 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     SoundEffects sounds;
+    int delaySound = 0;
     TextureManager textureManager;
 
     Camera cam;
