@@ -131,8 +131,10 @@ void GameViewer::renderShots(Coordinate cam){
 }
 
 void GameViewer::renderWeapons(Coordinate cam){
+    
     for(DropInfo wp : level.drops){
-        this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
+        
+        this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x - wp.size.w/2, wp.pos.y - cam.y - wp.size.h/2, wp.size.w, wp.size.h);
     }
 }
 

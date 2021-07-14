@@ -35,7 +35,7 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
 
     world->addDrop(new Rifle(world, world->config), 5.5f, 5.5f);
 
-    world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);
+    world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x + 1.0, mapInfo.spawnSites[0].y + 1.0);
 }
 
 MapInfo GameProxy::getMapInfo(){
