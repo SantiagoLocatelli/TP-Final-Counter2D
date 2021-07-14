@@ -23,7 +23,7 @@ void Stencil::setPosition(Coordinate pos, float degrees){
 void Stencil::render(Coordinate cam){
     this->stencil.setBlendMode(SDL_BLENDMODE_BLEND);
     this->stencil.setAlpha(OPACITY);
-    this->stencil.render(this->rect.x - this->rect.w - cam.x, this->rect.y - this->rect.h - cam.y , this->rect.w*2, this->rect.h*2, NULL, this->degrees);
+    this->stencil.render(this->rect.x - this->rect.w - 50 - cam.x, this->rect.y - 50 - this->rect.h - cam.y , (this->rect.w*2) + 100, (this->rect.h*2) + 100, NULL, this->degrees);
 }
 
 Stencil& Stencil::operator=(Stencil&& other){
