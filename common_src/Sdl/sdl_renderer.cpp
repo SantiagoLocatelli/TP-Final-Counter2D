@@ -65,10 +65,3 @@ SdlRenderer::~SdlRenderer(){
     IMG_Quit();
 }
 
-SDL_Texture* SdlRenderer::getRenderTarget(){
-    return SDL_GetRenderTarget(this->mRenderer);
-}
-
-int SdlRenderer::setRenderTarget(SDL_Texture* target){
-    return SDL_SetRenderTarget(this->mRenderer, target);
-}
