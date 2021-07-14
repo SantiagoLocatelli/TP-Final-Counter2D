@@ -12,8 +12,8 @@ int modulo(Coordinate coord){
     return sqrt((coord.x*coord.x) + (coord.y*coord.y));
 }
 
-bool coordsIguales(Coordinate coord1, Coordinate coord2){
-    return ((coord1.x == coord2.x) && (coord1.y == coord2.y));
+bool Math::equalCoords(Coordinate coord1, Coordinate coord2){
+    return (coord1.x == coord2.x && coord1.y == coord2.y);
 }
 
 int Math::manhattanDistance(Coordinate point1, Coordinate point2){
