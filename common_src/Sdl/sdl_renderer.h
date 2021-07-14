@@ -17,14 +17,13 @@ class SdlRenderer{
         void clear();
         void updateScreen();
         void render(SDL_Texture* texture, SDL_Rect* clip, SDL_Rect* renderQuad, double angle, SDL_Point* center, SDL_RendererFlip flip);
-        int renderReadPixels(void* pixels, int w, int format);
-        SDL_Texture* getRenderTarget();
-        int setRenderTarget(SDL_Texture* target);
+
         void fillRect(SDL_Rect& rect);
-        
         void drawLine(int posX, int posY, int dstPosX, int dstPosY);
 
-        void render(SDL_Rect* rect);
+        // NO SE ESTA USANDO VER DE BORRAR
+        int renderReadPixels(void* pixels, int w, int format);
+
         ~SdlRenderer();
 };
 #endif

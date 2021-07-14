@@ -50,7 +50,20 @@ void Character::update(PlayerInfo info, Weapon* weapon){
     this->player.weapon = info.weapon;
     this->player.pos = info.pos;
     this->player.size = info.size;
-    // printf("coordenada x: %i, y: %i\n", info.pos.x, info.pos.y);
+
+    if (info.shooting) {
+        if (info.weapon.type == PISTOL) {
+            this->player.weapon.sound = SHOT_PISTOL;
+        } else if (info.weapon.type == RIFLE) {
+            this->player.weapon.sound = SHOT_RIFLE;
+        } else if (info.weapon.type == SHOTGUN) {
+            this->player.weapon.sound = SHOT_SHOTGUN;
+        } else if (info.weapon.type == SNIPER) {
+            this->player.weapon.sound = SHOT_SHOTGUN;
+        } else if (info.weapon.type == KNIFE) {
+            this->player.weapon.sound = KNIFE_HIT;
+        }
+    }
 }
 
 WeaponType Character::getWeaponType(){return this->player.weapon.type;}
