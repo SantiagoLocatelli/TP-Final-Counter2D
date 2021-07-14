@@ -66,6 +66,13 @@ struct TileInfo {
     Size size;
 };
 
+struct BombInfo {
+    bool planted; // si es falso todos los otros campo son invalidos
+    bool defused;
+    Coordinate pos;
+    float time;
+};
+
 struct LevelInfo{
     Size size;
     

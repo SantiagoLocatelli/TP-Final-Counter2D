@@ -93,7 +93,7 @@ void GameViewer::loadHudTextures(){
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
-    sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+    sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
@@ -155,11 +155,6 @@ void GameViewer::renderHud(){
     WeaponType type = this->level.mainPlayer.weapon.type;
     Size size = {40, 40};
 
-    // if (type == PISTOL) {
-    //     size = SIZE_SMALL_GUN_HUD;
-    // } else if (type == RIFLE || type == SNIPER || type == SHOTGUN) {
-    //     size = SIZE_BIG_GUN_HUD;
-    // }
 
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
@@ -211,7 +206,7 @@ void GameViewer::update(LevelInfo level){
 
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         char healtText[100];
-        sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
+        sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
     } 
 
