@@ -51,13 +51,9 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.y;
 
-
 }
 
 
-bool equalCoords(Coordinate coord1, Coordinate coord2){
-    return (coord1.x == coord2.x && coord1.y == coord2.y);
-}
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 
