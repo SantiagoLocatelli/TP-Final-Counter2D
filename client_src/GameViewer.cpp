@@ -97,7 +97,7 @@ void GameViewer::loadHudTextures(){
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
-    sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
+    sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
@@ -197,9 +197,9 @@ void GameViewer::renderBomb(Coordinate cam){
     // printf("entro a renderizar la bomba\n");
 
     if (this->level.bomb.planted) {
-        // printf("planted esta en true\n");
+        printf("planted esta en true\n");
         Coordinate pos = {this->level.bomb.pos.x - cam.x, this->level.bomb.pos.y - cam.y};
-        this->textureManager.getWeaponOnFloor(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+        this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
     }
 }
 
@@ -263,7 +263,8 @@ void GameViewer::update(LevelInfo level){
         it++;
     }
 
-
+    if (level.bomb.planted) printf("bomba en true del level que me llego\n");
+    if (this->level.bomb.planted) printf("bomba en true del level viejo\n");
 
     this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.size.w, level.size.h);
