@@ -13,6 +13,10 @@
 #define HUD_TIME 2
 #define SITE 3
 
+#define DELAY_SOUND_BOMB 20
+#define DELAY_SOUND_BOMB_QUICK 5
+#define ABOUT_TO_EXPLODE 5.0
+
 const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
@@ -97,7 +101,7 @@ void GameViewer::loadHudTextures(){
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
-    sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
+    sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
@@ -194,12 +198,23 @@ void GameViewer::renderBombSites(Coordinate cam){
 }
 
 void GameViewer::renderBomb(Coordinate cam){
-    // printf("entro a renderizar la bomba\n");
 
     if (this->level.bomb.planted) {
-        // printf("planted esta en true\n");
         Coordinate pos = {this->level.bomb.pos.x - cam.x, this->level.bomb.pos.y - cam.y};
-        this->textureManager.getWeaponOnFloor(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+        this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+        
+        this->delaySound++;
+
+        if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
+            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->delaySound = 0;
+        } else if (this->delaySound >= DELAY_SOUND_BOMB_QUICK && this->level.bomb.time < ABOUT_TO_EXPLODE){
+            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->delaySound = 0;
+        }
+        if (this->level.bomb.time < 0.1) {
+            this->sounds.playWeaponSound(BOMD_EXPLODE);
+        }
     }
 }
 
@@ -262,8 +277,6 @@ void GameViewer::update(LevelInfo level){
         }
         it++;
     }
-
-
 
     this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.size.w, level.size.h);

@@ -70,12 +70,11 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 }
 
 
-void updateBomb(BombInfo bomb, ProtBomb prot) {
+void updateBomb(BombInfo& bomb, ProtBomb prot) {
     if (prot.planted) {
         translatePosition(bomb.pos, {prot.x, prot.y});
         bomb.time = prot.timeRemaining;
         bomb.defused = prot.defused; 
-        printf("dentro del if de updateBomb\n");
     }
     bomb.planted = prot.planted;
 }
