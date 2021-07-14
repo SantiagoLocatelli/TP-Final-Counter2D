@@ -14,6 +14,7 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     parser.get_size(mapInfo.length, mapInfo.height);
 
     world = new World(mapInfo.length, mapInfo.height, config);
+    roundManager = new RoundManager(*world, config);
 
     for (auto b: parser.get_boxes()){
         world->addBox(b[0], b[1]);
@@ -92,7 +93,9 @@ CompleteModelInfo GameProxy::getModelInfo(){
 }
 
 void GameProxy::step(float delta){
-    world->step(delta);
+    if (roundManager->step(delta)){
+        world->step(delta);
+    }
 }
 
 void GameProxy::createPlayer(Team team){
@@ -129,18 +132,8 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
-    if (world->getTime() > config.getGame().at("roundTime") || world->bombExploded() || world->bombDefused()){
-        return true;
-    }
-
-    int alive_players = 0;
-    for (const Player &p: world->getPlayers()){
-        if (!p.isDead()){
-            alive_players++;
-        }
-    }
-
-    return alive_players <= 1;
+    //TODO: Esto es temporal
+    return false;
 }
 
 GameProxy::~GameProxy(){
