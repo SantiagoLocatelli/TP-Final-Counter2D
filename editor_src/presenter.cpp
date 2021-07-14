@@ -9,6 +9,10 @@ void Presenter::renderTextures(){
     this->menueManager.renderTextures(this->camera.getRect());
 }
 
+void Presenter::renderWeapons(){
+    this->menueManager.renderWeapons(this->camera.getRect());
+}
+
 void Presenter::renderBombSites(){
     this->menueManager.renderBombSites(this->camera.getRect());
 }
@@ -18,11 +22,15 @@ void Presenter::renderSpawnSites(){
 }
 
 void Presenter::renderMapFloors(int& page){
-    this->menueManager.renderMapTextures(page, 0);
+    this->menueManager.renderMapFloors(page);
 }
 
 void Presenter::renderMapWalls(int& page){
-    this->menueManager.renderMapTextures(page, 1);
+    this->menueManager.renderMapWalls(page);
+}
+
+void Presenter::renderMapWeapons(int& page){
+    this->menueManager.renderMapWeapons(page);
 }
 
 void Presenter::handleBombSitesEvent(SDL_Event* event){
@@ -34,11 +42,15 @@ void Presenter::handleSpawnSitesEvent(SDL_Event* event){
 }
 
 void Presenter::handleFloorsTexture(SDL_Event* event, int& page){
-    this->menueManager.handleSelectTexture(event, page, 0);
+    this->menueManager.handleSelectFloor(event, page);
 }
 
 void Presenter::handleWallsTexture(SDL_Event* event, int& page){
-    this->menueManager.handleSelectTexture(event, page, 1);
+    this->menueManager.handleSelectWall(event, page);
+}
+
+void Presenter::handleWeaponsTexture(SDL_Event* event, int& page){
+    this->menueManager.handleSelectWeapon(event, page);
 }
 
 void Presenter::centerCamera(){

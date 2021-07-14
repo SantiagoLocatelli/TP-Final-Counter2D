@@ -6,12 +6,13 @@
 TextureScreen::TextureScreen(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH),
 background(renderer, BACKGROUND), floors(renderer, FONT_PATH, FONT_SIZE, "Floors", 255, 255, 255),
 walls(renderer, FONT_PATH, FONT_SIZE, "Walls", 255, 255, 255), back(renderer, FONT_PATH, FONT_SIZE, "Back", 0, 0, 0),
-arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0){
+weapons(renderer, FONT_PATH, FONT_SIZE, "Weapons", 255, 255, 255), arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->changeScene = false;
     this->renderFloors = false;
     this->renderWalls = false;
+    this->renderWeapons = false;
     this->page = 0;
 }
 
@@ -25,10 +26,16 @@ void TextureScreen::render(){
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
         Presenter::renderMapWalls(page);
-    }else{
+    }else if (renderWeapons){
+        this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
+        this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
+        Presenter::renderMapWeapons(page);
+    }
+    else{
         this->background.render(0, 0, screen.w, screen.h);
         this->floors.render(screen.w/2, screen.h/3);
         this->walls.render(screen.w/3, screen.h/3);
+        this->weapons.render((screen.w - weapons.getWidth())/2, screen.h/2);
     }
     back.render(0, screen.h - 20);
 }
@@ -69,6 +76,23 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                         this->page--;
                     }
                 }
+            }else if (renderWeapons){
+                Presenter::handleWeaponsTexture(event, this->page);
+                if (back.isMouseTouching(0,screen.h - 20)){
+                    this->chunk->playChunk(0);
+                    renderWeapons = false;
+                }else if (arrow.isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
+                    this->chunk->playChunk(0);
+                    page++;
+                }else if (arrow.isMouseTouching(0, Presenter::getTileSize() * 2)){
+                    this->chunk->playChunk(0);
+                    if (this->page > 0){
+                        this->page--;
+                    }
+                }
+            }else if (weapons.isMouseTouching((screen.w - weapons.getWidth())/2, screen.h/2)){
+                this->chunk->playChunk(0);
+                renderWeapons = true;
             }else if (floors.isMouseTouching(screen.w/2, screen.h/3)){
                 this->chunk->playChunk(0);
                 renderFloors = true;
