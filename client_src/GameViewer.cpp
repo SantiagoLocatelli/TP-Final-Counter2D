@@ -37,7 +37,6 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
 
 
 SkinType getPjSkin(PlayerInfo player) {
-    printf("Team: %i\n", (int)player.team);
     if (player.team == COUNTER) {
         return (SkinType) Math::getRandomNumberBetween((int)CT1, (int)CT4);
     }
@@ -48,7 +47,6 @@ void GameViewer::loadPlayers(Size window){
     srand((unsigned)time(NULL));
     WeaponType mainWeaponType = this->level.mainPlayer.weapon.type;
     SkinType mainSkinType = getPjSkin(this->level.mainPlayer);
-    printf("skin type: %i\n", (int)mainSkinType);
     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]);
@@ -58,26 +56,10 @@ void GameViewer::loadPlayers(Size window){
 
         WeaponType typeWeapon = player.weapon.type;
         SkinType typeSkin = getPjSkin(player);
-        printf("skin type: %i\n", (int)typeSkin);
         this->players.push_back(Character(player, *(this->textureManager.getSkin(typeSkin)), this->weapons[typeWeapon]));
     }
 }
 
-// void GameViewer::loadPlayers(Size window){
-
-//     WeaponType mainType = this->level.mainPlayer.weapon.type;
-
-//     this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(CT1)), 
-//                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-//                 std::move(Stencil(this->renderer, window)), this->weapons[mainType]);
-
-
-//     for (PlayerInfo player : this->level.players) {
-
-//         WeaponType type = player.weapon.type;
-//         this->players.push_back(Character(player, *(this->textureManager.getSkin(CT1)), this->weapons[type]));
-//     }
-// }
 
 void GameViewer::loadWeapons(){
     this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), KNIFE);
@@ -107,13 +89,11 @@ GameViewer::~GameViewer(){
 void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    // this->hud[HUD_AMMO] = new SdlTexture(this->renderer, PATH_FONT, 30, ammoText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
     this->hud[HUD_AMMO] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
     sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
-    // this->hud[HUD_HEALTH] = new SdlTexture(this->renderer, PATH_FONT, 30, healtText, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b );
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
@@ -165,27 +145,11 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 
 void GameViewer::renderHud(){
 
-    // char ammoText[100];
-    // sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    // this->hud[HUD_AMMO]->changeTextTexture(ammoText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
-
     Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
     this->hud[HUD_AMMO]->render(dstAmmo);
-    // this->hud[HUD_AMMO]->setBlendMode(SDL_BLENDMODE_BLEND);
-    // this->hud[HUD_AMMO]->setAlpha(100);
-    // this->hud[HUD_AMMO]->render(dstAmmo.x - this->hud[HUD_AMMO]->getWidth(), dstAmmo.y - this->hud[HUD_AMMO]->getHeight());
-
-
-    // char healtText[100];
-    // sprintf(healtText, "❤ %d", (int)this->level.mainPlayer.health);
-    // this->hud[HUD_HEALTH]->changeTextTexture(healtText, PATH_FONT, 30, HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b);
 
     Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
     this->hud[HUD_HEALTH]->render(dstHealth);
-    // this->hud[HUD_HEALTH]->setBlendMode(SDL_BLENDMODE_BLEND);
-    // this->hud[HUD_HEALTH]->setAlpha(100);
-    // this->hud[HUD_HEALTH]->render(dstHealth.x - this->hud[HUD_HEALTH]->getWidth(), dstHealth.y - this->hud[HUD_HEALTH]->getHeight());
-
 
     Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
     WeaponType type = this->level.mainPlayer.weapon.type;

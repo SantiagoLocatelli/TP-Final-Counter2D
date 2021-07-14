@@ -30,7 +30,7 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapon;
 
     // SMALL GUN    
-    if (weapon.type == KNIFE || weapon.type == PISTOL) {
+    if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
         weapon.pos.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
         weapon.pos.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
 
