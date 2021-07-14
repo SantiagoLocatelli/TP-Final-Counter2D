@@ -43,6 +43,7 @@ CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     bullets = std::move(other.bullets);
     drops = std::move(other.drops);
     game_ended = other.game_ended;
+    bomb = other.bomb;
 }
 
 CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
@@ -54,7 +55,7 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
     bullets = std::move(other.bullets);
     drops = std::move(other.drops);
     game_ended = other.game_ended;
-    
+    bomb = other.bomb;
 
     return *this;
 }
