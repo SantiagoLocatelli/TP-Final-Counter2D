@@ -14,8 +14,8 @@ private:
     SdlRenderer& renderer;
     TTF_Font* font;
     SDL_Texture* mTexture;
-    int width;
-    int height;
+    Size size;
+    Coordinate pos;
 
 public:
 
@@ -23,7 +23,10 @@ public:
     ~TextTexture();
 
     void setText(std::string text, struct Color color);
+    bool isMouseTouching();
     void render(Coordinate dst);
+    void render();
+    void setCoordinate(Coordinate pos);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "TextTexture.h"
 
 TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
-    renderer(renderer), width(0), height(0){
+    renderer(renderer), size({0,0}), pos({0,0}){
 
     if( TTF_Init() == -1 ){
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -27,18 +27,55 @@ void TextTexture::setText(std::string text, struct Color color){
             printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
         }else{
 
-            width = textSurface->w;
-            height = textSurface->h;
+            this->size.w = textSurface->w;
+            this->size.h = textSurface->h;
             SDL_FreeSurface(textSurface);
         }
     }
 }
 
+void TextTexture::setCoordinate(Coordinate pos) {
+    this->pos = pos;
+}
+
 void TextTexture::render(Coordinate dst) {
 
-    SDL_Rect renderQuad = {dst.x - width, dst.y - height, width, height};
+    SDL_Rect renderQuad = {dst.x - this->size.w, dst.y - this->size.h, this->size.w, this->size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
+
+void TextTexture::render() {
+
+    SDL_Rect renderQuad = {this->pos.x - this->size.w, this->pos.y - this->size.h, this->size.w, this->size.h};
+    this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
+}
+
+bool TextTexture::isMouseTouching(){
+    //Check if mouse is in button
+    bool inside = true;
+	Coordinate mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+    //Mouse is left of the button
+    if (mouse.x < this->pos.x){
+        inside = false;
+    }
+    //Mouse is right of the button
+    else if (mouse.x > this->pos.x + this->size.w){
+        inside = false;
+    }
+    //Mouse above the button
+    else if (mouse.y < this->pos.y){
+        inside = false;
+    }
+    //Mouse below the button
+    else if (mouse.y > this->pos.y + this->size.h){
+        inside = false;
+    }
+
+    return inside;
+}
+
 
 TextTexture::~TextTexture(){
     if(this->mTexture != NULL){
