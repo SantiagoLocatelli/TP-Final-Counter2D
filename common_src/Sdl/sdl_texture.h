@@ -54,6 +54,8 @@ class SdlTexture{
 
 		void render(int x, int y, SDL_Rect* clip = NULL, double degrees = 0.0)const;
 		void render(int x, int y, int width, int height, double degrees)const;
+
+		void renderFlip(int x, int y, SDL_RendererFlip flip)const;
 		
 		void setWidthAndHeight(int width, int height);
 
