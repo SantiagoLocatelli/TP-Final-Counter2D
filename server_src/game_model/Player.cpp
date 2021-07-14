@@ -112,10 +112,12 @@ std::array<float, 2> Player::getPosition() const{
 }
 
 void Player::recvDamage(float damage){
-    health -= damage;
-    if (health < 0){
-        dead = true;
-        world.destroyBody(body);
+    if (health > 0){
+        health -= damage;
+        if (health < 0){
+            dead = true;
+            world.destroyBody(body);
+        }
     }
 }
 
