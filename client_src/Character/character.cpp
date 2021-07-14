@@ -61,6 +61,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
     this->player.weapon = info.weapon;
     this->player.shooting = info.shooting;
     if (info.shooting) {
+        printf("esta disparando\n");
         if (info.weapon.type == PISTOL) {
             this->player.weapon.sound = SHOT_PISTOL;
         } else if (info.weapon.type == RIFLE) {

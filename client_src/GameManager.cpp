@@ -50,9 +50,7 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
 
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.y;
-
 }
-
 
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {

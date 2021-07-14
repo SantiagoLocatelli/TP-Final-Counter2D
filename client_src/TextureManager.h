@@ -14,6 +14,7 @@ enum SkinType : int {CT1, CT2, CT3, CT4, TT1, TT2, TT3, TT4};
 class TextureManager{
 private:
 
+    SdlTexture* explosion;
     std::map<SkinType, SdlTexture*> skins;
     std::map<WeaponType, SdlTexture*> weaponsOnPj;
     std::map<WeaponType, SdlTexture*> animWeaponOnPj;
@@ -34,6 +35,7 @@ public:
     TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tiles);
     ~TextureManager();
 
+    SdlTexture* getExplosionAnim();
     SdlTexture* getWeaponOnHud(WeaponType weapon);
     SdlTexture* getWeaponOnPj(WeaponType weapon);
     SdlTexture* getWeaponOnFloor(WeaponType weapon);

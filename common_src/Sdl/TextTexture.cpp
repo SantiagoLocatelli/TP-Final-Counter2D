@@ -17,7 +17,7 @@ TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
 void TextTexture::setText(std::string text, struct Color color){
     SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
     if (textSurface == NULL) {
-        printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
+        printf( "No se pudo crear la textura: %s. SDL_ttf Error: %s\n", text.c_str(), TTF_GetError() );
     } else {
         if (this->mTexture != NULL) {
             SDL_DestroyTexture( this->mTexture );
