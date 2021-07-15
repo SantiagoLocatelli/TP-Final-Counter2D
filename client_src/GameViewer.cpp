@@ -178,7 +178,7 @@ void GameViewer::renderDamage(){
 }
 
 void GameViewer::renderHud(){
-
+ 
     Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
     this->hud[HUD_AMMO]->render(dstAmmo);
 
@@ -203,13 +203,13 @@ void GameViewer::renderHud(){
         this->textTexture.render(pos);
     }
 
-    if (this->level.mainPlayer.damaged) {
-        renderDamage();
-    }
-
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
         weapon.render(dstWeapon.x - size.w - MARGIN, dstWeapon.y - size.h, size.w, size.h);
+    }
+
+    if (this->level.mainPlayer.damaged) {
+        renderDamage();
     }
 }
 
@@ -337,10 +337,8 @@ void GameViewer::update(LevelInfo level){
 
     auto it = this->players.begin();
     for (PlayerInfo player : this->level.players) {
-        if (!player.dead) {
-            WeaponType type = player.weapon.type;
-            it->update(player, this->weapons[type]);
-        }
+        WeaponType type = player.weapon.type;
+        it->update(player, this->weapons[type]);
         it++;
     }
 

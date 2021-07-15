@@ -100,10 +100,10 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
     } else {
         auto it = model.players.begin();
         auto end = model.players.end();
-        while (it != end && it->dead) {
+        while (it != end && it->dead && level.mainPlayer.team != it->team) {
             it++;
         }
-        if (it != end) translatePosition(level.mainPlayer.pos, it->pos);
+        if (it != end) updatePlayer(level.mainPlayer, *it);
     }
 
     auto player = this->level.players.begin();
