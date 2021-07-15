@@ -19,7 +19,7 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     Size size;
-    std::map<std::string, TextTexture> maps;
+    std::map<std::string, TextTexture*> maps;
     std::map<int, TextTexture*> buttons;
     SdlTexture background;
     Protocol& server;
@@ -29,7 +29,8 @@ private:
     void creatGame(bool& joined_game);
     void joinGame(bool& joined_game);
 
-    void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, TextTexture>& options);
+    void renderCreatMenu(bool mapSelected, bool nameSelected, bool playersSelected, std::string nameGame, int players);
+    void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, TextTexture*>& options);
     void renderInitMenu();
 public:
 
