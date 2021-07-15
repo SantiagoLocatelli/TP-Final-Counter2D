@@ -311,7 +311,6 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
 
     SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
-    int heightTexture = weaponOnPj->getHeight();
     int widthTexure = weaponOnPj->getWidth();
     weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + widthTexure/2, 10, 30, NULL, 90.0);
 
