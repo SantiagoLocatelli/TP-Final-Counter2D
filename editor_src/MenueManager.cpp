@@ -5,7 +5,7 @@
 #include <utility>
 #include <memory>
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-#define WEAPONS_PATH "../../client_src/yaml/weaponsOnFloor.yaml"
+#define WEAPONS_PATH "../../common_src/utils/weaponsOnFloor.yaml"
 #define TILE_SIZE 80
 
 MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
