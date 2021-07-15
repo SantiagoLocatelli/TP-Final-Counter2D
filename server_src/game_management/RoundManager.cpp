@@ -1,45 +1,82 @@
 #include "RoundManager.h"
 
-RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(world), config(config), state(BUY){}
+RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(world), config(config), roundState(BUY), terrorIdx(0), counterIdx(1), rounds(0){}
 
-void RoundManager::resetRound(){
+GameState RoundManager::gameEnded(){
+    if (wins[terrorIdx] == config.getGame().at("roundsPerSide")+1){
+        return T_WON;
+    } else if (wins[counterIdx] == config.getGame().at("roundsPerSide")+1){
+        return CT_WON;
+    } else if (rounds == 2*config.getGame().at("roundsPerSide")){
+        return TIE;
+    } else {
+        return PLAYING;
+    }
 }
 
-bool RoundManager::gameEnded(){
-    if (timer > config.getGame().at("roundTime") || world.bombExploded() || world.bombDefused()){
-        return true;
+void RoundManager::resetRound(){
+    if (rounds == config.getGame().at("roundsPerSide")){
+        terrorIdx = 1;
+        counterIdx = 0;
+        world.resetWorld(true);
+    } else {
+        world.resetWorld(false);
     }
+}
+
+GameState RoundManager::roundEnded(){
+    if (timer > config.getGame().at("roundTime") || world.bombDefused())
+        return CT_WON;
+
+    if (world.bombExploded())
+        return T_WON;
 
     //TODO: Chequear por equipo en vez de por personas individuales
-    int alive_players = 0;
+    int t_alive = 0, ct_alive = 0;
     for (const Player &p: world.getPlayers()){
         if (!p.isDead()){
-            alive_players++;
+            if (p.getTeam() == TERROR){
+                t_alive++;
+            } else {
+                ct_alive++;
+            }
         }
     }
 
-    return alive_players <= 1;
+    if (t_alive == 0){
+        return CT_WON;
+    } else if (ct_alive == 0){
+        return T_WON;
+    }
+
+    return PLAYING;
 }
 
 bool RoundManager::step(float delta){
     timer += delta;
 
-    switch (state)
+    switch (roundState)
     {
     case BUY:
-        if(timer > config.getGame().at("buyTime")){
+        if (timer > config.getGame().at("buyTime")){
             timer = 0;
-            state = PLAYING;
+            roundState = MIDDLE;
             return true;
         } else {
             return false;
         }
         break;
     
-    case PLAYING:
-        if(gameEnded()){
+    case MIDDLE:
+        if (roundEnded() != PLAYING){
             timer = 0;
-            state = END;
+            roundState = END;
+            if (roundEnded() == T_WON){
+                wins[terrorIdx]++;
+            } else {
+                wins[counterIdx]++;
+            }
+            rounds++;
             return false;
         } else {
             return true;
@@ -47,20 +84,18 @@ bool RoundManager::step(float delta){
         break;
     
     case END:
-        if(timer > config.getGame().at("endTime")){
+        if (timer > config.getGame().at("endTime")){
             timer = 0;
             resetRound();
-            state = BUY;
-            return true;
-        } else {
-            return false;
+            roundState = BUY;
         }
+        return false;
         break;
     }
 
     return false; //Se supone que acá no llego nunca
 }
 
-GameState RoundManager::getState(){
-    return state;
+RoundState RoundManager::getRoundState(){
+    return roundState;
 }

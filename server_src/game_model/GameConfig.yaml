@@ -4,8 +4,10 @@ Game:
   bombDefuseDistance: 1
   buyTime: 10
   endTime: 5 #Tiempo de pantalla de final de ronda
+  roundsPerSide: 1
 
 Player:
+  health: 100
   speed: 6
   defuseTime: 2
   startingMoney: 10000

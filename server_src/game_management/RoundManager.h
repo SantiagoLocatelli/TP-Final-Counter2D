@@ -4,21 +4,27 @@
 #include "../game_model/World.h"
 #include "../game_model/GameConfig.h"
 
-enum GameState{BUY, PLAYING, END};
+enum RoundState{BUY, MIDDLE, END};
+enum GameState{PLAYING, T_WON, CT_WON, TIE};
 
 class RoundManager{
     private:
         float timer;
         World &world;
         GameConfig &config;
-        GameState state;
+        RoundState roundState;
+        int wins[2];
+        int terrorIdx;
+        int counterIdx;
+        int rounds;
 
-        void resetRound();
-        bool gameEnded();
+        GameState roundEnded();
     public:
         RoundManager(World &world, GameConfig &config);
+        void resetRound();
         bool step(float delta);
-        GameState getState();
+        RoundState getRoundState();
+        GameState gameEnded();
 };
 
 #endif

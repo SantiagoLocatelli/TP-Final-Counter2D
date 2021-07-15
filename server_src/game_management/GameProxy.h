@@ -21,6 +21,8 @@ class GameProxy{
     
     public:
         explicit GameProxy(const std::string &yamlPath, GameConfig &config);
+
+        void setUpGame();
         void step(float delta);        
 
         MapInfo getMapInfo();

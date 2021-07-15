@@ -35,9 +35,12 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     world->addSpawn(mapInfo.spawnSites[1], COUNTER);
 
     world->addDrop(new Rifle(world, world->config), 5.5f, 5.5f);
-
-    world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);
 }
+
+void GameProxy::setUpGame(){
+    roundManager->resetRound();
+}
+
 
 MapInfo GameProxy::getMapInfo(){
     return mapInfo;
@@ -100,9 +103,9 @@ void GameProxy::step(float delta){
 
 void GameProxy::createPlayer(Team team){
     if (team == TERROR){
-        world->createPlayer(mapInfo.spawnSites[0], team);
+        world->createPlayer(team);
     } else {
-        world->createPlayer(mapInfo.spawnSites[1], team);
+        world->createPlayer(team);
     }
 }
 
@@ -132,8 +135,7 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
-    //TODO: Esto es temporal
-    return false;
+    return roundManager->gameEnded();
 }
 
 GameProxy::~GameProxy(){
