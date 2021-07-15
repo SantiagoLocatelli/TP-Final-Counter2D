@@ -32,7 +32,7 @@ void updateDrop(DropInfo& drop, ProtDrop prot){
 }
 
 void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
-    weapon.type = prot.weapon;
+    weapon.type = prot.weapons[prot.currentSlot];
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
@@ -175,6 +175,8 @@ LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& mode
     level.mainPlayer.damaged = false;
     level.mainPlayer.health = model.you.health;
     level.mainPlayer.ammo = model.you.ammo;
+    level.mainPlayer.weapons = model.you.weapons;
+    level.mainPlayer.currentSlot = model.you.currentSlot;
     updatePlayer(level.mainPlayer, model.you);
 
     return updatedLevel(model);

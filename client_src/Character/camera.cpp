@@ -55,6 +55,7 @@ void Camera::keepInBounds(int level_width, int level_height){
     }
 }
 
+Size Camera::getSize(){return this->size;}
 int Camera::getWidth(){return this->size.w;}
 int Camera::getHeight(){return this->size.h;}
 int Camera::getPosX(){return this->pos.x;}
