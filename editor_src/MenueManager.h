@@ -54,7 +54,7 @@ class MenueManager{
         void changeSizeOfSites(std::vector<float>& vector);
         void changeMapSize(const int& width, const int& height);
         void deleteTextureColumns(const int numberOfRows, const int rowNumber, const int newColumns);
-        void deleteTextureRows(const int newRows, const int numberOfRows);
+        void deleteTextureRows(const int newRows);
         void insertTextureColumns(const int endOfRowPosition , const int newColumns);
         void insertTextureRows(const int columnsNumber);
 

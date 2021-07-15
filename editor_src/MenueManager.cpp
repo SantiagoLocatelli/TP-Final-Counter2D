@@ -381,24 +381,32 @@ void MenueManager::changeMapSize(const int& width, const int& height){
     int newRows = rows - this->mapSize[1];
     //Me fijo si sacaron filas
     if (newRows < 0){
-        deleteTextureRows(newRows * -1, rows);
+        deleteTextureRows(newRows * -1);
     }
     for (int i = 0; i < rows; i++){
         endOfRowPosition += this->mapSize[0];
         //si agregan filas
         if ((unsigned int) endOfRowPosition > this->textures.size() && newRows > 0){
-            insertTextureRows(width);
+            for (int i = 0; i < newRows; i++){
+                insertTextureRows(width);
+            }
             if (newColumns < 0){
                 deleteTextureColumns(rows, i, newColumns * -1);
             }
-            endOfRowPosition += newColumns;
+            break;
         //si agregan columnas
         }else if (newColumns > 0){
             insertTextureColumns(endOfRowPosition, newColumns);
-            endOfRowPosition++;
+            endOfRowPosition += newColumns;
         //si sacan columnas
         }else if (newColumns < 0){
             deleteTextureColumns(rows, i, newColumns * -1);
+        }
+    }
+    for (int i = 0; i < width * height; i++){
+        if ((i % width) == 0 || i <= width || ((i + 1) % width) == 0 || i > (width * height) - width){
+            this->textures[i] = std::unique_ptr<SdlTexture>(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+            this->weaponTypes[i] = -1;
         }
     }
 }
@@ -410,32 +418,21 @@ void MenueManager::deleteTextureColumns(const int numberOfRows, const int rowNum
         this->weaponTypes.erase(this->weaponTypes.begin() + rowEnd);
         rowEnd--;
     }
-    this->textures[rowEnd] = std::unique_ptr<SdlTexture>
-        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
-    this->weaponTypes[rowEnd - 1] = -1;
 }
 
-void MenueManager::deleteTextureRows(const int newRows, const int numberOfRows){
+void MenueManager::deleteTextureRows(const int newRows){
     for (int i = 0; i < newRows; i++){
         for (int j = 0; j < this->mapSize[0]; j++){
             this->textures.pop_back();
             this->weaponTypes.pop_back();
         }
     }
-    //reemplazo la ultima fila por una fila de texturas tipo walls
-    int position = numberOfRows * this->mapSize[0] - 1;
-    for (int i = 0; i < this->mapSize[0]; i++){
-        this->textures[position - i] = std::unique_ptr<SdlTexture>
-        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
-
-        this->weaponTypes[position - i] = -1;
-    }
 }
 
 void MenueManager::insertTextureColumns(const int endOfRowPosition , const int newColumns){
     for (int i = 0; i < newColumns; i++){
         this->textures.insert(textures.begin() + endOfRowPosition, std::unique_ptr<SdlTexture>
-        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType)));
+        (new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0)));
 
         this->weaponTypes.insert(weaponTypes.begin() + endOfRowPosition, -1);
     }
@@ -443,7 +440,7 @@ void MenueManager::insertTextureColumns(const int endOfRowPosition , const int n
 
 void MenueManager::insertTextureRows(const int columnsNumber){
     for (int i = 0; i < columnsNumber; i++){
-        this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+        this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0));
         this->weaponTypes.push_back(-1);
     }
 }
