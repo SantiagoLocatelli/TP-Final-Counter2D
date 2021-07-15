@@ -125,9 +125,21 @@ void Player::toggleWeapon(){
     weapons[currentWeapon]->toggle();
 }
 
-WeaponType Player::getWeaponType() const{
-    return weapons[currentWeapon]->getType();
+std::array<WeaponType, 4> Player::getWeapons() const{
+    std::array<WeaponType, 4> arr;
+    for (int i = 0; i < 4; i++){
+        if (weapons[i] == nullptr)
+            arr[i] = NO_WEAPON;
+        else
+            arr[i] = weapons[i]->getType();
+    }
 }
+
+WeaponSlot Player::getWeaponSlot() const{
+    return currentWeapon;
+}
+
+
 
 bool Player::isDead() const{
     return dead;

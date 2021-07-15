@@ -13,6 +13,8 @@ class CompleteModelInfo{
         std::list<ProtDrop> drops;
         bool game_ended;
         ProtBomb bomb;
+        float timeRemaining;
+        RoundState roundState;
     
     public:
         CompleteModelInfo() = default;

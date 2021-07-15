@@ -25,6 +25,7 @@ class RoundManager{
         bool step(float delta);
         RoundState getRoundState();
         GameState gameEnded();
+        float getTime();
 };
 
 #endif

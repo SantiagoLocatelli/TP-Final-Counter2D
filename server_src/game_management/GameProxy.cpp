@@ -59,7 +59,8 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.pos.y = pos[1];
                 you.angle = p.getAngle();
                 you.health = p.getHealth();
-                you.weapon = p.getWeaponType();
+                you.weapons = std::move(p.getWeapons());
+                you.currentSlot = p.getWeaponSlot();
                 you.shot = p.shot;
                 you.team = p.getTeam();
                 you.ammo = p.getAmmo();
@@ -89,8 +90,9 @@ CompleteModelInfo GameProxy::getModelInfo(){
     }
 
     info.game_ended = ended();
-
     info.bomb = world->getBomb();
+    info.timeRemaining = roundManager->getTime();
+    info.roundState = roundManager->getRoundState();
 
     return info;
 }
