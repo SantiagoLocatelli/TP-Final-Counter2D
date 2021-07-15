@@ -18,7 +18,7 @@ TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tile
 
 void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
     std::stringstream path;
-    path << PATH;
+    path << "../../common_src/utils/"; //TODO: Mensaje para Santi, cambió este path
     path << "weaponsOnFloor.yaml";
 
     YAML::Node yaml_map = YAML::LoadFile(path.str());

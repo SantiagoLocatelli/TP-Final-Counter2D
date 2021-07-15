@@ -1,6 +1,8 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
 #include "../game_model/Rifle.h"
+#include "../game_model/Shotgun.h"
+#include "../game_model/Sniper.h"
 #include "../../common_src/Utils.h"
 #include "../game_model/Bomb.h"
 #include <utility>
@@ -33,7 +35,23 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     world->addSpawn(mapInfo.spawnSites[0], TERROR);
     world->addSpawn(mapInfo.spawnSites[1], COUNTER);
 
-    world->addDrop(new Rifle(world, world->config), 5.5f, 5.5f);
+    for (ProtDrop &d: parser.get_weapons()){
+        switch (d.type)
+        {
+        case  SNIPER:
+            world->addDrop(new Sniper(world, world->config), d.pos.x, d.pos.y);
+            break;
+        case  SHOTGUN:
+            world->addDrop(new Shotgun(world, world->config), d.pos.x, d.pos.y);
+            break;
+            case  RIFLE:
+            world->addDrop(new Rifle(world, world->config), d.pos.x, d.pos.y);
+            break;
+        
+        default:
+            break;
+        }
+    }
 
     world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x, mapInfo.spawnSites[0].y);
 }

@@ -84,3 +84,22 @@ std::vector<RectArea> WorldParser::get_spawn(){
 
     return v;
 }
+
+std::list<ProtDrop> WorldParser::get_weapons(){
+    uint16_t height, length;
+    get_size(length, height);
+    std::vector<int> weapons = mapYaml["weapons"].as<std::vector<int>>();
+    std::list<ProtDrop> drops;
+    for (size_t i = 0; i < weapons.size(); i++){
+        ProtDrop drop;
+        if (weapons[i] != -1){
+            drop.pos.x = i%length;
+            drop.pos.y = i/height;
+            drop.type = (WeaponType)weapons[i];
+            drops.push_back(drop);
+        }
+    }
+
+    return drops;
+}
+
