@@ -297,6 +297,9 @@ void GameViewer::renderBomb(Coordinate cam){
 void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text){
     Size cam = this->cam.getSize();
 
+    this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+    this->renderer.fillRect(box);
+
     this->buyMenuText.setText(text, WHITE);
     Size textSize = this->buyMenuText.getSize();
     Coordinate textPos = {box.x + unit.w/2 , box.y + unit.h/2 - textSize.h/2};
@@ -336,22 +339,15 @@ void GameViewer::renderBuyMenu(){
         this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
 
         SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/24, cam.w/2, cam.h/6};
-        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
-        this->renderer.fillRect(box);
-        
         char text[100];
         sprintf(text, "Press 8 to buy Awp:");
         renderWeaponOnMenu(SNIPER, box, {cam.w/12, cam.h/12}, text);
-
         box.y = box.y + cam.h/6 + cam.h/24;
-        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
-        this->renderer.fillRect(box);
+
         sprintf(text, "Press 9 to buy Shotgun:");
         renderWeaponOnMenu(SHOTGUN, box, {cam.w/12, cam.h/12}, text);
         
         box.y = box.y + cam.h/6 + cam.h/24;
-        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
-        this->renderer.fillRect(box);
         sprintf(text, "Press 0 to buy Rifle:");
         renderWeaponOnMenu(RIFLE, box, {cam.w/12, cam.h/12}, text);
     }
