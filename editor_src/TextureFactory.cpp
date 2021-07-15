@@ -4,12 +4,12 @@
 #include <stdio.h>
 
 void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures,
- std::vector<float>& mapSize, SdlRenderer& renderer){
+ std::vector<int>& mapSize, SdlRenderer& renderer){
     //Open the map
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
 
     YAML::Node size = yaml_map["mapSize"];
-    mapSize = size.as<std::vector<float>>();
+    mapSize = size.as<std::vector<int>>();
 
     //Initialize the objects
     YAML::Node textureNumbers = yaml_map["map"];

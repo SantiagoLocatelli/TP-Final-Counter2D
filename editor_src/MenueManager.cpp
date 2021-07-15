@@ -17,6 +17,7 @@ MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : 
     this->needsToSave = "";
     this->goToStart = false;
     this->isWeapon = false;
+    
 
     YAML::Node yaml_map = YAML::LoadFile(WEAPONS_PATH);
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
@@ -29,6 +30,7 @@ MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : 
 
     for (int i = 0; i < textureMap.size(); i++){
         if (textureMap[i].isBox == 1){
+            this->borderType = i;
             this->wallTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
         }else{
             this->floorTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
@@ -41,7 +43,11 @@ void MenueManager::createMap(const std::string mapID){
     this->currentType = 0;
     this->isWeapon = false;
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
-        this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0));
+        if ((i % mapSize[0]) == 0 || i <= mapSize[0] || ((i + 1) % mapSize[0]) == 0 || i > (mapSize[0] * mapSize[1]) - mapSize[0]){
+            this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));    
+        }else{
+            this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0));
+        }
     }
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
         this->weaponTypes.push_back(-1);
@@ -360,8 +366,8 @@ void MenueManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<
 //numeros pares con el 0 son los width numeros impares son los height
 void MenueManager::changeSizeOfSites(std::vector<float>& vector){
     changeMapSize(vector[0], vector[1]);
-    this->mapSize[0] = vector[0];
-    this->mapSize[1] = vector[1];
+    this->mapSize[0] = (int) vector[0];
+    this->mapSize[1] = (int) vector[1];
     this->bombSites["A"]->setWidthAndHeight((int) (vector[2] * TILE_SIZE), (int) (vector[3] * TILE_SIZE));
     this->bombSites["B"]->setWidthAndHeight((int) (vector[4] * TILE_SIZE), (int) (vector[5] * TILE_SIZE));
     this->spawnSites["T"]->setWidthAndHeight((int) (vector[6] * TILE_SIZE), (int) (vector[7] * TILE_SIZE));
@@ -375,44 +381,70 @@ void MenueManager::changeMapSize(const int& width, const int& height){
     int newRows = rows - this->mapSize[1];
     //Me fijo si sacaron filas
     if (newRows < 0){
-        for (int i = 0; i < (newRows * -1); i++){
-            for (int i = 0; i < (this->mapSize[0]); i++){
-                this->textures.pop_back();
-                this->weaponTypes.pop_back();
-            }
-        }
+        deleteTextureRows(newRows * -1, rows);
     }
     for (int i = 0; i < rows; i++){
         endOfRowPosition += this->mapSize[0];
         //si agregan filas
-        if ((unsigned int) endOfRowPosition > this->textures.size()){
-            for (int j = 0; j < width; j++){
-                this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[5].texturePath, 5));
-                this->weaponTypes.push_back(-1);
+        if ((unsigned int) endOfRowPosition > this->textures.size() && newRows > 0){
+            insertTextureRows(width);
+            if (newColumns < 0){
+                deleteTextureColumns(rows, i, newColumns * -1);
             }
             endOfRowPosition += newColumns;
-        //si agregar columnas
-        }else if (newColumns >= 0){
-            for (int j = 0; j < newColumns; j++){
-                this->textures.insert(textures.begin() + endOfRowPosition, std::unique_ptr<SdlTexture>
-                (new SdlTexture(this->renderer, this->textureMap[5].texturePath, 5)));
-
-                this->weaponTypes.insert(weaponTypes.begin() + endOfRowPosition, -1);
-
-                endOfRowPosition++;
-            }
+        //si agregan columnas
+        }else if (newColumns > 0){
+            insertTextureColumns(endOfRowPosition, newColumns);
+            endOfRowPosition++;
         //si sacan columnas
-        }else{
-            for (int j = 0; j < (newColumns * -1); j++){
-                auto it = this->textures.begin();
-                std::advance(it, ((this->mapSize[0] * (rows - i) ) - j) - 1);
-                this->textures.erase(it);
-
-                auto itWeapon = this->weaponTypes.begin();
-                std::advance(itWeapon, ((this->mapSize[0] * (rows - i) ) - j) - 1);
-                this->weaponTypes.erase(itWeapon);
-            }
+        }else if (newColumns < 0){
+            deleteTextureColumns(rows, i, newColumns * -1);
         }
+    }
+}
+
+void MenueManager::deleteTextureColumns(const int numberOfRows, const int rowNumber, const int newColumns){
+    int rowEnd = this->mapSize[0] * (numberOfRows - rowNumber) - 1;
+    for (int i = 0; i < newColumns; i++){
+        this->textures.erase(this->textures.begin() + rowEnd);
+        this->weaponTypes.erase(this->weaponTypes.begin() + rowEnd);
+        rowEnd--;
+    }
+    this->textures[rowEnd] = std::unique_ptr<SdlTexture>
+        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+    this->weaponTypes[rowEnd - 1] = -1;
+}
+
+void MenueManager::deleteTextureRows(const int newRows, const int numberOfRows){
+    for (int i = 0; i < newRows; i++){
+        for (int j = 0; j < this->mapSize[0]; j++){
+            this->textures.pop_back();
+            this->weaponTypes.pop_back();
+        }
+    }
+    //reemplazo la ultima fila por una fila de texturas tipo walls
+    int position = numberOfRows * this->mapSize[0] - 1;
+    for (int i = 0; i < this->mapSize[0]; i++){
+        this->textures[position - i] = std::unique_ptr<SdlTexture>
+        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+
+        this->weaponTypes[position - i] = -1;
+    }
+}
+
+void MenueManager::insertTextureColumns(const int endOfRowPosition , const int newColumns){
+    for (int i = 0; i < newColumns; i++){
+        this->textures.insert(textures.begin() + endOfRowPosition, std::unique_ptr<SdlTexture>
+        (new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType)));
+
+        this->weaponTypes.insert(weaponTypes.begin() + endOfRowPosition, -1);
+    }
+}
+
+void MenueManager::insertTextureRows(const int columnsNumber){
+    for (int i = 0; i < columnsNumber; i++){
+        this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+        this->weaponTypes.push_back(-1);
     }
 }
 
@@ -429,12 +461,18 @@ void MenueManager::changeTexture(const SDL_Rect& camera){
     int textureX = 0, textureY = 0;
 
 	for (unsigned int i = 0; i < this->textures.size(); i++){
-        //If the mouse is inside the tile
+        //if the mouse is inside the tile
         if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
             if (isWeapon){
                 if (!this->textureMap[textures[i]->getType()].isBox){
                     weaponTypes[i] = currentType;
                 }
+            }else if ((i % mapSize[0]) == 0 || (int) i <= mapSize[0] || ((i + 1) % mapSize[0]) == 0 || (int) i > (mapSize[0] * mapSize[1]) - mapSize[0]){
+                //only change the border if is a wall
+                if (this->textureMap[currentType].isBox){
+                    textures[i] = std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[currentType].texturePath, currentType));
+                }
+
             }else{
                 textures[i] = std::unique_ptr<SdlTexture>(new SdlTexture(renderer,textureMap[currentType].texturePath, currentType));
                 weaponTypes[i] = -1;
@@ -457,7 +495,7 @@ void MenueManager::changeTexture(const SDL_Rect& camera){
 }
 
 void MenueManager::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {{0,0,(int) (mapSize[0] * TILE_SIZE), (int)(mapSize[1] * TILE_SIZE)}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
+    vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
     changeToMeters(vector);
 }
 
