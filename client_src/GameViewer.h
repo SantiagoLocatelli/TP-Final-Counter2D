@@ -38,8 +38,8 @@ private:
     TextTexture buyMenuText;
     ParticleBullets bullet;
     
-
     void renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity);
+    void renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text);
     void renderMainPlayer(Coordinate cam);
     void renderBombSites(Coordinate cam);
     void renderExplosion(Coordinate cam);

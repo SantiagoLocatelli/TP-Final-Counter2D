@@ -294,6 +294,36 @@ void GameViewer::renderBomb(Coordinate cam){
 }
 
 
+void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text){
+    Size cam = this->cam.getSize();
+
+    this->buyMenuText.setText(text, WHITE);
+    Size textSize = this->buyMenuText.getSize();
+    Coordinate textPos = {box.x + unit.w/2 , box.y + unit.h/2 - textSize.h/2};
+    this->buyMenuText.render(textPos);
+
+    SdlTexture* weaponOnHud = this->textureManager.getWeaponOnHud(weapon);
+    Coordinate weaponPos = {box.x + unit.w , box.y + unit.h - textSize.h/2};
+    Size weaponSize = unit;
+    weaponOnHud->render(weaponPos.x, weaponPos.y, weaponSize.w, weaponSize.h);
+
+    this->renderer.setDrawColor(WHITE.r, WHITE.g, WHITE.b, 0xff);
+    this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
+
+    SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
+    int heightTexture = weaponOnPj->getHeight();
+    int widthTexure = weaponOnPj->getWidth();
+    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + widthTexure/2, 10, 30, NULL, 90.0);
+
+
+    SdlTexture* skin = this->textureManager.getSkin(CT1);
+    if (this->level.mainPlayer.team == TERROR) {
+        skin = this->textureManager.getSkin(TT1);
+    }
+    SDL_Rect clip = {0, 64, 32, 32};
+    skin->render(cam.w/2 + unit.w, weaponPos.y, weaponSize.w, weaponSize.h, &clip, 90.0);
+}
+
 void GameViewer::renderBuyMenu(){
     Size cam = this->cam.getSize();
     if (buyMenuOpen) {
@@ -306,36 +336,25 @@ void GameViewer::renderBuyMenu(){
         this->renderer.fillRect(menu);
         this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
 
-        SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/12, cam.w/2, cam.h/6};
+        SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/24, cam.w/2, cam.h/6};
         this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
         this->renderer.fillRect(box);
         
         char text[100];
         sprintf(text, "Press 8 to buy Awp:");
-        this->buyMenuText.setText(text, WHITE);
-        Size textSize = this->buyMenuText.getSize();
-        Coordinate textPos = {box.x + cam.w/24 , box.y + cam.h/24 - textSize.h/2};
-        this->buyMenuText.render(textPos);
+        renderWeaponOnMenu(SNIPER, box, {cam.w/12, cam.h/12}, text);
 
-        SdlTexture& awp = *this->textureManager.getWeaponOnHud(SNIPER);
-        Coordinate awpPos = {box.x + cam.w/12 , box.y + cam.h/12 - textSize.h/2};
-        Size awpSize = {cam.w/12, cam.h/12};
-        awp.render(awpPos.x, awpPos.y, awpSize.w, awpSize.h);
-
-        this->renderer.setDrawColor(WHITE.r, WHITE.g, WHITE.b, 0xff);
-        this->renderer.drawLine(cam.w/2, awpPos.y, cam.w/2, awpPos.y + cam.h/12);
-
-        SdlTexture* weapon = this->textureManager.getWeaponOnPj(SNIPER);
-        int widthTexture = weapon->getHeight();
-        weapon->render(cam.w/2 + cam.w/12 + awpSize.w/2, awpPos.y + widthTexture/2, 10, 30, NULL, 90.0);
-
-        SdlTexture* skin = this->textureManager.getSkin(CT1);
-        if (this->level.mainPlayer.team == TERROR) {
-            skin = this->textureManager.getSkin(TT1);
-        }
-        SDL_Rect clip = {0, 64, 32, 32};
-        skin->render(cam.w/2 + cam.w/12, awpPos.y, awpSize.w, awpSize.h, &clip, 90.0);
-
+        box.y = box.y + cam.h/6 + cam.h/24;
+        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+        this->renderer.fillRect(box);
+        sprintf(text, "Press 9 to buy Shotgun:");
+        renderWeaponOnMenu(SHOTGUN, box, {cam.w/12, cam.h/12}, text);
+        
+        box.y = box.y + cam.h/6 + cam.h/24;
+        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+        this->renderer.fillRect(box);
+        sprintf(text, "Press 0 to buy Rifle:");
+        renderWeaponOnMenu(RIFLE, box, {cam.w/12, cam.h/12}, text);
     }
 }
 
