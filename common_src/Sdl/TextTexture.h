@@ -14,8 +14,7 @@ private:
     SdlRenderer& renderer;
     TTF_Font* font;
     SDL_Texture* mTexture;
-    int width;
-    int height;
+    Size size;
 
 public:
 
@@ -24,6 +23,8 @@ public:
 
     void setText(std::string text, struct Color color);
     void render(Coordinate dst);
+    Size getSize();
+     
 };
 
 #endif

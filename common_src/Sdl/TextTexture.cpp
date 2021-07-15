@@ -1,7 +1,7 @@
 #include "TextTexture.h"
 
 TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
-    renderer(renderer), width(0), height(0){
+    renderer(renderer){
 
     if( TTF_Init() == -1 ){
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -12,6 +12,7 @@ TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
 		printf( "Failed to load the font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
     this->mTexture = NULL;
+    this->size = {0, 0};
 }
 
 void TextTexture::setText(std::string text, struct Color color){
@@ -27,8 +28,8 @@ void TextTexture::setText(std::string text, struct Color color){
             printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
         }else{
 
-            width = textSurface->w;
-            height = textSurface->h;
+            size.w = textSurface->w;
+            size.h = textSurface->h;
             SDL_FreeSurface(textSurface);
         }
     }
@@ -36,9 +37,11 @@ void TextTexture::setText(std::string text, struct Color color){
 
 void TextTexture::render(Coordinate dst) {
 
-    SDL_Rect renderQuad = {dst.x - width, dst.y - height, width, height};
+    SDL_Rect renderQuad = {dst.x, dst.y, size.w, size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
+
+Size TextTexture::getSize(){return this->size;}
 
 TextTexture::~TextTexture(){
     if(this->mTexture != NULL){
