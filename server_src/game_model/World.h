@@ -33,6 +33,7 @@ class World{
         std::vector<RectArea> spawnSites;
 
         bool positionInArea(float x, float y, RectArea area);
+        b2Vec2 getValidPosition(RectArea area);
 
     public:
         b2World b2world;
@@ -40,7 +41,7 @@ class World{
 
         World(int grid_length, int grid_height, GameConfig &config);
         void addBox(int grid_x, int grid_y);
-        void createPlayer(RectArea spawn, Team team);
+        void createPlayer(Team team);
         void step(float delta);
 
         void deleteBody(b2Body *body);
@@ -67,7 +68,7 @@ class World{
         bool canDefuse(float x, float y);
         void plantBomb(float x, float y);
 
-
+        void resetWorld(bool changeTeams);
 
         ProtBomb getBomb();
 
