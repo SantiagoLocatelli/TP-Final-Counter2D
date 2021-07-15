@@ -44,8 +44,9 @@ private:
     void renderShots(Coordinate cam);
     void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
+    void renderDamage();
     void renderHud();
-    
+
     void updateHud(LevelInfo level);
     
     void loadPlayers(Size);

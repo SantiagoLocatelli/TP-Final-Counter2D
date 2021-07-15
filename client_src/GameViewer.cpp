@@ -8,6 +8,8 @@
 #define SIZE_CROSSHAIR 25
 #define MARGIN 15
 
+#define OPACITY_DAMAGE 100
+#define SIZE_DAMAGE 25
 
 #define SIZE_EXPLOSION 200
 
@@ -156,6 +158,25 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 }
 
 
+void GameViewer::renderDamage(){
+    Size cam = {this->cam.getWidth(), this->cam.getHeight()};
+    SDL_Rect left = {0, 0, SIZE_DAMAGE, cam.h};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(left);
+
+    SDL_Rect right = {cam.w - SIZE_DAMAGE, 0, SIZE_DAMAGE, cam.h};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(right);
+
+    SDL_Rect top = {SIZE_DAMAGE, 0, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(top);
+
+    SDL_Rect bottom = {SIZE_DAMAGE, cam.h-SIZE_DAMAGE, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(bottom);
+}
+
 void GameViewer::renderHud(){
 
     Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
@@ -182,6 +203,9 @@ void GameViewer::renderHud(){
         this->textTexture.render(pos);
     }
 
+    if (this->level.mainPlayer.damaged) {
+        renderDamage();
+    }
 
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
@@ -218,8 +242,6 @@ void GameViewer::renderBombSites(Coordinate cam){
 
 
 void GameViewer::renderExplosion(Coordinate cam) {
-    // this->textureManager.getWeaponAnim()
-    //SdlTexture(SdlRenderer& renderer, std::string path);
     SdlTexture* explosion = this->textureManager.getExplosionAnim();
 
     Coordinate pos = this->level.bomb.pos;
@@ -256,7 +278,6 @@ void GameViewer::renderBomb(Coordinate cam){
         }
 
         if (this->level.bomb.time < 0.1) {
-            // agregar animacion de explosion
             this->renderExplosion(cam);
             this->sounds.playWeaponSound(BOMD_EXPLODE);
         }
