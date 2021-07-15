@@ -43,7 +43,7 @@ GameState RoundManager::roundEnded(){
         }
     }
 
-    if (t_alive == 0){
+    if (t_alive == 0 && !world.bombPlanted()){
         return CT_WON;
     } else if (ct_alive == 0){
         return T_WON;

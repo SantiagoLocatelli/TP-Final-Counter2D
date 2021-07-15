@@ -206,3 +206,7 @@ b2Vec2 World::getValidPosition(RectArea area){
     }
     return pos;
 }
+
+bool World::bombPlanted(){
+    return bomb.planted;
+}

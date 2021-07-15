@@ -62,6 +62,7 @@ class World{
         bool bombExploded();
         void defuseBomb();
         bool bombDefused();
+        bool bombPlanted();
 
         //TODO: Hacer estas tres como canBuy (le pasas el player)
         bool canPlant(float x, float y);
