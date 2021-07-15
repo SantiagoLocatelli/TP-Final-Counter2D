@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
-    // SDL_Surface *surf; 
 	this->mTexture = this->renderer.createTexture(w,h);
 }
 
@@ -99,7 +98,7 @@ int SdlTexture::changeTextTexture(std::string text, std::string path, int size, 
 				mWidth = textSurface->w;
 				mHeight = textSurface->h;
 				SDL_FreeSurface(textSurface);
-			
+				TTF_CloseFont(font);
 				return 0;
 			}
 			//Get rid of old surface
@@ -139,6 +138,10 @@ void SdlTexture::render(int x, int y, int width, int height, double degrees)cons
 
 void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
 	render(x,y,this->mWidth, this->mHeight, clip, degrees);
+}
+
+void SdlTexture::renderFlip(int x, int y, SDL_RendererFlip flip)const{
+	render(x, y, this->mWidth, this->mHeight, NULL, 0.0, NULL,flip);
 }
 
 void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, double angle,
@@ -223,7 +226,6 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 		this->renderer = other.renderer;
 		this->mTexture = other.mTexture;
 		this->mHeight = other.mHeight;
-		//this->path = other.path;
 	}
 	return *this;
 }

@@ -21,6 +21,7 @@ private:
     SdlRenderer renderer;
     SoundEffects sounds;
     TextureManager textureManager;
+    int delaySound = 0;
 
     Camera cam;
 
@@ -28,22 +29,24 @@ private:
 
     std::map<WeaponType, Weapon*> weapons;
     std::map<int, TextTexture*> hud;
-    ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
     TextTexture textTexture;
-
+    ParticleBullets bullet;
+    
 
     void createWeapon(PlayerInfo player, ProtPlayer prot);
     void renderMainPlayer(Coordinate cam);
     void renderBombSites(Coordinate cam);
+    void renderExplosion(Coordinate cam);
     void renderPlayers(Coordinate cam);
     void renderWeapons(Coordinate cam);
     void renderShots(Coordinate cam);
     void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
+    void renderDamage();
     void renderHud();
-    
+
     void updateHud(LevelInfo level);
     
     void loadPlayers(Size);

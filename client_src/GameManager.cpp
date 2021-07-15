@@ -50,9 +50,7 @@ void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
 
     weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.x;
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.y;
-
 }
-
 
 
 void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
@@ -70,12 +68,11 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 }
 
 
-void updateBomb(BombInfo bomb, ProtBomb prot) {
+void updateBomb(BombInfo& bomb, ProtBomb prot) {
     if (prot.planted) {
         translatePosition(bomb.pos, {prot.x, prot.y});
         bomb.time = prot.timeRemaining;
         bomb.defused = prot.defused; 
-        printf("dentro del if de updateBomb\n");
     }
     bomb.planted = prot.planted;
 }
@@ -90,17 +87,23 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
     // que se encuentre que este vivo.
     level.mainPlayer.dead = model.you.dead;
     if (!level.mainPlayer.dead) {
-        level.mainPlayer.health = model.you.health;
         level.mainPlayer.ammo = model.you.ammo;
+
+        if (level.mainPlayer.health > model.you.health) {
+            level.mainPlayer.damaged = true;
+        } else {
+            level.mainPlayer.damaged = false;
+        }
+        level.mainPlayer.health = model.you.health;
         updatePlayer(level.mainPlayer, model.you);
 
     } else {
         auto it = model.players.begin();
         auto end = model.players.end();
-        while (it != end && it->dead) {
+        while (it != end && it->dead && level.mainPlayer.team != it->team) {
             it++;
         }
-        if (it != end) translatePosition(level.mainPlayer.pos, it->pos);
+        if (it != end) updatePlayer(level.mainPlayer, *it);
     }
 
     auto player = this->level.players.begin();
@@ -168,6 +171,11 @@ LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& mode
         updatePlayer(player, *it);
         level.players.push_back(player);
     }
+
+    level.mainPlayer.damaged = false;
+    level.mainPlayer.health = model.you.health;
+    level.mainPlayer.ammo = model.you.ammo;
+    updatePlayer(level.mainPlayer, model.you);
 
     return updatedLevel(model);
 }

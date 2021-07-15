@@ -8,10 +8,19 @@
 #define SIZE_CROSSHAIR 25
 #define MARGIN 15
 
+#define OPACITY_DAMAGE 100
+#define SIZE_DAMAGE 25
+
+#define SIZE_EXPLOSION 200
+
 #define HUD_AMMO 0
 #define HUD_HEALTH 1
 #define HUD_TIME 2
 #define SITE 3
+
+#define DELAY_SOUND_BOMB 20
+#define DELAY_SOUND_BOMB_QUICK 5
+#define ABOUT_TO_EXPLODE 5.0
 
 const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
@@ -30,8 +39,8 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     textureManager(renderer, level.tiles),
     cam(windowSize),
     level(level),
-    bullet(renderer),
-    textTexture(renderer, PATH_FONT, 30){
+    textTexture(renderer, PATH_FONT, 30),
+    bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
     loadHudTextures();
@@ -97,7 +106,7 @@ void GameViewer::loadHudTextures(){
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
-    sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
+    sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
@@ -127,8 +136,10 @@ void GameViewer::renderShots(Coordinate cam){
 }
 
 void GameViewer::renderWeapons(Coordinate cam){
+    
     for(DropInfo wp : level.drops){
-        this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x, wp.pos.y - cam.y, wp.size.w, wp.size.h);
+        
+        this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x - wp.size.w/2, wp.pos.y - cam.y - wp.size.h/2, wp.size.w, wp.size.h);
     }
 }
 
@@ -147,22 +158,58 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 }
 
 
-void GameViewer::renderHud(){
+void GameViewer::renderDamage(){
+    Size cam = {this->cam.getWidth(), this->cam.getHeight()};
+    SDL_Rect left = {0, 0, SIZE_DAMAGE, cam.h};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(left);
 
+    SDL_Rect right = {cam.w - SIZE_DAMAGE, 0, SIZE_DAMAGE, cam.h};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(right);
+
+    SDL_Rect top = {SIZE_DAMAGE, 0, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(top);
+
+    SDL_Rect bottom = {SIZE_DAMAGE, cam.h-SIZE_DAMAGE, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
+    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    this->renderer.fillRect(bottom);
+}
+
+void GameViewer::renderHud(){
+ 
     Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
     this->hud[HUD_AMMO]->render(dstAmmo);
 
-    Coordinate dstHealth = {100, this->cam.getHeight() - MARGIN};
+    Coordinate dstHealth = {150, this->cam.getHeight() - MARGIN};
     this->hud[HUD_HEALTH]->render(dstHealth);
 
     Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
     WeaponType type = this->level.mainPlayer.weapon.type;
     Size size = {40, 40};
 
+    if (this->level.bomb.planted) {
+
+        char timeBomb[100];
+        sprintf(timeBomb, "Bomb: %d", (int)this->level.bomb.time);
+        // seteo el color segun el tiempo restante
+        if (this->level.bomb.time > ABOUT_TO_EXPLODE) {
+            this->textTexture.setText(timeBomb, HUD_COLOR);
+        } else {
+            this->textTexture.setText(timeBomb, ROJO_CLARO);
+        }
+        Coordinate pos = {(this->cam.getWidth()/2) + MARGIN, MARGIN*2};
+        this->textTexture.render(pos);
+    }
 
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
         weapon.render(dstWeapon.x - size.w - MARGIN, dstWeapon.y - size.h, size.w, size.h);
+    }
+
+    if (this->level.mainPlayer.damaged) {
+        renderDamage();
     }
 }
 
@@ -193,13 +240,47 @@ void GameViewer::renderBombSites(Coordinate cam){
 
 }
 
+
+void GameViewer::renderExplosion(Coordinate cam) {
+    SdlTexture* explosion = this->textureManager.getExplosionAnim();
+
+    Coordinate pos = this->level.bomb.pos;
+    pos.x = pos.x - cam.x - SIZE_EXPLOSION/2;  
+    pos.y = pos.y - cam.y - SIZE_EXPLOSION/2;  
+    SDL_Rect clip;
+    clip.w = explosion->getWidth()/5;
+    clip.h = explosion->getHeight()/5;
+    
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            clip.x = j*clip.w; 
+            clip.y = i*clip.h;
+            explosion->render(pos.x, pos.y, SIZE_EXPLOSION, SIZE_EXPLOSION, &clip);
+        }
+    }
+}
+
 void GameViewer::renderBomb(Coordinate cam){
-    // printf("entro a renderizar la bomba\n");
 
     if (this->level.bomb.planted) {
-        // printf("planted esta en true\n");
         Coordinate pos = {this->level.bomb.pos.x - cam.x, this->level.bomb.pos.y - cam.y};
-        this->textureManager.getWeaponOnFloor(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+        this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
+        
+        this->delaySound++;
+
+        // seteo el delay segun el tiempo restante
+        if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
+            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->delaySound = 0;
+        } else if (this->delaySound >= DELAY_SOUND_BOMB_QUICK && this->level.bomb.time < ABOUT_TO_EXPLODE){
+            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->delaySound = 0;
+        }
+
+        if (this->level.bomb.time < 0.1) {
+            this->renderExplosion(cam);
+            this->sounds.playWeaponSound(BOMD_EXPLODE);
+        }
     }
 }
 
@@ -226,7 +307,7 @@ void GameViewer::render(){
 void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         char healtText[100];
-        sprintf(healtText, "Health %d", (int)this->level.mainPlayer.health);
+        sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
     } 
 
@@ -256,14 +337,10 @@ void GameViewer::update(LevelInfo level){
 
     auto it = this->players.begin();
     for (PlayerInfo player : this->level.players) {
-        if (!player.dead) {
-            WeaponType type = player.weapon.type;
-            it->update(player, this->weapons[type]);
-        }
+        WeaponType type = player.weapon.type;
+        it->update(player, this->weapons[type]);
         it++;
     }
-
-
 
     this->cam.centerCamera(level.mainPlayer.pos);
     this->cam.keepInBounds(level.size.w, level.size.h);

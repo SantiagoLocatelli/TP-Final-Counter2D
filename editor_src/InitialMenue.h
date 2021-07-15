@@ -9,15 +9,13 @@
 #include "presenter.h"
 class InitialMenue : public Presenter{
     private:
-        SdlTexture background;
-        SdlTexture crearMapTexture;
-        SdlTexture editarMapTexture;
+        SdlTexture background, crearMapTexture, editarMapTexture, arrow, back, introduceText, mapName;
         std::unique_ptr<SdlMixer> chunk;
         std::vector<SdlTexture> editableMaps;
-        bool editMap;
-        bool createMap;
+        bool editMap, createMap, renderText, changeScene;
         std::vector<std::string> mapsID;
-        int mapPosition;
+        int mapPosition, page;
+        std::string createMapID;
     public:
         InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH);
         void render() override;

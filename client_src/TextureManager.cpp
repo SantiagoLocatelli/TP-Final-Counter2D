@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define PATH "../../client_src/yaml/"
-
+#define PATH_EXPLOSION "../../common_src/img/weapons/explosion.png"
 
 
 const struct Color NEGRO = {0xFF, 0xFF, 0xFF};
@@ -14,6 +14,7 @@ TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tile
     loadTexturesWeapons(renderer);
     loadTiles(renderer, tiles);
     loadSkins(renderer);
+    this->explosion = new SdlTexture(renderer, PATH_EXPLOSION);
 }
 
 void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
@@ -123,6 +124,8 @@ void TextureManager::loadTiles(SdlRenderer& renderer, std::vector<TileInfo> tile
 
 
 TextureManager::~TextureManager(){
+    delete this->explosion;
+
     if (!this->weaponsOnFloor.empty()) {
         for(auto it = this->weaponsOnFloor.begin(); it != this->weaponsOnFloor.end(); it++) {
             SdlTexture* aux = it->second;
@@ -173,6 +176,8 @@ TextureManager::~TextureManager(){
 
 }
 
+
+SdlTexture* TextureManager::getExplosionAnim(){return this->explosion;}
 SdlTexture* TextureManager::getWeaponOnHud(WeaponType weapon){
     if (weapon == KNIFE) printf("No tiene el cuchillo WeaponOnHud\n");
     return (this->weaponsOnHud[weapon]);
