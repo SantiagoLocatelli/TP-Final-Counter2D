@@ -4,12 +4,16 @@
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
-#define PATH_FONT "../../common_src/img/digital-7.ttf"
+#define PATH_FONT_DIGITAL "../../common_src/img/digital-7.ttf"
+#define PATH_FONT_AERIAL "../../common_src/img/aerial.ttf"
 #define SIZE_CROSSHAIR 25
-#define MARGIN 15
+#define MARGIN 10
 
 #define OPACITY_DAMAGE 100
 #define SIZE_DAMAGE 25
+
+#define OPACITY_MENU 150
+#define SIZE_BORDER_MENU 5
 
 #define SIZE_EXPLOSION 200
 
@@ -26,6 +30,8 @@ const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
+const struct Color NEGRO = {0x00, 0x00, 0x00};
+const struct Color WHITE = {0xff, 0xff, 0xff};
 
 const struct Size SIZE_SMALL_GUN = {22, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
@@ -39,7 +45,8 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     textureManager(renderer, level.tiles),
     cam(windowSize),
     level(level),
-    textTexture(renderer, PATH_FONT, 30),
+    hudText(renderer, PATH_FONT_DIGITAL, 30),
+    buyMenuText(renderer, PATH_FONT_AERIAL, 10),
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
@@ -102,12 +109,12 @@ GameViewer::~GameViewer(){
 void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    this->hud[HUD_AMMO] = new TextTexture(this->renderer, PATH_FONT, 30);
+    this->hud[HUD_AMMO] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
-    this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT, 30);
+    this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
 }
@@ -157,37 +164,36 @@ void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
 }
 
-
-void GameViewer::renderDamage(){
-    Size cam = {this->cam.getWidth(), this->cam.getHeight()};
-    SDL_Rect left = {0, 0, SIZE_DAMAGE, cam.h};
-    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity){
+    SDL_Rect left = {pos.x, pos.y, borderWidth, sizeRect.h};
+    this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(left);
 
-    SDL_Rect right = {cam.w - SIZE_DAMAGE, 0, SIZE_DAMAGE, cam.h};
-    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    SDL_Rect right = {sizeRect.w - borderWidth + pos.x, pos.y, borderWidth, sizeRect.h};
+    this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(right);
 
-    SDL_Rect top = {SIZE_DAMAGE, 0, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
-    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    SDL_Rect top = {borderWidth + pos.x, pos.y, sizeRect.w - borderWidth*2, borderWidth};
+    this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(top);
 
-    SDL_Rect bottom = {SIZE_DAMAGE, cam.h-SIZE_DAMAGE, cam.w - SIZE_DAMAGE*2, SIZE_DAMAGE};
-    this->renderer.setDrawColor(ROJO.r, ROJO.g, ROJO.b, OPACITY_DAMAGE);
+    SDL_Rect bottom = {borderWidth + pos.y, sizeRect.h-borderWidth + pos.y, sizeRect.w - borderWidth*2, borderWidth};
+    this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(bottom);
 }
 
 void GameViewer::renderHud(){
- 
-    Coordinate dstAmmo = {this->cam.getWidth() - MARGIN, this->cam.getHeight() - MARGIN};
+    Size cam = this->cam.getSize();
+
+    Size sizeAmmo =  this->hud[HUD_AMMO]->getSize();
+    Coordinate dstAmmo = { cam.w - MARGIN - sizeAmmo.w, cam.h - MARGIN - sizeAmmo.h};
     this->hud[HUD_AMMO]->render(dstAmmo);
 
-    Coordinate dstHealth = {150, this->cam.getHeight() - MARGIN};
+    Size sizeHealth = this->hud[HUD_HEALTH]->getSize();
+    Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
     this->hud[HUD_HEALTH]->render(dstHealth);
 
-    Coordinate dstWeapon = {this->cam.getWidth(), this->cam.getHeight()-100};
-    WeaponType type = this->level.mainPlayer.weapon.type;
-    Size size = {40, 40};
+
 
     if (this->level.bomb.planted) {
 
@@ -195,24 +201,28 @@ void GameViewer::renderHud(){
         sprintf(timeBomb, "Bomb: %d", (int)this->level.bomb.time);
         // seteo el color segun el tiempo restante
         if (this->level.bomb.time > ABOUT_TO_EXPLODE) {
-            this->textTexture.setText(timeBomb, HUD_COLOR);
+            this->hudText.setText(timeBomb, HUD_COLOR);
         } else {
-            this->textTexture.setText(timeBomb, ROJO_CLARO);
+            this->hudText.setText(timeBomb, ROJO_CLARO);
         }
-        Coordinate pos = {(this->cam.getWidth()/2) + MARGIN, MARGIN*2};
-        this->textTexture.render(pos);
+        Size sizeTime = this->hudText.getSize();
+        Coordinate pos = {cam.w/2 - sizeTime.w/2, MARGIN};
+        this->hudText.render(pos);
     }
+
+    Size sizeWeapon = {40, 40};
+    Coordinate dstWeapon = {cam.w, cam.h-100};
+    WeaponType type = this->level.mainPlayer.weapon.type;
 
     if (type != KNIFE) {
         SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
-        weapon.render(dstWeapon.x - size.w - MARGIN, dstWeapon.y - size.h, size.w, size.h);
+        weapon.render(dstWeapon.x - sizeWeapon.w - MARGIN, dstWeapon.y - sizeWeapon.h, sizeWeapon.w, sizeWeapon.h);
     }
 
     if (this->level.mainPlayer.damaged) {
-        renderDamage();
+        renderBorder({0,0}, cam, SIZE_DAMAGE, ROJO, OPACITY_DAMAGE);
     }
 }
-
 
 void GameViewer::renderBombSites(Coordinate cam){
 
@@ -223,8 +233,8 @@ void GameViewer::renderBombSites(Coordinate cam){
     this->renderer.fillRect(dst);
 
     Coordinate pos = {dst.x + dst.w/2, dst.y + dst.h/2};
-    this->textTexture.setText("A", ROJO_CLARO);
-    this->textTexture.render(pos);
+    this->hudText.setText("A", ROJO_CLARO);
+    this->hudText.render(pos);
 
     siteA++;
     if (siteA != this->level.bombSites.end()) {
@@ -234,12 +244,11 @@ void GameViewer::renderBombSites(Coordinate cam){
         this->renderer.fillRect(dst);
 
         pos = {dst.x + dst.w/2, dst.y + dst.h/2};
-        this->textTexture.setText("B", ROJO_CLARO);
-        this->textTexture.render(pos);
+        this->hudText.setText("B", ROJO_CLARO);
+        this->hudText.render(pos);
     }
 
 }
-
 
 void GameViewer::renderExplosion(Coordinate cam) {
     SdlTexture* explosion = this->textureManager.getExplosionAnim();
@@ -284,8 +293,72 @@ void GameViewer::renderBomb(Coordinate cam){
     }
 }
 
-void GameViewer::render(){
 
+void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text){
+    Size cam = this->cam.getSize();
+
+    this->buyMenuText.setText(text, WHITE);
+    Size textSize = this->buyMenuText.getSize();
+    Coordinate textPos = {box.x + unit.w/2 , box.y + unit.h/2 - textSize.h/2};
+    this->buyMenuText.render(textPos);
+
+    SdlTexture* weaponOnHud = this->textureManager.getWeaponOnHud(weapon);
+    Coordinate weaponPos = {box.x + unit.w , box.y + unit.h - textSize.h/2};
+    Size weaponSize = unit;
+    weaponOnHud->render(weaponPos.x, weaponPos.y, weaponSize.w, weaponSize.h);
+
+    this->renderer.setDrawColor(WHITE.r, WHITE.g, WHITE.b, 0xff);
+    this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
+
+    SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
+    int widthTexure = weaponOnPj->getWidth();
+    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + widthTexure/2, 10, 30, NULL, 90.0);
+
+
+    SdlTexture* skin = this->textureManager.getSkin(CT1);
+    if (this->level.mainPlayer.team == TERROR) {
+        skin = this->textureManager.getSkin(TT1);
+    }
+    SDL_Rect clip = {0, 64, 32, 32};
+    skin->render(cam.w/2 + unit.w, weaponPos.y, weaponSize.w, weaponSize.h, &clip, 90.0);
+}
+
+void GameViewer::renderBuyMenu(){
+    Size cam = this->cam.getSize();
+    if (buyMenuOpen) {
+
+        // rectangulo principal con su borde
+        SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
+        Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
+        Coordinate pos = {menu.x, menu.y};
+        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.fillRect(menu);
+        this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
+
+        SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/24, cam.w/2, cam.h/6};
+        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+        this->renderer.fillRect(box);
+        
+        char text[100];
+        sprintf(text, "Press 8 to buy Awp:");
+        renderWeaponOnMenu(SNIPER, box, {cam.w/12, cam.h/12}, text);
+
+        box.y = box.y + cam.h/6 + cam.h/24;
+        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+        this->renderer.fillRect(box);
+        sprintf(text, "Press 9 to buy Shotgun:");
+        renderWeaponOnMenu(SHOTGUN, box, {cam.w/12, cam.h/12}, text);
+        
+        box.y = box.y + cam.h/6 + cam.h/24;
+        this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+        this->renderer.fillRect(box);
+        sprintf(text, "Press 0 to buy Rifle:");
+        renderWeaponOnMenu(RIFLE, box, {cam.w/12, cam.h/12}, text);
+    }
+}
+
+void GameViewer::render(){
+    std::unique_lock<std::mutex> lock(m);
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
@@ -298,6 +371,7 @@ void GameViewer::render(){
     renderPlayers(cam);
     renderWeapons(cam);
     renderMainPlayer(cam);
+    renderBuyMenu();
     renderHud();
 
     renderer.updateScreen();
@@ -321,6 +395,7 @@ void GameViewer::updateHud(LevelInfo level){
 
 
 void GameViewer::update(LevelInfo level){
+    std::unique_lock<std::mutex> lock(m);
     updateHud(level);
 
     WeaponType mainType = level.mainPlayer.weapon.type;
@@ -350,6 +425,15 @@ void GameViewer::update(LevelInfo level){
 void GameViewer::setCrossHair(Coordinate pos){this->mainPlayer->setCrossHair(pos);}
 
 Coordinate GameViewer::mainPlayerRelativePos(){
+    std::unique_lock<std::mutex> lock(m);
     return {this->mainPlayer->getPosX() - this->cam.getPosX(),
             this->mainPlayer->getPosY() - this->cam.getPosY()};
+}
+
+
+
+void GameViewer::toggleBuyMenu(){
+    std::unique_lock<std::mutex> lock(m);
+    if (buyMenuOpen) buyMenuOpen = false;
+    else buyMenuOpen = true;
 }

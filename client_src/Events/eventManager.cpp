@@ -58,8 +58,6 @@ void EventManager::run(){
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = BOMB_SLOT;
                                 break;
-
-                            //TODO: Estos son temporales.
                             case SDLK_8:
                                 event.type = BUY_WEAPON;
                                 event.info.type = SNIPER;
@@ -78,8 +76,10 @@ void EventManager::run(){
                                 event.type = DROP_WEAPON;
                                 break;
                         }
-
                         this->com.send_event(event);
+                    }
+                    if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == SDLK_b) && (e.key.repeat == 0)){
+                        this->game.toggleBuyMenu(); 
                     }
                     break; 
 

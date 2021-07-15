@@ -21,6 +21,7 @@ class Camera {
         int getWidth();
         int getPosX();
         int getPosY();
+        Size getSize();
         SDL_Rect getRect();
 };
 
