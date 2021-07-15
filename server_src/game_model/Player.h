@@ -31,6 +31,8 @@ class Player: public Hittable{
         float defuseTime;
         int money;
 
+        void setBody(float x, float y);
+
     public:
         //TODO: No me gusta que esto sea público
         bool canMove;
@@ -45,6 +47,7 @@ class Player: public Hittable{
         void setAngle(float angle);
         float getAngle() const;
         Team getTeam() const;
+        void reset(float x, float y, Team team);
 
         //Métodos de disparos/vida
         void toggleWeapon();

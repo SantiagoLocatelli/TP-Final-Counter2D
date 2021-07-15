@@ -14,6 +14,7 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     parser.get_size(mapInfo.length, mapInfo.height);
 
     world = new World(mapInfo.length, mapInfo.height, config);
+    roundManager = new RoundManager(*world, config);
 
     for (auto b: parser.get_boxes()){
         world->addBox(b[0], b[1]);
@@ -34,9 +35,12 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     world->addSpawn(mapInfo.spawnSites[1], COUNTER);
 
     world->addDrop(new Rifle(world, world->config), 5.5f, 5.5f);
-
-    world->addDrop(new Bomb(world, world->config), mapInfo.spawnSites[0].x + 1.0, mapInfo.spawnSites[0].y + 1.0);
 }
+
+void GameProxy::setUpGame(){
+    roundManager->resetRound();
+}
+
 
 MapInfo GameProxy::getMapInfo(){
     return mapInfo;
@@ -92,14 +96,16 @@ CompleteModelInfo GameProxy::getModelInfo(){
 }
 
 void GameProxy::step(float delta){
-    world->step(delta);
+    if (roundManager->step(delta)){
+        world->step(delta);
+    }
 }
 
 void GameProxy::createPlayer(Team team){
     if (team == TERROR){
-        world->createPlayer(mapInfo.spawnSites[0], team);
+        world->createPlayer(team);
     } else {
-        world->createPlayer(mapInfo.spawnSites[1], team);
+        world->createPlayer(team);
     }
 }
 
@@ -129,18 +135,7 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
-    if (world->getTime() > config.getGame().at("roundTime") || world->bombExploded() || world->bombDefused()){
-        return true;
-    }
-
-    int alive_players = 0;
-    for (const Player &p: world->getPlayers()){
-        if (!p.isDead()){
-            alive_players++;
-        }
-    }
-
-    return alive_players <= 1;
+    return roundManager->gameEnded();
 }
 
 GameProxy::~GameProxy(){

@@ -29,6 +29,7 @@ void GameThread::run(){
         cli->start();
     }
 
+    game.setUpGame();
     auto model = std::make_shared<CompleteModelInfo>(std::move(game.getModelInfo()));
     for (ModelQueue &queue : modelQueues){
         queue.push(model);

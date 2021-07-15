@@ -14,6 +14,7 @@ void GameList::createGame(GameInfo gameInfo){
 void GameList::joinGame(std::string name, Protocol protocol){
     //TODO: Chequear que no se pueda unirse a partidas que no existan
     //TODO: Joinear los GameThread que terminaron
+    //TODO: No permitir unirse a juegos que ya empezaron
     const std::lock_guard<std::mutex> lock(m);
     gameInfoList.at(name).players++;
     gameList.at(name)->addPlayer(std::move(protocol));

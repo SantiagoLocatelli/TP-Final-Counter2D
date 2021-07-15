@@ -11,23 +11,8 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false), money(config.getPlayer().at("startingMoney")){
-    b2BodyDef playerBodyDef;
-    playerBodyDef.type = b2_dynamicBody;
-    playerBodyDef.position.Set(start_x, start_y);
-    body = world.b2world.CreateBody(&playerBodyDef);
-    body->GetUserData().pointer = (uintptr_t)this;
-
-    b2CircleShape playerShape;
-    playerShape.m_radius = 0.5f;
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &playerShape;
-    fixtureDef.density = 1;
-    fixtureDef.friction = 0;
-
-    fixture = body->CreateFixture(&fixtureDef);
-
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), money(config.getPlayer().at("startingMoney")), canMove(true), shot(false){
+    setBody(start_x, start_y);
     weapons[KNIFE_SLOT] = new Knife(&world, config);
     weapons[KNIFE_SLOT]->changeOwner(this);
     weapons[SECONDARY] = new Pistol(&world, config);
@@ -275,3 +260,49 @@ void Player::buyWeapon(WeaponType weaponType){
         delete weapon;
     }
 }
+
+void Player::reset(float x, float y, Team team){
+    currentWeapon = KNIFE_SLOT;
+    health = config.getPlayer().at("health");
+    defusing = false;
+    defuseTime  = 0;
+    canMove = true; 
+    shot = false;
+
+    if (weapons[PRIMARY] != nullptr){
+        delete weapons[PRIMARY];
+        weapons[PRIMARY] = nullptr;
+    }
+    if (weapons[BOMB_SLOT] != nullptr){
+        delete weapons[BOMB_SLOT];
+        weapons[BOMB_SLOT] = nullptr;
+    }
+
+    if (dead){
+        setBody(x,y);
+        dead = false;
+    } else {
+        body->SetTransform(b2Vec2(x,y), 0);
+    }
+
+    this->team = team; 
+}
+
+void Player::setBody(float x, float y){
+    b2BodyDef playerBodyDef;
+    playerBodyDef.type = b2_dynamicBody;
+    playerBodyDef.position.Set(x, y);
+    body = world.b2world.CreateBody(&playerBodyDef);
+    body->GetUserData().pointer = (uintptr_t)this;
+
+    b2CircleShape playerShape;
+    playerShape.m_radius = 0.5f;
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &playerShape;
+    fixtureDef.density = 1;
+    fixtureDef.friction = 0;
+
+    fixture = body->CreateFixture(&fixtureDef);
+}
+
