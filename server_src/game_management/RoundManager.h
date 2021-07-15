@@ -3,8 +3,8 @@
 
 #include "../game_model/World.h"
 #include "../game_model/GameConfig.h"
+#include "../../common_src/Utils.h"
 
-enum RoundState{BUY, MIDDLE, END};
 enum GameState{PLAYING, T_WON, CT_WON, TIE};
 
 class RoundManager{

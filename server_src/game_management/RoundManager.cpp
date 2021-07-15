@@ -99,3 +99,7 @@ bool RoundManager::step(float delta){
 RoundState RoundManager::getRoundState(){
     return roundState;
 }
+
+float RoundManager::getTime(){
+    return this->timer;
+}
