@@ -88,7 +88,6 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
     // Si no esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
     level.mainPlayer.dead = model.you.dead;
-
     if (!level.mainPlayer.dead) {
         level.mainPlayer.ammo = model.you.ammo;
 
