@@ -22,16 +22,18 @@ private:
     
     SdlTexture background;
     Protocol& server;
+    std::map<int, std::unique_ptr<TextTexture>> buttons;
 
+    void loadButtons();
     void loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps);
-    void createGame(bool& joined_game);
-    void joinGame(bool& joined_game);
+    void createGame(bool& joined_game, bool& quit);
+    void joinGame(bool& joined_game, bool& quit);
 
     void renderCreateMenu(std::map<std::string, std::unique_ptr<TextTexture>>& maps,
         bool mapSelected, bool nameSelected, std::string nameGame,
-        int players, TextTexture& back, TextTexture& confirm, TextTexture& title);
-    void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, std::unique_ptr<TextTexture>>& options);
-    void renderInitMenu(TextTexture& quitButton, TextTexture& createButton, TextTexture& joinButton);
+        int players);
+    void renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& options);
+    void renderInitMenu();
 public:
 
     Menu(Size windowSize, Protocol& server);
