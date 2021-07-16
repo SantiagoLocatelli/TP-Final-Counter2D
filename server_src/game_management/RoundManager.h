@@ -5,8 +5,6 @@
 #include "../game_model/GameConfig.h"
 #include "../../common_src/Utils.h"
 
-enum GameState{PLAYING, T_WON, CT_WON, TIE};
-
 class RoundManager{
     private:
         float timer;
