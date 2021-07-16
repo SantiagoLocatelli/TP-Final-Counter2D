@@ -47,6 +47,8 @@ struct PlayerInfo {
     bool dead;
     Team team;
     WeaponInfo weapon;
+    std::array<WeaponType, 4> weapons;
+    WeaponSlot currentSlot;
     std::list<PlayerEffect> sounds;
 };
 
@@ -54,8 +56,6 @@ struct MainPlayerInfo: public PlayerInfo {
     float health;
     int ammo;
     bool damaged;
-    std::array<WeaponType, 4> weapons;
-    WeaponSlot currentSlot;
 };
 
 struct BulletInfo {
