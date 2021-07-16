@@ -68,7 +68,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
         } else if (info.weapon.type == SHOTGUN) {
             this->player.weapon.sound = SHOT_SHOTGUN;
         } else if (info.weapon.type == SNIPER) {
-            this->player.weapon.sound = SHOT_SHOTGUN;
+            this->player.weapon.sound = SHOT_SNIPER;
         } else if (info.weapon.type == KNIFE) {
             this->player.weapon.sound = KNIFE_HIT;
         }
