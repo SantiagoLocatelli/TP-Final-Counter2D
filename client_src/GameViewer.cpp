@@ -50,9 +50,9 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
-    loadHudTextures();
     loadWeapons();
     loadPlayers(windowSize);
+    loadHudTextures();
 }
 
 
@@ -142,9 +142,7 @@ void GameViewer::renderShots(Coordinate cam){
 }
 
 void GameViewer::renderWeapons(Coordinate cam){
-    
     for(DropInfo wp : level.drops){
-        
         this->textureManager.getWeaponOnFloor(wp.type)->render(wp.pos.x - cam.x - wp.size.w/2, wp.pos.y - cam.y - wp.size.h/2, wp.size.w, wp.size.h);
     }
 }
@@ -302,7 +300,6 @@ void GameViewer::renderBomb(Coordinate cam){
     }
 }
 
-
 void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text){
     Size cam = this->cam.getSize();
 
@@ -401,8 +398,10 @@ void GameViewer::updateHud(LevelInfo level){
 
 void GameViewer::update(LevelInfo level){
     std::unique_lock<std::mutex> lock(m);
-    updateHud(level);
 
+    updateHud(level);
+    printf("vida vieja del palyer: %f\n", this->level.mainPlayer.health);
+    printf("vida nueva del palyer: %f\n\n", level.mainPlayer.health);
     WeaponType mainType = level.mainPlayer.weapon.type;
     this->mainPlayer->update(level.mainPlayer, this->weapons[mainType]);
 

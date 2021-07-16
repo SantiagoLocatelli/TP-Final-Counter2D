@@ -57,6 +57,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
         }
         this->delay = this->delay % DELAY_SOUND;
     }
+    
 
     this->player.weapon = info.weapon;
     this->player.shooting = info.shooting;
