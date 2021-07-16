@@ -215,15 +215,16 @@ void GameViewer::renderHud(){
     auto it = this->level.mainPlayer.weapons.begin();
     auto end = this->level.mainPlayer.weapons.end();
     int i = 1;
-    for (it; it != end; it++) {
+    for (; it != end; it++) {
         if (*it != KNIFE && *it != NO_WEAPON) {
             SdlTexture* weapon = this->textureManager.getWeaponOnHud(*it);
 
+            weapon->setBlendMode(SDL_BLENDMODE_BLEND);
+            weapon->setAlpha(255);
             if (*it != this->level.mainPlayer.weapons[this->level.mainPlayer.currentSlot]) {
-                weapon->setBlendMode(SDL_BLENDMODE_BLEND);
                 weapon->setAlpha(100);
             }
-            Coordinate dst = {cam.w - size.w - MARGIN, cam.h - 100*i};
+            Coordinate dst = {cam.w - size.w - MARGIN, cam.h - 40 - 60*i};
             weapon->render(dst.x, dst.y, size.w, size.h);
             i++;
         }
