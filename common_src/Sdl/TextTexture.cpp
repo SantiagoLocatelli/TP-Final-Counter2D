@@ -1,7 +1,7 @@
 #include "TextTexture.h"
 
 TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
-    renderer(renderer){
+    renderer(renderer), size({0,0}), pos({0,0}){
 
     if( TTF_Init() == -1 ){
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -28,18 +28,55 @@ void TextTexture::setText(std::string text, struct Color color){
             printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
         }else{
 
-            size.w = textSurface->w;
-            size.h = textSurface->h;
+            this->size.w = textSurface->w;
+            this->size.h = textSurface->h;
+
             SDL_FreeSurface(textSurface);
         }
     }
 }
 
-void TextTexture::render(Coordinate dst) {
+void TextTexture::setCoordinate(Coordinate pos) {
+    this->pos = pos;
+}
 
-    SDL_Rect renderQuad = {dst.x, dst.y, size.w, size.h};
+void TextTexture::render(Coordinate dst) {
+    SDL_Rect renderQuad = {dst.x, dst.y, this->size.w, this->size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
+
+void TextTexture::render() {
+
+    SDL_Rect renderQuad = {this->pos.x, this->pos.y, size.w, size.h};
+    this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
+}
+
+bool TextTexture::isMouseTouching(){
+    //Check if mouse is in button
+    bool inside = true;
+	Coordinate mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+    //Mouse is left of the button
+    if (mouse.x < this->pos.x){
+        inside = false;
+    }
+    //Mouse is right of the button
+    else if (mouse.x > this->pos.x + this->size.w){
+        inside = false;
+    }
+    //Mouse above the button
+    else if (mouse.y < this->pos.y){
+        inside = false;
+    }
+    //Mouse below the button
+    else if (mouse.y > this->pos.y + this->size.h){
+        inside = false;
+    }
+
+    return inside;
+}
+
 
 Size TextTexture::getSize(){return this->size;}
 

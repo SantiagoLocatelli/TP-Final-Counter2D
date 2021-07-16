@@ -116,7 +116,6 @@ void GameViewer::loadHudTextures(){
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
-
 }
 
 void GameViewer::renderPlayers(Coordinate cam) {

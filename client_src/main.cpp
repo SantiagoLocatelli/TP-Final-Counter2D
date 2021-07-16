@@ -2,45 +2,20 @@
 #include "../common_src/Stopwatch.h"
 #include "GameManager.h"
 #include <iostream>
+#include "Menu.h"
 
 
 int main(int argc, char* argv[]){
     try{
         Protocol server(Socket("localhost", argv[1], false));
 
-        //Puse esto para probar el servidor. Esto seria lo que hace el menu de inicio en el cliente
-        std::string command;
-        bool joined_game = false;
-        while (!joined_game && std::cin >> command){
-            if (command == "crear"){
-                Event event;
-                event.type = CREATE_GAME;
-                std::cin >> event.info.gameInfo.name;
-                std::cin >> event.info.gameInfo.map;
-                std::cin >> event.info.gameInfo.max_players;
-                server.send_event(event);
-                joined_game = true;
-            } else if (command == "unirse"){
-                Event event;
-                event.type = JOIN_GAME;
-                std::cin >> event.info.gameInfo.name;
-                server.send_event(event);
-                joined_game = true;
-            } else if (command == "listar"){
-                Event event;
-                event.type = LIST_GAMES;
-                server.send_event(event);
-                std::list<GameInfo> gameList;
-                server.recv_game_list(gameList);
-                std::cout << "PARTIDAS:\n";
-                for (const GameInfo &game: gameList){
-                    std::cout << game.name << std::endl;
-                }
-            } else {
-                std::cout << "Comando inválido\n";
-            }
-        }
+        Size menuSize = {640, 480};
+        Menu* menu = new Menu(menuSize, server);
+        bool joined_game = false; 
+        menu->run(joined_game);
+        delete menu;
 
+        if (!joined_game) return 0;
 
         Size windowSize {500, 500};
 
@@ -56,12 +31,12 @@ int main(int argc, char* argv[]){
         level = gameManager.initializeLevel(map, model);
         GameViewer gameViewer(windowSize, level); 
 
-        bool quit = false;
-        EventManager eventManager(server, quit, gameViewer);
+        bool gameEnded = model.game_ended;
+        EventManager eventManager(server, gameEnded, gameViewer);
         eventManager.start();
         Stopwatch stopwatch;
 
-        while (!quit && !model.game_ended) {
+        while (joined_game && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
             level = gameManager.updatedLevel(model);
