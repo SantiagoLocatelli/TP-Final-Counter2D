@@ -20,7 +20,7 @@ private:
     SdlRenderer renderer;
     Size size;
     std::map<std::string, TextTexture*> maps;
-    std::map<int, TextTexture*> buttons;
+    std::map<int, TextTexture> buttons;
     SdlTexture background;
     Protocol& server;
 

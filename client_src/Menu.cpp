@@ -56,32 +56,39 @@ void Menu::loadMaps(){
 }
 
 void Menu::loadButtons(){
-    this->buttons[QUIT] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    this->buttons[QUIT]->setText("Quit Game", WHITE);
-    Size size = this->buttons[QUIT]->getSize();
+
+    this->buttons.emplace(QUIT, TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[QUIT].setText("Quit Game", WHITE);
+    Size size = this->buttons[QUIT].getSize();
     Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
-    this->buttons[QUIT]->setCoordinate(pos);
+    this->buttons[QUIT].setCoordinate(pos);
+
+    // this->buttons[QUIT] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
+    // this->buttons[QUIT]->setText("Quit Game", WHITE);
+    // Size size = this->buttons[QUIT]->getSize();
+    // Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
+    // this->buttons[QUIT]->setCoordinate(pos);
 
 
-    this->buttons[NEW_GAME] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    this->buttons[NEW_GAME]->setText("Creat Game", WHITE);
-    size = this->buttons[NEW_GAME]->getSize();
-    pos.y = pos.y - size.h - MARGIN;
-    this->buttons[NEW_GAME]->setCoordinate(pos);
+    // this->buttons[NEW_GAME] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
+    // this->buttons[NEW_GAME]->setText("Creat Game", WHITE);
+    // size = this->buttons[NEW_GAME]->getSize();
+    // pos.y = pos.y - size.h - MARGIN;
+    // this->buttons[NEW_GAME]->setCoordinate(pos);
 
-    this->buttons[JOIN] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    this->buttons[JOIN]->setText("Join Game", WHITE);
-    size = this->buttons[JOIN]->getSize();
-    pos.y = pos.y - size.h - MARGIN;
-    this->buttons[JOIN]->setCoordinate(pos);
+    // this->buttons[JOIN] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
+    // this->buttons[JOIN]->setText("Join Game", WHITE);
+    // size = this->buttons[JOIN]->getSize();
+    // pos.y = pos.y - size.h - MARGIN;
+    // this->buttons[JOIN]->setCoordinate(pos);
 }
 
 Menu::~Menu(){
-    for (auto it = this->buttons.begin(); it != this->buttons.end(); it++) {
-        TextTexture* aux = it->second;
-        it++;
-        delete aux;
-    }
+    // for (auto it = this->buttons.begin(); it != this->buttons.end(); it++) {
+    //     TextTexture* aux = it->second;
+    //     it++;
+    //     delete aux;
+    // }
 
     for (auto it = this->maps.begin(); it != this->maps.end(); it++) {
         TextTexture* aux = it->second;
