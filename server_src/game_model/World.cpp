@@ -8,7 +8,7 @@
 #include "Sniper.h"
 
 
-World::World(MapInfo mapInfo, GameConfig &config):player_number(0), b2world(b2Vec2(0,0)), config(config), mapInfo(mapInfo){
+World::World(MapInfo mapInfo, GameConfig &config):player_number(0), mapInfo(mapInfo), b2world(b2Vec2(0,0)), config(config){
     bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
 }
