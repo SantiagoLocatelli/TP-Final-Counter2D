@@ -10,7 +10,7 @@
 
 ## Instrucciones de instalación
 
-1. Correr `./install.sh` y esperar a que termine
+1. Correr `sudo ./install.sh` y esperar a que termine
 2. Los ejecutables se encuentran en `/build/bin`
 3. Para correr el servidor hacer: `./Server [puerto]`
 4. Para correr el cliente hacer: `./Client [puerto]`
