@@ -133,6 +133,8 @@ std::array<WeaponType, 4> Player::getWeapons() const{
         else
             arr[i] = weapons[i]->getType();
     }
+
+    return arr;
 }
 
 WeaponSlot Player::getWeaponSlot() const{
