@@ -20,7 +20,7 @@ const struct Color WHITE = {0xff, 0xff, 0xff};
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 
-    background(this->renderer, windowSize.w, windowSize.h), server(server){
+    background(this->renderer, BACKGROUND_PATH), server(server){
 
     loadMaps();
     loadButtons();
@@ -56,20 +56,23 @@ void Menu::loadMaps(){
 }
 
 void Menu::loadButtons(){
-
-    Coordinate pos = {MARGIN, this->size.h - MARGIN};
     this->buttons[QUIT] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
     this->buttons[QUIT]->setText("Quit Game", WHITE);
+    Size size = this->buttons[QUIT]->getSize();
+    Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
     this->buttons[QUIT]->setCoordinate(pos);
 
-    pos = {MARGIN, this->size.h - MARGIN - 100};
+
     this->buttons[NEW_GAME] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    this->buttons[NEW_GAME]->setText("Quit Game", WHITE);
+    this->buttons[NEW_GAME]->setText("Creat Game", WHITE);
+    size = this->buttons[NEW_GAME]->getSize();
+    pos.y = pos.y - size.h - MARGIN;
     this->buttons[NEW_GAME]->setCoordinate(pos);
-    
-    pos = {MARGIN, this->size.h - MARGIN - 200};
+
     this->buttons[JOIN] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    this->buttons[JOIN]->setText("Quit Game", WHITE);
+    this->buttons[JOIN]->setText("Join Game", WHITE);
+    size = this->buttons[JOIN]->getSize();
+    pos.y = pos.y - size.h - MARGIN;
     this->buttons[JOIN]->setCoordinate(pos);
 }
 
@@ -86,7 +89,7 @@ void Menu::renderInitMenu(){
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
-    this->background.render(0, 0);
+    this->background.render(0, 0, this->size.w, this->size.h);
 
     this->buttons[QUIT]->render();
     this->buttons[NEW_GAME]->render();
@@ -283,39 +286,8 @@ void Menu::run(){
                 }
             }
 
-            // //Puse esto para probar el servidor. Esto seria lo que hace el menu de inicio en el cliente
-            // while (!joined_game && std::cin >> command){
-            //     if (command == "crear"){
-            //         Event event;
-            //         event.type = CREATE_GAME;
-            //         std::cin >> event.info.gameInfo.name;
-            //         std::cin >> event.info.gameInfo.map;
-            //         std::cin >> event.info.gameInfo.max_players;
-            //         server.send_event(event);
-            //         joined_game = true;
-            //     } else if (command == "unirse"){
-            //         Event event;
-            //         event.type = JOIN_GAME;
-            //         std::cin >> event.info.gameInfo.name;
-            //         server.send_event(event);
-            //         joined_game = true;
-            //     } else if (command == "listar"){
-            //         Event event;
-            //         event.type = LIST_GAMES;
-            //         server.send_event(event);
-            //         std::list<GameInfo> gameList;
-            //         server.recv_game_list(gameList);
-            //         std::cout << "PARTIDAS:\n";
-            //         for (const GameInfo &game: gameList){
-            //             std::cout << game.name << std::endl;
-            //         }
-            //     } else {
-            //         std::cout << "Comando inválido\n";
-            //     }
-            // }
         }
-
-
+        this->renderInitMenu();
     }
 }
 

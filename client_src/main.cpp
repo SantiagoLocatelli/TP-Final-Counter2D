@@ -2,13 +2,16 @@
 #include "../common_src/Stopwatch.h"
 #include "GameManager.h"
 #include <iostream>
+#include "Menu.h"
 
 
 int main(int argc, char* argv[]){
     try{
         Protocol server(Socket("localhost", argv[1], false));
 
-
+        Size menuSize = {640, 480};
+        Menu menu(menuSize, server);
+        menu.run();
 
 
         Size windowSize {500, 500};

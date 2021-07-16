@@ -40,13 +40,13 @@ void TextTexture::setCoordinate(Coordinate pos) {
 
 void TextTexture::render(Coordinate dst) {
 
-    SDL_Rect renderQuad = {dst.x - this->size.w, dst.y - this->size.h, this->size.w, this->size.h};
+    SDL_Rect renderQuad = {dst.x, dst.y, this->size.w, this->size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
 
 void TextTexture::render() {
 
-    SDL_Rect renderQuad = {this->pos.x - this->size.w, this->pos.y - this->size.h, this->size.w, this->size.h};
+    SDL_Rect renderQuad = {this->pos.x, this->pos.y, this->size.w, this->size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
 
@@ -76,6 +76,7 @@ bool TextTexture::isMouseTouching(){
     return inside;
 }
 
+Size TextTexture::getSize(){return this->size;}
 
 TextTexture::~TextTexture(){
     if(this->mTexture != NULL){
