@@ -9,12 +9,7 @@
 class CompleteModelInfo{
     private:
         std::vector<You> players;
-        std::list<Bullet> bullets;
-        std::list<ProtDrop> drops;
-        bool game_ended;
-        ProtBomb bomb;
-        float timeRemaining;
-        RoundState roundState;
+        ModelInfo incompleteModel; //Tiene todo el modelo menos los jugadores
     
     public:
         CompleteModelInfo() = default;

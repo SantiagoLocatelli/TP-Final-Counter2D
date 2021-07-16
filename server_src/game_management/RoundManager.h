@@ -11,18 +11,22 @@ class RoundManager{
         World &world;
         GameConfig &config;
         RoundState roundState;
+        RoundResult result;
         int wins[2];
         int terrorIdx;
         int counterIdx;
         int rounds;
 
         GameState roundEnded();
+        void updateResult();
     public:
         RoundManager(World &world, GameConfig &config);
         void resetRound();
         bool step(float delta);
         RoundState getRoundState();
-        GameState gameEnded();
+        GameState getGameState();
+        RoundResult getRoundResult();
+
         float getTime();
 };
 
