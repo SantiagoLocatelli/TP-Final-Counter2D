@@ -21,7 +21,7 @@ class GameList{
     public:
         void createGame(GameInfo gameInfo);
         void joinGame(std::string name, Protocol protocol);
-        std::list<GameInfo> getList();
+        std::list<GameInfo> getAvaliableGames();
         ~GameList();
 };
 

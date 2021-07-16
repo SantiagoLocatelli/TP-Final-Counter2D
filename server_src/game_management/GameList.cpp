@@ -1,8 +1,14 @@
 #include "GameList.h"
+#include "../../common_src/GeneralException.h"
 
 void GameList::createGame(GameInfo gameInfo){
-    //TODO: Chequear que no se puedan crear partidas con el mismo nombre
     const std::lock_guard<std::mutex> lock(m);
+
+    std::map<std::string, std::unique_ptr<GameThread>>::iterator it = gameList.find(gameInfo.name);
+    if(it != gameList.end()){
+        throw GeneralException("Ya existe una partida con ese nombre");
+    }
+
     std::string path = "../../common_src/maps/";
     path += gameInfo.map;
     path += ".yaml";
@@ -12,10 +18,17 @@ void GameList::createGame(GameInfo gameInfo){
 }
 
 void GameList::joinGame(std::string name, Protocol protocol){
-    //TODO: Chequear que no se pueda unirse a partidas que no existan
-    //TODO: Joinear los GameThread que terminaron
-    //TODO: No permitir unirse a juegos que ya empezaron
     const std::lock_guard<std::mutex> lock(m);
+
+    std::map<std::string, std::unique_ptr<GameThread>>::iterator it = gameList.find(name);
+    if (it == gameList.end()){
+        throw GeneralException("No existe una partida con ese nombre");
+    }
+
+    if (gameInfoList.at(name).players == gameInfoList.at(name).max_players){
+        throw GeneralException("La partida está llena");
+    }
+
     gameInfoList.at(name).players++;
     gameList.at(name)->addPlayer(std::move(protocol));
     if (gameInfoList.at(name).players == gameInfoList[name].max_players){
@@ -24,11 +37,25 @@ void GameList::joinGame(std::string name, Protocol protocol){
     }
 }
 
-std::list<GameInfo> GameList::getList(){
+std::list<GameInfo> GameList::getAvaliableGames(){
     const std::lock_guard<std::mutex> lock(m);
+
+    std::list<std::string> gamesToDelete;
+    for (auto &pair: gameList){
+        if (pair.second->ended()){
+            pair.second->join();
+            gamesToDelete.push_back(pair.first);
+        }
+    }
+    for (const std::string &g: gamesToDelete){
+        gameList.erase(g);
+    }
+
     std::list<GameInfo> list;
-    for (auto pair: gameInfoList){
-        list.push_back(pair.second);
+    for (auto &pair: gameInfoList){
+        if (pair.second.players < pair.second.max_players){
+            list.push_back(pair.second);
+        }
     }
 
     return list;

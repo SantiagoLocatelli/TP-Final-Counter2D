@@ -23,7 +23,7 @@ void LobbyManager::run(){
                 keepReceiving = false;
                 break;
             case LIST_GAMES:
-                list = gameList.getList();
+                list = gameList.getAvaliableGames();
                 protocol.send_game_list(list);
                 break;
             
