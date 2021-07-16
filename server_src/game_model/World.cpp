@@ -173,7 +173,7 @@ void World::resetWorld(bool changeTeams){
     //Reseteo la bomba
     if (bomb.planted)
         bomb.planted = false;
-    addDrop(new Bomb(this, config), mapInfo.spawnSites[TERROR].x+1, mapInfo.spawnSites[TERROR].y+1);
+    addDrop(new Bomb(this, config), mapInfo.spawnSites[TERROR].x+CELL_SIZE/2, mapInfo.spawnSites[TERROR].y+CELL_SIZE/2);
 
     for (Player &p: players){
         Team team = p.getTeam();
@@ -187,13 +187,13 @@ void World::resetWorld(bool changeTeams){
         switch (d.type)
         {
         case  SNIPER:
-            addDrop(new Sniper(this, config), d.pos.x, d.pos.y);
+            addDrop(new Sniper(this, config), d.pos.x+CELL_SIZE/2, d.pos.y+CELL_SIZE/2);
             break;
         case  SHOTGUN:
-            addDrop(new Shotgun(this, config), d.pos.x, d.pos.y);
+            addDrop(new Shotgun(this, config), d.pos.x+CELL_SIZE/2, d.pos.y+CELL_SIZE/2);
             break;
             case  RIFLE:
-            addDrop(new Rifle(this, config), d.pos.x, d.pos.y);
+            addDrop(new Rifle(this, config), d.pos.x+CELL_SIZE/2, d.pos.y+CELL_SIZE/2);
             break;
         
         default:
