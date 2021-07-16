@@ -53,6 +53,7 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
             break;
         }
     }
+}
 
 void GameProxy::setUpGame(){
     roundManager->resetRound();
