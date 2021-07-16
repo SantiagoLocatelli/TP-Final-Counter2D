@@ -38,13 +38,13 @@ void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::stri
     std::vector<float> position = Site["A"]["position"].as<std::vector<float>>();
     std::vector<float> size = Site["A"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("A", new Draggable(renderer, "../../common_src/img/bombSite.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+    bombSites.emplace("A", new Draggable(renderer, "../../common_src/img/bombSiteA.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
     bombSites["A"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
     position = Site["B"]["position"].as<std::vector<float>>();
     size = Site["B"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("B", new Draggable(renderer, "../../common_src/img/bombSite.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+    bombSites.emplace("B", new Draggable(renderer, "../../common_src/img/bombSiteB.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
     bombSites["B"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 }
 
@@ -54,12 +54,12 @@ void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::str
     std::vector<float> position = Site["T"]["position"].as<std::vector<float>>();
     std::vector<float> size = Site["T"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("T", new Draggable(renderer, "../../common_src/img/spawnSite.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    bombSites.emplace("T", new Draggable(renderer, "../../common_src/img/spawnSiteT.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
     bombSites["T"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
     position = Site["CT"]["position"].as<std::vector<float>>();
     size = Site["CT"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("CT", new Draggable(renderer, "../../common_src/img/spawnSite.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    bombSites.emplace("CT", new Draggable(renderer, "../../common_src/img/spawnSiteCT.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
     bombSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 }

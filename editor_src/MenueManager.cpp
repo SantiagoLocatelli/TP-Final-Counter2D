@@ -52,13 +52,13 @@ void MenueManager::createMap(const std::string mapID){
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
         this->weaponTypes.push_back(-1);
     }
-    std::vector<std::string> auxBombs = {"A", "B"};
-    std::vector<std::string> auxSpawns = {"T", "CT"};
+    std::vector<std::string> auxBombs = {"A", "B", "../../common_src/img/bombSiteA.png", "../../common_src/img/bombSiteB.png"};
+    std::vector<std::string> auxSpawns = {"T", "CT", "../../common_src/img/spawnSiteT.png", "../../common_src/img/spawnSiteCT.png"};
     for (int i = 0; i < 2; i++){
-        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, "../../common_src/img/bombSite.png", 0, i * 100, 255, 0, 0));
+        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, auxBombs[i+2], 0, i * 100, 255, 0, 0));
         bombSites[auxBombs[i]]->setWidthAndHeight(100, 100);
 
-        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, "../../common_src/img/spawnSite.png", 200, (i * 100), 0, 255, 0));
+        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, auxSpawns[i+2], 200, (i * 100), 0, 255, 0));
         spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
     }
 

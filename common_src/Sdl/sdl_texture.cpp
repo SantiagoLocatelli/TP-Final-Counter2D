@@ -135,13 +135,6 @@ void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, dou
      SDL_Point* center, SDL_RendererFlip flip)const{
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = {x, y, width, height};
-	//Set clip rendering dimensions
-	// if( clip != NULL )
-	// {
-	// 	renderQuad.w = clip->w;
-	// 	renderQuad.h = clip->h;
-	// }
-	//Render to screen
 	this->renderer.render(this->mTexture, clip, &renderQuad, angle, center, flip);
 }
 
