@@ -1,6 +1,9 @@
 #include "RoundManager.h"
 
-RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(world), config(config), roundState(BUY), terrorIdx(0), counterIdx(1), rounds(0){}
+RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(world), config(config), roundState(BUY), terrorIdx(0), counterIdx(1), rounds(0){
+    wins[0] = 0;
+    wins[1] = 0;
+}
 
 GameState RoundManager::gameEnded(){
     if (wins[terrorIdx] == config.getGame().at("roundsPerSide")+1){
