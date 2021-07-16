@@ -11,7 +11,8 @@ int main(int argc, char* argv[]){
 
         Size menuSize = {640, 480};
         Menu* menu = new Menu(menuSize, server);
-        bool joined_game = menu->run();
+        bool joined_game = false; 
+        menu->run(joined_game);
         delete menu;
 
         if (!joined_game) return 0;

@@ -10,7 +10,7 @@
 #include "levelInfo.h"
 #include <list>
 #include <map>
-
+#include <memory>
 
 class Menu{
 
@@ -30,13 +30,13 @@ private:
     void renderCreatMenu(std::map<std::string, TextTexture*>& maps,
         bool mapSelected, bool nameSelected, std::string nameGame,
         int players, TextTexture& back, TextTexture& confirm, TextTexture& title);
-    void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, TextTexture*>& options);
+    void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, std::unique_ptr<TextTexture>>& options);
     void renderInitMenu(TextTexture& quitButton, TextTexture& creatButton, TextTexture& joinButton);
 public:
 
     Menu(Size windowSize, Protocol& server);
     ~Menu();
-    bool run();
+    void run(bool& joined_game);
 };
 
 #endif
