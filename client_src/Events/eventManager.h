@@ -9,12 +9,12 @@
 class EventManager : public Thread{
 private:
     Protocol& com;
-    bool& quit;
+    bool& gameEnded;
     GameViewer& game;
 
 public:
 
-    EventManager(Protocol& com, bool& quit, GameViewer& game);
+    EventManager(Protocol& com, bool& gameEnded, GameViewer& game);
     EventManager();
     ~EventManager() = default;
 

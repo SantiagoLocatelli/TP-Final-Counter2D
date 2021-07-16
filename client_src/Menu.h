@@ -19,24 +19,25 @@ private:
     SdlWindow window;
     SdlRenderer renderer;
     Size size;
-    std::map<std::string, TextTexture*> maps;
+    
     std::map<int, TextTexture> buttons;
     SdlTexture background;
     Protocol& server;
 
-    void loadMaps();
-    void loadButtons();
     void creatGame(bool& joined_game);
     void joinGame(bool& joined_game);
 
-    void renderCreatMenu(bool mapSelected, bool nameSelected, bool playersSelected, std::string nameGame, int players);
+    void loadMaps(std::map<std::string, TextTexture*>& maps);
+    void renderCreatMenu(std::map<std::string, TextTexture*>& maps,
+        bool mapSelected, bool nameSelected, std::string nameGame,
+        int players, TextTexture&, TextTexture& title);
     void renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, TextTexture*>& options);
-    void renderInitMenu();
+    void renderInitMenu(TextTexture& quitButton, TextTexture& creatButton, TextTexture& joinButton);
 public:
 
     Menu(Size windowSize, Protocol& server);
     ~Menu();
-    void run();
+    bool run();
 };
 
 #endif

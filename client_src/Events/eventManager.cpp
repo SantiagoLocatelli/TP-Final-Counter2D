@@ -3,16 +3,16 @@
 #include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
-EventManager::EventManager(Protocol& com, bool& quit, GameViewer& game):com(com), quit(quit), game(game){}
+EventManager::EventManager(Protocol& com, bool& gameEnded, GameViewer& game):com(com), gameEnded(gameEnded), game(game){}
 
 void EventManager::run(){
     try{
         SDL_Event e;
-        while (!quit && SDL_WaitEvent(&e) != 0){
+        while (!gameEnded && SDL_WaitEvent(&e) != 0){
             Event event;
             switch (e.type) {
                 case SDL_QUIT:
-                    this->quit = true; 
+                    this->gameEnded = true; 
                     break;
 
                 //Ambos casos hacen lo mismo

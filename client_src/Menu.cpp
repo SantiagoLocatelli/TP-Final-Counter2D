@@ -20,14 +20,10 @@ const struct Color WHITE = {0xff, 0xff, 0xff};
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 
-    background(this->renderer, BACKGROUND_PATH), server(server){
-
-    loadMaps();
-    loadButtons();
-}
+    background(this->renderer, BACKGROUND_PATH), server(server){}
 
 
-void Menu::loadMaps(){
+void Menu::loadMaps(std::map<std::string, TextTexture*>& maps){
     DIR *dir;
     struct dirent *ent;
     std::list<std::string> mapsPaths;
@@ -44,6 +40,7 @@ void Menu::loadMaps(){
     }
     
     std::string prot_end(".");
+    int nextHeight = MARGIN + 50;
     for (auto &path : mapsPaths){
         std::string::iterator prot_i = std::search(path.begin(),
                 path.end(), prot_end.begin(), prot_end.end());
@@ -51,77 +48,41 @@ void Menu::loadMaps(){
         int start_position = prot_i - path.begin();
 
         path.erase(start_position, path.length());
-        this->maps[path] = new TextTexture(this->renderer, path, SIZE_FONT);
+        maps[path] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
+        maps[path]->setText(path, WHITE);
+        
+        Size size = maps[path]->getSize();
+        Coordinate pos = {this->size.w/2 - size.w/2, nextHeight};
+        maps[path]->setCoordinate(pos);
+
+        nextHeight += size.h + MARGIN;
     }
 }
 
-void Menu::loadButtons(){
-
-    this->buttons.emplace(QUIT, TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
-    this->buttons[QUIT].setText("Quit Game", WHITE);
-    Size size = this->buttons[QUIT].getSize();
-    Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
-    this->buttons[QUIT].setCoordinate(pos);
-
-    // this->buttons[QUIT] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    // this->buttons[QUIT]->setText("Quit Game", WHITE);
-    // Size size = this->buttons[QUIT]->getSize();
-    // Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
-    // this->buttons[QUIT]->setCoordinate(pos);
-
-
-    // this->buttons[NEW_GAME] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    // this->buttons[NEW_GAME]->setText("Creat Game", WHITE);
-    // size = this->buttons[NEW_GAME]->getSize();
-    // pos.y = pos.y - size.h - MARGIN;
-    // this->buttons[NEW_GAME]->setCoordinate(pos);
-
-    // this->buttons[JOIN] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
-    // this->buttons[JOIN]->setText("Join Game", WHITE);
-    // size = this->buttons[JOIN]->getSize();
-    // pos.y = pos.y - size.h - MARGIN;
-    // this->buttons[JOIN]->setCoordinate(pos);
-}
-
-Menu::~Menu(){
-    // for (auto it = this->buttons.begin(); it != this->buttons.end(); it++) {
-    //     TextTexture* aux = it->second;
-    //     it++;
-    //     delete aux;
-    // }
-
-    for (auto it = this->maps.begin(); it != this->maps.end(); it++) {
+void destroyMaps(std::map<std::string, TextTexture*>& maps) {
+    for (auto it = maps.begin(); it != maps.end(); it++) {
         TextTexture* aux = it->second;
         it++;
         delete aux;
     }
 }
 
-void Menu::renderInitMenu(){
-    
+Menu::~Menu(){}
+
+
+
+void Menu::renderCreatMenu(std::map<std::string, TextTexture*>& maps,
+     bool mapSelected, bool nameSelected, std::string nameGame, 
+    int players, TextTexture& buttonBack, TextTexture& title){
+        
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
+    TextTexture text(this->renderer, PATH_FONT, SIZE_FONT);
     this->background.render(0, 0, this->size.w, this->size.h);
 
-    this->buttons[QUIT]->render();
-    this->buttons[NEW_GAME]->render();
-    this->buttons[JOIN]->render();
-
-    renderer.updateScreen();
-}
-
-
-void Menu::renderCreatMenu(bool mapSelected, bool nameSelected, bool playersSelected, std::string nameGame, int players){
-    renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-    renderer.clear();
-    TextTexture text(this->renderer, PATH_FONT, SIZE_FONT);
-
     if (!mapSelected) {
-        int i = 1;
-        for (auto it = this->maps.begin(); it != this->maps.end(); it++) {
-            Coordinate pos = {this->size.w/3, MARGIN - i*50};
-            it->second->setCoordinate(pos);
+        for (auto it = maps.begin(); it != maps.end(); it++) {
             it->second->render();
         }
     } else if (!nameSelected && mapSelected) {
@@ -130,7 +91,7 @@ void Menu::renderCreatMenu(bool mapSelected, bool nameSelected, bool playersSele
 
         text.setText(nameGame.c_str(), WHITE);
         text.render({this->size.w/2, 100});
-    } else if (nameSelected && mapSelected && !playersSelected) {
+    } else if (nameSelected && mapSelected) {
         text.setText("Arrow up to increase the quantity of players, arrow down to decrease:", WHITE);
         text.render({this->size.w/2, 50});
 
@@ -139,14 +100,27 @@ void Menu::renderCreatMenu(bool mapSelected, bool nameSelected, bool playersSele
         text.setText(playersText, WHITE);
         text.render({this->size.w/2, 100});
     }
+    buttonBack.render();
 
     renderer.updateScreen();
 }
 
 
 void Menu::creatGame(bool& joined_game){
-    TextTexture buttonConfirm(this->renderer, PATH_FONT, SIZE_FONT);
     TextTexture buttonBack(this->renderer, PATH_FONT, SIZE_FONT);
+    buttonBack.setText("Back", WHITE);
+    Size size = buttonBack.getSize();
+    Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h};
+    buttonBack.setCoordinate(pos);
+
+    TextTexture title(this->renderer, PATH_FONT, SIZE_FONT);
+    title.setText("Seleccione un mapa:", WHITE);
+    size = title.getSize();
+    pos = {this->size.w/2 - size.w/2, MARGIN};
+    title.setCoordinate(pos);
+
+    std::map<std::string, TextTexture*> maps;
+    loadMaps(maps);
 
     SDL_Event e;
     bool quit = false;
@@ -156,45 +130,51 @@ void Menu::creatGame(bool& joined_game){
     std::string mapName;
     std::string nameGame = " ";
     int maxPlayers = 2;
-    while (SDL_PollEvent(&e) != 0 && !joined_game && !quit) {
-        if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
-            if (!mapSelected) {
-                for (auto it = this->maps.begin(); it != this->maps.end(); it++) {
-                    if (it->second->isMouseTouching()) {
-                        mapSelected = true;
-                        mapName = it->first;
-                        SDL_StartTextInput();
+
+    SDL_PumpEvents();
+    while (!joined_game && !quit) {
+        while (SDL_PollEvent(&e) != 0 && !quit) {
+            if (e.type == SDL_QUIT) {
+                quit = true;  
+            } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
+                if (!mapSelected) {
+                    for (auto it = maps.begin(); it != maps.end(); it++) {
+                        if (it->second->isMouseTouching()) {
+                            mapSelected = true;
+                            mapName = it->first;
+                            SDL_StartTextInput();
+                        }
                     }
                 }
-            }
-            if (buttonBack.isMouseTouching()) {
-                quit = false;
-            }
-        } else if (e.type == SDL_KEYDOWN && mapSelected && !nameSelected) {
-            if( e.key.keysym.sym == SDLK_BACKSPACE && nameGame.length() > 0 && e.key.repeat == 0){
-                nameGame.pop_back();
-            } else if ( e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
-                nameSelected = true;
-            }
-        } else if (e.type == SDL_TEXTINPUT && mapSelected && !nameSelected) {
-            if (nameGame.length() < 29) {
-                nameGame += e.text.text;
-            }
-        } else if (e.type == SDL_KEYDOWN && mapSelected && nameSelected) {
-            if (e.key.keysym.sym == SDLK_UP && e.key.repeat == 0) {
-                if (maxPlayers < 10) {
-                    maxPlayers++;
+                if (buttonBack.isMouseTouching()) {
+                    quit = true;
                 }
-            } else if (e.key.keysym.sym == SDLK_DOWN && e.key.repeat == 0) {
-                if (maxPlayers > 2) {
-                    maxPlayers--;
+            } else if (e.type == SDL_KEYDOWN && mapSelected && !nameSelected) {
+                if( e.key.keysym.sym == SDLK_BACKSPACE && nameGame.length() > 0 && e.key.repeat == 0){
+                    nameGame.pop_back();
+                } else if ( e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
+                    nameSelected = true;
                 }
-            } else if (e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
-                playersSelected = true;
+            } else if (e.type == SDL_TEXTINPUT && mapSelected && !nameSelected) {
+                if (nameGame.length() < 29) {
+                    nameGame += e.text.text;
+                }
+            } else if (e.type == SDL_KEYDOWN && mapSelected && nameSelected) {
+                if (e.key.keysym.sym == SDLK_UP && e.key.repeat == 0) {
+                    if (maxPlayers < 10) {
+                        maxPlayers++;
+                    }
+                } else if (e.key.keysym.sym == SDLK_DOWN && e.key.repeat == 0) {
+                    if (maxPlayers > 2) {
+                        maxPlayers--;
+                    }
+                } else if (e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
+                    playersSelected = true;
+                }
             }
+            if (nameSelected && playersSelected && mapSelected) joined_game = true;
+            renderCreatMenu(maps, mapSelected, nameSelected, nameGame, maxPlayers, buttonBack, title);
         }
-        if (nameSelected && playersSelected && mapSelected) joined_game = true;
-        renderCreatMenu(mapSelected, nameSelected, playersSelected, nameGame, maxPlayers);
     }
 
     if (joined_game) {
@@ -205,22 +185,22 @@ void Menu::creatGame(bool& joined_game){
         strncpy(event.info.gameInfo.name, nameGame.c_str(), 29);
         server.send_event(event);
     }
+
+    destroyMaps(maps);
 }
 
 void Menu::renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, TextTexture*>& options){
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
-    Coordinate pos = {this->size.w/3, MARGIN};
-    title.render(pos);
+    this->background.render(0, 0, this->size.w, this->size.h);
 
-    pos = {MARGIN, this->size.h - MARGIN};
-    buttonBack.setCoordinate(pos);
+    title.render();
     buttonBack.render();
 
     int i = 1;
     for (auto it = options.begin(); it != options.end(); it++) {
-        pos = {this->size.w/3, MARGIN - i*50};
+        Coordinate pos = {this->size.w/3, MARGIN - i*50};
         it->second->setCoordinate(pos);
         it->second->render();
     }
@@ -240,9 +220,15 @@ void Menu::joinGame(bool& joined_game){
 
     TextTexture title(this->renderer, PATH_FONT, SIZE_FONT);
     title.setText("PARTIDAS: ", WHITE);
+    Size size = title.getSize();
+    Coordinate pos = {this->size.w/3 - size.w/2, MARGIN};
+    title.setCoordinate(pos);
 
     TextTexture buttonBack(this->renderer, PATH_FONT, SIZE_FONT);
     buttonBack.setText("Back", WHITE);
+    size = buttonBack.getSize();
+    pos = {MARGIN, this->size.h - MARGIN - size.h};
+    buttonBack.setCoordinate(pos);
 
     std::map<std::string, TextTexture*> options; // mapa con el nombre de la partida como key, la textura como value
     char text[200];
@@ -255,21 +241,25 @@ void Menu::joinGame(bool& joined_game){
 
     SDL_Event e;
     bool quit = false;
-    while (SDL_PollEvent(&e) != 0 && !joined_game && !quit) {
-        if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
+    while (!joined_game && !quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;  
+            } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
 
-            for (auto it = options.begin(); it != options.end(); it++) {
-                if (it->second->isMouseTouching()) {
-                    event.type = JOIN_GAME;
-                    strncpy(event.info.gameInfo.name, it->first.c_str(), 29);
-                    joined_game = true;
+                for (auto it = options.begin(); it != options.end(); it++) {
+                    if (it->second->isMouseTouching()) {
+                        event.type = JOIN_GAME;
+                        strncpy(event.info.gameInfo.name, it->first.c_str(), 29);
+                        joined_game = true;
+                    }
+                } 
+                if (buttonBack.isMouseTouching()) {
+                    quit = true;
                 }
-            } 
-            if (buttonBack.isMouseTouching()) {
-                quit = true;
             }
+            renderJoinMenu(title, buttonBack, options);
         }
-        renderJoinMenu(title, buttonBack, options);
     }
 
     this->server.send_event(event);
@@ -280,27 +270,61 @@ void Menu::joinGame(bool& joined_game){
     }
 }
 
-void Menu::run(){
+void Menu::renderInitMenu(TextTexture& quitButton, TextTexture& creatButton, TextTexture& joinButton){
+    
+    renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    renderer.clear();
+
+    this->background.render(0, 0, this->size.w, this->size.h);
+    quitButton.render();
+    creatButton.render();
+    joinButton.render();
+
+    renderer.updateScreen();
+}
+bool Menu::run(){
+
+    TextTexture quitButton(this->renderer, PATH_FONT, SIZE_FONT);
+    quitButton.setText("Quit Game", WHITE);
+    Size size = quitButton.getSize();
+    Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
+    quitButton.setCoordinate(pos);
+   
+    TextTexture creatButton(this->renderer, PATH_FONT, SIZE_FONT);
+    creatButton.setText("Creat Game", WHITE);
+    size = creatButton.getSize();
+    pos.y = pos.y - size.h - MARGIN;
+    creatButton.setCoordinate(pos);
+    
+    TextTexture joinButton(this->renderer, PATH_FONT, SIZE_FONT);
+    joinButton.setText("Join Game", WHITE);
+    size = joinButton.getSize();
+    pos.y = pos.y - size.h - MARGIN;
+    joinButton.setCoordinate(pos);
+
+
     SDL_Event e;
     bool quit = false;
     bool joined_game = false;
+    SDL_PumpEvents();
     while (!quit) {
         while (SDL_PollEvent(&e) != 0 && !joined_game && !quit) {
-            
-            if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
-                if (this->buttons[QUIT]->isMouseTouching()) {
-                    printf("entro al if\n");
+            if (e.type == SDL_QUIT) {
+                quit = true;  
+            } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
+                if (quitButton.isMouseTouching()) {
                     quit = true;
-                } else if (this->buttons[NEW_GAME]->isMouseTouching()) {
+                } else if (creatButton.isMouseTouching()) {
                     this->creatGame(joined_game);
                     quit = joined_game;
-                } else  if (this->buttons[JOIN]->isMouseTouching()) {
+                } else  if (joinButton.isMouseTouching()) {
                     this->joinGame(joined_game);
                     quit = joined_game;
                 }
             }
         }
-        this->renderInitMenu();
+        this->renderInitMenu(quitButton, creatButton, joinButton);
     }
+    return !quit;
 }
 

@@ -11,8 +11,10 @@ int main(int argc, char* argv[]){
 
         Size menuSize = {640, 480};
         Menu* menu = new Menu(menuSize, server);
-        menu->run();
+        bool joined_game = menu->run();
         delete menu;
+
+        if (!joined_game) return 0;
 
         Size windowSize {500, 500};
 
@@ -28,12 +30,12 @@ int main(int argc, char* argv[]){
         level = gameManager.initializeLevel(map, model);
         GameViewer gameViewer(windowSize, level); 
 
-        bool quit = false;
-        EventManager eventManager(server, quit, gameViewer);
+        bool gameEnded = model.game_ended;
+        EventManager eventManager(server, gameEnded, gameViewer);
         eventManager.start();
         Stopwatch stopwatch;
 
-        while (!quit && !model.game_ended) {
+        while (joined_game && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
             level = gameManager.updatedLevel(model);
