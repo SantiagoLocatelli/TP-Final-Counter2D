@@ -382,6 +382,7 @@ void GameViewer::render(){
 
 void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
+        printf("se actualizo la vida del pj\n");
         char healtText[100];
         sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
@@ -389,6 +390,7 @@ void GameViewer::updateHud(LevelInfo level){
 
 
     if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
+        
         char ammoText[100];
         sprintf(ammoText, "Ammo: %d", (int)this->level.mainPlayer.ammo);
         this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
@@ -396,23 +398,15 @@ void GameViewer::updateHud(LevelInfo level){
 }
 
 
-void GameViewer::update(LevelInfo level){
+void GameViewer::update(LevelInfo newLevel){
     std::unique_lock<std::mutex> lock(m);
 
-    updateHud(level);
+    updateHud(newLevel);
     printf("vida vieja del palyer: %f\n", this->level.mainPlayer.health);
     printf("vida nueva del palyer: %f\n\n", level.mainPlayer.health);
-    WeaponType mainType = level.mainPlayer.weapon.type;
-    this->mainPlayer->update(level.mainPlayer, this->weapons[mainType]);
+    WeaponType mainType = newLevel.mainPlayer.weapon.type;
+    this->mainPlayer->update(newLevel.mainPlayer, this->weapons[mainType]);
 
-    this->level.drops.clear();
-    this->level.drops.insert(this->level.drops.begin(), level.drops.begin(), level.drops.end());
-
-    this->level.players.clear();
-    this->level.players.insert(this->level.players.begin(), level.players.begin(), level.players.end());
-    
-    this->level.bullets.clear();
-    this->level.bullets.insert(this->level.bullets.begin(), level.bullets.begin(), level.bullets.end());
 
     auto it = this->players.begin();
     for (PlayerInfo player : this->level.players) {
@@ -421,9 +415,9 @@ void GameViewer::update(LevelInfo level){
         it++;
     }
 
-    this->cam.centerCamera(level.mainPlayer.pos);
-    this->cam.keepInBounds(level.size.w, level.size.h);
-    this->level = level;
+    this->cam.centerCamera(newLevel.mainPlayer.pos);
+    this->cam.keepInBounds(this->level.size.w, this->level.size.h);
+    this->level = newLevel;
 }
 
 void GameViewer::setCrossHair(Coordinate pos){this->mainPlayer->setCrossHair(pos);}

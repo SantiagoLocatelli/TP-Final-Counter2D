@@ -80,14 +80,12 @@ void updateBomb(BombInfo& bomb, ProtBomb prot) {
 }
 
 
-LevelInfo GameManager::updatedLevel(const ModelInfo& model){
-
-    level.drops.clear();
-    level.bullets.clear();
+void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
 
     // Si no esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
     level.mainPlayer.dead = model.you.dead;
+
     if (!level.mainPlayer.dead) {
         level.mainPlayer.ammo = model.you.ammo;
 
@@ -108,18 +106,20 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
         if (it != end) updatePlayer(level.mainPlayer, *it);
     }
 
-    auto player = this->level.players.begin();
+    auto player = level.players.begin();
     for (auto prot = model.players.begin(); prot != model.players.end(); prot++){
         updatePlayer(*player, *prot);
         player++;
     }
 
+    level.bullets.clear();
     for (auto it = model.bullets.begin(); it != model.bullets.end(); it++){
         BulletInfo bullet;
         updateBullet(bullet, *it);
         level.bullets.push_back(bullet);
     }
 
+    level.drops.clear();
     for (auto it = model.drops.begin(); it != model.drops.end(); it++) {
         DropInfo drop;
         updateDrop(drop, *it);
@@ -127,8 +127,6 @@ LevelInfo GameManager::updatedLevel(const ModelInfo& model){
     }
 
     updateBomb(level.bomb, model.bomb);
-
-    return level;
 }
 
 void translateRect(BoxInfo& box, RectArea rect){
@@ -139,7 +137,7 @@ void translateRect(BoxInfo& box, RectArea rect){
 }
 
 
-LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& model){
+void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const ModelInfo& model){
     
     level.size.w = map.length*PIXELS_PER_METER;
     level.size.h = map.height*PIXELS_PER_METER;
@@ -181,5 +179,5 @@ LevelInfo GameManager::initializeLevel(const MapInfo& map, const ModelInfo& mode
     level.mainPlayer.currentSlot = model.you.currentSlot;
     updatePlayer(level.mainPlayer, model.you);
 
-    return updatedLevel(model);
+    updatedLevel(level, model);
 }
