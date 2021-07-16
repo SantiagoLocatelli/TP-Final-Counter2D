@@ -1,4 +1,4 @@
-#include "MenueManager.h"
+#include "MenuManager.h"
 #include "yaml-cpp/yaml.h"
 #include "../common_src/Utils.h"
 #include <fstream>
@@ -8,7 +8,7 @@
 #define WEAPONS_PATH "../../common_src/utils/weaponsOnFloor.yaml"
 #define TILE_SIZE 80
 
-MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
+MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->screenHeight = screenHeight;
@@ -38,7 +38,7 @@ MenueManager::MenueManager(SdlRenderer& r, int screenWidth, int screenHeight) : 
     }
 }
 
-void MenueManager::createMap(const std::string mapID){
+void MenuManager::createMap(const std::string mapID){
     this->mapSize = {10, 10};
     this->currentType = 0;
     this->isWeapon = false;
@@ -65,7 +65,7 @@ void MenueManager::createMap(const std::string mapID){
     this->mapID = "../../common_src/maps/" + mapID + ".yaml";
 }
 
-void MenueManager::editMap(const std::string& mapID){
+void MenuManager::editMap(const std::string& mapID){
     TextureFactory factory;
     this->mapID = mapID;
     this->currentType = 0;
@@ -76,7 +76,7 @@ void MenueManager::editMap(const std::string& mapID){
     factory.unmarshalWeapons(mapID.c_str(), this->weaponTypes);
 }
 
-void MenueManager::loadToFile(){
+void MenuManager::loadToFile(){
     //texture in map
     std::vector<int> textureTypes;
     
@@ -154,7 +154,7 @@ void MenueManager::loadToFile(){
     this->needsToSave = "";
 }
 
-void MenueManager::renderTextures(const SDL_Rect& camera){
+void MenuManager::renderTextures(const SDL_Rect& camera){
     int x = 0, y = 0;
     for (auto &texture : this->textures){
         texture->render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE);
@@ -173,7 +173,7 @@ void MenueManager::renderTextures(const SDL_Rect& camera){
     }
 }
 
-void MenueManager::renderWeapons(const SDL_Rect& camera){
+void MenuManager::renderWeapons(const SDL_Rect& camera){
     int x = 0, y = 0;
     for (auto &type : this->weaponTypes){
         if (type != -1){
@@ -194,7 +194,7 @@ void MenueManager::renderWeapons(const SDL_Rect& camera){
     }
 }
 
-void MenueManager::renderBombSites(const SDL_Rect& camera){
+void MenuManager::renderBombSites(const SDL_Rect& camera){
     std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
     while (iterator != this->bombSites.end()){
         iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
@@ -204,7 +204,7 @@ void MenueManager::renderBombSites(const SDL_Rect& camera){
     }
 }
 
-void MenueManager::renderSpawnSites(const SDL_Rect& camera){
+void MenuManager::renderSpawnSites(const SDL_Rect& camera){
     std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
     while (iterator != this->spawnSites.end()){
         iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
@@ -214,19 +214,19 @@ void MenueManager::renderSpawnSites(const SDL_Rect& camera){
     }
 }
 
-void MenueManager::renderMapFloors(int& page){
+void MenuManager::renderMapFloors(int& page){
     renderMapTextures(page, this->floorTextureScreen);
 }
 
-void MenueManager::renderMapWalls(int& page){
+void MenuManager::renderMapWalls(int& page){
     renderMapTextures(page, this->wallTextureScreen);
 }
 
-void MenueManager::renderMapWeapons(int& page){
+void MenuManager::renderMapWeapons(int& page){
     renderMapTextures(page, this->weaponTextureScreen);
 }
 
-void MenueManager::renderMapTextures(int& page, std::vector<SdlTexture>& textures){
+void MenuManager::renderMapTextures(int& page, std::vector<SdlTexture>& textures){
     int x = 0, y = 0, j = 0;
     //numRenderTexture es la variable que indica cuantas texturas entran en la pantalla.
     //el menos 2 tileSize es donde van las flechas, mientras que la fila de menos es donde esta puesto el BACK.
@@ -266,7 +266,7 @@ void MenueManager::renderMapTextures(int& page, std::vector<SdlTexture>& texture
     }
 }
 
-void MenueManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
+void MenuManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
     std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
     while (iterator != this->bombSites.end()){
         int auxX = iterator->second->getPosX();
@@ -281,7 +281,7 @@ void MenueManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera
     }
 }
 
-void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera){
+void MenuManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera){
     std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
     while (iterator != this->spawnSites.end()){
         int auxX = iterator->second->getPosX();
@@ -296,22 +296,22 @@ void MenueManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camer
     }
 }
 
-void MenueManager::handleSelectFloor(SDL_Event* event, int& page){
+void MenuManager::handleSelectFloor(SDL_Event* event, int& page){
     this->isWeapon = false;
     handleSelectTexture(event, page, this->floorTextureScreen);
 }
 
-void MenueManager::handleSelectWall(SDL_Event* event, int& page){
+void MenuManager::handleSelectWall(SDL_Event* event, int& page){
     this->isWeapon = false;
     handleSelectTexture(event, page, this->wallTextureScreen);
 }
 
-void MenueManager::handleSelectWeapon(SDL_Event* event, int& page){
+void MenuManager::handleSelectWeapon(SDL_Event* event, int& page){
     this->isWeapon = true;
     handleSelectTexture(event, page, this->weaponTextureScreen);
 }
 
-void MenueManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<SdlTexture>& textures){
+void MenuManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<SdlTexture>& textures){
     if (event->type == SDL_MOUSEBUTTONDOWN){
         if(event->button.button == SDL_BUTTON_LEFT){
             int x = 0, y = 0, j = 0;
@@ -364,7 +364,7 @@ void MenueManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<
 }
 
 //numeros pares con el 0 son los width numeros impares son los height
-void MenueManager::changeSizeOfSites(std::vector<float>& vector){
+void MenuManager::changeSizeOfSites(std::vector<float>& vector){
     changeMapSize(vector[0], vector[1]);
     this->mapSize[0] = (int) vector[0];
     this->mapSize[1] = (int) vector[1];
@@ -374,7 +374,7 @@ void MenueManager::changeSizeOfSites(std::vector<float>& vector){
     this->spawnSites["CT"]->setWidthAndHeight((int) (vector[8] * TILE_SIZE), (int) (vector[9] * TILE_SIZE));
 }
 
-void MenueManager::changeMapSize(const int& width, const int& height){
+void MenuManager::changeMapSize(const int& width, const int& height){
     int endOfRowPosition = 0;
     int newColumns = width - this->mapSize[0];
     int rows = height;
@@ -411,7 +411,7 @@ void MenueManager::changeMapSize(const int& width, const int& height){
     }
 }
 
-void MenueManager::deleteTextureColumns(const int numberOfRows, const int rowNumber, const int newColumns){
+void MenuManager::deleteTextureColumns(const int numberOfRows, const int rowNumber, const int newColumns){
     int rowEnd = this->mapSize[0] * (numberOfRows - rowNumber) - 1;
     for (int i = 0; i < newColumns; i++){
         this->textures.erase(this->textures.begin() + rowEnd);
@@ -420,7 +420,7 @@ void MenueManager::deleteTextureColumns(const int numberOfRows, const int rowNum
     }
 }
 
-void MenueManager::deleteTextureRows(const int newRows){
+void MenuManager::deleteTextureRows(const int newRows){
     for (int i = 0; i < newRows; i++){
         for (int j = 0; j < this->mapSize[0]; j++){
             this->textures.pop_back();
@@ -429,7 +429,7 @@ void MenueManager::deleteTextureRows(const int newRows){
     }
 }
 
-void MenueManager::insertTextureColumns(const int endOfRowPosition , const int newColumns){
+void MenuManager::insertTextureColumns(const int endOfRowPosition , const int newColumns){
     for (int i = 0; i < newColumns; i++){
         this->textures.insert(textures.begin() + endOfRowPosition, std::unique_ptr<SdlTexture>
         (new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0)));
@@ -438,14 +438,14 @@ void MenueManager::insertTextureColumns(const int endOfRowPosition , const int n
     }
 }
 
-void MenueManager::insertTextureRows(const int columnsNumber){
+void MenuManager::insertTextureRows(const int columnsNumber){
     for (int i = 0; i < columnsNumber; i++){
         this->textures.emplace_back(new SdlTexture(this->renderer, this->textureMap[0].texturePath, 0));
         this->weaponTypes.push_back(-1);
     }
 }
 
-void MenueManager::changeTexture(const SDL_Rect& camera){
+void MenuManager::changeTexture(const SDL_Rect& camera){
     int x = 0, y = 0;
     
     //Get mouse offsets
@@ -491,12 +491,12 @@ void MenueManager::changeTexture(const SDL_Rect& camera){
     }
 }
 
-void MenueManager::fillSize(std::vector<SDL_Rect>& vector){
+void MenuManager::fillSize(std::vector<SDL_Rect>& vector){
     vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
     changeToMeters(vector);
 }
 
-void MenueManager::changeToMeters(std::vector<SDL_Rect>& vector){
+void MenuManager::changeToMeters(std::vector<SDL_Rect>& vector){
     for (auto &value : vector){
         value.x = value.x/TILE_SIZE;
         value.y = value.y/TILE_SIZE;
@@ -505,11 +505,11 @@ void MenueManager::changeToMeters(std::vector<SDL_Rect>& vector){
     }
 }
 
-void MenueManager::goToMenue(){
+void MenuManager::goToMenu(){
     this->goToStart = true;
 }
 
-bool MenueManager::quitToMenue(){
+bool MenuManager::quitToMenu(){
     if (goToStart){
         goToStart = false;
         return true;
@@ -517,30 +517,30 @@ bool MenueManager::quitToMenue(){
     return false;
 }
 
-void MenueManager::needToSave(){
+void MenuManager::needToSave(){
     this->needsToSave = "*";
 }
 
-std::string MenueManager::getSaveState(){
+std::string MenuManager::getSaveState(){
     return needsToSave;
 }
 
-int MenueManager::getMapWidth(){
+int MenuManager::getMapWidth(){
     return this->mapSize[0] * TILE_SIZE;
 }
 
-int MenueManager::getMapHeight(){
+int MenuManager::getMapHeight(){
     return this->mapSize[1] * TILE_SIZE;
 }
 
-int MenueManager::getTextureMapSize(){
+int MenuManager::getTextureMapSize(){
     return this->textureMap.size();
 }
 
-int MenueManager::getTexturesSize(){
+int MenuManager::getTexturesSize(){
     return textures.size();
 }
 
-int MenueManager::getTileSize(){
+int MenuManager::getTileSize(){
     return TILE_SIZE;
 }

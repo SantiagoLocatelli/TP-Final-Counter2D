@@ -1,5 +1,5 @@
-#ifndef __MENUE_MANAGER_H__
-#define __MENUE_MANAGER_H__
+#ifndef __MENU_MANAGER_H__
+#define __MENU_MANAGER_H__
 #include <SDL2/SDL.h>
 #include <memory>
 #include <string>
@@ -11,7 +11,7 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/draggable.h"
 #include "../common_src/Sdl/sdl_mixer.h"
-class MenueManager{
+class MenuManager{
     private:
         std::vector<int> mapSize;
         SdlRenderer& renderer;
@@ -29,7 +29,7 @@ class MenueManager{
         std::vector<int> weaponTypes;
         bool goToStart, isWeapon;
     public:
-        MenueManager(SdlRenderer& r, int screenWidth, int screenHeight);
+        MenuManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
 
         //RENDER
@@ -64,9 +64,9 @@ class MenueManager{
         void createMap(const std::string mapID);
         void editMap(const std::string& mapID);
         void needToSave();
-        void goToMenue();
+        void goToMenu();
 
-        bool quitToMenue();
+        bool quitToMenu();
         int getMapWidth();
         int getMapHeight();
         int getTextureMapSize();

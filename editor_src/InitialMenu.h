@@ -1,5 +1,5 @@
-#ifndef __INITAL_MENUE_H__
-#define __INITAL_MENUE_H__
+#ifndef __INITAL_MENU_H__
+#define __INITAL_MENU_H__
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
@@ -7,7 +7,7 @@
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_mixer.h"
 #include "presenter.h"
-class InitialMenue : public Presenter{
+class InitialMenu : public Presenter{
     private:
         SdlTexture background, crearMapTexture, editarMapTexture, arrow, back, introduceText, mapName;
         std::unique_ptr<SdlMixer> chunk;
@@ -17,7 +17,7 @@ class InitialMenue : public Presenter{
         int mapPosition, page;
         std::string createMapID;
     public:
-        InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH);
+        InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH);
         void render() override;
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void aceptChanges() override;

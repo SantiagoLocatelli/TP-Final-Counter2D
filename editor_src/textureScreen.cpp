@@ -3,10 +3,11 @@
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
 #define FONT_SIZE 26
-TextureScreen::TextureScreen(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH),
+TextureScreen::TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH),
 background(renderer, BACKGROUND), floors(renderer, FONT_PATH, FONT_SIZE, "Floors", 255, 255, 255),
 walls(renderer, FONT_PATH, FONT_SIZE, "Walls", 255, 255, 255), back(renderer, FONT_PATH, FONT_SIZE, "Back", 0, 0, 0),
-weapons(renderer, FONT_PATH, FONT_SIZE, "Weapons", 255, 255, 255), arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0){
+weapons(renderer, FONT_PATH, FONT_SIZE, "Weapons", 255, 255, 255), arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0),
+backToEditor(renderer, FONT_PATH, FONT_SIZE, "Back to Editor", 0, 0, 0){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->changeScene = false;
@@ -21,14 +22,17 @@ void TextureScreen::render(){
     if (renderFloors){
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
+        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
         Presenter::renderMapFloors(page);
     }else if (renderWalls){
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
+        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
         Presenter::renderMapWalls(page);
     }else if (renderWeapons){
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
+        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
         Presenter::renderMapWeapons(page);
     }
     else{
@@ -37,7 +41,7 @@ void TextureScreen::render(){
         this->walls.render(screen.w/3, screen.h/3);
         this->weapons.render((screen.w - weapons.getWidth())/2, screen.h/2);
     }
-    back.render(0, screen.h - 20);
+    this->back.render(0, screen.h - 20);
 }
 
 void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
@@ -61,6 +65,9 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     if (this->page > 0){
                         this->page--;
                     }
+                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                    this->chunk->playChunk(0);
+                    changeScene = true;
                 }
             }else if (renderWalls){
                 Presenter::handleWallsTexture(event, this->page);
@@ -75,6 +82,9 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     if (this->page > 0){
                         this->page--;
                     }
+                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                    this->chunk->playChunk(0);
+                    changeScene = true;
                 }
             }else if (renderWeapons){
                 Presenter::handleWeaponsTexture(event, this->page);
@@ -89,6 +99,9 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     if (this->page > 0){
                         this->page--;
                     }
+                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                    this->chunk->playChunk(0);
+                    changeScene = true;
                 }
             }else if (weapons.isMouseTouching((screen.w - weapons.getWidth())/2, screen.h/2)){
                 this->chunk->playChunk(0);

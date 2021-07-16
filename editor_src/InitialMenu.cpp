@@ -1,4 +1,4 @@
-#include "InitialMenue.h"
+#include "InitialMenu.h"
 #include <dirent.h>
 #include <algorithm>
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
@@ -9,7 +9,7 @@
 #define MAPS_PER_PAGE 3
 void parse(std::vector<std::string>& files);
 
-InitialMenue::InitialMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH) : 
+InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : 
     Presenter(m, screenW, screenH), background(renderer, BACKGROUND),
     crearMapTexture(renderer, FONT_PATH, FONT_SIZE, "Crear Mapa", 255, 255, 255),
     editarMapTexture(renderer, FONT_PATH, FONT_SIZE, "Editar Mapa", 255, 255, 255),
@@ -58,7 +58,7 @@ void parse(std::vector<std::string>& files){
     }
 }
 
-void InitialMenue::render(){
+void InitialMenu::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     this->background.render(0, 0, screen.w, screen.h);
     if (editMap){
@@ -93,7 +93,7 @@ void InitialMenue::render(){
     }
 }
 
-void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+void InitialMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     SDL_Rect screen = Presenter::getCameraBox();
     if (createMap){
         if (event->type == SDL_KEYDOWN){
@@ -165,7 +165,7 @@ void InitialMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     }
 }
 
-void InitialMenue::aceptChanges(){
+void InitialMenu::aceptChanges(){
     if (editMap){
         Presenter::editMap(this->mapsID[this->mapPosition]);
     }else if (createMap){
@@ -173,7 +173,7 @@ void InitialMenue::aceptChanges(){
     }
 }
 
-bool InitialMenue::finish(){
+bool InitialMenu::finish(){
     if (changeScene){
         changeScene = false;
         return true;
@@ -181,6 +181,6 @@ bool InitialMenue::finish(){
     return false;
 }
 
-std::string InitialMenue::getTitle(){
-    return "Menue";
+std::string InitialMenu::getTitle(){
+    return "Menu";
 }

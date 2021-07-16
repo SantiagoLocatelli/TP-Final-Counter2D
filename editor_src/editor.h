@@ -6,18 +6,16 @@
 #include <vector>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
-#include "MenueManager.h"
+#include "MenuManager.h"
 #include "presenter.h"
 class Editor : public Presenter{
     private:
-        bool renderBombSites;
+        SdlTexture helperBombsite, helperSpawnsite, helperPutTiles, helperTab, helperEsc, helperHide;
 
-        bool renderSpawnSites;
-
-        bool changeScene;
+        bool renderBombSites, renderSpawnSites, changeScene, hideHelper;
 
     public:
-        Editor(MenueManager& m, int screenW, int screenH);
+        Editor(SdlRenderer& renderer, MenuManager& m, int screenW, int screenH);
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void render() override;
         void put_tile(SdlRenderer& renderer);

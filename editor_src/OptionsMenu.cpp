@@ -1,4 +1,4 @@
-#include "OptionsMenue.h"
+#include "OptionsMenu.h"
 #include <string>
 #include <utility>
 #include <stdio.h>
@@ -11,13 +11,13 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-OptionsMenue::OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH)
+OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH)
   : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
     widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
     heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255),
     save(renderer, FONT_PATH, FONT_SIZE, "Save Map", 255, 255, 255),
     back(renderer, FONT_PATH, FONT_SIZE, "Back", 255, 255, 255),
-    quitToMenue(renderer, FONT_PATH, FONT_SIZE, "Go back to Menue", 255, 255, 255){
+    quitToMenu(renderer, FONT_PATH, FONT_SIZE, "Go back to Menu", 255, 255, 255){
     this->changeScene = false;
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
@@ -40,7 +40,7 @@ OptionsMenue::OptionsMenue(SdlRenderer& renderer, MenueManager& m ,int screenW, 
     }
 }
 
-void OptionsMenue::render(){
+void OptionsMenu::render(){
     if (this->renderText){
         std::string inputText = this->options[this->selectedTexture];
         if (inputText == ""){
@@ -58,7 +58,7 @@ void OptionsMenue::render(){
     this->backgroundTexture.render(0, 0, screen.w, screen.h);
     this->save.render(screen.w - 100, 0);
     this->back.render(0, screen.h - 20);
-    this->quitToMenue.render(0,0);
+    this->quitToMenu.render(0,0);
     for (unsigned int i = 0; i < inputOrder.size(); i++){
         if (i % 2 == 0){
             posY += 50;
@@ -72,7 +72,7 @@ void OptionsMenue::render(){
     }
 }
 
-void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
+void OptionsMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     int posY = 0;
     int posX = 300;
     if (event->type == SDL_KEYDOWN){
@@ -89,8 +89,8 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
             }else if (back.isMouseTouching(0, screen.h - 20)){
                 this->chunk->playChunk(0);
                 this->changeScene = true;
-            }else if (quitToMenue.isMouseTouching(0, 0)){
-                Presenter::goToMenue();
+            }else if (quitToMenu.isMouseTouching(0, 0)){
+                Presenter::goToMenu();
                 this->changeScene = true;
             }else{
                 for (unsigned int i = 0; i < inputOrder.size(); i++){
@@ -135,7 +135,7 @@ void OptionsMenue::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     }
 }
 
-void OptionsMenue::aceptChanges(){
+void OptionsMenu::aceptChanges(){
     std::vector<float> vector;
     int i = 0;
     for (auto &input : inputOrder){
@@ -169,7 +169,7 @@ void OptionsMenue::aceptChanges(){
     Presenter::changeSizeOfSites(vector);
 }
 
-bool OptionsMenue::finish(){
+bool OptionsMenu::finish(){
     if (changeScene){
         changeScene = false;
         return true;
@@ -177,6 +177,6 @@ bool OptionsMenue::finish(){
     return false;
 }
 
-std::string OptionsMenue::getTitle(){
-    return "Options OptionsMenue";
+std::string OptionsMenu::getTitle(){
+    return "Options OptionsMenu";
 }

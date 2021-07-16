@@ -5,12 +5,39 @@
 #include <memory>
 #include <utility>
 #define TEXTURE_PATH "../../common_src/maps/textures.yaml"
+#define FONT_PATH "../../common_src/img/digital-7.ttf"
+#define FONT_SIZE 26
 
-
-Editor::Editor(MenueManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
+Editor::Editor(SdlRenderer& renderer, MenuManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH),
+helperBombsite(renderer, FONT_PATH, FONT_SIZE, "mantenga 1 para ver los bomsites", 255, 255, 255),
+helperSpawnsite(renderer, FONT_PATH, FONT_SIZE, "mantenga 2 para ver los spawnsites", 255, 255, 255),
+helperPutTiles(renderer, FONT_PATH, FONT_SIZE, "click derecho para poner las texturas", 255, 255, 255),
+helperTab(renderer, FONT_PATH, FONT_SIZE, "aprete TAB para cambiar texturas", 255, 255, 255),
+helperEsc(renderer, FONT_PATH, FONT_SIZE, "aprete ESCAPE para ver opciones", 255, 255, 255),
+helperHide(renderer, FONT_PATH, FONT_SIZE, "aprete 3 para ocultar este texto", 255, 255, 255){
     this->renderBombSites = false;
     this->renderSpawnSites = false;
     this->changeScene = false;
+    this->hideHelper = false;
+}
+
+void Editor::render(){
+    Presenter::renderTextures();
+    Presenter::renderWeapons();
+    if (renderBombSites){
+        Presenter::renderBombSites();
+    }
+    if (renderSpawnSites){
+        Presenter::renderSpawnSites();
+    }
+    if (!hideHelper){
+        this->helperBombsite.render(0, 0);
+        this->helperSpawnsite.render(0, 30);
+        this->helperPutTiles.render(0, 60);
+        this->helperTab.render(0, 90);
+        this->helperEsc.render(0, 120);
+        this->helperHide.render(0, 150);
+    }
 }
 
 void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
@@ -28,6 +55,8 @@ void Editor::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         //spawnsites
         }else if (event->key.keysym.sym == SDLK_2){
             presentSpawnSites();
+        }else if (event->key.keysym.sym == SDLK_3){
+            this->hideHelper = !this->hideHelper;
         }else if (event->key.keysym.sym == SDLK_ESCAPE){
             this->changeScene = true;
         }else if (event->key.keysym.sym == SDLK_TAB){
@@ -73,16 +102,6 @@ void Editor::put_tile(SdlRenderer& renderer){
     Presenter::changeTexture();
 }
 
-void Editor::render(){
-    Presenter::renderTextures();
-    Presenter::renderWeapons();
-    if (renderBombSites){
-        Presenter::renderBombSites();
-    }
-    if (renderSpawnSites){
-        Presenter::renderSpawnSites();
-    }
-}
 
 std::string Editor::getTitle(){
     return "Map Editor";
