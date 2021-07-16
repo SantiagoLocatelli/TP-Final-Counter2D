@@ -177,7 +177,9 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.bomb.timeRemaining);
     }
 
-    send_byte(modelInfo.roundState);
+    send_byte(modelInfo.state.roundState);
+    send_byte(modelInfo.state.gameState);
+    send_byte(modelInfo.state.endResult);
     send_float(modelInfo.timeRemaining);
 }
 
@@ -246,7 +248,9 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.bomb.timeRemaining);
     }
 
-    recv_byte((char &)modelInfo.roundState);
+    recv_byte((char &)modelInfo.state.roundState);
+    recv_byte((char &)modelInfo.state.gameState);
+    recv_byte((char &)modelInfo.state.endResult);
     recv_float(modelInfo.timeRemaining);
 }
 

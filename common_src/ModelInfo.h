@@ -15,7 +15,7 @@ struct Position{
 };
 
 struct ProtPlayer{
-    bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
+    bool dead; //Si es verdadero entonces todos los otros campos son inválidos
     Position pos;
     float angle; //En radianes
     std::array<WeaponType, 4> weapons;
@@ -40,6 +40,17 @@ struct ProtDrop{
     Position pos;
 };
 
+struct ProtState{
+    RoundState roundState;
+    
+    //Cuando roundState == END te dice el estado de la partida en general. 
+    //Si siguen jugando, si alguien ganó o empataron.
+    GameState gameState; 
+
+    //Si roundState == END te dice porque termino la ronda.
+    RoundResult endResult; 
+};
+
 struct ProtBomb{
     bool planted; //Si es falso entonces todos los otros campos son inválidos
     bool defused;
@@ -55,7 +66,7 @@ struct ModelInfo{
     std::list<ProtDrop> drops;
     ProtBomb bomb;
     bool game_ended;
-    RoundState roundState;
+    ProtState state;
     float timeRemaining;
 };
 
