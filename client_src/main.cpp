@@ -29,7 +29,7 @@ int main(int argc, char* argv[]){
         LevelInfo level;
         GameManager gameManager;
         
-        level = gameManager.initializeLevel(map, model);
+        gameManager.initializeLevel(level, map, model);
         GameViewer gameViewer(windowSize, level); 
 
         bool gameEnded = model.game_ended;
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
         while (joined_game && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);
-            level = gameManager.updatedLevel(model);
+            gameManager.updatedLevel(level, model);
             gameViewer.update(level);
             gameViewer.render();
             while (stopwatch.msPassed() < FRAME_MS) {

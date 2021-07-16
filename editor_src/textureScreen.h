@@ -7,11 +7,11 @@
 class TextureScreen : public Presenter{
     private:
         bool changeScene, renderFloors, renderWalls, renderWeapons;
-        SdlTexture background, floors, walls, back, weapons, arrow;
+        SdlTexture background, floors, walls, back, weapons, arrow, backToEditor;
         std::unique_ptr<SdlMixer> chunk;
         int page;
     public:
-        TextureScreen(SdlRenderer& renderer, MenueManager& m ,int screenW, int screenH);
+        TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH);
         void render() override;
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
         void aceptChanges() override;

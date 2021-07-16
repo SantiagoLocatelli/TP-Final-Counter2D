@@ -3,90 +3,90 @@
 #include <fstream>
 #include <stdio.h>
 
-Presenter::Presenter(MenueManager& m, int screenW, int screenH) : menueManager(m), camera({screenW, screenH}){}
+Presenter::Presenter(MenuManager& m, int screenW, int screenH) : menuManager(m), camera({screenW, screenH}){}
 
 void Presenter::renderTextures(){
-    this->menueManager.renderTextures(this->camera.getRect());
+    this->menuManager.renderTextures(this->camera.getRect());
 }
 
 void Presenter::renderWeapons(){
-    this->menueManager.renderWeapons(this->camera.getRect());
+    this->menuManager.renderWeapons(this->camera.getRect());
 }
 
 void Presenter::renderBombSites(){
-    this->menueManager.renderBombSites(this->camera.getRect());
+    this->menuManager.renderBombSites(this->camera.getRect());
 }
 
 void Presenter::renderSpawnSites(){
-    this->menueManager.renderSpawnSites(this->camera.getRect());
+    this->menuManager.renderSpawnSites(this->camera.getRect());
 }
 
 void Presenter::renderMapFloors(int& page){
-    this->menueManager.renderMapFloors(page);
+    this->menuManager.renderMapFloors(page);
 }
 
 void Presenter::renderMapWalls(int& page){
-    this->menueManager.renderMapWalls(page);
+    this->menuManager.renderMapWalls(page);
 }
 
 void Presenter::renderMapWeapons(int& page){
-    this->menueManager.renderMapWeapons(page);
+    this->menuManager.renderMapWeapons(page);
 }
 
 void Presenter::handleBombSitesEvent(SDL_Event* event){
-    this->menueManager.handleBombSitesEvent(event, this->camera.getRect());
+    this->menuManager.handleBombSitesEvent(event, this->camera.getRect());
 }
 
 void Presenter::handleSpawnSitesEvent(SDL_Event* event){
-    this->menueManager.handleSpawnSitesEvent(event, this->camera.getRect());
+    this->menuManager.handleSpawnSitesEvent(event, this->camera.getRect());
 }
 
 void Presenter::handleFloorsTexture(SDL_Event* event, int& page){
-    this->menueManager.handleSelectFloor(event, page);
+    this->menuManager.handleSelectFloor(event, page);
 }
 
 void Presenter::handleWallsTexture(SDL_Event* event, int& page){
-    this->menueManager.handleSelectWall(event, page);
+    this->menuManager.handleSelectWall(event, page);
 }
 
 void Presenter::handleWeaponsTexture(SDL_Event* event, int& page){
-    this->menueManager.handleSelectWeapon(event, page);
+    this->menuManager.handleSelectWeapon(event, page);
 }
 
 void Presenter::centerCamera(){
-    this->camera.centerCameraOnMouse(this->menueManager.getTileSize(), this->menueManager.getMapWidth(), this->menueManager.getMapHeight());
+    this->camera.centerCameraOnMouse(this->menuManager.getTileSize(), this->menuManager.getMapWidth(), this->menuManager.getMapHeight());
 }
 
 void Presenter::fillSize(std::vector<SDL_Rect>& vector){
-    this->menueManager.fillSize(vector);
+    this->menuManager.fillSize(vector);
 }
 
 void Presenter::changeSizeOfSites(std::vector<float>& vector){
-    this->menueManager.changeSizeOfSites(vector);
+    this->menuManager.changeSizeOfSites(vector);
 }
 
 void Presenter::changeTexture(){
-    this->menueManager.changeTexture(this->camera.getRect());
+    this->menuManager.changeTexture(this->camera.getRect());
 }
 
 void Presenter::createMap(const std::string mapID){
-    this->menueManager.createMap(mapID);
+    this->menuManager.createMap(mapID);
 }
 
 void Presenter::editMap(const std::string& mapID){
-    this->menueManager.editMap(mapID);
+    this->menuManager.editMap(mapID);
 }
 
 void Presenter::needToSave(){
-    this->menueManager.needToSave();
+    this->menuManager.needToSave();
 }
 
 void Presenter::saveMap(){
-    this->menueManager.loadToFile();
+    this->menuManager.loadToFile();
 }
 
-void Presenter::goToMenue(){
-    this->menueManager.goToMenue();
+void Presenter::goToMenu(){
+    this->menuManager.goToMenu();
 }
 
 SDL_Rect Presenter::getCameraBox(){
@@ -94,22 +94,22 @@ SDL_Rect Presenter::getCameraBox(){
 }
 
 int Presenter::getMapWidth(){
-    return this->menueManager.getMapWidth();
+    return this->menuManager.getMapWidth();
 }
 
 int Presenter::getMapHeight(){
-    return this->menueManager.getMapHeight();
+    return this->menuManager.getMapHeight();
 }
 
 int Presenter::getTextureMapSize(){
-    return this->menueManager.getTextureMapSize();
+    return this->menuManager.getTextureMapSize();
 }
 
 int Presenter::getTexturesSize(){
-    return this->menueManager.getTexturesSize();
+    return this->menuManager.getTexturesSize();
 }
 
 int Presenter::getTileSize(){
-    return this->menueManager.getTileSize();
+    return this->menuManager.getTileSize();
 }
 

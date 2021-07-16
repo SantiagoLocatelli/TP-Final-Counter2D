@@ -10,14 +10,13 @@
 
 class GameManager {
 private:
-    LevelInfo level;
 
 public:
 
     GameManager();
     
-    LevelInfo initializeLevel(const MapInfo& map, const ModelInfo& model);
-    LevelInfo updatedLevel(const ModelInfo& model);
+    void initializeLevel(LevelInfo& level, const MapInfo& map, const ModelInfo& model);
+    void updatedLevel(LevelInfo& level, const ModelInfo& model);
 };
 
 #endif

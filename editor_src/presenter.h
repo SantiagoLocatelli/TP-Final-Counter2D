@@ -5,14 +5,14 @@
 #include <map>
 #include <vector>
 #include "../client_src/Character/camera.h"
-#include "MenueManager.h"
+#include "MenuManager.h"
 class Presenter{
     private:
-        MenueManager& menueManager;
+        MenuManager& menuManager;
 
         Camera camera;
     public:
-        Presenter(MenueManager& menueManager, int screenW, int screenH);
+        Presenter(MenuManager& menuManager, int screenW, int screenH);
         virtual void render() = 0;
         virtual void handleEvents(SDL_Event* event, SdlRenderer& renderer) = 0;
         virtual std::string getTitle() = 0;
@@ -42,7 +42,7 @@ class Presenter{
         void editMap(const std::string& mapID);
         void needToSave();
         void saveMap();
-        void goToMenue();
+        void goToMenu();
 
         SDL_Rect getCameraBox();
         int getMapWidth();
