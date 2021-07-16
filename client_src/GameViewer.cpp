@@ -205,7 +205,7 @@ void GameViewer::renderHud(){
     auto end = this->level.mainPlayer.weapons.end();
     int i = 1;
     for (it; it != end; it++) {
-        if (*it != KNIFE) {
+        if (*it != KNIFE && *it != NO_WEAPON) {
             SdlTexture* weapon = this->textureManager.getWeaponOnHud(*it);
 
             if (*it != this->level.mainPlayer.weapons[this->level.mainPlayer.currentSlot]) {
