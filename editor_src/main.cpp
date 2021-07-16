@@ -56,6 +56,9 @@ int main(int argc, char* args[]){
                 if (presenter.size() > 1){
                     presenter.top()->aceptChanges();
                     presenter.pop();
+                    if (menueManager.quitToMenue()){
+                        presenter.emplace(std::unique_ptr<Presenter>(new InitialMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
+                    }
                 }else if (event.key.keysym.sym == SDLK_ESCAPE){
                     presenter.emplace(std::unique_ptr<Presenter>(new OptionsMenue(renderer, menueManager, SCREEN_WIDTH, SCREEN_HEIGHT)));
                 }else{

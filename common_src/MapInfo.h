@@ -11,7 +11,7 @@ struct MapInfo{
     uint16_t length;
     std::vector<uint8_t> tiles; //La matriz de casillas "aplastada" en un vector
     std::vector<RectArea> bombSites;
-    std::vector<RectArea> spawnSites;
+    std::vector<RectArea> spawnSites; //El primer spawn es el de terror y el segundo el de counter
 };
 
 #endif

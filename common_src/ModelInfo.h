@@ -2,6 +2,7 @@
 #define _MODEL_INFO_H_
 
 #include <list>
+#include <array>
 #include <stdint.h>
 #include "Utils.h"
 
@@ -17,7 +18,8 @@ struct ProtPlayer{
     bool dead; //IMPORTANTE: Si el jugador está muerto los otros atributos son inválidos!!
     Position pos;
     float angle; //En radianes
-    WeaponType weapon;
+    std::array<WeaponType, 4> weapons;
+    WeaponSlot currentSlot;
     bool shot;
     Team team;
 };
@@ -53,6 +55,8 @@ struct ModelInfo{
     std::list<ProtDrop> drops;
     ProtBomb bomb;
     bool game_ended;
+    RoundState roundState;
+    float timeRemaining;
 };
 
 #endif

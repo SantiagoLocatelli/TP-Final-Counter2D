@@ -3,13 +3,13 @@
 #include <utility>
 #include <stdio.h>
 
-void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::list<std::unique_ptr<SdlTexture>>& textures,
- std::vector<float>& mapSize, SdlRenderer& renderer){
+void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures,
+ std::vector<int>& mapSize, SdlRenderer& renderer){
     //Open the map
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
 
     YAML::Node size = yaml_map["mapSize"];
-    mapSize = size.as<std::vector<float>>();
+    mapSize = size.as<std::vector<int>>();
 
     //Initialize the objects
     YAML::Node textureNumbers = yaml_map["map"];
@@ -17,6 +17,17 @@ void TextureFactory::unmarshalMap(const char *yamlFile, TextureMap& map, std::li
         int type = it->as<int>();
         std::string path = map[type].texturePath;
         textures.emplace_back(new SdlTexture(renderer, path, type));
+    }
+}
+
+void TextureFactory::unmarshalWeapons(const char *yamlFile, std::vector<int>& weaponTypes){
+    //Open the map
+    YAML::Node yaml_map = YAML::LoadFile(yamlFile);
+
+    //Initialize the objects
+    YAML::Node weaponsNumbers = yaml_map["weapons"];
+    for (YAML::iterator it = weaponsNumbers.begin(); it != weaponsNumbers.end(); it++){
+        weaponTypes.push_back(it->as<int>());
     }
 }
 

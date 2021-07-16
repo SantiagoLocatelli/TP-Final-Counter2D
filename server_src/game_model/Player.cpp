@@ -2,28 +2,17 @@
 #include "../../common_src/GeneralException.h"
 #include "Pistol.h"
 #include "Knife.h"
+#include "Sniper.h"
+#include "Shotgun.h"
+#include "Rifle.h"
+
 #include <cmath>
 #include <iostream>
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), canMove(true), shot(false){
-    b2BodyDef playerBodyDef;
-    playerBodyDef.type = b2_dynamicBody;
-    playerBodyDef.position.Set(start_x, start_y);
-    body = world.b2world.CreateBody(&playerBodyDef);
-    body->GetUserData().pointer = (uintptr_t)this;
-
-    b2CircleShape playerShape;
-    playerShape.m_radius = 0.5f;
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &playerShape;
-    fixtureDef.density = 1;
-    fixtureDef.friction = 0;
-
-    fixture = body->CreateFixture(&fixtureDef);
-
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), money(config.getPlayer().at("startingMoney")), canMove(true), shot(false){
+    setBody(start_x, start_y);
     weapons[KNIFE_SLOT] = new Knife(&world, config);
     weapons[KNIFE_SLOT]->changeOwner(this);
     weapons[SECONDARY] = new Pistol(&world, config);
@@ -53,6 +42,7 @@ Player::Player(Player&& other): world(other.world), config(other.config){
     this->defusing = other.defusing;
     this->defuseTime = other.defuseTime;
     this->canMove = other.canMove;
+    this->money = other.money;
 
     this->movement = std::move(other.movement);
     
@@ -107,10 +97,12 @@ std::array<float, 2> Player::getPosition() const{
 }
 
 void Player::recvDamage(float damage){
-    health -= damage;
-    if (health < 0){
-        dead = true;
-        world.deleteBody(body);
+    if (health > 0){
+        health -= damage;
+        if (health < 0){
+            dead = true;
+            world.destroyBody(body);
+        }
     }
 }
 
@@ -133,9 +125,23 @@ void Player::toggleWeapon(){
     weapons[currentWeapon]->toggle();
 }
 
-WeaponType Player::getWeaponType() const{
-    return weapons[currentWeapon]->getType();
+std::array<WeaponType, 4> Player::getWeapons() const{
+    std::array<WeaponType, 4> arr;
+    for (int i = 0; i < 4; i++){
+        if (weapons[i] == nullptr)
+            arr[i] = NO_WEAPON;
+        else
+            arr[i] = weapons[i]->getType();
+    }
+
+    return arr;
 }
+
+WeaponSlot Player::getWeaponSlot() const{
+    return currentWeapon;
+}
+
+
 
 bool Player::isDead() const{
     return dead;
@@ -151,9 +157,8 @@ Player::~Player(){
 
 void Player::dropWeapon(){
     if (currentWeapon != KNIFE_SLOT){ //El cuchillo no se puede tirar
-        //TODO: Arreglar los dropeos para que sean consistentes en la distancia
-        float x_pos = body->GetPosition().x + std::cos(angle);
-        float y_pos = body->GetPosition().y + std::sin(angle);
+        float x_pos = body->GetPosition().x + 1.5*std::cos(angle);
+        float y_pos = body->GetPosition().y + 1.5*std::sin(angle);
         new Drop(world, x_pos, y_pos, weapons[currentWeapon]);
         weapons[currentWeapon] = nullptr;
         currentWeapon = KNIFE_SLOT;
@@ -239,3 +244,79 @@ void Player::toggleDefuse(){
 int Player::getAmmo() const{
     return weapons[currentWeapon]->getAmmo();
 }
+
+void Player::buyWeapon(WeaponType weaponType){
+    if (!world.canBuy(*this))
+        return;
+    
+    Weapon *weapon;
+    switch (weaponType){
+    case SNIPER:
+        weapon = new Sniper(&world, config);
+        break;
+    
+    case SHOTGUN:
+        weapon = new Shotgun(&world, config);
+        break;
+
+    case RIFLE:
+        weapon = new Rifle(&world, config);
+        break;
+    
+    default:
+        return;
+    }
+
+    if (money - weapon->getPrice() >= 0){
+        money -= weapon->getPrice();
+        takeWeapon(weapon);
+    } else {
+        delete weapon;
+    }
+}
+
+void Player::reset(float x, float y, Team team){
+    currentWeapon = KNIFE_SLOT;
+    health = config.getPlayer().at("health");
+    defusing = false;
+    defuseTime  = 0;
+    canMove = true; 
+    shot = false;
+
+    if (weapons[PRIMARY] != nullptr){
+        delete weapons[PRIMARY];
+        weapons[PRIMARY] = nullptr;
+    }
+    if (weapons[BOMB_SLOT] != nullptr){
+        delete weapons[BOMB_SLOT];
+        weapons[BOMB_SLOT] = nullptr;
+    }
+
+    if (dead){
+        setBody(x,y);
+        dead = false;
+    } else {
+        body->SetTransform(b2Vec2(x,y), 0);
+    }
+
+    this->team = team; 
+}
+
+void Player::setBody(float x, float y){
+    b2BodyDef playerBodyDef;
+    playerBodyDef.type = b2_dynamicBody;
+    playerBodyDef.position.Set(x, y);
+    body = world.b2world.CreateBody(&playerBodyDef);
+    body->GetUserData().pointer = (uintptr_t)this;
+
+    b2CircleShape playerShape;
+    playerShape.m_radius = 0.5f;
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &playerShape;
+    fixtureDef.density = 1;
+    fixtureDef.friction = 0;
+
+    fixture = body->CreateFixture(&fixtureDef);
+}
+

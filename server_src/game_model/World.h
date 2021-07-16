@@ -15,34 +15,34 @@
 #include "GameConfig.h"
 #include "../../common_src/Utils.h"
 #include "../../common_src/ModelInfo.h"
+#include "../../common_src/MapInfo.h"
 
 class Drop;
 class Player;
 
 class World{
     private:
-        std::array<int, 2> gridSize;
         std::vector<Player> players;
         std::list<Box> boxes;
         std::list<Ray> bullets;
         int player_number;
         CollisionHandler collisionHandler;
         std::list<b2Body*> bodiesToDestroy;
-        float timer;
         ProtBomb bomb;
-        std::list<RectArea> bombSites;
+        MapInfo mapInfo;
+        std::list<ProtDrop> startingDrops;
 
+        bool positionInArea(float x, float y, RectArea area);
+        b2Vec2 getValidPosition(RectArea area);
 
     public:
         b2World b2world;
         GameConfig &config;     
 
-        World(int grid_length, int grid_height, GameConfig &config);
+        World(MapInfo mapInfo, GameConfig &config);
         void addBox(int grid_x, int grid_y);
-        void createPlayer(RectArea spawn, Team team);
+        void createPlayer(Team team);
         void step(float delta);
-        float rayCast(Ray ray, Hittable *&hittable);
-        std::list<Hittable *> &hittablesInArea(float x, float y, float heigth, float length);
 
         void deleteBody(b2Body *body);
         std::vector<Player> &getPlayers();
@@ -51,18 +51,24 @@ class World{
         void clearBullets();
 
         void addDrop(Weapon *weapon, float x, float y);
+        void addStartingDrop(ProtDrop drop);
         std::list<Drop*> getDrops();
-        float getTime();
-        void addSite(RectArea site);
         void destroyBody(b2Body *body);
 
+        bool canBuy(Player &player);
+
         //TODO: Pasar estos métodos a su propia clase 
-        bool canPlant(float x, float y);
-        void plantBomb(float x, float y);
         bool bombExploded();
-        bool canDefuse(float x, float y);
         void defuseBomb();
         bool bombDefused();
+        bool bombPlanted();
+
+        //TODO: Hacer estas tres como canBuy (le pasas el player)
+        bool canPlant(float x, float y);
+        bool canDefuse(float x, float y);
+        void plantBomb(float x, float y);
+
+        void resetWorld(bool changeTeams);
 
         ProtBomb getBomb();
 

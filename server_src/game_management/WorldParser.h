@@ -20,6 +20,7 @@ class WorldParser{
         std::vector<int> get_tiles();
         std::vector<RectArea> get_sites();
         std::vector<RectArea> get_spawn();
+        std::list<ProtDrop> get_weapons();
 };
 
 #endif

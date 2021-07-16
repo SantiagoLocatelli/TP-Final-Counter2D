@@ -33,6 +33,10 @@ void EventHandler::executeEvent(Event event, int id){
         game.toggleDefuse(id);
         break;
 
+    case BUY_WEAPON:
+        game.buyWeapon(id, event.info.type);
+        break;
+    
     default:
         break;
     }

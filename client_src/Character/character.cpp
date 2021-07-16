@@ -2,11 +2,11 @@
 #include "../Events/gameMath.h"
 #include <utility>
 
-
+#define DELAY_SOUND 6
 #define PHASE_SHIFT 90
-const SDL_Rect SRC_KNIFE = { 0, 0, 32, 32};
-const SDL_Rect SRC_BIG_GUN = { 0, 64, 32, 32};
-const SDL_Rect SRC_DEFUSER = { 32, 32, 32, 32};
+const SDL_Rect SRC_KNIFE = {0, 0, 32, 32};
+const SDL_Rect SRC_BIG_GUN = {0, 64, 32, 32};
+const SDL_Rect SRC_DEFUSER = {32, 32, 32, 32};
 const SDL_Rect SRC_PISTOL = {32, 32, 32, 32};
 
 Character::Character(PlayerInfo player, SdlTexture& texture, Weapon* weapon):
@@ -33,24 +33,49 @@ void Character::render(Coordinate cam){
                         
     Size sizeWp = {this->player.weapon.size.w, this->player.weapon.size.h};
 
-    //this->info.pos.x - this->info.size.w/2 - cam.x, this->info.pos.y - this->info.size.h/2 - cam.y, this->info.size.w, this->info.size.h
     this->weapon->render(dstWp, dstAnim, sizeWp, this->player.degrees, this->player.shooting);
     this->texture.render(dstPj.x, dstPj.y, dstPj.w, dstPj.h, &srcPj, this->player.degrees + PHASE_SHIFT);
 }
 
 
 void Character::update(PlayerInfo info, Weapon* weapon){
+    this->player.sounds.clear();
+
     this->player.dead = info.dead;
     if (info.dead) return;
 
     this->weapon = weapon;
 
-    this->player.shooting = info.shooting;
-    this->player.degrees = info.degrees;
+    if (!this->player.dead && info.dead) {
+        this->player.sounds.push_back(DYING);
+    }
+    if (!Math::equalCoords(player.pos, info.pos)) {
+        this->delay++;
+        if (this->delay == DELAY_SOUND) {
+            PlayerEffect effect = (PlayerEffect)Math::getRandomNumberBetween((int)STEP1, (int)STEP4);
+            this->player.sounds.push_back(effect);
+        }
+        this->delay = this->delay % DELAY_SOUND;
+    }
+
     this->player.weapon = info.weapon;
+    this->player.shooting = info.shooting;
+    if (info.shooting) {
+        if (info.weapon.type == PISTOL) {
+            this->player.weapon.sound = SHOT_PISTOL;
+        } else if (info.weapon.type == RIFLE) {
+            this->player.weapon.sound = SHOT_RIFLE;
+        } else if (info.weapon.type == SHOTGUN) {
+            this->player.weapon.sound = SHOT_SHOTGUN;
+        } else if (info.weapon.type == SNIPER) {
+            this->player.weapon.sound = SHOT_SNIPER;
+        } else if (info.weapon.type == KNIFE) {
+            this->player.weapon.sound = KNIFE_HIT;
+        }
+    }
+    this->player.degrees = info.degrees;
     this->player.pos = info.pos;
     this->player.size = info.size;
-    // printf("coordenada x: %i, y: %i\n", info.pos.x, info.pos.y);
 }
 
 WeaponType Character::getWeaponType(){return this->player.weapon.type;}

@@ -53,6 +53,9 @@ struct PlayerInfo {
 struct MainPlayerInfo: public PlayerInfo {
     float health;
     int ammo;
+    bool damaged;
+    std::array<WeaponType, 4> weapons;
+    WeaponSlot currentSlot;
 };
 
 struct BulletInfo {
@@ -66,9 +69,18 @@ struct TileInfo {
     Size size;
 };
 
+struct BombInfo {
+    bool planted; // si es falso todos los otros campo son invalidos
+    bool defused;
+    Coordinate pos;
+    float time;
+};
+
 struct LevelInfo{
     Size size;
     
+    BombInfo bomb;
+
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;
     std::list<BoxInfo> spawnSites;

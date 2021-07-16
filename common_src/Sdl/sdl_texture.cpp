@@ -2,27 +2,10 @@
 #include <string>
 #include <stdio.h>
 
-SdlTexture::SdlTexture(SdlRenderer& r, int w, int h):renderer(r), mWidth(w), mHeight(h){
-    // SDL_Surface *surf; 
+SdlTexture::SdlTexture(SdlRenderer& r, int w, int h, int type):renderer(r), mWidth(w), mHeight(h){
+    // SDL_Surface *surf;
+	this->type = type;
 	this->mTexture = this->renderer.createTexture(w,h);
-}
-
-SdlTexture::SdlTexture(SdlRenderer& r, std::string path) : renderer(r){
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL){
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-	}else{
-		//Create texture from surface pixels
-		this->mTexture = this->renderer.createTextureFromSurface(loadedSurface);
-		if (this->mTexture == NULL){
-			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		}else{
-			//Get image dimensions
-			this->mWidth = loadedSurface->w;
-			this->mHeight = loadedSurface->h;
-		}
-		SDL_FreeSurface(loadedSurface);
-	}
 }
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r){
@@ -43,7 +26,7 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int type) : renderer(r)
 	}
 }
 
-SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue) : renderer(r){
+SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green, Uint8 blue, int type) : renderer(r){
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL){
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
@@ -56,19 +39,22 @@ SdlTexture::SdlTexture(SdlRenderer& r, std::string path, Uint8 red, Uint8 green,
 		}else{
 			this->mWidth = loadedSurface->w;
 			this->mHeight = loadedSurface->h;
+			this->type = type;
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
 }
 
 // es para crear textura a partir de texto
-SdlTexture::SdlTexture(SdlRenderer& renderer, SDL_Surface* surface):renderer(renderer){
+SdlTexture::SdlTexture(SdlRenderer& renderer, SDL_Surface* surface, int type):renderer(renderer){
+	this->type = type;
 	this->mTexture = this->renderer.createTextureFromSurface(surface);
 }
 
 
 SdlTexture::SdlTexture(SdlRenderer& r, std::string path, int size, std::string textureText, Uint8 red,
- Uint8 green, Uint8 blue) : renderer(r){
+ Uint8 green, Uint8 blue, int type) : renderer(r){
+	this->type = type;
 	this->mTexture = NULL;
 	if (TTF_Init() == -1){
 		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
@@ -99,7 +85,7 @@ int SdlTexture::changeTextTexture(std::string text, std::string path, int size, 
 				mWidth = textSurface->w;
 				mHeight = textSurface->h;
 				SDL_FreeSurface(textSurface);
-			
+				TTF_CloseFont(font);
 				return 0;
 			}
 			//Get rid of old surface
@@ -139,6 +125,10 @@ void SdlTexture::render(int x, int y, int width, int height, double degrees)cons
 
 void SdlTexture::render(int x, int y, SDL_Rect* clip, double degrees)const{
 	render(x,y,this->mWidth, this->mHeight, clip, degrees);
+}
+
+void SdlTexture::renderFlip(int x, int y, SDL_RendererFlip flip)const{
+	render(x, y, this->mWidth, this->mHeight, NULL, 0.0, NULL,flip);
 }
 
 void SdlTexture::render(int x, int y, int width, int height, SDL_Rect* clip, double angle,
@@ -212,7 +202,6 @@ void SdlTexture::setWidthAndHeight(int width, int height){
 	this->mHeight = height;
 }
 
-
 int SdlTexture::getWidth()const{return this->mWidth;}
 int SdlTexture::getHeight()const{return this->mHeight;}
 
@@ -223,7 +212,6 @@ SdlTexture& SdlTexture::operator=(const SdlTexture& other){
 		this->renderer = other.renderer;
 		this->mTexture = other.mTexture;
 		this->mHeight = other.mHeight;
-		//this->path = other.path;
 	}
 	return *this;
 }
@@ -259,14 +247,6 @@ int SdlTexture::getType()const{
 
 SDL_Texture* SdlTexture::createTexture(int w, int h){
 	return this->renderer.createTexture(w, h);
-}
-
-int SdlTexture::setRenderTarget(SDL_Texture* target){
-    return this->renderer.setRenderTarget(target);
-}
-
-SDL_Texture* SdlTexture::getRenderTarget(){
-	return this->renderer.getRenderTarget();
 }
 
 SdlTexture::~SdlTexture(){

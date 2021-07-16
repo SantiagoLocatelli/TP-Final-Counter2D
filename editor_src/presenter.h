@@ -20,20 +20,29 @@ class Presenter{
         virtual bool finish() = 0;
 
         void renderTextures();
+        void renderWeapons();
         void renderBombSites();
         void renderSpawnSites();
         void renderMapTextures();
-        void centerCamera();
+        void renderMapWalls(int& page);
+        void renderMapFloors(int& page);
+        void renderMapWeapons(int& page);
+
         void handleBombSitesEvent(SDL_Event* event);
         void handleSpawnSitesEvent(SDL_Event* event);
-        void handleSelectTexture(SDL_Event* event);
+        void handleFloorsTexture(SDL_Event* event, int& page);
+        void handleWallsTexture(SDL_Event* event, int& page);
+        void handleWeaponsTexture(SDL_Event* event, int& page);
+
+        void centerCamera();
         void fillSize(std::vector<SDL_Rect>& vector);
         void changeSizeOfSites(std::vector<float>& vector);
         void changeTexture();
-        void createMap();
+        void createMap(const std::string mapID);
         void editMap(const std::string& mapID);
         void needToSave();
         void saveMap();
+        void goToMenue();
 
         SDL_Rect getCameraBox();
         int getMapWidth();
@@ -41,7 +50,5 @@ class Presenter{
         int getTextureMapSize();
         int getTexturesSize();
         int getTileSize();
-        int getScreenWidth();
-        int getScreenHeight();
 };
 #endif

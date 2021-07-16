@@ -29,6 +29,9 @@ class Player: public Hittable{
         Team team;
         bool defusing;
         float defuseTime;
+        int money;
+
+        void setBody(float x, float y);
 
     public:
         //TODO: No me gusta que esto sea público
@@ -44,13 +47,15 @@ class Player: public Hittable{
         void setAngle(float angle);
         float getAngle() const;
         Team getTeam() const;
+        void reset(float x, float y, Team team);
 
         //Métodos de disparos/vida
         void toggleWeapon();
         void recvDamage(float damage) override;
         float getHealth() const;
         bool isDead() const;
-        WeaponType getWeaponType() const;
+        std::array<WeaponType, 4> getWeapons() const;
+        WeaponSlot getWeaponSlot() const;
         void reloadWeapon();
 
         //Inventario
@@ -62,6 +67,7 @@ class Player: public Hittable{
         void toggleDefuse();
         void step(float delta);
         int getAmmo() const;
+        void buyWeapon(WeaponType weaponType);
 
         ~Player();
 

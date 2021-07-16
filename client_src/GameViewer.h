@@ -10,6 +10,7 @@
 #include "Character/camera.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
+#include <mutex>
 #include <list>
 #include <map>
 
@@ -17,10 +18,13 @@ class GameViewer{
 
 private:
     
+    std::mutex m;
     SdlWindow window;
     SdlRenderer renderer;
     SoundEffects sounds;
     TextureManager textureManager;
+    int delaySound = 0;
+    bool buyMenuOpen = false;
 
     Camera cam;
 
@@ -28,19 +32,27 @@ private:
 
     std::map<WeaponType, Weapon*> weapons;
     std::map<int, TextTexture*> hud;
-    ParticleBullets bullet;
     std::list<Character> players;
     MainCharacter* mainPlayer;
-
-
-    void createWeapon(PlayerInfo player, ProtPlayer prot);
+    TextTexture hudText;
+    TextTexture buyMenuText;
+    ParticleBullets bullet;
+    
+    void renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity);
+    void renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text);
     void renderMainPlayer(Coordinate cam);
+    void renderBombSites(Coordinate cam);
+    void renderExplosion(Coordinate cam);
     void renderPlayers(Coordinate cam);
     void renderWeapons(Coordinate cam);
     void renderShots(Coordinate cam);
+    void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
+    void renderBuyMenu();
     void renderHud();
 
+    void updateHud(LevelInfo level);
+    
     void loadPlayers(Size);
     void loadHudTextures();
     void loadWeapons();
@@ -54,6 +66,7 @@ public:
     Coordinate mainPlayerRelativePos();
     void render();
     void update(LevelInfo level);
+    void toggleBuyMenu();
 
     GameViewer& operator=(const GameViewer&) = delete;
     GameViewer(const GameViewer& other) = delete;

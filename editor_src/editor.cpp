@@ -75,6 +75,7 @@ void Editor::put_tile(SdlRenderer& renderer){
 
 void Editor::render(){
     Presenter::renderTextures();
+    Presenter::renderWeapons();
     if (renderBombSites){
         Presenter::renderBombSites();
     }

@@ -19,22 +19,22 @@ void Camera::centerCameraOnMouse(int tile_width, int level_width, int level_heig
     
     //Move camera to the left if needed
     if(x < tile_width){
-        pos.x -= 20;
+        pos.x -= 8;
     }
     
     //Move camera to the right if needed
     if(x > size.w - tile_width){
-        pos.x += 20;
+        pos.x += 8;
     }
     
     //Move camera up if needed
     if(y < tile_width){
-        pos.y -= 20;
+        pos.y -= 8;
     }
     
     //Move camera down if needed
     if(y > this->size.h - tile_width){
-        pos.y += 20;
+        pos.y += 8;
     }
     
     keepInBounds(level_width, level_height);
@@ -55,6 +55,7 @@ void Camera::keepInBounds(int level_width, int level_height){
     }
 }
 
+Size Camera::getSize(){return this->size;}
 int Camera::getWidth(){return this->size.w;}
 int Camera::getHeight(){return this->size.h;}
 int Camera::getPosX(){return this->pos.x;}

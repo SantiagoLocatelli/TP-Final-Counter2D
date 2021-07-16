@@ -12,12 +12,13 @@ TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
 		printf( "Failed to load the font! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
     this->mTexture = NULL;
+    this->size = {0, 0};
 }
 
 void TextTexture::setText(std::string text, struct Color color){
     SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
     if (textSurface == NULL) {
-        printf( "No se pudo crear la textura. SDL_ttf Error: %s\n", TTF_GetError() );
+        printf( "No se pudo crear la textura: %s. SDL_ttf Error: %s\n", text.c_str(), TTF_GetError() );
     } else {
         if (this->mTexture != NULL) {
             SDL_DestroyTexture( this->mTexture );
@@ -29,6 +30,7 @@ void TextTexture::setText(std::string text, struct Color color){
 
             this->size.w = textSurface->w;
             this->size.h = textSurface->h;
+
             SDL_FreeSurface(textSurface);
         }
     }
@@ -39,14 +41,13 @@ void TextTexture::setCoordinate(Coordinate pos) {
 }
 
 void TextTexture::render(Coordinate dst) {
-
     SDL_Rect renderQuad = {dst.x, dst.y, this->size.w, this->size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
 
 void TextTexture::render() {
 
-    SDL_Rect renderQuad = {this->pos.x, this->pos.y, this->size.w, this->size.h};
+    SDL_Rect renderQuad = {this->pos.x, this->pos.y, size.w, size.h};
     this->renderer.render(this->mTexture, NULL, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
 }
 
@@ -75,6 +76,7 @@ bool TextTexture::isMouseTouching(){
 
     return inside;
 }
+
 
 Size TextTexture::getSize(){return this->size;}
 

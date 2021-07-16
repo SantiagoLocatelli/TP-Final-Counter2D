@@ -3,6 +3,9 @@
 #include "yaml-cpp/yaml.h"
 #include <string>
 
+#define PATH_PLAYER_SOUNDS "../../client_src/yaml/playerSounds.yaml"
+#define PATH_WEAPON_SOUNDS "../../client_src/yaml/weaponsSounds.yaml"
+
 SoundEffects::SoundEffects(){
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
         char err[200];
@@ -15,7 +18,7 @@ SoundEffects::SoundEffects(){
 }
 
 void SoundEffects::loadPlayerSounds(){
-    YAML::Node yaml_map = YAML::LoadFile("../../client_src/yaml/playerSounds.yaml");
+    YAML::Node yaml_map = YAML::LoadFile(PATH_PLAYER_SOUNDS);
 	int i = 0;
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
@@ -28,7 +31,7 @@ void SoundEffects::loadPlayerSounds(){
 
 
 void SoundEffects::loadWeaponSounds(){
-    YAML::Node yaml_map = YAML::LoadFile("../../client_src/yaml/weaponsSounds.yaml");
+    YAML::Node yaml_map = YAML::LoadFile(PATH_WEAPON_SOUNDS);
 	int i = 0;
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();

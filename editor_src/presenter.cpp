@@ -9,6 +9,10 @@ void Presenter::renderTextures(){
     this->menueManager.renderTextures(this->camera.getRect());
 }
 
+void Presenter::renderWeapons(){
+    this->menueManager.renderWeapons(this->camera.getRect());
+}
+
 void Presenter::renderBombSites(){
     this->menueManager.renderBombSites(this->camera.getRect());
 }
@@ -17,8 +21,16 @@ void Presenter::renderSpawnSites(){
     this->menueManager.renderSpawnSites(this->camera.getRect());
 }
 
-void Presenter::renderMapTextures(){
-    this->menueManager.renderMapTextures(this->camera.getRect());
+void Presenter::renderMapFloors(int& page){
+    this->menueManager.renderMapFloors(page);
+}
+
+void Presenter::renderMapWalls(int& page){
+    this->menueManager.renderMapWalls(page);
+}
+
+void Presenter::renderMapWeapons(int& page){
+    this->menueManager.renderMapWeapons(page);
 }
 
 void Presenter::handleBombSitesEvent(SDL_Event* event){
@@ -29,8 +41,16 @@ void Presenter::handleSpawnSitesEvent(SDL_Event* event){
     this->menueManager.handleSpawnSitesEvent(event, this->camera.getRect());
 }
 
-void Presenter::handleSelectTexture(SDL_Event* event){
-    this->menueManager.handleSelectTexture(event, this->camera.getRect());
+void Presenter::handleFloorsTexture(SDL_Event* event, int& page){
+    this->menueManager.handleSelectFloor(event, page);
+}
+
+void Presenter::handleWallsTexture(SDL_Event* event, int& page){
+    this->menueManager.handleSelectWall(event, page);
+}
+
+void Presenter::handleWeaponsTexture(SDL_Event* event, int& page){
+    this->menueManager.handleSelectWeapon(event, page);
 }
 
 void Presenter::centerCamera(){
@@ -49,8 +69,8 @@ void Presenter::changeTexture(){
     this->menueManager.changeTexture(this->camera.getRect());
 }
 
-void Presenter::createMap(){
-    this->menueManager.createMap();
+void Presenter::createMap(const std::string mapID){
+    this->menueManager.createMap(mapID);
 }
 
 void Presenter::editMap(const std::string& mapID){
@@ -63,6 +83,10 @@ void Presenter::needToSave(){
 
 void Presenter::saveMap(){
     this->menueManager.loadToFile();
+}
+
+void Presenter::goToMenue(){
+    this->menueManager.goToMenue();
 }
 
 SDL_Rect Presenter::getCameraBox(){
@@ -89,10 +113,3 @@ int Presenter::getTileSize(){
     return this->menueManager.getTileSize();
 }
 
-int Presenter::getScreenWidth(){
-    return this->menueManager.getScreenWidth();
-}
-
-int Presenter::getScreenHeight(){
-    return this->menueManager.getScreenHeight();
-}

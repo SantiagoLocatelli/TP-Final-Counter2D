@@ -14,6 +14,7 @@ class Math{
         static int senoOppHyp(float radians, int hypotenuse);
         static int cosOppHyp(float radians, int hypotenuse);
         static int getRandomNumberBetween(int min, int max);
+        static bool equalCoords(Coordinate coord1, Coordinate coord2);
         
     private:
 };

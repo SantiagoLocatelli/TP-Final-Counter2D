@@ -14,6 +14,7 @@ class Character{
 		SdlTexture& texture;
 		PlayerInfo player;
 		Weapon* weapon;
+		int delay = 0;
 
 		SDL_Rect getSourceTexture();
 

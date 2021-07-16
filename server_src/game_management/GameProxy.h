@@ -5,6 +5,7 @@
 #include "../game_model/Player.h"
 #include "../../common_src/MapInfo.h"
 #include "CompleteModelInfo.h"
+#include "RoundManager.h"
 
 class CompleteModelInfo;
 
@@ -16,9 +17,12 @@ class GameProxy{
         World* world;
         MapInfo mapInfo;
         GameConfig &config;
+        RoundManager *roundManager;
     
     public:
         explicit GameProxy(const std::string &yamlPath, GameConfig &config);
+
+        void setUpGame();
         void step(float delta);        
 
         MapInfo getMapInfo();
@@ -35,6 +39,7 @@ class GameProxy{
         void changeWeapon(int id, WeaponSlot slot);
         void dropWeapon(int id);
         void toggleDefuse(int id);
+        void buyWeapon(int id, WeaponType type);
 
         void clearFrameEvents();
 

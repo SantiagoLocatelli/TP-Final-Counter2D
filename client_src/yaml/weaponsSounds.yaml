@@ -1,6 +1,5 @@
-# enum WeaponEffect : int {
-#     KNIFE_SLASH, KNIFE_HIT, SHOT_PISTOL, SHOT_RIFLE, SHOT_SHOTGUN, SHOT_SNIPER, 
-#     BOMD_EXPLODE, BOMB_DEFUSE, BOMB_PIP,
+# enum WeaponEffect : int {KNIFE_SLASH, KNIFE_HIT, SHOT_PISTOL, SHOT_RIFLE, SHOT_SHOTGUN, SHOT_SNIPER, 
+#     BOMD_EXPLODE, BOMB_DEFUSE, BOMB_PIP};
 
 - [../../common_src/sound/weapons/knife_slash.wav, 0]
 - [../../common_src/sound/weapons/knife_hit.wav, 1]
