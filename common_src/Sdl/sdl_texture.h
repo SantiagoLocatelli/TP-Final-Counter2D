@@ -18,14 +18,12 @@ class SdlTexture{
 
 	public:
 		//Initializes variables
-		SdlTexture(SdlRenderer& r, int w, int h);
-		SdlTexture(SdlRenderer& renderer, std::string path);
-		SdlTexture(SdlRenderer& renderer, SDL_Surface* surface);
-		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue);
+		SdlTexture(SdlRenderer& r, int w, int h, int type = -1);
+		SdlTexture(SdlRenderer& renderer, std::string path, int type = -1);
+		SdlTexture(SdlRenderer& renderer, SDL_Surface* surface, int type = -1);
+		SdlTexture(SdlRenderer& renderer, std::string path, Uint8 red, Uint8 green, Uint8 blue, int type = -1);
 		SdlTexture(SdlRenderer& renderer, std::string path, int size, std::string textureText, Uint8 red,
- 			Uint8 green, Uint8 blue);
-
-		SdlTexture(SdlRenderer& r, std::string path, int type);
+ 			Uint8 green, Uint8 blue, int type = -1);
 
 		int changeTextTexture(std::string text, std::string path, int size, Uint8 red, Uint8 green, Uint8 blue);
 

@@ -6,8 +6,8 @@
 #include "../common_src/Sdl/sdl_mixer.h"
 class TextureScreen : public Presenter{
     private:
-        bool changeScene, renderFloors, renderWalls;
-        SdlTexture background, floors, walls, back, arrow;
+        bool changeScene, renderFloors, renderWalls, renderWeapons;
+        SdlTexture background, floors, walls, back, weapons, arrow;
         std::unique_ptr<SdlMixer> chunk;
         int page;
     public:

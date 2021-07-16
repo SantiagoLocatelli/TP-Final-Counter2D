@@ -13,36 +13,53 @@
 #include "../common_src/Sdl/sdl_mixer.h"
 class MenueManager{
     private:
-        std::vector<float> mapSize;
+        std::vector<int> mapSize;
         SdlRenderer& renderer;
         TextureMap textureMap;
+        int screenWidth, screenHeight, currentType, borderType;
         std::string mapID;
-        std::list<std::unique_ptr<SdlTexture>> textures;
-        std::vector<SdlTexture> floorTextureScreen;
-        std::vector<SdlTexture> wallTextureScreen;
+        std::vector<std::unique_ptr<SdlTexture>> textures;
+        std::vector<SdlTexture> floorTextureScreen, wallTextureScreen, weaponTextureScreen;
         std::map<std::string, std::unique_ptr<Draggable>> bombSites;
         std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
-        int screenWidth, screenHeight;
-        int currentType;
+        std::map<int, SdlTexture> weaponMap;
         std::string needsToSave;
         std::unique_ptr<SdlMixer> chunk;
 
-        bool goToStart;
+        std::vector<int> weaponTypes;
+        bool goToStart, isWeapon;
     public:
         MenueManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
 
+        //RENDER
         void renderTextures(const SDL_Rect& camera);
+        void renderWeapons(const SDL_Rect& camera);
         void renderBombSites(const SDL_Rect& camera);
         void renderSpawnSites(const SDL_Rect& camera);
-        void renderMapTextures(int& page, const int isBox);
+        void renderMapFloors(int& page);
+        void renderMapWalls(int& page);
+        void renderMapWeapons(int& page);
+        void renderMapTextures(int& page, std::vector<SdlTexture>& textures);
+
+        //HANDLE EVENTS
         void handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera);
         void handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera);
-        void handleSelectTexture(SDL_Event* event, int& page, const int isBox);
-        void fillSize(std::vector<SDL_Rect>& vector);
+        void handleSelectWall(SDL_Event* event, int& page);
+        void handleSelectFloor(SDL_Event* event, int& page);
+        void handleSelectWeapon(SDL_Event* event, int& page);
+        void handleSelectTexture(SDL_Event* event, int& page, std::vector<SdlTexture>& textures);
+
+        //CHANGE SIZE OF MAP
         void changeSizeOfSites(std::vector<float>& vector);
-        void changeTexture(const SDL_Rect& camera);
         void changeMapSize(const int& width, const int& height);
+        void deleteTextureColumns(const int numberOfRows, const int rowNumber, const int newColumns);
+        void deleteTextureRows(const int newRows);
+        void insertTextureColumns(const int endOfRowPosition , const int newColumns);
+        void insertTextureRows(const int columnsNumber);
+
+        void fillSize(std::vector<SDL_Rect>& vector);
+        void changeTexture(const SDL_Rect& camera);
         void changeToMeters(std::vector<SDL_Rect>& vector);
         void createMap(const std::string mapID);
         void editMap(const std::string& mapID);
