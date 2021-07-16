@@ -3,17 +3,18 @@
 #include "EntityChecker.h"
 #include "../../common_src/GeneralException.h"
 #include "Bomb.h"
+#include "Rifle.h"
+#include "Shotgun.h"
+#include "Sniper.h"
 
-World::World(int grid_length, int grid_height, GameConfig &config):player_number(0), b2world(b2Vec2(0,0)), config(config){
-    gridSize[0] = grid_length;
-    gridSize[1] = grid_height;
+
+World::World(MapInfo mapInfo, GameConfig &config):player_number(0), b2world(b2Vec2(0,0)), config(config), mapInfo(mapInfo){
     bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
-    spawnSites.reserve(2);
 }
 
 void World::addBox(int grid_x, int grid_y){
-    if(grid_x < 0 || grid_x > gridSize[0] || grid_y < 0 || grid_y > gridSize[1])
+    if(grid_x < 0 || grid_x > mapInfo.length || grid_y < 0 || grid_y > mapInfo.height)
         throw GeneralException("Posicicon para `addBox` fuera de límites");
     boxes.push_back(Box(b2world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
 }
@@ -117,20 +118,12 @@ bool World::bombDefused(){
     return bomb.planted && bomb.defused;
 }
 
-void World::addSite(RectArea site){
-    bombSites.push_back(site);
-}
-
-void World::addSpawn(RectArea site, Team team){
-    spawnSites[team] = site;
-}
-
 
 bool World::canPlant(float x, float y){
     if (bomb.planted)
         return false;
 
-    for (const RectArea &site: bombSites){
+    for (const RectArea &site: mapInfo.bombSites){
         if (positionInArea(x, y, site)){
             return true;
         }
@@ -154,11 +147,16 @@ ProtBomb World::getBomb(){
 }
 
 bool World::canBuy(Player &player){
-    return positionInArea(player.getPosition()[0], player.getPosition()[1], spawnSites[player.getTeam()]);
+    //TODO: Esto deberia depender del roundState, no de la posición.
+    return positionInArea(player.getPosition()[0], player.getPosition()[1], mapInfo.spawnSites[player.getTeam()]);
 }
 
 bool World::positionInArea(float x, float y, RectArea area){
     return (x > area.x && x < area.x+area.width && y > area.y && y < area.y+area.height);
+}
+
+void World::addStartingDrop(ProtDrop drop){
+    startingDrops.push_back(drop);
 }
 
 void World::resetWorld(bool changeTeams){
@@ -175,17 +173,33 @@ void World::resetWorld(bool changeTeams){
     //Reseteo la bomba
     if (bomb.planted)
         bomb.planted = false;
-    addDrop(new Bomb(this, config), spawnSites[TERROR].x+1, spawnSites[TERROR].y+1);
+    addDrop(new Bomb(this, config), mapInfo.spawnSites[TERROR].x+1, mapInfo.spawnSites[TERROR].y+1);
 
     for (Player &p: players){
         Team team = p.getTeam();
         if (changeTeams)
             team = team == TERROR ? COUNTER : TERROR;
-        b2Vec2 pos = getValidPosition(spawnSites[team]);
+        b2Vec2 pos = getValidPosition(mapInfo.spawnSites[team]);
         p.reset(pos.x, pos.y, team);
     }
 
-    //TODO: Poner las armas iniciales.
+    for (ProtDrop &d: startingDrops){
+        switch (d.type)
+        {
+        case  SNIPER:
+            addDrop(new Sniper(this, config), d.pos.x, d.pos.y);
+            break;
+        case  SHOTGUN:
+            addDrop(new Shotgun(this, config), d.pos.x, d.pos.y);
+            break;
+            case  RIFLE:
+            addDrop(new Rifle(this, config), d.pos.x, d.pos.y);
+            break;
+        
+        default:
+            break;
+        }
+    }
 }
 
 b2Vec2 World::getValidPosition(RectArea area){

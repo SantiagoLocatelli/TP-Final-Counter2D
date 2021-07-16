@@ -15,13 +15,13 @@
 #include "GameConfig.h"
 #include "../../common_src/Utils.h"
 #include "../../common_src/ModelInfo.h"
+#include "../../common_src/MapInfo.h"
 
 class Drop;
 class Player;
 
 class World{
     private:
-        std::array<int, 2> gridSize;
         std::vector<Player> players;
         std::list<Box> boxes;
         std::list<Ray> bullets;
@@ -29,8 +29,8 @@ class World{
         CollisionHandler collisionHandler;
         std::list<b2Body*> bodiesToDestroy;
         ProtBomb bomb;
-        std::list<RectArea> bombSites;
-        std::vector<RectArea> spawnSites;
+        MapInfo mapInfo;
+        std::list<ProtDrop> startingDrops;
 
         bool positionInArea(float x, float y, RectArea area);
         b2Vec2 getValidPosition(RectArea area);
@@ -39,7 +39,7 @@ class World{
         b2World b2world;
         GameConfig &config;     
 
-        World(int grid_length, int grid_height, GameConfig &config);
+        World(MapInfo mapInfo, GameConfig &config);
         void addBox(int grid_x, int grid_y);
         void createPlayer(Team team);
         void step(float delta);
@@ -51,9 +51,8 @@ class World{
         void clearBullets();
 
         void addDrop(Weapon *weapon, float x, float y);
+        void addStartingDrop(ProtDrop drop);
         std::list<Drop*> getDrops();
-        void addSpawn(RectArea site, Team team);
-        void addSite(RectArea site);
         void destroyBody(b2Body *body);
 
         bool canBuy(Player &player);

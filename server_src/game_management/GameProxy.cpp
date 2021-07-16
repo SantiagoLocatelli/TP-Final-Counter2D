@@ -1,8 +1,5 @@
 #include "GameProxy.h"
 #include "WorldParser.h"
-#include "../game_model/Rifle.h"
-#include "../game_model/Shotgun.h"
-#include "../game_model/Sniper.h"
 #include "../../common_src/Utils.h"
 #include "../game_model/Bomb.h"
 #include <utility>
@@ -15,12 +12,6 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
 
     parser.get_size(mapInfo.length, mapInfo.height);
 
-    world = new World(mapInfo.length, mapInfo.height, config);
-    roundManager = new RoundManager(*world, config);
-
-    for (auto b: parser.get_boxes()){
-        world->addBox(b[0], b[1]);
-    }
 
     for (int t: parser.get_tiles()){
         mapInfo.tiles.push_back((uint8_t) t);
@@ -29,29 +20,14 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 
-    for (const RectArea &r: mapInfo.bombSites){
-        world->addSite(r);
+    world = new World(mapInfo, config);
+    roundManager = new RoundManager(*world, config);
+
+    for (auto b: parser.get_boxes()){
+        world->addBox(b[0], b[1]);
     }
-
-    world->addSpawn(mapInfo.spawnSites[0], TERROR);
-    world->addSpawn(mapInfo.spawnSites[1], COUNTER);
-
     for (ProtDrop &d: parser.get_weapons()){
-        switch (d.type)
-        {
-        case  SNIPER:
-            world->addDrop(new Sniper(world, world->config), d.pos.x, d.pos.y);
-            break;
-        case  SHOTGUN:
-            world->addDrop(new Shotgun(world, world->config), d.pos.x, d.pos.y);
-            break;
-            case  RIFLE:
-            world->addDrop(new Rifle(world, world->config), d.pos.x, d.pos.y);
-            break;
-        
-        default:
-            break;
-        }
+        world->addStartingDrop(d);
     }
 }
 
