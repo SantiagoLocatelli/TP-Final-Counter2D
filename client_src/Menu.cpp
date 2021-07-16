@@ -16,6 +16,7 @@
 #define MARGIN 20
 #define PATH_FONT "../../common_src/img/digital-7.ttf"
 
+const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color WHITE = {0xff, 0xff, 0xff};
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
@@ -73,8 +74,8 @@ Menu::~Menu(){}
 
 void Menu::renderCreatMenu(std::map<std::string, TextTexture*>& maps,
      bool mapSelected, bool nameSelected, std::string nameGame, 
-    int players, TextTexture& buttonBack, TextTexture& title){
-        
+    int players, TextTexture& buttonBack, TextTexture& buttonConfirm, TextTexture& title){
+
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
@@ -82,26 +83,35 @@ void Menu::renderCreatMenu(std::map<std::string, TextTexture*>& maps,
     this->background.render(0, 0, this->size.w, this->size.h);
 
     if (!mapSelected) {
+        title.render();
         for (auto it = maps.begin(); it != maps.end(); it++) {
             it->second->render();
         }
     } else if (!nameSelected && mapSelected) {
-        text.setText("Write the game's name:", WHITE);
-        text.render({this->size.w/2, 50});
+        text.setText("Write the game's name:", HUD_COLOR);
+        Size size = text.getSize();
+        text.render({this->size.w/2 - size.w/2, MARGIN});
+
+        text.setText("Press enter to confirm...", HUD_COLOR);
+        size = text.getSize();
+        text.render({this->size.w/2 - size.w/2, MARGIN + 50});
 
         text.setText(nameGame.c_str(), WHITE);
-        text.render({this->size.w/2, 100});
+        size = text.getSize();
+        text.render({this->size.w/2 - size.w/2, 200});
+        buttonConfirm.render();
     } else if (nameSelected && mapSelected) {
-        text.setText("Arrow up to increase the quantity of players, arrow down to decrease:", WHITE);
+        text.setText("Arrow up to increase the quantity of players, arrow down to decrease:", HUD_COLOR);
         text.render({this->size.w/2, 50});
 
         char playersText[10];
         sprintf(playersText, "%d", players);
         text.setText(playersText, WHITE);
         text.render({this->size.w/2, 100});
+        buttonConfirm.render();
     }
     buttonBack.render();
-
+    
     renderer.updateScreen();
 }
 
@@ -113,8 +123,14 @@ void Menu::creatGame(bool& joined_game){
     Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h};
     buttonBack.setCoordinate(pos);
 
+    TextTexture buttonConfirm(this->renderer, PATH_FONT, SIZE_FONT);
+    buttonConfirm.setText("Confirm", WHITE);
+    size = buttonConfirm.getSize();
+    pos = {this->size.w/2 - size.w - MARGIN, this->size.h - MARGIN - size.h};
+    buttonConfirm.setCoordinate(pos);
+
     TextTexture title(this->renderer, PATH_FONT, SIZE_FONT);
-    title.setText("Seleccione un mapa:", WHITE);
+    title.setText("Choose a map:", HUD_COLOR);
     size = title.getSize();
     pos = {this->size.w/2 - size.w/2, MARGIN};
     title.setCoordinate(pos);
@@ -152,9 +168,7 @@ void Menu::creatGame(bool& joined_game){
             } else if (e.type == SDL_KEYDOWN && mapSelected && !nameSelected) {
                 if( e.key.keysym.sym == SDLK_BACKSPACE && nameGame.length() > 0 && e.key.repeat == 0){
                     nameGame.pop_back();
-                } else if ( e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
-                    nameSelected = true;
-                }
+                } 
             } else if (e.type == SDL_TEXTINPUT && mapSelected && !nameSelected) {
                 if (nameGame.length() < 29) {
                     nameGame += e.text.text;
@@ -168,12 +182,16 @@ void Menu::creatGame(bool& joined_game){
                     if (maxPlayers > 2) {
                         maxPlayers--;
                     }
-                } else if (e.key.keysym.sym == SDLK_KP_ENTER && e.key.repeat == 0) {
+                }
+            } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT && buttonConfirm.isMouseTouching()) {
+                if (!nameSelected) {
+                    nameSelected = true;
+                } else if (!playersSelected) {
                     playersSelected = true;
                 }
             }
             if (nameSelected && playersSelected && mapSelected) joined_game = true;
-            renderCreatMenu(maps, mapSelected, nameSelected, nameGame, maxPlayers, buttonBack, title);
+            renderCreatMenu(maps, mapSelected, nameSelected, nameGame, maxPlayers, buttonBack , buttonConfirm, title);
         }
     }
 
