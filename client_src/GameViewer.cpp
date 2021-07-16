@@ -167,6 +167,7 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity){
     SDL_Rect left = {pos.x, pos.y, borderWidth, sizeRect.h};
     this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
+
     this->renderer.fillRect(left);
 
     SDL_Rect right = {sizeRect.w - borderWidth + pos.x, pos.y, borderWidth, sizeRect.h};
@@ -193,8 +194,6 @@ void GameViewer::renderHud(){
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
     this->hud[HUD_HEALTH]->render(dstHealth);
 
-
-
     if (this->level.bomb.planted) {
 
         char timeBomb[100];
@@ -210,15 +209,25 @@ void GameViewer::renderHud(){
         this->hudText.render(pos);
     }
 
-    Size sizeWeapon = {40, 40};
-    Coordinate dstWeapon = {cam.w, cam.h-100};
-    WeaponType type = this->level.mainPlayer.weapon.type;
 
-    if (type != KNIFE) {
-        SdlTexture& weapon = *this->textureManager.getWeaponOnHud(type); 
-        weapon.render(dstWeapon.x - sizeWeapon.w - MARGIN, dstWeapon.y - sizeWeapon.h, sizeWeapon.w, sizeWeapon.h);
+    Size size = {40, 40};
+
+    auto it = this->level.mainPlayer.weapons.begin();
+    auto end = this->level.mainPlayer.weapons.end();
+    int i = 1;
+    for (it; it != end; it++) {
+        if (*it != KNIFE && *it != NO_WEAPON) {
+            SdlTexture* weapon = this->textureManager.getWeaponOnHud(*it);
+
+            if (*it != this->level.mainPlayer.weapons[this->level.mainPlayer.currentSlot]) {
+                weapon->setBlendMode(SDL_BLENDMODE_BLEND);
+                weapon->setAlpha(100);
+            }
+            Coordinate dst = {cam.w - size.w - MARGIN, cam.h - 100*i};
+            weapon->render(dst.x, dst.y, size.w, size.h);
+            i++;
+        }
     }
-
     if (this->level.mainPlayer.damaged) {
         renderBorder({0,0}, cam, SIZE_DAMAGE, ROJO, OPACITY_DAMAGE);
     }

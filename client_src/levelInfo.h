@@ -54,6 +54,8 @@ struct MainPlayerInfo: public PlayerInfo {
     float health;
     int ammo;
     bool damaged;
+    std::array<WeaponType, 4> weapons;
+    WeaponSlot currentSlot;
 };
 
 struct BulletInfo {

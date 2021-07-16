@@ -54,7 +54,8 @@ class Player: public Hittable{
         void recvDamage(float damage) override;
         float getHealth() const;
         bool isDead() const;
-        WeaponType getWeaponType() const;
+        std::array<WeaponType, 4> getWeapons() const;
+        WeaponSlot getWeaponSlot() const;
         void reloadWeapon();
 
         //Inventario

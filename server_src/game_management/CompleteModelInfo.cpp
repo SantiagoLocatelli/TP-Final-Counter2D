@@ -1,4 +1,5 @@
 #include "CompleteModelInfo.h"
+#include <utility>
 
 ModelInfo CompleteModelInfo::getModelInfo(int id){
     ModelInfo info;
@@ -12,7 +13,8 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
                 p.pos.x = players[i].pos.x;
                 p.pos.y = players[i].pos.y;
                 p.angle = players[i].angle;
-                p.weapon = players[i].weapon;
+                p.weapons = players[i].weapons;
+                p.currentSlot = players[i].currentSlot;
                 p.team = players[i].team;
                 p.shot = players[i].shot;
             }
@@ -30,6 +32,8 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
 
     info.game_ended = game_ended;
     info.bomb = bomb;
+    info.timeRemaining = timeRemaining;
+    info.roundState = roundState;
 
     return info;
 }
@@ -44,6 +48,8 @@ CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     drops = std::move(other.drops);
     game_ended = other.game_ended;
     bomb = other.bomb;
+    timeRemaining = other.timeRemaining;
+    roundState = other.roundState;
 }
 
 CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
@@ -56,6 +62,8 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
     drops = std::move(other.drops);
     game_ended = other.game_ended;
     bomb = other.bomb;
+    timeRemaining = other.timeRemaining;
+    roundState = other.roundState;
 
     return *this;
 }

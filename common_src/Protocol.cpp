@@ -127,7 +127,9 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.you.pos.x);
         send_float(modelInfo.you.pos.y);
         send_float(modelInfo.you.angle);
-        send_byte(modelInfo.you.weapon);
+        for (int i = 0; i < 4; i++)
+            send_byte(modelInfo.you.weapons[i]);
+        send_byte(modelInfo.you.currentSlot);
         send_bool(modelInfo.you.shot);
         send_float(modelInfo.you.health);
         send_uint16t(modelInfo.you.ammo);
@@ -142,7 +144,9 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
             send_float(p.pos.x);
             send_float(p.pos.y);
             send_float(p.angle);
-            send_byte(p.weapon);
+            for (int i = 0; i < 4; i++)
+                send_byte(p.weapons[i]);
+            send_byte(p.currentSlot);
             send_bool(p.shot);
             send_byte(p.team);
         }
@@ -172,6 +176,9 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.bomb.y);
         send_float(modelInfo.bomb.timeRemaining);
     }
+
+    send_byte(modelInfo.roundState);
+    send_float(modelInfo.timeRemaining);
 }
 
 void Protocol::recv_model_info(ModelInfo &modelInfo){
@@ -180,7 +187,9 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.you.pos.x);
         recv_float(modelInfo.you.pos.y);
         recv_float(modelInfo.you.angle);
-        recv_byte((char&)modelInfo.you.weapon);
+        for (int i = 0; i < 4; i++)
+            recv_byte((char &)modelInfo.you.weapons[i]);
+        recv_byte((char &)modelInfo.you.currentSlot);
         recv_bool(modelInfo.you.shot);
         recv_float(modelInfo.you.health);
         recv_uint16t(modelInfo.you.ammo);
@@ -197,7 +206,9 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
             recv_float(p.pos.x);
             recv_float(p.pos.y);
             recv_float(p.angle);
-            recv_byte((char&)p.weapon);
+            for (int i = 0; i < 4; i++)
+                recv_byte((char &)p.weapons[i]);
+            recv_byte((char &)p.currentSlot);
             recv_bool(p.shot);
             recv_byte((char&)p.team);
         }
@@ -234,6 +245,9 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.bomb.y);
         recv_float(modelInfo.bomb.timeRemaining);
     }
+
+    recv_byte((char &)modelInfo.roundState);
+    recv_float(modelInfo.timeRemaining);
 }
 
 void Protocol::close(){

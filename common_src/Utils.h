@@ -3,7 +3,10 @@
 
 #include <cstdint>
 
-enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
+enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB, NO_WEAPON};
+
+enum RoundState : char {BUY, MIDDLE, END};
+
 
 enum WeaponSlot : uint8_t {KNIFE_SLOT = 0, SECONDARY = 1, PRIMARY = 2, BOMB_SLOT = 3};
 
