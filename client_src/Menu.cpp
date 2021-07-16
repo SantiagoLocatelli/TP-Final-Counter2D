@@ -25,7 +25,7 @@ Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w,
     background(this->renderer, BACKGROUND_PATH), server(server){}
 
 
-void Menu::loadMaps(std::map<std::string, TextTexture*>& maps){
+void Menu::loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps){
     DIR *dir;
     struct dirent *ent;
     std::list<std::string> mapsPaths;
@@ -50,7 +50,7 @@ void Menu::loadMaps(std::map<std::string, TextTexture*>& maps){
         int start_position = prot_i - path.begin();
 
         path.erase(start_position, path.length());
-        maps[path] = new TextTexture(this->renderer, PATH_FONT, SIZE_FONT);
+        maps[path] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
         maps[path]->setText(path, WHITE);
         
         Size size = maps[path]->getSize();
@@ -61,19 +61,12 @@ void Menu::loadMaps(std::map<std::string, TextTexture*>& maps){
     }
 }
 
-void destroyMaps(std::map<std::string, TextTexture*>& maps) {
-    for (auto it = maps.begin(); it != maps.end(); it++) {
-        TextTexture* aux = it->second;
-        it++;
-        delete aux;
-    }
-}
 
 Menu::~Menu(){}
 
 
 
-void Menu::renderCreatMenu(std::map<std::string, TextTexture*>& maps,
+void Menu::renderCreateMenu(std::map<std::string, std::unique_ptr<TextTexture>>& maps,
      bool mapSelected, bool nameSelected, std::string nameGame, 
     int players, TextTexture& buttonBack, TextTexture& buttonConfirm, TextTexture& title){
 
@@ -124,7 +117,7 @@ void Menu::renderCreatMenu(std::map<std::string, TextTexture*>& maps,
 }
 
 
-void Menu::creatGame(bool& joined_game){
+void Menu::createGame(bool& joined_game){
     TextTexture buttonBack(this->renderer, PATH_FONT, SIZE_FONT);
     buttonBack.setText("Back", WHITE);
     Size size = buttonBack.getSize();
@@ -143,7 +136,7 @@ void Menu::creatGame(bool& joined_game){
     pos = {this->size.w/2 - size.w/2, MARGIN};
     title.setCoordinate(pos);
 
-    std::map<std::string, TextTexture*> maps;
+    std::map<std::string, std::unique_ptr<TextTexture>> maps;
     loadMaps(maps);
 
     SDL_Event e;
@@ -204,7 +197,7 @@ void Menu::creatGame(bool& joined_game){
                 }
             }
             if (nameSelected && playersSelected && mapSelected) joined_game = true;
-            renderCreatMenu(maps, mapSelected, nameSelected, nameGame, maxPlayers, buttonBack , buttonConfirm, title);
+            renderCreateMenu(maps, mapSelected, nameSelected, nameGame, maxPlayers, buttonBack , buttonConfirm, title);
         }
     }
 
@@ -217,7 +210,6 @@ void Menu::creatGame(bool& joined_game){
         server.send_event(event);
     }
 
-    destroyMaps(maps);
 }
 
 void Menu::renderJoinMenu(TextTexture& title, TextTexture& buttonBack, std::map<std::string, std::unique_ptr<TextTexture>>& options){
@@ -296,21 +288,16 @@ void Menu::joinGame(bool& joined_game){
     }
 
     this->server.send_event(event);
-    // for (auto it = options.begin(); it != options.end(); it++) {
-    //     TextTexture* aux = it->second;
-    //     it++;
-    //     delete aux;
-    // }
 }
 
-void Menu::renderInitMenu(TextTexture& quitButton, TextTexture& creatButton, TextTexture& joinButton){
+void Menu::renderInitMenu(TextTexture& quitButton, TextTexture& createButton, TextTexture& joinButton){
     
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
 
     this->background.render(0, 0, this->size.w, this->size.h);
     quitButton.render();
-    creatButton.render();
+    createButton.render();
     joinButton.render();
 
     renderer.updateScreen();
@@ -324,11 +311,11 @@ void Menu::run(bool& joined_game){
     Coordinate pos = {MARGIN, this->size.h - MARGIN - size.h}; 
     quitButton.setCoordinate(pos);
    
-    TextTexture creatButton(this->renderer, PATH_FONT, SIZE_FONT);
-    creatButton.setText("Creat Game", WHITE);
-    size = creatButton.getSize();
+    TextTexture createButton(this->renderer, PATH_FONT, SIZE_FONT);
+    createButton.setText("Create Game", WHITE);
+    size = createButton.getSize();
     pos.y = pos.y - size.h - MARGIN;
-    creatButton.setCoordinate(pos);
+    createButton.setCoordinate(pos);
     
     TextTexture joinButton(this->renderer, PATH_FONT, SIZE_FONT);
     joinButton.setText("Join Game", WHITE);
@@ -347,14 +334,14 @@ void Menu::run(bool& joined_game){
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
                 if (quitButton.isMouseTouching()) {
                     quit = true;
-                } else if (creatButton.isMouseTouching()) {
-                    this->creatGame(joined_game);
+                } else if (createButton.isMouseTouching()) {
+                    this->createGame(joined_game);
                 } else  if (joinButton.isMouseTouching()) {
                     this->joinGame(joined_game);
                 }
             }
         }
-        this->renderInitMenu(quitButton, creatButton, joinButton);
+        this->renderInitMenu(quitButton, createButton, joinButton);
     }
 }
 
