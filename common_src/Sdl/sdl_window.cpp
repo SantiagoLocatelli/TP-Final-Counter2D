@@ -40,6 +40,9 @@ void SdlWindow::setTitle(std::string title){
     SDL_SetWindowTitle(this->mWindow, title.c_str());
 }
 
+
+
+
 SdlWindow::~SdlWindow(){
     SDL_StopTextInput();
     SDL_DestroyWindow(this->mWindow);

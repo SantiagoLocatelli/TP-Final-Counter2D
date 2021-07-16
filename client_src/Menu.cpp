@@ -82,6 +82,12 @@ Menu::~Menu(){
         it++;
         delete aux;
     }
+
+    for (auto it = this->maps.begin(); it != this->maps.end(); it++) {
+        TextTexture* aux = it->second;
+        it++;
+        delete aux;
+    }
 }
 
 void Menu::renderInitMenu(){
@@ -272,10 +278,11 @@ void Menu::run(){
     bool quit = false;
     bool joined_game = false;
     while (!quit) {
-        while (SDL_PollEvent(&e) != 0 && !joined_game) {
+        while (SDL_PollEvent(&e) != 0 && !joined_game && !quit) {
             
             if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
                 if (this->buttons[QUIT]->isMouseTouching()) {
+                    printf("entro al if\n");
                     quit = true;
                 } else if (this->buttons[NEW_GAME]->isMouseTouching()) {
                     this->creatGame(joined_game);
@@ -285,7 +292,6 @@ void Menu::run(){
                     quit = joined_game;
                 }
             }
-
         }
         this->renderInitMenu();
     }

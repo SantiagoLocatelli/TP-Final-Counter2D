@@ -10,9 +10,9 @@ int main(int argc, char* argv[]){
         Protocol server(Socket("localhost", argv[1], false));
 
         Size menuSize = {640, 480};
-        Menu menu(menuSize, server);
-        menu.run();
-
+        Menu* menu = new Menu(menuSize, server);
+        menu->run();
+        delete menu;
 
         Size windowSize {500, 500};
 
