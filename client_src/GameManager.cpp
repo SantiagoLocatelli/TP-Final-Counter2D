@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "Events/gameMath.h"
 
-#define METERS_TO_SHOW 8
+#define METERS_TO_SHOW 10
 #define SIZE_SMALL_GUN 0
 #define SIZE_BIG_GUN 1
 
@@ -178,7 +178,7 @@ void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const Mo
     for(int i = 0; i < max; i++){
         tile.id = map.tiles[i];
         tile.pos.x = (i%map.length)*this->pixelsPerMeter.w; 
-        tile.pos.y = (i/map.height)*this->pixelsPerMeter.h; 
+        tile.pos.y = (i/map.length)*this->pixelsPerMeter.h; 
         level.tiles.push_back(tile);
     }
 

@@ -32,10 +32,9 @@ const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color WHITE = {0xff, 0xff, 0xff};
 const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
 
-const struct Size RESOLUTION_STANDARD = {640, 480};
-const struct Size RESOLUTION_SEMI_HIGH = {1024, 768};
-const struct Size RESOLUTION_HIGH = {1366, 768};
-const struct Size RESOLUTION_ALTERNATIVE = {800, 600};
+const struct Size RESOLUTION_STANDARD = {600, 600};
+const struct Size RESOLUTION_SEMI_HIGH = {800, 800};
+const struct Size RESOLUTION_HIGH = {1000, 1000};
 
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
@@ -365,26 +364,19 @@ void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& o
     Coordinate pos = {this->size.w/2 - sizeText.w/2, 100};
     options[STANDARD]->setCoordinate(pos);
 
-    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
-    sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
-    options[HIGH]->setText(text, WHITE);
-    sizeText = options[HIGH]->getSize();
-    pos = {this->size.w/2 - sizeText.w/2, 150};
-    options[HIGH]->setCoordinate(pos);
-
     options[SEMI_HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
     sprintf(text, "%d x %d", RESOLUTION_SEMI_HIGH.w, RESOLUTION_SEMI_HIGH.h);
     options[SEMI_HIGH]->setText(text, WHITE);
     sizeText = options[SEMI_HIGH]->getSize();
-    pos = {this->size.w/2 - sizeText.w/2, 200};
+    pos = {this->size.w/2 - sizeText.w/2, 150};
     options[SEMI_HIGH]->setCoordinate(pos);
 
-    options[ALTERNATIVE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
-    sprintf(text, "%d x %d", RESOLUTION_ALTERNATIVE.w, RESOLUTION_ALTERNATIVE.h);
-    options[ALTERNATIVE]->setText(text, WHITE);
-    sizeText = options[ALTERNATIVE]->getSize();
-    pos = {this->size.w/2 - sizeText.w/2, 250};
-    options[ALTERNATIVE]->setCoordinate(pos);
+    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
+    options[HIGH]->setText(text, WHITE);
+    sizeText = options[HIGH]->getSize();
+    pos = {this->size.w/2 - sizeText.w/2, 200};
+    options[HIGH]->setCoordinate(pos);
 }
 
 void setResolution(Size& resolution, Resolution resolutionType) {
