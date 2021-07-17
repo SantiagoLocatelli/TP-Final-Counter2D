@@ -5,7 +5,6 @@
 #define FONT_PATH2 "../../common_src/img/aerial.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-#define FONT_SIZE 26
 #define MAPS_PER_PAGE 3
 void parse(std::vector<std::string>& files);
 
@@ -16,7 +15,8 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 255, 255, 255),
     back(renderer, FONT_PATH, FONT_SIZE, "Back", 255, 255, 255),
     introduceText(renderer, FONT_PATH, FONT_SIZE, "Introduzca el nombre del mapa", 255, 255, 255),
-    mapName(renderer, FONT_PATH2, FONT_SIZE, "Nombre del mapa...", 255, 255, 255){
+    mapName(renderer, FONT_PATH2, FONT_SIZE, "Nombre del mapa...", 255, 255, 255),
+    quit(renderer, FONT_PATH, FONT_SIZE, "quit", 255, 255, 255){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->editMap = false;
@@ -61,6 +61,7 @@ void parse(std::vector<std::string>& files){
 void InitialMenu::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     this->background.render(0, 0, screen.w, screen.h);
+    this->quit.render(screen.w - quit.getWidth(), screen.h - quit.getHeight());
     if (editMap){
         int posY = screen.h/5, numerMap = 0;
         for (unsigned int i = page * MAPS_PER_PAGE; i < editableMaps.size(); i++){
@@ -110,6 +111,8 @@ void InitialMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                 if(back.isMouseTouching(0, screen.h - 20)){
                     this->chunk->playChunk(0);
                     this->createMap = false;
+                }else if (quit.isMouseTouching(screen.w - quit.getWidth(), screen.h - quit.getHeight())){
+                    Presenter::quit();
                 }
             }
         }
@@ -121,7 +124,9 @@ void InitialMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         }
     }else if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
-            if (editMap){
+            if (quit.isMouseTouching(screen.w - quit.getWidth(), screen.h - quit.getHeight())){
+                    Presenter::quit();
+                }else if (editMap){
                 if (arrow.isMouseTouching(screen.w/2 + 40, screen.h/5 + 50 * MAPS_PER_PAGE)){
                     this->chunk->playChunk(0);
                     if ((unsigned int) ((this->page + 1) * MAPS_PER_PAGE) < this->editableMaps.size()){

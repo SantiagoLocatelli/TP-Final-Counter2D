@@ -17,6 +17,8 @@ class SdlWindow{
         int getHeight();
         int getWidth();
         SDL_Window* getWindow();
+        void setFullScreen();
+        void setFullScreenOf();
         void setTitle(std::string title);
         ~SdlWindow();
 };
