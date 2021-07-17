@@ -2,13 +2,16 @@
 #include "Events/gameMath.h"
 
 #define METERS_TO_SHOW 8
+#define SIZE_SMALL_GUN 0
+#define SIZE_BIG_GUN 1
 
-const struct Size SIZE_SMALL_GUN = {16, 32};
-const struct Size SIZE_BIG_GUN = {20, 60};
 
 GameManager::GameManager(Size windowSize){
     this->pixelsPerMeter.w = windowSize.w / METERS_TO_SHOW;
     this->pixelsPerMeter.h = windowSize.h / METERS_TO_SHOW;
+
+    this->sizeWeapons[SIZE_SMALL_GUN] = {this->pixelsPerMeter.w/5, 2*this->pixelsPerMeter.h/5};
+    this->sizeWeapons[SIZE_BIG_GUN] = {this->pixelsPerMeter.w/4, 3*this->pixelsPerMeter.h/4};
 }
 
 void GameManager::translatePosition(Coordinate& coord, Position pos){
@@ -48,20 +51,20 @@ void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate p
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
-        weapon.pos.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w-9)/2)) + player.x;
-        weapon.pos.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h-9)/2)) + player.y;
+        weapon.pos.x = Math::cosAdHyp(prot.angle, ((9*this->pixelsPerMeter.w/10)/2)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((9*this->pixelsPerMeter.h/10)/2)) + player.y;
 
-        weapon.size = SIZE_SMALL_GUN;
+        weapon.size = this->sizeWeapons[SIZE_SMALL_GUN];
     } else if (weapon.type == RIFLE || weapon.type == SNIPER || weapon.type == SHOTGUN) {
         // BIG GUN
         weapon.pos.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w)/4)) + player.x;
         weapon.pos.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h)/4)) + player.y;
 
-        weapon.size = SIZE_BIG_GUN;
+        weapon.size = this->sizeWeapons[SIZE_BIG_GUN];
     }
 
-    weapon.posAnim.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w+9)/2)) + player.x;
-    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h+9)/2)) + player.y;
+    weapon.posAnim.x = Math::cosAdHyp(prot.angle, ((9*this->pixelsPerMeter.w/10)/2)) + player.x;
+    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((9*this->pixelsPerMeter.h/10)/2)) + player.y;
 }
 
 

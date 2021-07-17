@@ -6,12 +6,13 @@
 #include "GameViewer.h"
 #include "levelInfo.h"
 #include "SoundEffects.h"
-
+#include <map>
 
 class GameManager {
 private:
 
     Size pixelsPerMeter;
+    std::map<int, Size> sizeWeapons;
 
     void translateRect(BoxInfo& box, RectArea rect);
     void updateBomb(BombInfo& bomb, ProtBomb prot);
