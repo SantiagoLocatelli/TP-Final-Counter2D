@@ -1,6 +1,5 @@
 #include "TextureMap.h"
 #include "yaml-cpp/yaml.h"
-#include <utility>
 
 TextureMap::TextureMap(){
 	YAML::Node yaml_map = YAML::LoadFile("../../common_src/utils/TextureMap.yaml");

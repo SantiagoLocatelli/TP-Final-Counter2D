@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-#include <memory>
 #include <SDL2/SDL.h>
 
 struct TextureInfo{
