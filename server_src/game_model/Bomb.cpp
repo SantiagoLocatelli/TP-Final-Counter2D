@@ -7,7 +7,7 @@ void Bomb::toggle(){
         toggled = !toggled;
         if (toggled){
             owner->canMove = false;
-            plantTime = config.at("speed");
+            plantTime = config.getWeapon(BOMB, "speed");
         } else {
             owner->canMove = true;
         }

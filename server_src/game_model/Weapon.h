@@ -18,7 +18,7 @@ class Weapon{
         World *world;
         WeaponType type;
         WeaponSlot slot;
-        std::map<std::string, float> config;
+        GameConfig &config;
         int bullets;
         float reloadTime;
         float shootTime;

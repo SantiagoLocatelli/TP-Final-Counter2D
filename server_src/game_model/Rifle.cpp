@@ -1,7 +1,7 @@
 #include "Rifle.h"
 
 Rifle::Rifle(World *world, GameConfig &config):Weapon(world, config, RIFLE, PRIMARY), burstShots(0){
-    bullets = this->config.at("capacity");
+    bullets = this->config.getWeapon(RIFLE, "capacity");
 }
 
 void Rifle::toggle(){
@@ -9,7 +9,7 @@ void Rifle::toggle(){
     if (toggled && bullets > 0 && shootTime == 0){
         shootBullet();
         burstShots = 0;
-        shootTime = config.at("burstTime");
+        shootTime = config.getWeapon(RIFLE, "burstTime");
         burstShots++;
         bullets--;
     }
@@ -27,9 +27,9 @@ void Rifle::step(float delta){
                 bullets--;
                 if (burstShots == 3){
                     burstShots = 0;
-                    shootTime = config.at("speed");
+                    shootTime = config.getWeapon(RIFLE, "speed");
                 } else {
-                    shootTime = config.at("burstTime");
+                    shootTime = config.getWeapon(RIFLE, "burstTime");
                 }
             }
         }
@@ -38,7 +38,7 @@ void Rifle::step(float delta){
     if (reloadTime > 0){
         reloadTime -= delta;
         if (reloadTime <= 0){
-            bullets = config.at("capacity");
+            bullets = config.getWeapon(RIFLE, "capacity");
             reloadTime = 0;
         }
     }

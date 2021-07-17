@@ -20,7 +20,7 @@ void Knife::toggle(){
             }
         }
         for (Hittable *h: hit){
-            h->recvDamage(config.at("damage"));
+            h->recvDamage(config.getWeapon(KNIFE, "damage"));
         }
     }
 }

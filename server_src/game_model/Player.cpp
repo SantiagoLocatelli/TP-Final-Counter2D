@@ -11,7 +11,7 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), money(config.getPlayer().at("startingMoney")), canMove(true), shot(false){
+:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), money(config.getPlayer("startingMoney")), canMove(true), shot(false){
     setBody(start_x, start_y);
     weapons[KNIFE_SLOT] = new Knife(&world, config);
     weapons[KNIFE_SLOT]->changeOwner(this);
@@ -79,7 +79,7 @@ void Player::updateVelocity(){
             new_imp.x += 1;
 
         new_imp.Normalize();
-        new_imp *= config.getPlayer().at("speed");
+        new_imp *= config.getPlayer("speed");
     }
     body->SetLinearVelocity(new_imp);
 }
@@ -242,7 +242,7 @@ void Player::toggleDefuse(){
         defusing = !defusing;
         if (defusing){
             canMove = false;
-            defuseTime = config.getPlayer().at("defuseTime");
+            defuseTime = config.getPlayer("defuseTime");
         } else {
             canMove = true;
         }
@@ -286,7 +286,7 @@ void Player::buyWeapon(WeaponType weaponType){
 
 void Player::reset(float x, float y, Team team){
     currentWeapon = KNIFE_SLOT;
-    health = config.getPlayer().at("health");
+    health = config.getPlayer("health");
     defusing = false;
     defuseTime  = 0;
     canMove = true; 

@@ -2,40 +2,40 @@
 
 GameConfig::GameConfig():configFile(YAML::LoadFile("../../server_src/game_model/GameConfig.yaml")){}
 
-std::map<std::string, float> GameConfig::getWeapon(WeaponType type){
-    std::string name;
+float GameConfig::getWeapon(WeaponType type, std::string name){
+    std::string weaponName;
     switch (type){
     case KNIFE:
-        name = "Knife";
+        weaponName = "Knife";
         break;
     case PISTOL:
-        name = "Pistol";
+        weaponName = "Pistol";
         break;
     case SHOTGUN:
-        name = "Shotgun";
+        weaponName = "Shotgun";
         break;
     case RIFLE:
-        name = "Rifle";
+        weaponName = "Rifle";
         break;
     case SNIPER:
-        name = "Sniper";
+        weaponName = "Sniper";
         break;
     case BOMB:
-        name = "Bomb";
+        weaponName = "Bomb";
         break;
     
     default:
-        name = ""; //No estan en el archivo todavia
+        weaponName = ""; //No estan en el archivo todavia
     }
 
-    return configFile["Weapons"][name].as<std::map<std::string, float>>();
+    return configFile["Weapons"][weaponName][name].as<float>();
 }
 
-std::map<std::string, float> GameConfig::getPlayer(){
-    return configFile["Player"].as<std::map<std::string, float>>();
+float GameConfig::getPlayer(std::string name){
+    return configFile["Player"][name].as<float>();
 }
 
-std::map<std::string, float> GameConfig::getGame(){
-    return configFile["Game"].as<std::map<std::string, float>>();
+float GameConfig::getGame(std::string name){
+    return configFile["Game"][name].as<float>();
 }
 

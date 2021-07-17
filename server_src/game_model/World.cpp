@@ -101,7 +101,7 @@ void World::plantBomb(float x, float y){
         bomb.defused = false;
         bomb.x = x;
         bomb.y = y;
-        bomb.timeRemaining = config.getGame().at("bombTime");
+        bomb.timeRemaining = config.getGame("bombTime");
     }
 }
 
@@ -134,7 +134,7 @@ bool World::canPlant(float x, float y){
 
 bool World::canDefuse(float x, float y){
     if (bomb.planted && !bomb.defused){
-        if (b2Vec2(x-bomb.x, y-bomb.y).Length() <= config.getGame().at("bombDefuseDistance")){
+        if (b2Vec2(x-bomb.x, y-bomb.y).Length() <= config.getGame("bombDefuseDistance")){
             return true;
         }
     }

@@ -6,11 +6,11 @@ RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(wor
 }
 
 GameState RoundManager::getGameState(){
-    if (wins[terrorIdx] == config.getGame().at("roundsPerSide")+1){
+    if (wins[terrorIdx] == config.getGame("roundsPerSide")+1){
         return T_WON;
-    } else if (wins[counterIdx] == config.getGame().at("roundsPerSide")+1){
+    } else if (wins[counterIdx] == config.getGame("roundsPerSide")+1){
         return CT_WON;
-    } else if (rounds == 2*config.getGame().at("roundsPerSide")){
+    } else if (rounds == 2*config.getGame("roundsPerSide")){
         return TIE;
     } else {
         return PLAYING;
@@ -18,7 +18,7 @@ GameState RoundManager::getGameState(){
 }
 
 void RoundManager::resetRound(){
-    if (rounds == config.getGame().at("roundsPerSide")){
+    if (rounds == config.getGame("roundsPerSide")){
         terrorIdx = 1;
         counterIdx = 0;
         world.resetWorld(true);
@@ -28,7 +28,7 @@ void RoundManager::resetRound(){
 }
 
 void RoundManager::updateResult(){
-    if (timer > config.getGame().at("roundTime")){
+    if (timer > config.getGame("roundTime")){
         result = TIME_ENDED;
     }
 
@@ -59,7 +59,7 @@ void RoundManager::updateResult(){
 }
 
 GameState RoundManager::roundEnded(){
-    if (timer > config.getGame().at("roundTime") || world.bombDefused()){
+    if (timer > config.getGame("roundTime") || world.bombDefused()){
         return CT_WON;
     }
 
@@ -93,7 +93,7 @@ bool RoundManager::step(float delta){
     switch (roundState)
     {
     case BUY:
-        if (timer > config.getGame().at("buyTime")){
+        if (timer > config.getGame("buyTime")){
             timer = 0;
             roundState = MIDDLE;
             return true;
@@ -110,12 +110,12 @@ bool RoundManager::step(float delta){
             int tMoney, ctMoney;
             if (roundEnded() == T_WON){
                 wins[terrorIdx]++;
-                tMoney = config.getGame().at("wonRoundMoney");
-                ctMoney = config.getGame().at("lostRoundMoney");
+                tMoney = config.getGame("wonRoundMoney");
+                ctMoney = config.getGame("lostRoundMoney");
             } else {
                 wins[counterIdx]++;
-                ctMoney = config.getGame().at("wonRoundMoney");
-                tMoney = config.getGame().at("lostRoundMoney");
+                ctMoney = config.getGame("wonRoundMoney");
+                tMoney = config.getGame("lostRoundMoney");
             }
             rounds++;
             for (Player &p: world.getPlayers()){
@@ -133,7 +133,7 @@ bool RoundManager::step(float delta){
         break;
     
     case END:
-        if (timer > config.getGame().at("endTime")){
+        if (timer > config.getGame("endTime")){
             timer = 0;
             resetRound();
             roundState = BUY;

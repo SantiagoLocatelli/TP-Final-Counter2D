@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config.getWeapon(type)), bullets(0), reloadTime(0), shootTime(0),toggled(false), rayCaster(world->b2world){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config), bullets(0), reloadTime(0), shootTime(0),toggled(false), rayCaster(world->b2world){}
 
 
 void Weapon::changeOwner(Player *newOwner){
@@ -18,12 +18,12 @@ void Weapon::shootBullet(){
 
     //Le agrego un desvio a la bala
     float r = ((float) rand()) / (float) RAND_MAX;
-    float spread = (2*r-1)*(config.at("spread"));
+    float spread = (2*r-1)*(config.getWeapon(type, "spread"));
     std::array<float, 2> pos = owner->getPosition();
     ray.x = pos[0];
     ray.y = pos[1];
     ray.angle = owner->getAngle() + spread;
-    ray.distance = config.at("maxRange");
+    ray.distance = config.getWeapon(type, "maxRange");
     Hittable *hit = nullptr;
 
     float distance = rayCaster.castRay(ray, hit);
@@ -51,30 +51,30 @@ void Weapon::toggle(){
     toggled = !toggled;
     if (toggled && bullets > 0 && shootTime == 0){
         shootBullet();
-        shootTime = config.at("speed");
+        shootTime = config.getWeapon(type, "speed");
         bullets--;
     }
 }
 
 int Weapon::getPrice(){
-    return config.at("price");
+    return config.getWeapon(type, "price");
 }
 
 float Weapon::calculateDamage(float distance){
-    if (distance > config.at("maxRange"))
+    if (distance > config.getWeapon(type, "maxRange"))
         return 0;
     //Calculo el daño entre el min y max
     float r = ((float) rand()) / (float) RAND_MAX;
-    float damage = config.at("minDamage") + (r * (config.at("maxDamage") - config.at("minDamage")));
+    float damage = config.getWeapon(type, "minDamage") + (r * (config.getWeapon(type, "maxDamage") - config.getWeapon(type, "minDamage")));
     //El daño disminuye con la distancia
-    damage *= 1/(distance*config.at("falloff")+1); //TODO: Cambiar a una caida lineal de daño
+    damage *= 1/(distance*config.getWeapon(type, "falloff")+1);
 
     return damage;
 }
 
 void Weapon::reload(){
     if (reloadTime == 0){
-        reloadTime = config.at("reloadTime");
+        reloadTime = config.getWeapon(type, "reloadTime");
     }
 }
 
@@ -89,7 +89,7 @@ void Weapon::step(float delta){
     if (reloadTime > 0){
         reloadTime -= delta;
         if (reloadTime <= 0){
-            bullets = config.at("capacity");
+            bullets = config.getWeapon(type, "capacity");
             reloadTime = 0;
         }
     }

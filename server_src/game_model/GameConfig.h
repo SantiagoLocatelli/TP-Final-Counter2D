@@ -13,10 +13,9 @@ class GameConfig{
     public:
         GameConfig();
 
-        //TODO: Que estos metodos no devuelvan un map, sino que le pases un string y te devuelvan directamente el float.
-        std::map<std::string, float> getWeapon(WeaponType type);
-        std::map<std::string, float> getPlayer();
-        std::map<std::string, float> getGame();
+        float getWeapon(WeaponType type, std::string name);
+        float getPlayer(std::string name);
+        float getGame(std::string name);
 
         GameConfig(const GameConfig&) = delete;
         GameConfig& operator=(const GameConfig&) = delete;
