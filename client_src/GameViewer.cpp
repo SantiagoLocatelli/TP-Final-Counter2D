@@ -159,6 +159,12 @@ void GameViewer::renderMap(Coordinate cam){
 
 void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
+    for (PlayerEffect effect : this->level.mainPlayer.sounds) {
+        this->sounds.playPlayerSound(effect);
+    }
+    if (this->level.mainPlayer.shooting) {
+        this->sounds.playWeaponSound(this->level.mainPlayer.weapon.sound);
+    }
 }
 
 void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity){
