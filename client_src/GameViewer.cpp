@@ -55,7 +55,6 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     loadHudTextures();
 }
 
-
 SkinType getPjSkin(PlayerInfo player) {
     if (player.team == COUNTER) {
         return (SkinType) Math::getRandomNumberBetween((int)CT1, (int)CT4);
@@ -79,7 +78,6 @@ void GameViewer::loadPlayers(Size window){
         this->players.push_back(Character(player, *(this->textureManager.getSkin(typeSkin)), this->weapons[typeWeapon]));
     }
 }
-
 
 void GameViewer::loadWeapons(){
     this->weapons[KNIFE] = new Weapon(*(this->textureManager.getWeaponOnPj(KNIFE)), *(this->textureManager.getWeaponAnim(KNIFE)), KNIFE);
@@ -117,6 +115,7 @@ void GameViewer::loadHudTextures(){
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 }
+
 
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
@@ -338,6 +337,12 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     skin->render(cam.w/2 + unit.w, weaponPos.y, weaponSize.w, weaponSize.h, &clip, 90.0);
 }
 
+void GameViewer::showRoundState(){
+    Size cam = this->cam.getSize();
+    SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
+
+}
+
 void GameViewer::renderBuyMenu(){
     Size cam = this->cam.getSize();
     if (buyMenuOpen) {
@@ -385,7 +390,6 @@ void GameViewer::render(){
     renderer.updateScreen();
 }
 
-
 void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         printf("se actualizo la vida del pj\n");
@@ -394,7 +398,6 @@ void GameViewer::updateHud(LevelInfo level){
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
     } 
 
-
     if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
         
         char ammoText[100];
@@ -402,7 +405,6 @@ void GameViewer::updateHud(LevelInfo level){
         this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     } 
 }
-
 
 void GameViewer::update(LevelInfo newLevel){
     std::unique_lock<std::mutex> lock(m);
@@ -433,8 +435,6 @@ Coordinate GameViewer::mainPlayerRelativePos(){
     return {this->mainPlayer->getPosX() - this->cam.getPosX(),
             this->mainPlayer->getPosY() - this->cam.getPosY()};
 }
-
-
 
 void GameViewer::toggleBuyMenu(){
     std::unique_lock<std::mutex> lock(m);

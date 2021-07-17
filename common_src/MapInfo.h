@@ -7,6 +7,8 @@
 #include "Utils.h"
 
 struct MapInfo{
+    SkinType ct;
+    SkinType tt;
     uint16_t height;
     uint16_t length;
     std::vector<uint8_t> tiles; //La matriz de casillas "aplastada" en un vector

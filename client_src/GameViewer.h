@@ -50,6 +50,7 @@ private:
     void renderMap(Coordinate cam);
     void renderBuyMenu();
     void renderHud();
+    void showRoundState();
 
     void updateHud(LevelInfo level);
     

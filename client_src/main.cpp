@@ -12,12 +12,12 @@ int main(int argc, char* argv[]){
         Size menuSize = {640, 480};
         Menu* menu = new Menu(menuSize, server);
         bool joined_game = false; 
-        menu->run(joined_game);
+        Size windowSize {500, 500};
+        menu->run(joined_game, windowSize);
         delete menu;
 
         if (!joined_game) return 0;
 
-        Size windowSize {500, 500};
 
         MapInfo map;
         server.recv_map_info(map);

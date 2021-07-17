@@ -5,6 +5,7 @@
 #include <cstring>
 #include <string>
 #include <memory>
+#include "yaml-cpp/yaml.h"
 
 #define MAPS_PATH "../../common_src/maps/"
 
@@ -21,16 +22,39 @@
 #define MAX_PLAYERS 10
 #define MIN_PLAYERS 2 
 
+#define MAX_STRING 29
 #define MARGIN 20
 #define PATH_FONT "../../common_src/img/digital-7.ttf"
+#define PATH "../../client_src/yaml/"
 
+const struct Color NEGRO = {0x00, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color WHITE = {0xff, 0xff, 0xff};
+const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
+
+const struct Size RESOLUTION_STANDARD = {640, 480};
+const struct Size RESOLUTION_SEMI_HIGH = {960, 540};
+const struct Size RESOLUTION_HIGH = {1280, 720};
+const struct Size RESOLUTION_VGA = {1024, 768};
+
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 
     background(this->renderer, BACKGROUND_PATH), server(server){
     loadButtons();
+    loadSkins(renderer);
+}
+
+void Menu::loadSkins(SdlRenderer& renderer){
+    std::stringstream path;
+    path << PATH;
+    path << "playerSkins.yaml";
+    YAML::Node yaml_map = YAML::LoadFile(path.str());
+	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
+        SkinType skin = (SkinType) texture.second;
+        this->skins[skin] = std::unique_ptr<SdlTexture> (new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b));
+    }
 }
 
 
@@ -104,9 +128,6 @@ void Menu::loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps){
         nextHeight += sizeTexture.h + MARGIN;
     }
 }
-
-Menu::~Menu(){}
-
 
 void Menu::renderCreateMenu(std::map<std::string, std::unique_ptr<TextTexture>>& maps,
     bool mapSelected, bool nameSelected, std::string nameGame, int players){
@@ -204,7 +225,7 @@ void Menu::createGame(bool& joined_game, bool& quit){
                     }
                 } 
             } else if (e.type == SDL_TEXTINPUT && mapSelected && !nameSelected) {
-                if (nameGame.length() < 29) {
+                if (nameGame.length() < MAX_STRING) {
                     nameGame += e.text.text;
                 }
             } else if (e.type == SDL_KEYDOWN && mapSelected && nameSelected) {
@@ -230,13 +251,12 @@ void Menu::createGame(bool& joined_game, bool& quit){
             renderCreateMenu(maps, mapSelected, nameSelected, nameGame, quanPlayers);
         }
     }
-
     if (joined_game) {
         Event event;
         event.type = CREATE_GAME;
         event.info.gameInfo.max_players = quanPlayers;
-        strncpy(event.info.gameInfo.map, mapName.c_str(), 29);
-        strncpy(event.info.gameInfo.name, nameGame.c_str(), 29);
+        strncpy(event.info.gameInfo.map, mapName.c_str(), MAX_STRING);
+        strncpy(event.info.gameInfo.name, nameGame.c_str(), MAX_STRING);
         server.send_event(event);
     }
 
@@ -260,7 +280,6 @@ void Menu::renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& o
 
     renderer.updateScreen();
 }
-
 
 void Menu::joinGame(bool& joined_game, bool& quit){
     
@@ -326,8 +345,99 @@ void Menu::renderInitMenu(){
     renderer.updateScreen();
 }
 
-void Menu::run(bool& joined_game){
 
+void Menu::renderOptionsResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options){
+    renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    renderer.clear();
+
+    this->background.render(0, 0, this->size.w, this->size.h);
+    this->buttons[TITLE]->render();
+    for (auto it = options.begin(); it != options.end(); it++) {
+        it->second->render();
+    }
+
+    renderer.updateScreen();
+}
+
+void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options) {
+    options[STANDARD] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    char text[100];
+    sprintf(text, "%d x %d",RESOLUTION_STANDARD.w, RESOLUTION_STANDARD.h);
+    options[STANDARD]->setText(text, WHITE);
+    Size sizeText = options[STANDARD]->getSize();
+    Coordinate pos = {this->size.w/2 - sizeText.w/2, 100};
+    options[STANDARD]->setCoordinate(pos);
+
+    options[VGA] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    sprintf(text, "%d x %d", RESOLUTION_VGA.w, RESOLUTION_VGA.h);
+    options[VGA]->setText(text, WHITE);
+    sizeText = options[VGA]->getSize();
+    pos = {this->size.w/2 - sizeText.w/2, 150};
+    options[VGA]->setCoordinate(pos);
+
+    options[SEMI_HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    sprintf(text, "%d x %d", RESOLUTION_SEMI_HIGH.w, RESOLUTION_SEMI_HIGH.h);
+    options[SEMI_HIGH]->setText(text, WHITE);
+    sizeText = options[SEMI_HIGH]->getSize();
+    pos = {this->size.w/2 - sizeText.w/2, 200};
+    options[SEMI_HIGH]->setCoordinate(pos);
+
+    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
+    options[HIGH]->setText(text, WHITE);
+    sizeText = options[HIGH]->getSize();
+    pos = {this->size.w/2 - sizeText.w/2, 250};
+    options[HIGH]->setCoordinate(pos);
+}
+
+void setResolution(Size& resolution, Resolution resolutionType) {
+    if (resolutionType == STANDARD) {
+        resolution = RESOLUTION_STANDARD;
+    } else if (resolutionType == VGA) {
+        resolution = RESOLUTION_VGA;
+    } else if (resolutionType == HIGH) {
+        resolution = RESOLUTION_HIGH;
+    } else {
+        resolution = RESOLUTION_SEMI_HIGH;
+    }
+}
+
+void Menu::makeChooseResolution(bool& quit, Size& resolution){
+    std::map<Resolution, std::unique_ptr<TextTexture>> options;
+    
+    this->buttons[TITLE]->setText("Choose a resolution:", HUD_COLOR);
+    Size sizeText = this->buttons[TITLE]->getSize();
+    Coordinate pos = {this->size.w/2 - sizeText.w/2, MARGIN};
+    this->buttons[TITLE]->setCoordinate(pos);
+
+    loadResolutions(options);
+    Resolution resolutionType;
+    
+
+    SDL_Event e;
+    SDL_PumpEvents();
+    bool selected = false;
+    while (!quit && !selected) {
+        while (SDL_PollEvent(&e) != 0 && !quit && !selected) {
+            if (e.type == SDL_QUIT) {
+                quit = true;  
+            } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
+                for (auto it = options.begin(); it != options.end(); it++) {
+                    if (it->second->isMouseTouching()) {
+                        resolutionType = it->first;
+                        selected = true;
+                    }
+                }
+
+            } 
+        }
+        renderOptionsResolutions(options);
+    }
+
+    setResolution(resolution, resolutionType);
+}
+
+void Menu::run(bool& joined_game, Size& windowSize){
 
     SDL_Event e;
     SDL_PumpEvents();
@@ -347,6 +457,9 @@ void Menu::run(bool& joined_game){
             }
         }
         this->renderInitMenu();
+    }
+    if (joined_game) {
+        makeChooseResolution(quit, windowSize);
     }
 }
 
