@@ -7,8 +7,7 @@
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
 #define WEAPONS_PATH "../../common_src/utils/weaponsOnFloor.yaml"
 
-MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r), 
-prueba(renderer, "../../cs2dnorm.bmp", ){
+MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->screenHeight = screenHeight;
