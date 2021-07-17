@@ -18,20 +18,16 @@ backToEditor(renderer, FONT_PATH, FONT_SIZE, "Back to Editor", 0, 0, 0){
 
 void TextureScreen::render(){
     SDL_Rect screen = Presenter::getCameraBox();
-    if (renderFloors){
+    if (renderFloors || renderWalls || renderWeapons){
         this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
         this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
         this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
+    }
+    if (renderFloors){
         Presenter::renderMapFloors(page);
     }else if (renderWalls){
-        this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
-        this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
-        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
         Presenter::renderMapWalls(page);
     }else if (renderWeapons){
-        this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
-        this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
-        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
         Presenter::renderMapWeapons(page);
     }
     else{

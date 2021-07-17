@@ -384,8 +384,6 @@ void setResolution(Size& resolution, Resolution resolutionType) {
         resolution = RESOLUTION_STANDARD;
     } else if (resolutionType == HIGH) {
         resolution = RESOLUTION_HIGH;
-    } else if (resolutionType == ALTERNATIVE) {
-        resolution = RESOLUTION_ALTERNATIVE;
     } else {
         resolution = RESOLUTION_SEMI_HIGH;
     }
