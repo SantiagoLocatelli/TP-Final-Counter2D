@@ -33,9 +33,8 @@ private:
     void loadSkins(SdlRenderer& renderer);
     void loadButtons();
 
-    void createGame(bool& joined_game, bool& quit);
-    void joinGame(bool& joined_game, bool& quit);
-
+    void createGame(bool& joined_game, bool& quit, Event& event);
+    void joinGame(bool& joined_game, bool& quit, Event& event);
     void makeChooseSkins(SkinType& ct, SkinType& tt);
     void makeChooseResolution(bool& quit, Size& resolution);
 

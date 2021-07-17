@@ -184,7 +184,7 @@ void Menu::renderCreateMenu(std::map<std::string, std::unique_ptr<TextTexture>>&
 }
 
 
-void Menu::createGame(bool& joined_game, bool& quit){
+void Menu::createGame(bool& joined_game, bool& quit, Event& event){
 
     std::map<std::string, std::unique_ptr<TextTexture>> maps;
     loadMaps(maps);
@@ -252,14 +252,11 @@ void Menu::createGame(bool& joined_game, bool& quit){
         }
     }
     if (joined_game) {
-        Event event;
         event.type = CREATE_GAME;
         event.info.gameInfo.max_players = quanPlayers;
         strncpy(event.info.gameInfo.map, mapName.c_str(), MAX_STRING);
         strncpy(event.info.gameInfo.name, nameGame.c_str(), MAX_STRING);
-        server.send_event(event);
     }
-
 }
 
 void Menu::renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& options){
@@ -281,9 +278,9 @@ void Menu::renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& o
     renderer.updateScreen();
 }
 
-void Menu::joinGame(bool& joined_game, bool& quit){
+
+void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
     
-    Event event;
     event.type = LIST_GAMES;
     server.send_event(event);
     std::list<GameInfo> gameList;
@@ -317,7 +314,7 @@ void Menu::joinGame(bool& joined_game, bool& quit){
                 for (auto it = options.begin(); it != options.end(); it++) {
                     if (it->second->isMouseTouching()) {
                         event.type = JOIN_GAME;
-                        strncpy(event.info.gameInfo.name, it->first.c_str(), 29);
+                        strncpy(event.info.gameInfo.name, it->first.c_str(), MAX_STRING);
                         joined_game = true;
                     }
                 } 
@@ -328,8 +325,6 @@ void Menu::joinGame(bool& joined_game, bool& quit){
             renderJoinMenu(options);
         }
     }
-
-    this->server.send_event(event);
 }
 
 void Menu::renderInitMenu(){
@@ -439,6 +434,7 @@ void Menu::makeChooseResolution(bool& quit, Size& resolution){
 
 void Menu::run(bool& joined_game, Size& windowSize){
 
+    Event event;
     SDL_Event e;
     SDL_PumpEvents();
     bool quit = false;
@@ -450,9 +446,9 @@ void Menu::run(bool& joined_game, Size& windowSize){
                 if (this->buttons[QUIT]->isMouseTouching()) {
                     quit = true;
                 } else if (this->buttons[NEW_GAME]->isMouseTouching()) {
-                    this->createGame(joined_game, quit);
+                    this->createGame(joined_game, quit, event);
                 } else  if (this->buttons[JOIN]->isMouseTouching()) {
-                    this->joinGame(joined_game, quit);
+                    this->joinGame(joined_game, quit, event);
                 }
             }
         }
@@ -460,6 +456,7 @@ void Menu::run(bool& joined_game, Size& windowSize){
     }
     if (joined_game) {
         makeChooseResolution(quit, windowSize);
+        this->server.send_event(event);
     }
 }
 
