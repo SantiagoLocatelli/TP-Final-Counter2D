@@ -7,7 +7,7 @@
 
 struct TextureInfo{
     std::string texturePath;
-    SDL_Rect clip;
+    //SDL_Rect clip;
     bool isBox;
 };
 
