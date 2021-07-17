@@ -11,6 +11,8 @@
 class GameManager {
 private:
 
+    Size pixelsPerMeter;
+
 public:
 
     GameManager();
