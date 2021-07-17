@@ -9,7 +9,7 @@
 #include <vector>
 #include <map>
 
-enum SkinType : int {CT1, CT2, CT3, CT4, TT1, TT2, TT3, TT4};
+
 
 class TextureManager{
 private:
