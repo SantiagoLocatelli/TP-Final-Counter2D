@@ -2,7 +2,6 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-#define FONT_SIZE 26
 TextureScreen::TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH),
 background(renderer, BACKGROUND), floors(renderer, FONT_PATH, FONT_SIZE, "Floors", 255, 255, 255),
 walls(renderer, FONT_PATH, FONT_SIZE, "Walls", 255, 255, 255), back(renderer, FONT_PATH, FONT_SIZE, "Back", 0, 0, 0),
@@ -37,9 +36,9 @@ void TextureScreen::render(){
     }
     else{
         this->background.render(0, 0, screen.w, screen.h);
-        this->floors.render(screen.w/2, screen.h/3);
-        this->walls.render(screen.w/3, screen.h/3);
-        this->weapons.render((screen.w - weapons.getWidth())/2, screen.h/2);
+        this->floors.render((screen.w - floors.getWidth())/2, (screen.h - floors.getHeight())/2 - 100);
+        this->walls.render((screen.w - walls.getWidth())/2, (screen.h - walls.getHeight())/2);
+        this->weapons.render((screen.w - weapons.getWidth())/2, (screen.h - weapons.getHeight())/2 + 100);
     }
     this->back.render(0, screen.h - 20);
 }
@@ -103,13 +102,13 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                     this->chunk->playChunk(0);
                     changeScene = true;
                 }
-            }else if (weapons.isMouseTouching((screen.w - weapons.getWidth())/2, screen.h/2)){
+            }else if (weapons.isMouseTouching((screen.w - weapons.getWidth())/2, (screen.h - weapons.getHeight())/2 + 100)){
                 this->chunk->playChunk(0);
                 renderWeapons = true;
-            }else if (floors.isMouseTouching(screen.w/2, screen.h/3)){
+            }else if (floors.isMouseTouching((screen.w - floors.getWidth())/2, (screen.h - floors.getHeight())/2 - 100)){
                 this->chunk->playChunk(0);
                 renderFloors = true;
-            }else if (walls.isMouseTouching(screen.w/3, screen.h/3)){
+            }else if (walls.isMouseTouching((screen.w - walls.getWidth())/2, (screen.h - walls.getHeight())/2)){
                 this->chunk->playChunk(0);
                 renderWalls = true;
             }else if (back.isMouseTouching(0, screen.h - 20)){

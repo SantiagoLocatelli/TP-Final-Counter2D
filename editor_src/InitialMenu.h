@@ -9,7 +9,7 @@
 #include "presenter.h"
 class InitialMenu : public Presenter{
     private:
-        SdlTexture background, crearMapTexture, editarMapTexture, arrow, back, introduceText, mapName;
+        SdlTexture background, crearMapTexture, editarMapTexture, arrow, back, introduceText, mapName, quit;
         std::unique_ptr<SdlMixer> chunk;
         std::vector<SdlTexture> editableMaps;
         bool editMap, createMap, renderText, changeScene;

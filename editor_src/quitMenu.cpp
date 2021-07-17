@@ -1,6 +1,5 @@
 #include "quitMenu.h"
 #include <stdio.h>
-#define FONT_SIZE 26
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACK_GROUND "../../common_src/img/saveBackGround.png"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
@@ -20,24 +19,25 @@ void QuitMenu::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     Presenter::renderTextures();
     backGround.render(0, 0, screen.w, screen.h);
-    questionTexture.render(0, 100);
-    cancel.render(50, 200);
-    saveAndQuit.render(200, 200);
-    quitWithoutSaving.render(400, 200);
+    questionTexture.render((screen.w - questionTexture.getWidth())/2, 100);
+    cancel.render((screen.w - cancel.getWidth() - questionTexture.getWidth())/2, 200);
+    saveAndQuit.render((screen.w - saveAndQuit.getWidth())/2, 200);
+    quitWithoutSaving.render((screen.w - saveAndQuit.getWidth() + questionTexture.getWidth())/2, 200);
 
 }
 
 void QuitMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
-            if (cancel.isMouseTouching(50, 200)){
+            SDL_Rect screen = Presenter::getCameraBox();
+            if (cancel.isMouseTouching((screen.w - cancel.getWidth() - questionTexture.getWidth())/2, 200)){
                 this->chunk->playChunk(0);
                 this->changeScene = true;
-            }else if (saveAndQuit.isMouseTouching(200, 200)){
+            }else if (saveAndQuit.isMouseTouching((screen.w - saveAndQuit.getWidth())/2, 200)){
                 this->chunk->playChunk(0);
                 Presenter::saveMap();
                 this->quit = true;
-            }else if (quitWithoutSaving.isMouseTouching(400, 200)){
+            }else if (quitWithoutSaving.isMouseTouching(screen.w/2 - saveAndQuit.getWidth()/2 + questionTexture.getWidth()/2, 200)){
                 this->chunk->playChunk(0);
                 this->quit = true;
             }

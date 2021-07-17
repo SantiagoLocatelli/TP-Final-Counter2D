@@ -10,7 +10,7 @@
 #include "presenter.h"
 class OptionsMenu : public Presenter{
     private:
-        SdlTexture backgroundTexture, widthTexture, heightTexture, save, back, quitToMenu;
+        SdlTexture backgroundTexture, widthTexture, heightTexture, save, back, quitToMenu, quit;
         std::map<std::shared_ptr<SdlTexture>, std::string> options;
         std::shared_ptr<SdlTexture> selectedTexture;
         std::vector<SdlTexture> textTexture;

@@ -43,6 +43,7 @@ class Presenter{
         void needToSave();
         void saveMap();
         void goToMenu();
+        void quit();
 
         SDL_Rect getCameraBox();
         int getMapWidth();
