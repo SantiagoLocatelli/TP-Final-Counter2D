@@ -1,5 +1,6 @@
 #include "LobbyManager.h"
 #include "../../common_src/GeneralException.h"
+#include "../../common_src/SocketClosedException.h"
 #include <iostream>
 #include <utility>
 
@@ -32,7 +33,8 @@ void LobbyManager::run(){
                 break;
             }
         }
-    } catch(const std::exception& e){
+    }catch (const SocketClosedException &e){
+    }catch (const std::exception& e){
         std::cout << "ERROR en `LobbyManager`: " << e.what() << std::endl;
         protocol.close();
     }

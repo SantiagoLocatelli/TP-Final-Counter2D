@@ -100,6 +100,15 @@ void Player::recvDamage(float damage){
     if (health > 0){
         health -= damage;
         if (health < 0){
+            if (weapons[PRIMARY] != nullptr){
+                currentWeapon = PRIMARY;
+                dropWeapon();
+            }
+            if (weapons[BOMB_SLOT] != nullptr){
+                currentWeapon = BOMB_SLOT;
+                angle += 3.14; //Le sumo pi para tirarlo atras
+                dropWeapon();
+            }
             dead = true;
             world.destroyBody(body);
         }

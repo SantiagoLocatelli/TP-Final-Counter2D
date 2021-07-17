@@ -32,7 +32,6 @@ void World::step(float delta){
         if (!p.isDead()){
             p.updateVelocity();
             p.step(delta);
-            printf("X: %f, Y: %f\n", p.getPosition()[0], p.getPosition()[1]);
         }
     }
 
