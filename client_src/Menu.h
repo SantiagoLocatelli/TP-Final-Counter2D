@@ -12,7 +12,7 @@
 #include <map>
 #include <memory>
 
-enum Resolution : int {STANDARD, SEMI_HIGH, HIGH, VGA};
+enum Resolution : int {STANDARD, SEMI_HIGH, HIGH, ALTERNATIVE};
 
 class Menu{
 

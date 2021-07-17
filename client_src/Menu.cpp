@@ -33,9 +33,8 @@ const struct Color WHITE = {0xff, 0xff, 0xff};
 const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
 
 const struct Size RESOLUTION_STANDARD = {640, 480};
-const struct Size RESOLUTION_SEMI_HIGH = {960, 540};
-const struct Size RESOLUTION_HIGH = {1280, 720};
-const struct Size RESOLUTION_VGA = {1024, 768};
+const struct Size RESOLUTION_SEMI_HIGH = {1024, 768};
+const struct Size RESOLUTION_HIGH = {1366, 768};
 const struct Size RESOLUTION_ALTERNATIVE = {800, 600};
 
 
@@ -93,6 +92,7 @@ void Menu::loadButtons(){
 
     this->buttons[TITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
 }
+
 
 void Menu::loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps){
     DIR *dir;
@@ -356,6 +356,7 @@ void Menu::renderOptionsResolutions(std::map<Resolution, std::unique_ptr<TextTex
 }
 
 void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options) {
+    // enum Resolution : int {STANDARD, SEMI_HIGH, HIGH, ALTERNATIVE};
     options[STANDARD] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
     char text[100];
     sprintf(text, "%d x %d",RESOLUTION_STANDARD.w, RESOLUTION_STANDARD.h);
@@ -364,12 +365,12 @@ void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& o
     Coordinate pos = {this->size.w/2 - sizeText.w/2, 100};
     options[STANDARD]->setCoordinate(pos);
 
-    options[VGA] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
-    sprintf(text, "%d x %d", RESOLUTION_VGA.w, RESOLUTION_VGA.h);
-    options[VGA]->setText(text, WHITE);
-    sizeText = options[VGA]->getSize();
+    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
+    options[HIGH]->setText(text, WHITE);
+    sizeText = options[HIGH]->getSize();
     pos = {this->size.w/2 - sizeText.w/2, 150};
-    options[VGA]->setCoordinate(pos);
+    options[HIGH]->setCoordinate(pos);
 
     options[SEMI_HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
     sprintf(text, "%d x %d", RESOLUTION_SEMI_HIGH.w, RESOLUTION_SEMI_HIGH.h);
@@ -378,20 +379,20 @@ void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& o
     pos = {this->size.w/2 - sizeText.w/2, 200};
     options[SEMI_HIGH]->setCoordinate(pos);
 
-    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    options[ALTERNATIVE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
     sprintf(text, "%d x %d", RESOLUTION_ALTERNATIVE.w, RESOLUTION_ALTERNATIVE.h);
-    options[HIGH]->setText(text, WHITE);
-    sizeText = options[HIGH]->getSize();
+    options[ALTERNATIVE]->setText(text, WHITE);
+    sizeText = options[ALTERNATIVE]->getSize();
     pos = {this->size.w/2 - sizeText.w/2, 250};
-    options[HIGH]->setCoordinate(pos);
+    options[ALTERNATIVE]->setCoordinate(pos);
 }
 
 void setResolution(Size& resolution, Resolution resolutionType) {
     if (resolutionType == STANDARD) {
         resolution = RESOLUTION_STANDARD;
-    } else if (resolutionType == VGA) {
-        resolution = RESOLUTION_VGA;
     } else if (resolutionType == HIGH) {
+        resolution = RESOLUTION_HIGH;
+    } else if (resolutionType == ALTERNATIVE) {
         resolution = RESOLUTION_ALTERNATIVE;
     } else {
         resolution = RESOLUTION_SEMI_HIGH;
