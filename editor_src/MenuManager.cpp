@@ -157,7 +157,12 @@ void MenuManager::loadToFile(){
 void MenuManager::renderTextures(const SDL_Rect& camera){
     int x = 0, y = 0;
     for (auto &texture : this->textures){
-        texture->render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE);
+        if (this->textureMap[texture->getType()].clip.x == -1){
+            texture->render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE);
+        }else{
+            SDL_Rect aux = this->textureMap[texture->getType()].clip;
+            texture->render(x - camera.x, y - camera.y, TILE_SIZE, TILE_SIZE, &aux);
+        }
         
         //Move to next tile spot
         x += TILE_SIZE;
@@ -241,7 +246,13 @@ void MenuManager::renderMapTextures(int& page, std::vector<SdlTexture>& textures
             break;
         }
         j++;
-        textures[i].render(x, y, TILE_SIZE, TILE_SIZE);
+        if (this->textureMap[textures[i].getType()].clip.x == -1){
+            textures[i].render(x, y, TILE_SIZE, TILE_SIZE);
+        }else{
+            SDL_Rect aux = this->textureMap[textures[i].getType()].clip;
+            textures[i].render(x, y, TILE_SIZE, TILE_SIZE, &aux);
+        }
+        
         
         //Move to next tile spot
         x += TILE_SIZE;

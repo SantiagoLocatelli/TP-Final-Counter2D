@@ -3,9 +3,12 @@
 
 #include <string>
 #include <map>
+#include <memory>
+#include <SDL2/SDL.h>
 
 struct TextureInfo{
     std::string texturePath;
+    SDL_Rect clip;
     bool isBox;
 };
 
