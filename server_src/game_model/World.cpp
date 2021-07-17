@@ -170,11 +170,6 @@ void World::resetWorld(bool changeTeams){
         }
     }
 
-    //Reseteo la bomba
-    if (bomb.planted)
-        bomb.planted = false;
-    addDrop(new Bomb(this, config), mapInfo.spawnSites[TERROR].x+CELL_SIZE/2, mapInfo.spawnSites[TERROR].y+CELL_SIZE/2);
-
     for (Player &p: players){
         Team team = p.getTeam();
         if (changeTeams)
@@ -200,6 +195,20 @@ void World::resetWorld(bool changeTeams){
             break;
         }
     }
+
+    //Reseteo la bomba
+    if (bomb.planted)
+        bomb.planted = false;
+        
+    bool foundPlayer = false;
+    while (!foundPlayer){
+        int r = rand() % players.size();
+        if (players[r].getTeam() == TERROR){
+            foundPlayer = true;
+            players[r].takeWeapon(new Bomb(this, config));
+        }
+    }
+
 }
 
 b2Vec2 World::getValidPosition(RectArea area){
