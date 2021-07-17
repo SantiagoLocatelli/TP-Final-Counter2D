@@ -37,18 +37,26 @@ void Character::render(Coordinate cam){
     this->texture.render(dstPj.x, dstPj.y, dstPj.w, dstPj.h, &srcPj, this->player.degrees + PHASE_SHIFT);
 }
 
+int quantityWeapons(std::array<WeaponType, 4> weapons){
+    int quantity = 0;
+    for (int i = 0; i < (int)weapons.size(); i++) {
+        if (weapons[i] != NO_WEAPON) quantity++;
+    }
+    return quantity;
+}
 
 void Character::update(PlayerInfo info, Weapon* weapon){
     this->player.sounds.clear();
+
+    if (!this->player.dead && info.dead) {
+        this->player.sounds.push_back(DYING);
+    }
 
     this->player.dead = info.dead;
     if (info.dead) return;
 
     this->weapon = weapon;
 
-    if (!this->player.dead && info.dead) {
-        this->player.sounds.push_back(DYING);
-    }
     if (!Math::equalCoords(player.pos, info.pos)) {
         this->delay++;
         if (this->delay == DELAY_SOUND) {
@@ -57,7 +65,16 @@ void Character::update(PlayerInfo info, Weapon* weapon){
         }
         this->delay = this->delay % DELAY_SOUND;
     }
-    
+    int oldQuantity = quantityWeapons(this->player.weapons);
+    int newQuantity = quantityWeapons(info.weapons);
+
+    if (oldQuantity > newQuantity) {
+        this->player.sounds.push_back(DROPPING);
+    } else if (newQuantity > oldQuantity) {
+        this->player.sounds.push_back(PICKING_UP);
+    }
+    this->player.weapons = info.weapons;
+    this->player.currentSlot = info.currentSlot;
 
     this->player.weapon = info.weapon;
     this->player.shooting = info.shooting;
