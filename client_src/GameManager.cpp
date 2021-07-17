@@ -49,10 +49,12 @@ void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
 void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapons[prot.currentSlot];
 
+    Size phaseShift = {(int) (this->pixelsPerMeter.w*0.3),(int) (this->pixelsPerMeter.h*0.1)};
+
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
-        weapon.pos.x = Math::cosAdHyp(prot.angle, ((9*this->pixelsPerMeter.w/10)/2)) + player.x;
-        weapon.pos.y = Math::senoOppHyp(prot.angle, ((9*this->pixelsPerMeter.h/10)/2)) + player.y;
+        weapon.pos.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w - phaseShift.w)/2)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h - phaseShift.h)/2)) + player.y;
 
         weapon.size = this->sizeWeapons[SIZE_SMALL_GUN];
     } else if (weapon.type == RIFLE || weapon.type == SNIPER || weapon.type == SHOTGUN) {
@@ -63,8 +65,8 @@ void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate p
         weapon.size = this->sizeWeapons[SIZE_BIG_GUN];
     }
 
-    weapon.posAnim.x = Math::cosAdHyp(prot.angle, ((9*this->pixelsPerMeter.w/10)/2)) + player.x;
-    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((9*this->pixelsPerMeter.h/10)/2)) + player.y;
+    weapon.posAnim.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w + phaseShift.w)/2)) + player.x;
+    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h + phaseShift.h)/2)) + player.y;
 }
 
 

@@ -30,9 +30,8 @@ void Character::render(Coordinate cam){
     Coordinate dstAnim = {this->player.weapon.posAnim.x - this->player.weapon.size.w/2 - cam.x,
                           this->player.weapon.posAnim.y - this->player.weapon.size.h/2 - cam.y};
                         
-    Size sizeWp = {this->player.weapon.size.w, this->player.weapon.size.h};
 
-    this->weapon->render(dstWp, dstAnim, sizeWp, this->player.degrees, this->player.shooting);
+    this->weapon->render(dstWp, dstAnim, this->player.weapon.size, this->player.degrees, this->player.shooting);
     this->texture.render(dstPj.x, dstPj.y, dstPj.w, dstPj.h, &srcPj, this->player.degrees + PHASE_SHIFT);
 }
 
