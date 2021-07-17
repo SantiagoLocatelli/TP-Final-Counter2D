@@ -19,9 +19,7 @@
 - [../../common_src/img/backgrounds/bspot_a.png, [-1,-1,-1,-1,0]]
 - [../../common_src/img/backgrounds/bspot_b.png, [-1,-1,-1,-1,0]]
 - [../../common_src/img/backgrounds/inferno1.bmp, [-1,-1,-1,-1,0]]
-#---------------------------Walls----------------------------------------
 - [../../common_src/img/walls/green_crate.bmp, [-1,-1,-1,-1,1]]
 - [../../common_src/img/walls/anubis.png, [-1,-1,-1,-1,1]]
 - [../../common_src/img/walls/roof.PNG, [-1,-1,-1,-1,1]]
-#---------------------------TilesFloors----------------------------------------
 - [../../common_src/img/tiles/cs2dnorm.bmp, [0,0,32,32,0]]
