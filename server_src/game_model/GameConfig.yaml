@@ -5,12 +5,14 @@ Game:
   buyTime: 10
   endTime: 5 #Tiempo de pantalla de final de ronda
   roundsPerSide: 1
+  wonRoundMoney: 400
+  lostRoundMoney: 250
 
 Player:
   health: 100
   speed: 6
   defuseTime: 2
-  startingMoney: 10000
+  startingMoney: 1000
 
 Weapons:
   Knife:

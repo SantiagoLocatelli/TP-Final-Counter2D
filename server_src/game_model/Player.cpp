@@ -329,3 +329,10 @@ void Player::setBody(float x, float y){
     fixture = body->CreateFixture(&fixtureDef);
 }
 
+int Player::getMoney() const{
+    return money;
+}
+void Player::addMoney(int money){
+    this->money += money;
+}
+

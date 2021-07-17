@@ -68,6 +68,8 @@ class Player: public Hittable{
         void step(float delta);
         int getAmmo() const;
         void buyWeapon(WeaponType weaponType);
+        int getMoney() const;
+        void addMoney(int money);
 
         ~Player();
 

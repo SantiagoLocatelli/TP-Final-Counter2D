@@ -107,12 +107,25 @@ bool RoundManager::step(float delta){
             timer = 0;
             roundState = END;
             updateResult();
+            int tMoney, ctMoney;
             if (roundEnded() == T_WON){
                 wins[terrorIdx]++;
+                tMoney = config.getGame().at("wonRoundMoney");
+                ctMoney = config.getGame().at("lostRoundMoney");
             } else {
                 wins[counterIdx]++;
+                ctMoney = config.getGame().at("wonRoundMoney");
+                tMoney = config.getGame().at("lostRoundMoney");
             }
             rounds++;
+            for (Player &p: world.getPlayers()){
+                if (p.getTeam() == TERROR){
+                    p.addMoney(tMoney);
+                } else {
+                    p.addMoney(ctMoney);
+                }
+            }
+
             return false;
         } else {
             return true;
