@@ -24,6 +24,14 @@ SDL_Renderer* SdlWindow::createRender(){
     return mRenderer;
 }
 
+void SdlWindow::setFullScreen(){
+    SDL_SetWindowFullscreen(this->mWindow, SDL_TRUE);
+}
+
+void SdlWindow::setFullScreenOf(){
+    SDL_SetWindowFullscreen(this->mWindow, SDL_FALSE);
+}
+
 int SdlWindow::getHeight(){
     return this->mHeight;
 }

@@ -51,3 +51,14 @@ target_link_libraries(Server box2d pthread yaml-cpp)
 
 add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/camera.cpp")
 target_link_libraries(Editor SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
+
+
+install(TARGETS Server Client Editor
+    RUNTIME DESTINATION "/home/"
+    LIBRARY DESTINATION "/home/"
+    DESTINATION "/home/"
+)
+
+SET(CPACK_GENERATOR "DEB")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "KK") #required
+INCLUDE(CPack)

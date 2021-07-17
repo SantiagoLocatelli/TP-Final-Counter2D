@@ -6,7 +6,6 @@
 #include <utility>
 #define TEXTURE_PATH "../../common_src/maps/textures.yaml"
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
-#define FONT_SIZE 26
 
 Editor::Editor(SdlRenderer& renderer, MenuManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH),
 helperBombsite(renderer, FONT_PATH, FONT_SIZE, "mantenga 1 para ver los bomsites", 255, 255, 255),

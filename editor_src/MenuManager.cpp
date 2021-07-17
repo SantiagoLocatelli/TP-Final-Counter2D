@@ -6,9 +6,9 @@
 #include <memory>
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
 #define WEAPONS_PATH "../../common_src/utils/weaponsOnFloor.yaml"
-#define TILE_SIZE 80
 
-MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
+MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r), 
+prueba(renderer, "../../cs2dnorm.bmp", ){
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->screenHeight = screenHeight;
@@ -17,8 +17,8 @@ MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : re
     this->needsToSave = "";
     this->goToStart = false;
     this->isWeapon = false;
+    this->quitEditor = false;
     
-
     YAML::Node yaml_map = YAML::LoadFile(WEAPONS_PATH);
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
@@ -30,16 +30,17 @@ MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : re
 
     for (int i = 0; i < textureMap.size(); i++){
         if (textureMap[i].isBox == 1){
-            this->borderType = i;
             this->wallTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
         }else{
             this->floorTextureScreen.emplace_back(r, textureMap[i].texturePath, i);
         }
     }
+
+    this->borderType = wallTextureScreen.front().getType();
 }
 
 void MenuManager::createMap(const std::string mapID){
-    this->mapSize = {10, 10};
+    this->mapSize = {17, 17};
     this->currentType = 0;
     this->isWeapon = false;
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
@@ -509,6 +510,10 @@ void MenuManager::goToMenu(){
     this->goToStart = true;
 }
 
+void MenuManager::requestQuit(){
+    this->quitEditor = true;
+}
+
 bool MenuManager::quitToMenu(){
     if (goToStart){
         goToStart = false;
@@ -543,4 +548,12 @@ int MenuManager::getTexturesSize(){
 
 int MenuManager::getTileSize(){
     return TILE_SIZE;
+}
+
+bool MenuManager::quit(){
+    if (this->quitEditor){
+        this->quitEditor = false;
+        return true;
+    }
+    return false;
 }

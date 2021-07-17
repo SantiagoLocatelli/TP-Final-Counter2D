@@ -11,6 +11,7 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/draggable.h"
 #include "../common_src/Sdl/sdl_mixer.h"
+#include "macros.h"
 class MenuManager{
     private:
         std::vector<int> mapSize;
@@ -27,7 +28,7 @@ class MenuManager{
         std::unique_ptr<SdlMixer> chunk;
 
         std::vector<int> weaponTypes;
-        bool goToStart, isWeapon;
+        bool goToStart, isWeapon, quitEditor;
     public:
         MenuManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
@@ -65,8 +66,10 @@ class MenuManager{
         void editMap(const std::string& mapID);
         void needToSave();
         void goToMenu();
+        void requestQuit();
 
         bool quitToMenu();
+        bool quit();
         int getMapWidth();
         int getMapHeight();
         int getTextureMapSize();

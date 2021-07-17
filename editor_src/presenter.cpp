@@ -113,3 +113,6 @@ int Presenter::getTileSize(){
     return this->menuManager.getTileSize();
 }
 
+void Presenter::quit(){
+    this->menuManager.requestQuit();
+}
