@@ -25,7 +25,7 @@ void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         WeaponType weapon = (WeaponType) texture.second;
-        this->weaponsOnFloor[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+        this->weaponsOnFloor[weapon] = new SdlTexture(renderer, texture.first);
     }
 }
 
@@ -51,7 +51,7 @@ void TextureManager::loadWeaponsOnPlayer(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         WeaponType weapon = (WeaponType) texture.second;
-        this->weaponsOnPj[weapon] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+        this->weaponsOnPj[weapon] = new SdlTexture(renderer, texture.first);
     }
 }
 
@@ -76,7 +76,6 @@ void TextureManager::loadTexturesWeapons(SdlRenderer& renderer){
     loadWeaponsOnHud(renderer);
 }
 
-
 void TextureManager::loadSkins(SdlRenderer& renderer){
     std::stringstream path;
     path << PATH;
@@ -85,11 +84,9 @@ void TextureManager::loadSkins(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         SkinType skin = (SkinType) texture.second;
-        this->skins[skin] = new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b);
+        this->skins[skin] = new SdlTexture(renderer, texture.first);
     }
 }
-
-
 
 bool isInVector(std::vector<uint8_t> vector, uint8_t element) {
     int max = (int) vector.size();

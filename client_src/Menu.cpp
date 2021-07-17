@@ -36,6 +36,7 @@ const struct Size RESOLUTION_STANDARD = {640, 480};
 const struct Size RESOLUTION_SEMI_HIGH = {960, 540};
 const struct Size RESOLUTION_HIGH = {1280, 720};
 const struct Size RESOLUTION_VGA = {1024, 768};
+const struct Size RESOLUTION_ALTERNATIVE = {800, 600};
 
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
@@ -378,7 +379,7 @@ void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& o
     options[SEMI_HIGH]->setCoordinate(pos);
 
     options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
-    sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
+    sprintf(text, "%d x %d", RESOLUTION_ALTERNATIVE.w, RESOLUTION_ALTERNATIVE.h);
     options[HIGH]->setText(text, WHITE);
     sizeText = options[HIGH]->getSize();
     pos = {this->size.w/2 - sizeText.w/2, 250};
@@ -391,7 +392,7 @@ void setResolution(Size& resolution, Resolution resolutionType) {
     } else if (resolutionType == VGA) {
         resolution = RESOLUTION_VGA;
     } else if (resolutionType == HIGH) {
-        resolution = RESOLUTION_HIGH;
+        resolution = RESOLUTION_ALTERNATIVE;
     } else {
         resolution = RESOLUTION_SEMI_HIGH;
     }

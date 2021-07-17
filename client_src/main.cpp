@@ -15,7 +15,6 @@ int main(int argc, char* argv[]){
         Size windowSize {500, 500};
         menu->run(joined_game, windowSize);
         delete menu;
-        windowSize = {500, 500};
         if (!joined_game) return 0;
 
 
@@ -26,7 +25,7 @@ int main(int argc, char* argv[]){
         server.recv_model_info(model);
 
         LevelInfo level;
-        GameManager gameManager;
+        GameManager gameManager(windowSize);
         
         gameManager.initializeLevel(level, map, model);
         GameViewer gameViewer(windowSize, level); 

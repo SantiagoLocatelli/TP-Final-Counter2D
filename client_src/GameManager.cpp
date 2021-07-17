@@ -1,59 +1,71 @@
 #include "GameManager.h"
 #include "Events/gameMath.h"
 
-#define PIXELS_PER_METER 80
+#define METERS_TO_SHOW 8
 
 const struct Size SIZE_SMALL_GUN = {16, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
 
-GameManager::GameManager(){}
-
-void translatePosition(Coordinate& coord, Position pos){
-
-    coord.x = Math::ruleOfThree(pos.x, 1.0, PIXELS_PER_METER);
-    coord.y = Math::ruleOfThree(pos.y, 1.0, PIXELS_PER_METER);
+GameManager::GameManager(Size windowSize){
+    this->pixelsPerMeter.w = windowSize.w / METERS_TO_SHOW;
+    this->pixelsPerMeter.h = windowSize.h / METERS_TO_SHOW;
 }
 
-void updateBullet(BulletInfo& bullet, Bullet prot) {
+void GameManager::translatePosition(Coordinate& coord, Position pos){
+
+    coord.x = Math::metersToPixels(pos.x, 1.0, this->pixelsPerMeter.w);
+    coord.y = Math::metersToPixels(pos.y, 1.0, this->pixelsPerMeter.h);
+}
+
+void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
     translatePosition(bullet.pos, prot.pos);
-    bullet.pos.x += Math::cosOppHyp(prot.angle, PIXELS_PER_METER/2);
-    bullet.pos.y += Math::senoOppHyp(prot.angle, PIXELS_PER_METER/2);
+
+    // es para que la bullet salga desde el arma y no desde el centro del jugador
+    bullet.pos.x += Math::cosAdHyp(prot.angle, this->pixelsPerMeter.w/2);
+    bullet.pos.y += Math::senoOppHyp(prot.angle, this->pixelsPerMeter.h/2);
     
-    int distance = Math::ruleOfThree(prot.distance, 1, PIXELS_PER_METER) + 5;
-    bullet.dst.x = Math::cosOppHyp(prot.angle, distance) + bullet.pos.x;
+    Position distanceMeters;
+    distanceMeters.x = Math::cosAdHyp(prot.angle, prot.distance);
+    distanceMeters.y = Math::senoOppHyp(prot.angle, prot.distance);
+
+    Coordinate distancePixels;
+    translatePosition(distancePixels, distanceMeters);
+
+    int distance = Math::pythagoras(distancePixels.x, distancePixels.y) + 5;
+    bullet.dst.x = Math::cosAdHyp(prot.angle, distance) + bullet.pos.x;
     bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
 }
 
-void updateDrop(DropInfo& drop, ProtDrop prot){
+void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
     translatePosition(drop.pos, prot.pos);
     drop.type = prot.type;
-    drop.size.w = PIXELS_PER_METER;
-    drop.size.h = PIXELS_PER_METER;
-}
+    drop.size.w = this->pixelsPerMeter.w;
+    drop.size.h = this->pixelsPerMeter.h;
+} 
 
-void updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
+void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapons[prot.currentSlot];
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
-        weapon.pos.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.x;
-        weapon.pos.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-9)/2)) + player.y;
+        weapon.pos.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w-9)/2)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h-9)/2)) + player.y;
 
         weapon.size = SIZE_SMALL_GUN;
     } else if (weapon.type == RIFLE || weapon.type == SNIPER || weapon.type == SHOTGUN) {
         // BIG GUN
-        weapon.pos.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER-50)/2)) + player.x;
-        weapon.pos.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER-50)/2)) + player.y;
+        weapon.pos.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w)/4)) + player.x;
+        weapon.pos.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h)/4)) + player.y;
 
         weapon.size = SIZE_BIG_GUN;
     }
 
-    weapon.posAnim.x = Math::cosOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.x;
-    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((PIXELS_PER_METER+9)/2)) + player.y;
+    weapon.posAnim.x = Math::cosAdHyp(prot.angle, ((this->pixelsPerMeter.w+9)/2)) + player.x;
+    weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h+9)/2)) + player.y;
 }
 
 
-void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
+void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 
     player.dead = prot.dead;
     if (!prot.dead) {
@@ -61,8 +73,8 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
         player.currentSlot = prot.currentSlot;
         translatePosition(player.pos, prot.pos);
         player.degrees = Math::radiansToDegrees(prot.angle);
-        player.size.w = PIXELS_PER_METER;
-        player.size.h = PIXELS_PER_METER;
+        player.size.w = this->pixelsPerMeter.w;
+        player.size.h = this->pixelsPerMeter.h;
         player.shooting = prot.shot;
         player.team = prot.team;
         updateWeapon(player.weapon, prot, player.pos);
@@ -70,7 +82,7 @@ void updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 }
 
 
-void updateBomb(BombInfo& bomb, ProtBomb prot) {
+void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
     if (prot.planted) {
         translatePosition(bomb.pos, {prot.x, prot.y});
         bomb.time = prot.timeRemaining;
@@ -129,18 +141,17 @@ void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
     updateBomb(level.bomb, model.bomb);
 }
 
-void translateRect(BoxInfo& box, RectArea rect){
-    box.pos.x = Math::ruleOfThree(rect.x, 1.0, PIXELS_PER_METER);
-    box.pos.y = Math::ruleOfThree(rect.y, 1.0, PIXELS_PER_METER);
-    box.size.w = Math::ruleOfThree(rect.width, 1.0, PIXELS_PER_METER);
-    box.size.h = Math::ruleOfThree(rect.height, 1.0, PIXELS_PER_METER);
+void GameManager::translateRect(BoxInfo& box, RectArea rect){
+    translatePosition(box.pos, {rect.x,rect.y});
+    box.size.w = Math::metersToPixels(rect.width, 1.0, this->pixelsPerMeter.w);
+    box.size.h = Math::metersToPixels(rect.height, 1.0, this->pixelsPerMeter.h);
 }
 
 
 void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const ModelInfo& model){
     
-    level.size.w = map.length*PIXELS_PER_METER;
-    level.size.h = map.height*PIXELS_PER_METER;
+    level.size.w = map.length*this->pixelsPerMeter.w;
+    level.size.h = map.height*this->pixelsPerMeter.h;
 
     BoxInfo box;
     for (auto it = map.bombSites.begin(); it != map.bombSites.end(); it++) {
@@ -155,14 +166,14 @@ void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const Mo
 
 
     TileInfo tile;
-    tile.size.w = PIXELS_PER_METER;
-    tile.size.h = PIXELS_PER_METER;
+    tile.size.w = this->pixelsPerMeter.w;
+    tile.size.h = this->pixelsPerMeter.h;
 
     int max = (int)map.tiles.size();
     for(int i = 0; i < max; i++){
         tile.id = map.tiles[i];
-        tile.pos.x = (i%map.length)*PIXELS_PER_METER; 
-        tile.pos.y = (i/map.height)*PIXELS_PER_METER; 
+        tile.pos.x = (i%map.length)*this->pixelsPerMeter.w; 
+        tile.pos.y = (i/map.height)*this->pixelsPerMeter.h; 
         level.tiles.push_back(tile);
     }
 
