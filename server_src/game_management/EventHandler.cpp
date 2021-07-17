@@ -6,35 +6,35 @@ EventHandler::EventHandler(GameProxy &game):game(game){}
 void EventHandler::executeEvent(Event event, int id){
     switch (event.type){
     case TOGGLE_MOVEMENT:
-        game.toggleMovement(id, event.info.dir);
+        game.getPlayer(id).toggleMovement(event.info.dir);
         break;
     
     case SET_ANGLE:
-        game.setAngle(id, event.info.angle);
+        game.getPlayer(id).setAngle(event.info.angle);
         break;
     
     case TOGGLE_WEAPON:
-        game.toggleWeapon(id);
+        game.getPlayer(id).toggleWeapon();
         break;
     
     case RELOAD_WEAPON:
-        game.reloadWeapon(id);
+        game.getPlayer(id).reloadWeapon();
         break;
 
     case CHANGE_WEAPON:
-        game.changeWeapon(id, event.info.slot);
+        game.getPlayer(id).changeWeapon(event.info.slot);
         break;
     
     case DROP_WEAPON:
-        game.dropWeapon(id);
+        game.getPlayer(id).dropWeapon();
         break;
     
     case TOGGLE_DEFUSE:
-        game.toggleDefuse(id);
+        game.getPlayer(id).toggleDefuse();
         break;
 
     case BUY_WEAPON:
-        game.buyWeapon(id, event.info.type);
+        game.getPlayer(id).buyWeapon(event.info.type);
         break;
     
     default:

@@ -31,15 +31,7 @@ class GameProxy{
         //Crea un jugador 
         void createPlayer(Team team);
 
-        //TODO: Es muy engorroso tener una funcion diferente para cada accion.
-        void toggleMovement(int id, Direction direction);
-        void setAngle(int id, float angle);
-        void toggleWeapon(int id);
-        void reloadWeapon(int id);
-        void changeWeapon(int id, WeaponSlot slot);
-        void dropWeapon(int id);
-        void toggleDefuse(int id);
-        void buyWeapon(int id, WeaponType type);
+        Player &getPlayer(int id);
 
         void clearFrameEvents();
 

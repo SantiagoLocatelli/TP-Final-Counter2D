@@ -108,30 +108,9 @@ void GameProxy::createPlayer(Team team){
     }
 }
 
-void GameProxy::toggleMovement(int id, Direction direction){
-    world->getPlayers()[id].toggleMovement(direction);
+Player &GameProxy::getPlayer(int id){
+    return world->getPlayers()[id];
 }
-
-void GameProxy::setAngle(int id, float angle){
-    world->getPlayers()[id].setAngle(angle);
-}
-
-void GameProxy::toggleWeapon(int id){
-    world->getPlayers()[id].toggleWeapon();
-}
-
-void GameProxy::reloadWeapon(int id){
-    world->getPlayers()[id].reloadWeapon();
-}
-
-void GameProxy::changeWeapon(int id, WeaponSlot slot){
-    world->getPlayers()[id].changeWeapon(slot);
-}
-
-void GameProxy::dropWeapon(int id){
-    world->getPlayers()[id].dropWeapon();
-}
-
 
 bool GameProxy::ended(){
     return roundManager->getGameState();
@@ -147,12 +126,3 @@ void GameProxy::clearFrameEvents(){
         p.shot = false;
     }
 }
-
-void GameProxy::toggleDefuse(int id){
-    world->getPlayers()[id].toggleDefuse();
-}
-
-void GameProxy::buyWeapon(int id, WeaponType type){
-    world->getPlayers()[id].buyWeapon(type);
-}
-
