@@ -162,7 +162,7 @@ void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const Mo
     for(int i = 0; i < max; i++){
         tile.id = map.tiles[i];
         tile.pos.x = (i%map.length)*PIXELS_PER_METER; 
-        tile.pos.y = (i/map.height)*PIXELS_PER_METER; 
+        tile.pos.y = (i/map.length)*PIXELS_PER_METER; 
         level.tiles.push_back(tile);
     }
 

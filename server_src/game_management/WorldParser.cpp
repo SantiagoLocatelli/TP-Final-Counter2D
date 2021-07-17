@@ -22,7 +22,7 @@ std::list<std::array<int,2>> WorldParser::get_boxes(){
         if (textureMap[map[i]].isBox){
             std::array<int, 2> b;
             b[0] = i%length;
-            b[1] = i/height;
+            b[1] = i/length;
             boxList.push_back(b);
         }
     }

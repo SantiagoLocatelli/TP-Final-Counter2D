@@ -5,7 +5,7 @@ EntityChecker::EntityChecker(b2World &world):world(world), hasEntities(false){}
 
 bool EntityChecker::ReportFixture(b2Fixture *fixture){
     hasEntities = true;
-    if (fixture->GetBody()->GetUserData().pointer){
+    if ((Hittable *)fixture->GetBody()->GetUserData().pointer != nullptr){
         hit.push_back((Hittable*)fixture->GetBody()->GetUserData().pointer);
     }
     return true;
