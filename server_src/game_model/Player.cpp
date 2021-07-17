@@ -336,3 +336,7 @@ void Player::addMoney(int money){
     this->money += money;
 }
 
+bool Player::isBox(){
+    return false;
+}
+

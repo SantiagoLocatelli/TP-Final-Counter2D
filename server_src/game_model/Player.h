@@ -70,6 +70,7 @@ class Player: public Hittable{
         void buyWeapon(WeaponType weaponType);
         int getMoney() const;
         void addMoney(int money);
+        bool isBox() override;
 
         ~Player();
 

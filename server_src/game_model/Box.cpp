@@ -16,7 +16,12 @@ Box::Box(b2World &world, float x, float y){
 
 void Box::recvDamage(float damage){}
 
+bool Box::isBox(){
+    return true;
+}
+
 Box::Box(Box&& other){
     this->fixture = other.fixture;
     this->fixture->GetBody()->GetUserData().pointer = (uintptr_t)this;
 }
+

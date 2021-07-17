@@ -10,6 +10,7 @@ class Box: public Hittable{
     public:
         Box(b2World &world, float x, float y);
         void recvDamage(float damage) override;
+        bool isBox() override;
 
         Box(Box&& other);
         Box& operator=(Box&& other) = delete;

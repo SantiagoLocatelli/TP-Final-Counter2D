@@ -12,10 +12,14 @@ void CollisionHandler::BeginContact(b2Contact* contact){
         return;
     }
 
+    if ((bodyA->GetUserData().pointer && ((Hittable*)bodyA->GetUserData().pointer)->isBox()) || (bodyB->GetUserData().pointer && ((Hittable*)bodyB->GetUserData().pointer)->isBox())){
+        //Esto significa que uno de los dos era una caja. No me importa esta colision
+        return;
+    }
+
     Player *player;
     Drop *drop;
     if (bodyA->GetUserData().pointer){
-        //TODO: Faltaria chequear que no es una caja
         player = (Player *)bodyA->GetUserData().pointer;
         drop = (Drop *)bodyB->GetFixtureList()->GetUserData().pointer;
     } else {

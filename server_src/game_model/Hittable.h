@@ -12,6 +12,7 @@ class Hittable{
         virtual float isHitBy(Ray ray);
         virtual void recvDamage(float damage) = 0;
         b2Vec2 getPosition();
+        virtual bool isBox() = 0;
 };
 
 #endif
