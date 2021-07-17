@@ -33,19 +33,29 @@ float Math::calculateRadians(Coordinate center, Coordinate point){
     return radians;
 }
 
-int Math::ruleOfThree(float x_f, float total_f, int total_i){
+int Math::metersToPixels(float x_f, float total_f, int total_i){
     int porcentage = (x_f*100.0)/total_f;
     return (total_i*porcentage)/100;
 }
+
+float Math::pixelsToMeters(int pixels, int totalPixels, float totalMeters) {
+    int porcentage = (pixels*100)/totalPixels;
+    return (totalMeters*porcentage)/100.0;
+}
+
 
 int Math::senoOppHyp(float radians, int hypotenuse){
     return (int)(sin(radians) * (float)hypotenuse);
 }
 
-int Math::cosOppHyp(float radians, int hypotenuse){
+int Math::cosAdHyp(float radians, int hypotenuse){
     return (int)(cos(radians) * (float)hypotenuse);
 }
 
 int Math::getRandomNumberBetween(int min, int max){
     return ((rand() % (1+max-min)) + min);
+}
+
+int Math::pythagoras(int cat1, int cat2){
+    return sqrt((cat1*cat1) + (cat2*cat2));
 }
