@@ -134,6 +134,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.you.health);
         send_uint16t(modelInfo.you.ammo);
         send_byte(modelInfo.you.team);
+        send_uint16t(modelInfo.you.money);
     }
 
 
@@ -196,6 +197,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.you.health);
         recv_uint16t(modelInfo.you.ammo);
         recv_byte((char&)modelInfo.you.team);
+        recv_uint16t(modelInfo.you.money);
     }
 
     uint16_t len;

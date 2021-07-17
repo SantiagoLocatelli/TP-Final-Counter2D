@@ -58,6 +58,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
                 you.shot = p.shot;
                 you.team = p.getTeam();
                 you.ammo = p.getAmmo();
+                you.money = p.getMoney();
             }
             info.players.push_back(you);
     }

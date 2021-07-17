@@ -27,6 +27,7 @@ struct ProtPlayer{
 struct You: public ProtPlayer{
     float health;
     uint16_t ammo;
+    uint16_t money;
 };
 
 struct Bullet{
