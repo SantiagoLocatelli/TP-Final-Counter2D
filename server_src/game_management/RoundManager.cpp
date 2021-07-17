@@ -5,7 +5,7 @@ RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(wor
     wins[1] = 0;
 }
 
-GameState RoundManager::gameEnded(){
+GameState RoundManager::getGameState(){
     if (wins[terrorIdx] == config.getGame().at("roundsPerSide")+1){
         return T_WON;
     } else if (wins[counterIdx] == config.getGame().at("roundsPerSide")+1){
@@ -27,14 +27,46 @@ void RoundManager::resetRound(){
     }
 }
 
+void RoundManager::updateResult(){
+    if (timer > config.getGame().at("roundTime")){
+        result = TIME_ENDED;
+    }
+
+    if (world.bombDefused()){
+        result = BOMB_DEFUSED;
+    }
+
+    if (world.bombExploded()){
+        result = BOMB_EXPLODED;
+    }
+
+    int t_alive = 0, ct_alive = 0;
+    for (const Player &p: world.getPlayers()){
+        if (!p.isDead()){
+            if (p.getTeam() == TERROR){
+                t_alive++;
+            } else {
+                ct_alive++;
+            }
+        }
+    }
+
+    if (t_alive == 0 && !world.bombPlanted()){
+        result = T_DEAD;
+    } else if (ct_alive == 0){
+        result = CT_DEAD;
+    }
+}
+
 GameState RoundManager::roundEnded(){
-    if (timer > config.getGame().at("roundTime") || world.bombDefused())
+    if (timer > config.getGame().at("roundTime") || world.bombDefused()){
         return CT_WON;
+    }
 
-    if (world.bombExploded())
+    if (world.bombExploded()){
         return T_WON;
+    }
 
-    //TODO: Chequear por equipo en vez de por personas individuales
     int t_alive = 0, ct_alive = 0;
     for (const Player &p: world.getPlayers()){
         if (!p.isDead()){
@@ -74,6 +106,7 @@ bool RoundManager::step(float delta){
         if (roundEnded() != PLAYING){
             timer = 0;
             roundState = END;
+            updateResult();
             if (roundEnded() == T_WON){
                 wins[terrorIdx]++;
             } else {
@@ -106,3 +139,8 @@ RoundState RoundManager::getRoundState(){
 float RoundManager::getTime(){
     return this->timer;
 }
+
+RoundResult RoundManager::getRoundResult(){
+    return result;
+}
+

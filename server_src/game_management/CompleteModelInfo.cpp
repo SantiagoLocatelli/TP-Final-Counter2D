@@ -2,7 +2,7 @@
 #include <utility>
 
 ModelInfo CompleteModelInfo::getModelInfo(int id){
-    ModelInfo info;
+    ModelInfo info = incompleteModel;
     for (int i = 0; i < (int)players.size(); i++){
         if (i == id){
             info.you = players[i];
@@ -22,34 +22,16 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
         }
     }
 
-    for (Bullet b: bullets){
-        info.bullets.push_back(b);
-    }
-
-    for (ProtDrop d: drops){
-        info.drops.push_back(d);
-    }
-
-    info.game_ended = game_ended;
-    info.bomb = bomb;
-    info.timeRemaining = timeRemaining;
-    info.roundState = roundState;
-
     return info;
 }
 
 bool CompleteModelInfo::ended(){
-    return game_ended;
+    return incompleteModel.game_ended;
 }
 
 CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){
     players = std::move(other.players);
-    bullets = std::move(other.bullets);
-    drops = std::move(other.drops);
-    game_ended = other.game_ended;
-    bomb = other.bomb;
-    timeRemaining = other.timeRemaining;
-    roundState = other.roundState;
+    incompleteModel = std::move(other.incompleteModel);
 }
 
 CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
@@ -58,12 +40,7 @@ CompleteModelInfo& CompleteModelInfo::operator=(CompleteModelInfo&& other){
     }
 
     players = std::move(other.players);
-    bullets = std::move(other.bullets);
-    drops = std::move(other.drops);
-    game_ended = other.game_ended;
-    bomb = other.bomb;
-    timeRemaining = other.timeRemaining;
-    roundState = other.roundState;
+    incompleteModel = std::move(other.incompleteModel);
 
     return *this;
 }

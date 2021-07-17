@@ -8,7 +8,7 @@
 #include "Sniper.h"
 
 
-World::World(MapInfo mapInfo, GameConfig &config):player_number(0), b2world(b2Vec2(0,0)), config(config), mapInfo(mapInfo){
+World::World(MapInfo mapInfo, GameConfig &config):player_number(0), mapInfo(mapInfo), b2world(b2Vec2(0,0)), config(config){
     bomb.planted = false;
     b2world.SetContactListener(&collisionHandler);
 }
@@ -16,11 +16,11 @@ World::World(MapInfo mapInfo, GameConfig &config):player_number(0), b2world(b2Ve
 void World::addBox(int grid_x, int grid_y){
     if(grid_x < 0 || grid_x > mapInfo.length || grid_y < 0 || grid_y > mapInfo.height)
         throw GeneralException("Posicicon para `addBox` fuera de límites");
-    boxes.push_back(Box(b2world, grid_x+CELL_SIZE/2.0f, grid_y+CELL_SIZE/2.0f));
+    boxes.push_back(Box(b2world, grid_x+(CELL_SIZE/2.0f), grid_y+(CELL_SIZE/2.0f)));
 }
 
 void World::createPlayer(Team team){
-    players.emplace_back(std::move(Player(*this, 0, 0, config, team)));
+    players.emplace_back(std::move(Player(*this, -5, -5, config, team)));
 }
 
 std::vector<Player> &World::getPlayers(){
@@ -32,6 +32,7 @@ void World::step(float delta){
         if (!p.isDead()){
             p.updateVelocity();
             p.step(delta);
+            printf("X: %f, Y: %f\n", p.getPosition()[0], p.getPosition()[1]);
         }
     }
 
@@ -170,11 +171,6 @@ void World::resetWorld(bool changeTeams){
         }
     }
 
-    //Reseteo la bomba
-    if (bomb.planted)
-        bomb.planted = false;
-    addDrop(new Bomb(this, config), mapInfo.spawnSites[TERROR].x+CELL_SIZE/2, mapInfo.spawnSites[TERROR].y+CELL_SIZE/2);
-
     for (Player &p: players){
         Team team = p.getTeam();
         if (changeTeams)
@@ -200,25 +196,36 @@ void World::resetWorld(bool changeTeams){
             break;
         }
     }
+
+    //Reseteo la bomba
+    if (bomb.planted)
+        bomb.planted = false;
+
+    bool foundPlayer = false;
+    while (!foundPlayer){
+        int r = rand() % players.size();
+        if (players[r].getTeam() == TERROR){
+            foundPlayer = true;
+            players[r].takeWeapon(new Bomb(this, config));
+        }
+    }
+
 }
 
 b2Vec2 World::getValidPosition(RectArea area){
     b2Vec2 pos;
     EntityChecker checker(b2world);
-    int tries = 0;
-    do{
-        float r = ((float) rand()) / (float) RAND_MAX;
-        pos.x = area.x + (r*area.width);
-        r = ((float) rand()) / (float) RAND_MAX;
-        pos.y = area.y + (r*area.height);
-        tries++;
-    } while (checker.areaHasEntities(pos-b2Vec2(0.5, 0.5)
-    , pos+b2Vec2(0.5, 0.5)) && tries < 50);
 
-    if (tries == 50){
-        throw GeneralException("El spawn es muy chico y no entran los jugadores\n");
+    for (pos.x = area.x+(CELL_SIZE/2); pos.x < area.x+area.width; (pos.x)++){
+        for (pos.y = area.y+(CELL_SIZE/2); pos.y < area.y+area.height; (pos.y)++){
+            if (!checker.areaHasEntities(pos-b2Vec2(0.1, 0.1), pos+b2Vec2(0.1, 0.1))){
+                return pos;
+            }
+        }
     }
-    return pos;
+
+    throw GeneralException("El spawn es muy chico y no entran los jugadores\n");
+    return pos; //Acá no llego nunca
 }
 
 bool World::bombPlanted(){

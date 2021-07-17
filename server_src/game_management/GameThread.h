@@ -20,7 +20,7 @@ class GameThread: public Thread{
         std::list<ModelQueue> modelQueues;
         EventQueue eventQueue;
         EventHandler eventHandler;
-        bool gameEnded;
+        std::atomic_bool gameEnded;
         int playerNumber;
         std::mutex m;
 

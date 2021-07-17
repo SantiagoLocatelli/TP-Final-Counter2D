@@ -72,7 +72,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
             b.angle = ray.angle; 
         }
         b.distance = ray.distance;
-        info.bullets.push_back(b);
+        info.incompleteModel.bullets.push_back(b);
     }
 
     for (Drop *drop : world->getDrops()){
@@ -80,13 +80,15 @@ CompleteModelInfo GameProxy::getModelInfo(){
         d.pos.x = drop->getPosition()[0];
         d.pos.y = drop->getPosition()[1];
         d.type = drop->getWeapon()->getType();
-        info.drops.push_back(d);
+        info.incompleteModel.drops.push_back(d);
     }
 
-    info.game_ended = ended();
-    info.bomb = world->getBomb();
-    info.timeRemaining = roundManager->getTime();
-    info.roundState = roundManager->getRoundState();
+    info.incompleteModel.game_ended = ended();
+    info.incompleteModel.bomb = world->getBomb();
+    info.incompleteModel.timeRemaining = roundManager->getTime();
+    info.incompleteModel.state.roundState = roundManager->getRoundState();
+    info.incompleteModel.state.gameState = roundManager->getGameState();
+    info.incompleteModel.state.endResult = roundManager->getRoundResult();
 
     return info;
 }
@@ -131,7 +133,7 @@ void GameProxy::dropWeapon(int id){
 
 
 bool GameProxy::ended(){
-    return roundManager->gameEnded();
+    return roundManager->getGameState();
 }
 
 GameProxy::~GameProxy(){

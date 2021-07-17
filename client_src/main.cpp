@@ -1,5 +1,6 @@
 #include "Events/eventManager.h"
 #include "../common_src/Stopwatch.h"
+#include "../common_src/SocketClosedException.h"
 #include "GameManager.h"
 #include <iostream>
 #include "Menu.h"
@@ -48,7 +49,9 @@ int main(int argc, char* argv[]){
 
         eventManager.stop();
         eventManager.join();
-    } catch (const std::exception &e){
+    }catch(const SocketClosedException &e){
+        std::cerr << "Ocurrió un error y el servidor cerró tu conexión.\n";
+    }catch (const std::exception &e){
         std::cerr << "ERROR:" << e.what() << std::endl;
     }
     return 0;
