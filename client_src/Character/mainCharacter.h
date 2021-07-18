@@ -14,6 +14,7 @@ private:
     Stencil st;
     float health;
     int ammo;
+    int money;
 
 public:
 

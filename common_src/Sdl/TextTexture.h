@@ -16,12 +16,14 @@ private:
     SDL_Texture* mTexture;
     Size size;
     Coordinate pos;
+    std::string path;
 
 public:
 
     TextTexture(SdlRenderer& renderer, std::string path, int size = 25);
     ~TextTexture();
 
+    void changeFontSize(int size);
     void setText(std::string text, struct Color color);
     bool isMouseTouching();
     void render(Coordinate dst);

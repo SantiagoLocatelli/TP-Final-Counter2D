@@ -3,6 +3,7 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
@@ -10,6 +11,8 @@
 #include "Character/camera.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
+#include <algorithm>
+#include <memory>
 #include <mutex>
 #include <list>
 #include <map>
@@ -31,11 +34,11 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, Weapon*> weapons;
-    std::map<int, TextTexture*> hud;
+    std::map<int, std::unique_ptr<TextTexture>> hud;
     std::list<Character> players;
-    MainCharacter* mainPlayer;
-    TextTexture hudText;
-    TextTexture buyMenuText;
+    std::unique_ptr<MainCharacter> mainPlayer;
+    TextTexture digitalText;
+    TextTexture aerialText;
     ParticleBullets bullet;
     
     void renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity);
@@ -67,7 +70,6 @@ public:
     Coordinate mainPlayerRelativePos();
     void render();
     void update(LevelInfo level);
-    void toggleBuyMenu();
 
     GameViewer& operator=(const GameViewer&) = delete;
     GameViewer(const GameViewer& other) = delete;
