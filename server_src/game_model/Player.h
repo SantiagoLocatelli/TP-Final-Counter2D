@@ -36,7 +36,7 @@ class Player: public Hittable{
     public:
         //TODO: No me gusta que esto sea público
         bool canMove;
-        bool shot; 
+        bool shot;
         
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 

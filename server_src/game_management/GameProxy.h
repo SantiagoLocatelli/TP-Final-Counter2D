@@ -37,6 +37,8 @@ class GameProxy{
 
         bool ended();
 
+        RoundState getRoundState();
+
         ~GameProxy();
 
         GameProxy(const GameProxy&) = delete;

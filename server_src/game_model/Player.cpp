@@ -254,10 +254,7 @@ int Player::getAmmo() const{
     return weapons[currentWeapon]->getAmmo();
 }
 
-void Player::buyWeapon(WeaponType weaponType){
-    if (!world.canBuy(*this))
-        return;
-    
+void Player::buyWeapon(WeaponType weaponType){    
     Weapon *weapon;
     switch (weaponType){
     case SNIPER:

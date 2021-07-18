@@ -55,8 +55,6 @@ class World{
         std::list<Drop*> getDrops();
         void destroyBody(b2Body *body);
 
-        bool canBuy(Player &player);
-
         //TODO: Pasar estos métodos a su propia clase 
         bool bombExploded();
         void defuseBomb();
