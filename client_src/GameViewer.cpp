@@ -21,6 +21,7 @@
 #define HUD_HEALTH 1
 #define HUD_TIME 2
 #define SITE 3
+#define HUD_MONEY 4
 
 #define DELAY_SOUND_BOMB 20
 #define DELAY_SOUND_BOMB_QUICK 5
@@ -114,6 +115,11 @@ void GameViewer::loadHudTextures(){
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+
+    char moneyText[100];
+    sprintf(moneyText, "$: %d", (int)this->level.mainPlayer.money);
+    this->hud[HUD_MONEY] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
+    this->hud[HUD_MONEY]->setText(moneyText, HUD_COLOR);
 }
 
 
@@ -195,6 +201,9 @@ void GameViewer::renderHud(){
     Size sizeHealth = this->hud[HUD_HEALTH]->getSize();
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
     this->hud[HUD_HEALTH]->render(dstHealth);
+
+    Coordinate dstMoney = {MARGIN, MARGIN};
+    this->hud[HUD_MONEY]->render(dstMoney);
 
     if (this->level.bomb.planted) {
 

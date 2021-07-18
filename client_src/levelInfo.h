@@ -56,6 +56,7 @@ struct MainPlayerInfo: public PlayerInfo {
     float health;
     int ammo;
     bool damaged;
+    int money;
 };
 
 struct BulletInfo {

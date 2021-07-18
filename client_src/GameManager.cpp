@@ -105,7 +105,7 @@ void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
 
     if (!level.mainPlayer.dead) {
         level.mainPlayer.ammo = model.you.ammo;
-
+        level.mainPlayer.money = model.you.money;
         if (level.mainPlayer.health > model.you.health) {
             level.mainPlayer.damaged = true;
         } else {
