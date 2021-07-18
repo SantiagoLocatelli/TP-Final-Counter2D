@@ -16,12 +16,15 @@ class ClientManager: public Thread{
         std::atomic_bool keep_sending;
         ModelQueue &modelQueue;
         MapInfo map;
+        std::atomic_bool ready;
+
 
         void run() override;
         
     public:
         ClientManager(Protocol protocol, EventQueue &eventQueue, ModelQueue &modelQueue, MapInfo map, int id);
         bool finished();
+        bool isReady();
 
         virtual ~ClientManager() = default;
 };
