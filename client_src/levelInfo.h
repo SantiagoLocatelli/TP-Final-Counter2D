@@ -77,11 +77,14 @@ struct BombInfo {
     float time;
 };
 
+
+
 struct LevelInfo{
     Size size;
     
     BombInfo bomb;
     float timeRemaining;
+    ProtState state;
 
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;

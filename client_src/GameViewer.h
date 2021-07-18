@@ -34,8 +34,8 @@ private:
     std::map<int, TextTexture*> hud;
     std::list<Character> players;
     MainCharacter* mainPlayer;
-    TextTexture hudText;
-    TextTexture buyMenuText;
+    TextTexture digitalText;
+    TextTexture aerialText;
     ParticleBullets bullet;
     
     void renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity);

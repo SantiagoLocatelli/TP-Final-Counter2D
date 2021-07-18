@@ -36,6 +36,13 @@ void TextTexture::setText(std::string text, struct Color color){
     }
 }
 
+void TextTexture::changeFontSize(int size) {
+    this->font = TTF_OpenFont( path.c_str(), size );
+    if( this->font == NULL ){
+		printf( "Failed to load the font! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
+}
+
 void TextTexture::setCoordinate(Coordinate pos) {
     this->pos = pos;
 }
