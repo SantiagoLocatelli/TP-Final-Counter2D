@@ -3,6 +3,7 @@
 
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
 #include "Character/particleBullets.h"
 #include "Character/mainCharacter.h"
