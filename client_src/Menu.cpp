@@ -197,10 +197,11 @@ void Menu::createGame(bool& joined_game, bool& quit, Event& event){
     std::string nameGame = " ";
     int quanPlayers = MIN_PLAYERS;
 
-    SDL_PumpEvents();
     bool back = false;
     while (!joined_game && !quit && !back) {
         while (SDL_PollEvent(&e) != 0 && !quit) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -304,9 +305,10 @@ void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
 
     SDL_Event e;
     bool back = false;
-    SDL_PumpEvents();
     while (!joined_game && !quit && !back) {
         while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -402,10 +404,11 @@ void Menu::makeChooseResolution(bool& quit, Size& resolution){
     
 
     SDL_Event e;
-    SDL_PumpEvents();
     bool selected = false;
     while (!quit && !selected) {
         while (SDL_PollEvent(&e) != 0 && !quit && !selected) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -428,10 +431,11 @@ void Menu::run(bool& joined_game, Size& windowSize){
 
     Event event;
     SDL_Event e;
-    SDL_PumpEvents();
     bool quit = false;
     while (!joined_game && !quit) {
         while (SDL_PollEvent(&e) != 0 && !joined_game) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
