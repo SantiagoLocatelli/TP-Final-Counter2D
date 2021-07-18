@@ -69,7 +69,6 @@ void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate p
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h + phaseShift.h)/2)) + player.y;
 }
 
-
 void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 
     player.dead = prot.dead;
@@ -86,7 +85,6 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     }
 }
 
-
 void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
     if (prot.planted) {
         translatePosition(bomb.pos, {prot.x, prot.y});
@@ -95,7 +93,6 @@ void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
     }
     bomb.planted = prot.planted;
 }
-
 
 void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
 
@@ -153,7 +150,6 @@ void GameManager::translateRect(BoxInfo& box, RectArea rect){
     box.size.w = Math::metersToPixels(rect.width, 1.0, this->pixelsPerMeter.w);
     box.size.h = Math::metersToPixels(rect.height, 1.0, this->pixelsPerMeter.h);
 }
-
 
 void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const ModelInfo& model){
     

@@ -238,7 +238,7 @@ void Menu::createGame(bool& joined_game, bool& quit, Event& event){
                 }
             } 
             if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT && this->buttons[CONFIRM]->isMouseTouching()) {
-                if (!nameSelected) {
+                if (!nameSelected && (nameGame.compare(" ") != 0)) {
                     nameSelected = true;
                     SDL_StopTextInput();
                 } else if (!playersSelected) {
