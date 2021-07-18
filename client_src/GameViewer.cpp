@@ -31,7 +31,7 @@ const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
-const struct Color NEGRO = {0x00, 0x00, 0x00};
+const struct Color BLACK = {0x00, 0x00, 0x00};
 const struct Color WHITE = {0xff, 0xff, 0xff};
 
 const struct Size SIZE_SMALL_GUN = {22, 32};
@@ -327,7 +327,7 @@ void GameViewer::renderBomb(Coordinate cam){
 void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, const char* text){
     Size cam = this->cam.getSize();
 
-    this->renderer.setDrawColor(NEGRO.r, NEGRO.g, NEGRO.b, 200);
+    this->renderer.setDrawColor(BLACK.r, BLACK.g, BLACK.b, 200);
     this->renderer.fillRect(box);
 
     this->buyMenuText.setText(text, WHITE);
@@ -372,7 +372,7 @@ void GameViewer::renderBuyMenu(){
         Coordinate pos = {menu.x, menu.y};
         this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
         this->renderer.fillRect(menu);
-        this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
+        this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
 
         SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/24, cam.w/2, cam.h/6};
         char text[100];

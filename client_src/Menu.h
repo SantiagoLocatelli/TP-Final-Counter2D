@@ -12,7 +12,10 @@
 #include <map>
 #include <memory>
 
-enum Resolution : int {STANDARD, SEMI_HIGH, HIGH, ALTERNATIVE};
+enum Resolution : int {STANDARD, SEMI_HIGH, HIGH};
+
+enum Button : int {QUIT, NEW_GAME, JOIN, BACK, CONFIRM, TITLE};
+
 
 class Menu{
 
@@ -24,9 +27,9 @@ private:
     
     SdlTexture background;
     Protocol& server;
-    std::map<int, std::unique_ptr<TextTexture>> buttons;
+    std::map<Button, std::unique_ptr<TextTexture>> buttons;
     std::map<SkinType, std::unique_ptr<SdlTexture>> skins;
-
+    std::map<int, Mix_Chunk*> sounds;
 
     void loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps);
     void loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options);
