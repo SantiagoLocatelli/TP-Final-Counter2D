@@ -205,6 +205,9 @@ void GameViewer::renderHud(){
     Coordinate dstMoney = {MARGIN, MARGIN};
     this->hud[HUD_MONEY]->render(dstMoney);
 
+
+
+
     if (this->level.bomb.planted) {
 
         char timeBomb[100];
@@ -218,6 +221,13 @@ void GameViewer::renderHud(){
         Size sizeTime = this->hudText.getSize();
         Coordinate pos = {cam.w/2 - sizeTime.w/2, MARGIN};
         this->hudText.render(pos);
+    } else {
+        char time[100];
+        sprintf(time, "Time: %d", (int)this->level.timeRemaining);
+        this->hudText.setText(time, HUD_COLOR);
+        Size sizeTime = this->hudText.getSize();
+        Coordinate dstTime = {cam.w/2 - sizeTime.w/2, cam.h - MARGIN - sizeTime.h};
+        this->hudText.render(dstTime);
     }
 
 

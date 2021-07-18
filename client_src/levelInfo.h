@@ -81,6 +81,7 @@ struct LevelInfo{
     Size size;
     
     BombInfo bomb;
+    float timeRemaining;
 
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;

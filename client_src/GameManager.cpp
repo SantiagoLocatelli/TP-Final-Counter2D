@@ -99,6 +99,7 @@ void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
 
 void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
 
+    level.timeRemaining = model.timeRemaining;
     // Si no esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
     level.mainPlayer.dead = model.you.dead;
