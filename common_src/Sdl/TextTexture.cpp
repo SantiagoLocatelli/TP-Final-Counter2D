@@ -1,7 +1,7 @@
 #include "TextTexture.h"
 
 TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
-    renderer(renderer), size({0,0}), pos({0,0}){
+    renderer(renderer), size({0,0}), pos({0,0}), path(path){
 
     if( TTF_Init() == -1 ){
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
@@ -34,6 +34,13 @@ void TextTexture::setText(std::string text, struct Color color){
             SDL_FreeSurface(textSurface);
         }
     }
+}
+
+void TextTexture::changeFontSize(int size) {
+    this->font = TTF_OpenFont( path.c_str(), size );
+    if( this->font == NULL ){
+		printf( "Failed to load the font! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
 }
 
 void TextTexture::setCoordinate(Coordinate pos) {
