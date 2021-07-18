@@ -13,7 +13,7 @@ enum TextTextureType : int {PUT_TEXT, VARIABLE_TEXT};
 IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
     renderer(&window), background(renderer, BACKGROUND){
     this->renderText = false;
-    this->variableText = "";
+    this->variableText = " ";
     this->ip = "";
     this->port = "";
 
