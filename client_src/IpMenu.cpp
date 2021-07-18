@@ -6,20 +6,21 @@
 #define FONT_PATH2 "../../common_src/img/aerial.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define FONT_SIZE 26
+#define FONT_SIZE_TYPE 20
 const struct Color WHITE = {0xFF, 0xFF, 0xFF};
 enum TextTextureType : int {PUT_TEXT, VARIABLE_TEXT};
 
 IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
     renderer(&window), background(renderer, BACKGROUND){
     this->renderText = false;
-    this->variableText = "IP NAME";
+    this->variableText = "";
     this->ip = "";
     this->port = "";
 
     this->map.emplace(PUT_TEXT, new TextTexture(renderer, FONT_PATH, FONT_SIZE));
-    this->map[PUT_TEXT]->setText("Incert IP", WHITE);
+    this->map[PUT_TEXT]->setText("Type the IP", WHITE);
 
-    this->map.emplace(VARIABLE_TEXT, new TextTexture(renderer, FONT_PATH2, FONT_SIZE));
+    this->map.emplace(VARIABLE_TEXT, new TextTexture(renderer, FONT_PATH2, FONT_SIZE_TYPE));
     this->map[VARIABLE_TEXT]->setText(this->variableText, WHITE);
 }
 
@@ -42,8 +43,8 @@ void IpMenu::start(){
                     }else{
                         this->ip = variableText;
                         std::cout << this->ip << std::endl;
-                        this->variableText = "PORT NAME";
-                        this->map[PUT_TEXT]->setText("Incert Port", WHITE);
+                        this->variableText = "";
+                        this->map[PUT_TEXT]->setText("Type the Port", WHITE);
                         renderText = true;
                         isPort = true;
                     }
