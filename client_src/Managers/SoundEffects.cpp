@@ -59,6 +59,7 @@ SoundEffects::~SoundEffects(){
     for(auto it = this->weaponsEffects.begin(); it != this->weaponsEffects.end(); it++){
         Mix_FreeChunk(it->second);
     }
+    Mix_CloseAudio();
     Mix_Quit();
 }
 
