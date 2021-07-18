@@ -49,7 +49,7 @@ void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
 void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapons[prot.currentSlot];
 
-    Size phaseShift = {(int) (this->pixelsPerMeter.w*0.35),(int) (this->pixelsPerMeter.h*0.1)};
+    Size phaseShift = {(int) (this->pixelsPerMeter.w*0.1),(int) (this->pixelsPerMeter.h*0.1)};
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
