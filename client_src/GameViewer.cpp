@@ -169,7 +169,6 @@ void GameViewer::renderMainPlayer(Coordinate cam){
 void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity){
     SDL_Rect left = {pos.x, pos.y, borderWidth, sizeRect.h};
     this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
-
     this->renderer.fillRect(left);
 
     SDL_Rect right = {sizeRect.w - borderWidth + pos.x, pos.y, borderWidth, sizeRect.h};
@@ -180,7 +179,7 @@ void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, st
     this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(top);
 
-    SDL_Rect bottom = {borderWidth + pos.y, sizeRect.h-borderWidth + pos.y, sizeRect.w - borderWidth*2, borderWidth};
+    SDL_Rect bottom = {borderWidth + pos.x, sizeRect.h-borderWidth + pos.y, sizeRect.w - borderWidth*2, borderWidth};
     this->renderer.setDrawColor(color.r, color.g, color.b, opacity);
     this->renderer.fillRect(bottom);
 }
@@ -351,12 +350,10 @@ void GameViewer::showRoundState(){
 
     if (this->level.state.roundState == END) {
         Size cam = this->cam.getSize();
-        SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
+        SDL_Rect menu = {cam.w/12, cam.h/6, 5*cam.w/6 - SIZE_BORDER_MENU, cam.h/6 - SIZE_BORDER_MENU};
         Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
         Coordinate pos = {menu.x, menu.y};
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
-        this->renderer.fillRect(menu);
-        this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
+
  
         // enum RoundResult : char {T_DEAD, BOMB_DEFUSED, TIME_ENDED, /*CT WIN*/
         //                CT_DEAD, BOMB_EXPLODED}; /*T WIN*/
@@ -378,17 +375,28 @@ void GameViewer::showRoundState(){
             sprintf(team, "Terrorist Win!");
             sprintf(text, "The Bomb exploded");
         }
-        this->aerialText.changeFontSize(30);
+        this->aerialText.changeFontSize(25);
         this->aerialText.setText(team, WHITE);
         Size teamsize = this->aerialText.getSize();
         Coordinate teamPos = {cam.w/2 - teamsize.w/2, menu.y + SIZE_BORDER_MENU + MARGIN};
-        this->aerialText.render(teamPos);
 
+        SDL_Rect title = {menu.x + SIZE_BORDER_MENU, menu.y + SIZE_BORDER_MENU, menu.w, teamsize.h + MARGIN};
+        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU + 50);
+        this->renderer.fillRect(title);
+        this->aerialText.render(teamPos);
+        
+        
         this->aerialText.changeFontSize(20);
         this->aerialText.setText(text, WHITE);
         Size textSize = this->aerialText.getSize();
         Coordinate textPos = {cam.w/2 - textSize.w/2, teamPos.y + teamsize.h + MARGIN};
+
+        SDL_Rect description = {title.x, title.y + title.h, menu.w, menu.h - title.h};
+        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.fillRect(description);
         this->aerialText.render(textPos);
+
+        this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
     }
     
 }
@@ -396,6 +404,7 @@ void GameViewer::showRoundState(){
 void GameViewer::renderBuyMenu(){
     Size cam = this->cam.getSize();
     if (this->level.state.roundState == BUY) {
+        this->aerialText.changeFontSize(12);
 
         // rectangulo principal con su borde
         SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
@@ -436,6 +445,7 @@ void GameViewer::render(){
     renderMainPlayer(cam);
     renderBuyMenu();
     renderHud();
+    showRoundState();
 
     renderer.updateScreen();
 }
