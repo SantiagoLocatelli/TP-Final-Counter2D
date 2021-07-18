@@ -36,6 +36,10 @@ int main(int argc, char* argv[]){
         eventManager.start();
         Stopwatch stopwatch;
 
+        Event ready;
+        ready.type = CLIENT_READY;
+        server.send_event(ready);
+
         while (joined_game && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);

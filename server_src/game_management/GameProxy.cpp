@@ -118,6 +118,7 @@ bool GameProxy::ended(){
 
 GameProxy::~GameProxy(){
     delete world;
+    delete roundManager;
 }
 
 void GameProxy::clearFrameEvents(){
@@ -126,3 +127,8 @@ void GameProxy::clearFrameEvents(){
         p.shot = false;
     }
 }
+
+RoundState GameProxy::getRoundState(){
+    return roundManager->getRoundState();
+}
+

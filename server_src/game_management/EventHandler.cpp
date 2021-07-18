@@ -34,7 +34,8 @@ void EventHandler::executeEvent(Event event, int id){
         break;
 
     case BUY_WEAPON:
-        game.getPlayer(id).buyWeapon(event.info.type);
+        if (game.getRoundState() == BUY)
+            game.getPlayer(id).buyWeapon(event.info.type);
         break;
     
     default:

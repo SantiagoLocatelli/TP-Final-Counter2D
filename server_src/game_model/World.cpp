@@ -146,11 +146,6 @@ ProtBomb World::getBomb(){
     return bomb;
 }
 
-bool World::canBuy(Player &player){
-    //TODO: Esto deberia depender del roundState, no de la posición.
-    return positionInArea(player.getPosition()[0], player.getPosition()[1], mapInfo.spawnSites[player.getTeam()]);
-}
-
 bool World::positionInArea(float x, float y, RectArea area){
     return (x > area.x && x < area.x+area.width && y > area.y && y < area.y+area.height);
 }
