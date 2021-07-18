@@ -29,7 +29,6 @@ private:
     Protocol& server;
     std::map<Button, std::unique_ptr<TextTexture>> buttons;
     std::map<SkinType, std::unique_ptr<SdlTexture>> skins;
-    std::map<int, Mix_Chunk*> sounds;
 
     void loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps);
     void loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options);

@@ -11,7 +11,6 @@
 
 #define WINDOW_LABEL "Counter Strike 2D - Main Menu"
 #define BACKGROUND_PATH "../../common_src/img/counter.jpeg"
-#define VIEJA_PATH "../../common_src/img/vieja.png"
 
 #define SIZE_FONT 30
 
@@ -450,6 +449,7 @@ void Menu::run(bool& joined_game, Size& windowSize){
         this->renderInitMenu();
     }
     if (joined_game) {
+        //makechoose skin
         makeChooseResolution(quit, windowSize);
         this->server.send_event(event);
     }
