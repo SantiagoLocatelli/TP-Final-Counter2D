@@ -6,12 +6,17 @@
 #include "GameViewer.h"
 #include <iostream>
 #include "Menu.h"
+#include "IpMenu.h"
 #include "../../common_src/Protocol.h"
 #include "LoadingMenu.h"
 
 int main(int argc, char* argv[]){
     try{
-        Protocol server(Socket("localhost", argv[1], false));
+        IpMenu ipMenu;
+
+        ipMenu.start();
+
+        Protocol server(Socket(ipMenu.getIp().c_str(), ipMenu.getPort().c_str(), false));
 
         Size menuSize = {640, 480};
         Menu* menu = new Menu(menuSize, server);
