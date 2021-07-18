@@ -196,8 +196,8 @@ void GameViewer::renderHud(){
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
     this->hud[HUD_HEALTH]->render(dstHealth);
 
-    // Coordinate dstMoney = {MARGIN, MARGIN};
-    // this->hud[HUD_MONEY]->render(dstMoney);
+    Coordinate dstMoney = {MARGIN, MARGIN};
+    this->hud[HUD_MONEY]->render(dstMoney);
 
     if (this->level.bomb.planted) {
 
@@ -444,14 +444,14 @@ void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         printf("se actualizo la vida del pj\n");
         char healtText[100];
-        sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
+        sprintf(healtText, "Health: %d", (int)level.mainPlayer.health);
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
     } 
 
     if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
         
         char ammoText[100];
-        sprintf(ammoText, "Ammo: %d", (int)this->level.mainPlayer.ammo);
+        sprintf(ammoText, "Ammo: %d", (int)level.mainPlayer.ammo);
         this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     } 
 }
