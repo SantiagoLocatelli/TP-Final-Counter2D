@@ -1,5 +1,5 @@
 #include "particleBullets.h"
-#include "../Events/gameMath.h"
+#include "../Managers/gameMath.h"
 
 #define WIDTH_SHOT 5
 

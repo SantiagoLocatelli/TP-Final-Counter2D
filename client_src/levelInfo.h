@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 #include "../../common_src/ModelInfo.h"
-#include "SoundEffects.h"
+#include "Managers/SoundEffects.h"
 
 struct Color {
     uint8_t r,g,b;
