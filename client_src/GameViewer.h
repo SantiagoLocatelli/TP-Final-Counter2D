@@ -10,6 +10,8 @@
 #include "Character/camera.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
+#include <algorithm>
+#include <memory>
 #include <mutex>
 #include <list>
 #include <map>
@@ -31,9 +33,9 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, Weapon*> weapons;
-    std::map<int, TextTexture*> hud;
+    std::map<int, std::unique_ptr<TextTexture>> hud;
     std::list<Character> players;
-    MainCharacter* mainPlayer;
+    std::unique_ptr<MainCharacter> mainPlayer;
     TextTexture digitalText;
     TextTexture aerialText;
     ParticleBullets bullet;

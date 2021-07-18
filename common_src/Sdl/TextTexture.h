@@ -16,6 +16,7 @@ private:
     SDL_Texture* mTexture;
     Size size;
     Coordinate pos;
+    std::string path;
 
 public:
 

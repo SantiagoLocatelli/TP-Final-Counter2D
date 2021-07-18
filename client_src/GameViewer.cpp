@@ -1,6 +1,9 @@
 #include "GameViewer.h"
 #include "Events/gameMath.h"
 #include <cstdio>
+#include <memory>
+#include <algorithm>
+#include <iostream>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -67,9 +70,9 @@ void GameViewer::loadPlayers(Size window){
     srand((unsigned)time(NULL));
     WeaponType mainWeaponType = this->level.mainPlayer.weapon.type;
     SkinType mainSkinType = getPjSkin(this->level.mainPlayer);
-    this->mainPlayer = new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
+    this->mainPlayer = std::unique_ptr<MainCharacter> (new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
-                std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]);
+                std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]));
 
 
     for (PlayerInfo player : this->level.players) {
@@ -90,14 +93,6 @@ void GameViewer::loadWeapons(){
 }
 
 GameViewer::~GameViewer(){
-    delete this->mainPlayer;
-
-    for (auto it = this->hud.begin(); it != this->hud.end(); it++) {
-        TextTexture* aux = it->second;
-        it++;
-        delete aux;
-    }
-
     for (auto it = this->weapons.begin(); it != this->weapons.end(); it++) {
         Weapon* aux = it->second;
         it++;
@@ -108,17 +103,17 @@ GameViewer::~GameViewer(){
 void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    this->hud[HUD_AMMO] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
+    this->hud[HUD_AMMO] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
     this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
-    this->hud[HUD_HEALTH] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
+    this->hud[HUD_HEALTH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
     this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
 
     char moneyText[100];
     sprintf(moneyText, "$: %d", (int)this->level.mainPlayer.money);
-    this->hud[HUD_MONEY] = new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30);
+    this->hud[HUD_MONEY] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
     this->hud[HUD_MONEY]->setText(moneyText, HUD_COLOR);
 }
 
@@ -201,8 +196,8 @@ void GameViewer::renderHud(){
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
     this->hud[HUD_HEALTH]->render(dstHealth);
 
-    Coordinate dstMoney = {MARGIN, MARGIN};
-    this->hud[HUD_MONEY]->render(dstMoney);
+    // Coordinate dstMoney = {MARGIN, MARGIN};
+    // this->hud[HUD_MONEY]->render(dstMoney);
 
     if (this->level.bomb.planted) {
 
@@ -369,26 +364,31 @@ void GameViewer::showRoundState(){
         char text[100];
         if (this->level.state.endResult == T_DEAD) {
             sprintf(team, "Counter Terrorist Win!");
-
             sprintf(text, "Ace!");
         } else if (this->level.state.endResult == BOMB_DEFUSED) {
             sprintf(team, "Counter Terrorist Win!");
-
             sprintf(text, "The Bomb has been defused");
         } else if (this->level.state.endResult == TIME_ENDED) {
             sprintf(team, "Counter Terrorist Win!");
-
             sprintf(text, "No Time");
         } else if (this->level.state.endResult == CT_DEAD) {
             sprintf(team, "Terrorist Win!");
-
             sprintf(text, "Ace");
-
         } else {
             sprintf(team, "Terrorist Win!");
-
             sprintf(text, "The Bomb exploded");
         }
+        this->aerialText.changeFontSize(30);
+        this->aerialText.setText(team, WHITE);
+        Size teamsize = this->aerialText.getSize();
+        Coordinate teamPos = {cam.w/2 - teamsize.w/2, menu.y + SIZE_BORDER_MENU + MARGIN};
+        this->aerialText.render(teamPos);
+
+        this->aerialText.changeFontSize(20);
+        this->aerialText.setText(text, WHITE);
+        Size textSize = this->aerialText.getSize();
+        Coordinate textPos = {cam.w/2 - textSize.w/2, teamPos.y + teamsize.h + MARGIN};
+        this->aerialText.render(textPos);
     }
     
 }
