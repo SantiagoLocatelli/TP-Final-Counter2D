@@ -56,7 +56,6 @@ void Menu::loadSkins(SdlRenderer& renderer){
     }
 }
 
-
 void Menu::loadButtons(){
     this->buttons[QUIT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
     this->buttons[QUIT]->setText("Quit Game", WHITE);
