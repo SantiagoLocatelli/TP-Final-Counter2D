@@ -2,6 +2,7 @@
 #define __INITAL_MENU_H__
 #include <SDL2/SDL.h>
 #include <string>
+#include <map>
 #include <vector>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
@@ -9,7 +10,8 @@
 #include "presenter.h"
 class InitialMenu : public Presenter{
     private:
-        SdlTexture background, crearMapTexture, editarMapTexture, arrow, back, introduceText, mapName, quit;
+        SdlTexture background;
+        std::map<int, SdlTexture> menuTextures;
         std::unique_ptr<SdlMixer> chunk;
         std::vector<SdlTexture> editableMaps;
         bool editMap, createMap, renderText, changeScene;

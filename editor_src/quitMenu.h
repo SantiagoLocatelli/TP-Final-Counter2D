@@ -1,16 +1,18 @@
 #ifndef __QUIT_MENU_H__
 #define __QUIT_MENU_H__
 #include "presenter.h"
+#include <map>
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_mixer.h"
 #include <string>
 class QuitMenu : public Presenter{
     private:
-        bool changeScene;
         bool& quit;
+        SdlTexture backGround;
+        std::map<int, SdlTexture> menuTextures;
+        bool changeScene;
         std::unique_ptr<SdlMixer> chunk;
-        SdlTexture backGround, questionTexture, cancel, saveAndQuit, quitWithoutSaving;
 
     
     public:
