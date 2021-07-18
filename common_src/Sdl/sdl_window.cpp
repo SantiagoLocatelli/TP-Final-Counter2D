@@ -48,8 +48,20 @@ void SdlWindow::setTitle(std::string title){
     SDL_SetWindowTitle(this->mWindow, title.c_str());
 }
 
+void SdlWindow::free(){
+    if (this->mWindow != NULL) {
+        SDL_StopTextInput();
+        SDL_DestroyWindow(this->mWindow);
+        this->mWindow = NULL;
+        SDL_Quit();
+    }
+}
+
 SdlWindow::~SdlWindow(){
-    SDL_StopTextInput();
-    SDL_DestroyWindow(this->mWindow);
-    SDL_Quit();
+    if (this->mWindow != NULL) {
+        SDL_StopTextInput();
+        SDL_DestroyWindow(this->mWindow);
+        SDL_Quit();
+        this->mWindow = NULL;
+    }
 }

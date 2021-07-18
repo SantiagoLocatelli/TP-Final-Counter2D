@@ -1,11 +1,13 @@
 #include "Events/eventManager.h"
 #include "../common_src/Stopwatch.h"
 #include "../common_src/SocketClosedException.h"
+#include "ThreadWait.h"
 #include "GameManager.h"
+#include "GameViewer.h"
 #include <iostream>
 #include "Menu.h"
+#include "../../common_src/Protocol.h"
 #include "LoadingMenu.h"
-
 
 int main(int argc, char* argv[]){
     try{
@@ -18,20 +20,27 @@ int main(int argc, char* argv[]){
         menu->run(joined_game, windowSize);
         
         delete menu;
-        if (!joined_game) return 0;
+        if (!joined_game) {
+            return 0;
+        } 
 
-        LoadingMenu loading(menuSize);
-        loading.start();
 
         MapInfo map;
-        server.recv_map_info(map);
-
         ModelInfo model;
-        server.recv_model_info(model);
+        bool loading = true;
 
         LevelInfo level;
         GameManager gameManager(windowSize);
-        
+
+        ThreadWait wait(server, loading, map, model);
+        wait.start();
+
+        LoadingMenu* loadingMenu = new LoadingMenu(menuSize);
+        loadingMenu->run(loading);
+        delete loadingMenu;
+
+        wait.join();
+
         gameManager.initializeLevel(level, map, model);
         GameViewer gameViewer(windowSize, level); 
 
@@ -45,8 +54,6 @@ int main(int argc, char* argv[]){
         server.send_event(ready);
 
         server.recv_model_info(model);
-        loading.close();
-        loading.join();
         while (joined_game && !model.game_ended) {
             stopwatch.start();
             server.recv_model_info(model);

@@ -17,7 +17,7 @@
 const struct Color WHITE = {0xff, 0xff, 0xff};
 
 LoadingMenu::LoadingMenu(Size windowSize):window(WINDOW_LABEL, windowSize.w, windowSize.h),
-    renderer(&window), loading(true), background(renderer, BACKGROUND_PATH),
+    renderer(&window), background(renderer, BACKGROUND_PATH),
     oldLady(renderer, VIEJA_PATH_TEXTURE, WHITE.r, WHITE.g, WHITE.b),
     textLoading(renderer, PATH_FONT_DIGITAL, FONT_SIZE){
 
@@ -30,7 +30,7 @@ LoadingMenu::LoadingMenu(Size windowSize):window(WINDOW_LABEL, windowSize.w, win
     Mix_VolumeChunk(this->shot, 64);
 }
 
-void LoadingMenu::run() {
+void LoadingMenu::run(bool& loading) {
 
     int framesLoading = 4;
     int actualFrame = 0;
@@ -61,15 +61,16 @@ void LoadingMenu::run() {
     SDL_Event e;
     bool mute = false;
     while (loading) {
-        SDL_PollEvent(&e);
-        if (e.type == SDL_MOUSEMOTION) {
-            continue;
-        } else if (e.type == SDL_QUIT) {
-            loading = false;
-        } else if (e.type == SDL_KEYDOWN && e.key.repeat == 0 &&  e.key.keysym.sym == SDLK_m) {
-            mute = !mute;
-        }
+        if (SDL_PollEvent(&e) != 0) {
 
+            if (e.type == SDL_MOUSEMOTION) {
+                continue;
+            } else if (e.type == SDL_QUIT) {
+                loading = false;
+            } else if (e.type == SDL_KEYDOWN && e.key.repeat == 0 &&  e.key.keysym.sym == SDLK_m) {
+                mute = !mute;
+            }
+        }
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         renderer.clear();
 
@@ -96,13 +97,8 @@ void LoadingMenu::run() {
         this->oldLady.render(posLady.x, posLady.y, sizeLady.w, sizeLady.h, NULL, 0.0, NULL, flip);
         muteText.render();
 
-
         renderer.updateScreen();
     }
-}
-
-void LoadingMenu::close(){
-    this->loading = false;
 }
 
 LoadingMenu::~LoadingMenu(){

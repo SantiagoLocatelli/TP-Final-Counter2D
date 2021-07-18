@@ -11,7 +11,6 @@
 
 #define WINDOW_LABEL "Counter Strike 2D - Main Menu"
 #define BACKGROUND_PATH "../../common_src/img/counter.jpeg"
-
 #define SIZE_FONT 30
 
 #define HOVER 0
@@ -53,6 +52,7 @@ void Menu::loadSkins(SdlRenderer& renderer){
         this->skins[skin] = std::unique_ptr<SdlTexture> (new SdlTexture(renderer, texture.first, BLACK.r, BLACK.g, BLACK.b));
     }
 }
+
 
 void Menu::loadButtons(){
     this->buttons[QUIT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));

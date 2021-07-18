@@ -45,6 +45,8 @@ private:
         bool mapSelected, bool nameSelected, std::string nameGame, int players);
     void renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& options);
     void renderInitMenu();
+
+    void renderLoadingMenu();
 public:
 
     Menu(Size windowSize, Protocol& server);

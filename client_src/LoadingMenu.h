@@ -5,14 +5,12 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
 #include "../common_src/Sdl/sdl_window.h"
-#include "../common_src/Thread.h"
 
-class LoadingMenu : public Thread {
+class LoadingMenu{
 private:
 
     SdlWindow window;
     SdlRenderer renderer;
-    bool loading = true;
     SdlTexture background;
     SdlTexture oldLady;
     Mix_Chunk* shot;
@@ -23,8 +21,7 @@ public:
     LoadingMenu(Size window);
     ~LoadingMenu();
 
-    void run() override;
-    void close();
+    void run(bool& ready);
 
     LoadingMenu& operator=(const LoadingMenu&) = delete;
     LoadingMenu(const LoadingMenu&) = delete;

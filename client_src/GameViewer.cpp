@@ -396,7 +396,7 @@ void GameViewer::showRoundState(){
         this->renderer.fillRect(description);
         this->aerialText.render(textPos);
 
-        this->renderBorder(pos, border, SIZE_BORDER_MENU, NEGRO, 255);
+        this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
     }
     
 }
