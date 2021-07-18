@@ -2,7 +2,7 @@
 #define __WEAPON_H__
 
 #include "../../common_src/Sdl/sdl_texture.h"
-#include "../SoundEffects.h"
+#include "../Managers/SoundEffects.h"
 #include "../levelInfo.h"
 #include <string>
 #include <list>

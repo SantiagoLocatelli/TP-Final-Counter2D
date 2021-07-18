@@ -1,5 +1,5 @@
 #include "GameViewer.h"
-#include "Events/gameMath.h"
+#include "gameMath.h"
 #include <cstdio>
 #include <memory>
 #include <algorithm>

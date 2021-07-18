@@ -106,4 +106,6 @@ LoadingMenu::~LoadingMenu(){
         Mix_FreeChunk(this->shot);
         this->shot = NULL;
     }
+    Mix_CloseAudio();
+    Mix_Quit();
 }
