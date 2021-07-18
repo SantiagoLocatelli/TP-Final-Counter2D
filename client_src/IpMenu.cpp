@@ -37,6 +37,9 @@ void IpMenu::start(){
                     this->variableText.pop_back();
                     this->renderText = true;
                 }else if (event.key.keysym.sym == SDLK_RETURN){
+                    if (variableText[0] == ' '){
+                        variableText.erase(variableText.begin());
+                    }
                     if (isPort){
                         this->port = variableText;
                         quit = true;
@@ -67,7 +70,6 @@ void IpMenu::start(){
             }else{
                 this->map[VARIABLE_TEXT]->setText(this->variableText, WHITE);
             }
-            renderText = false;
         }
         renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         renderer.clear();
