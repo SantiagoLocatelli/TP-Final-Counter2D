@@ -395,7 +395,7 @@ void GameViewer::showRoundState(){
 
 void GameViewer::renderBuyMenu(){
     Size cam = this->cam.getSize();
-    if (buyMenuOpen) {
+    if (this->level.state.roundState == BUY) {
 
         // rectangulo principal con su borde
         SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
@@ -442,7 +442,6 @@ void GameViewer::render(){
 
 void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
-        printf("se actualizo la vida del pj\n");
         char healtText[100];
         sprintf(healtText, "Health: %d", (int)level.mainPlayer.health);
         this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
@@ -460,8 +459,6 @@ void GameViewer::update(LevelInfo newLevel){
     std::unique_lock<std::mutex> lock(m);
 
     updateHud(newLevel);
-    printf("vida vieja del palyer: %f\n", this->level.mainPlayer.health);
-    printf("vida nueva del palyer: %f\n\n", level.mainPlayer.health);
     WeaponType mainType = newLevel.mainPlayer.weapon.type;
     this->mainPlayer->update(newLevel.mainPlayer, this->weapons[mainType]);
 
@@ -483,10 +480,4 @@ Coordinate GameViewer::mainPlayerRelativePos(){
     std::unique_lock<std::mutex> lock(m);
     return {this->mainPlayer->getPosX() - this->cam.getPosX(),
             this->mainPlayer->getPosY() - this->cam.getPosY()};
-}
-
-void GameViewer::toggleBuyMenu(){
-    std::unique_lock<std::mutex> lock(m);
-    if (buyMenuOpen) buyMenuOpen = false;
-    else buyMenuOpen = true;
 }

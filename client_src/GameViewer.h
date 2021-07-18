@@ -69,7 +69,6 @@ public:
     Coordinate mainPlayerRelativePos();
     void render();
     void update(LevelInfo level);
-    void toggleBuyMenu();
 
     GameViewer& operator=(const GameViewer&) = delete;
     GameViewer(const GameViewer& other) = delete;

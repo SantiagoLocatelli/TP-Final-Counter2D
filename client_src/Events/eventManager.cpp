@@ -78,11 +78,6 @@ void EventManager::run(){
                         }
                         this->com.send_event(event);
                     }
-                    if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == SDLK_b) && (e.key.repeat == 0)){
-                        this->game.toggleBuyMenu(); 
-                    }
-                    break; 
-
                 /**<SDL_MouseButtonEvent ::SDL_MOUSEBUTTONDOWN or ::SDL_MOUSEBUTTONUP */
                 case SDL_MOUSEBUTTONUP: 
                 case SDL_MOUSEBUTTONDOWN:
