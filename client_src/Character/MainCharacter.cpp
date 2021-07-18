@@ -1,4 +1,4 @@
-#include "mainCharacter.h"
+#include "MainCharacter.h"
 
 MainCharacter::MainCharacter(MainPlayerInfo player, SdlTexture& pjTexture, CrossHair cr, Stencil st, Weapon* weapon):
     Character(player, pjTexture, weapon), cr(std::move(cr)), st(std::move(st)),

@@ -8,9 +8,9 @@
 #include "../common_src/Protocol.h"
 #include "../common_src/Event.h"
 #include "levelInfo.h"
+#include <memory>
 #include <list>
 #include <map>
-#include <memory>
 
 enum Resolution : int {STANDARD, SEMI_HIGH, HIGH};
 

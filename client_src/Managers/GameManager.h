@@ -1,8 +1,8 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "../common_src/MapInfo.h"
 #include "../common_src/ModelInfo.h"
+#include "../common_src/MapInfo.h"
 #include "levelInfo.h"
 #include <map>
 

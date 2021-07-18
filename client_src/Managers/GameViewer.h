@@ -5,10 +5,10 @@
 #include "../common_src/Sdl/sdl_window.h"
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
-#include "Character/particleBullets.h"
-#include "Character/mainCharacter.h"
-#include "Character/character.h"
-#include "Character/camera.h"
+#include "Character/ParticleBullets.h"
+#include "Character/MainCharacter.h"
+#include "Character/Character.h"
+#include "Character/Camera.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
 #include <algorithm>
@@ -16,6 +16,8 @@
 #include <mutex>
 #include <list>
 #include <map>
+
+enum TextHud : int {AMMO, HEALTH, TIME, SITE, MONEY}; 
 
 class GameViewer{
 
@@ -34,7 +36,7 @@ private:
     LevelInfo level;
 
     std::map<WeaponType, Weapon*> weapons;
-    std::map<int, std::unique_ptr<TextTexture>> hud;
+    std::map<TextHud, std::unique_ptr<TextTexture>> hud;
     std::list<Character> players;
     std::unique_ptr<MainCharacter> mainPlayer;
     TextTexture digitalText;

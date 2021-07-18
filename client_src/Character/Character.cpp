@@ -1,5 +1,5 @@
-#include "character.h"
-#include "../Managers/gameMath.h"
+#include "Character.h"
+#include "../Managers/GameMath.h"
 #include <utility>
 
 #define DELAY_SOUND 6

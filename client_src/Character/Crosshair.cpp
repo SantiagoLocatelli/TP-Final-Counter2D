@@ -1,4 +1,4 @@
-#include "crosshair.h"
+#include "Crosshair.h"
 
 #define NUM_FRAMES 4
 

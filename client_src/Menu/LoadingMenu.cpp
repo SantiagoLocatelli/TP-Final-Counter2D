@@ -1,9 +1,9 @@
 #include "LoadingMenu.h"
 #include "../common_src/GeneralException.h"
 #include "../common_src/Stopwatch.h"
+#include "SDL2/SDL.h"
 #include <string>
 #include <map>
-#include "SDL2/SDL.h"
 
 #define PATH_FONT_DIGITAL "../../common_src/img/digital-7.ttf"
 #define WINDOW_LABEL " "

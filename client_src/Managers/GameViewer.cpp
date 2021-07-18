@@ -1,9 +1,9 @@
 #include "GameViewer.h"
-#include "gameMath.h"
-#include <cstdio>
-#include <memory>
+#include "GameMath.h"
 #include <algorithm>
 #include <iostream>
+#include <cstdio>
+#include <memory>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -20,15 +20,10 @@
 
 #define SIZE_EXPLOSION 200
 
-#define HUD_AMMO 0
-#define HUD_HEALTH 1
-#define HUD_TIME 2
-#define SITE 3
-#define HUD_MONEY 4
-
 #define DELAY_SOUND_BOMB 20
 #define DELAY_SOUND_BOMB_QUICK 5
 #define ABOUT_TO_EXPLODE 5.0
+
 
 const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
@@ -103,18 +98,18 @@ GameViewer::~GameViewer(){
 void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
-    this->hud[HUD_AMMO] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
+    this->hud[AMMO] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
+    this->hud[AMMO]->setText(ammoText, HUD_COLOR);
     
     char healtText[100];
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
-    this->hud[HUD_HEALTH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+    this->hud[HEALTH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
+    this->hud[HEALTH]->setText(healtText, HUD_COLOR);
 
     char moneyText[100];
     sprintf(moneyText, "$: %d", (int)this->level.mainPlayer.money);
-    this->hud[HUD_MONEY] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[HUD_MONEY]->setText(moneyText, HUD_COLOR);
+    this->hud[MONEY] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
+    this->hud[MONEY]->setText(moneyText, HUD_COLOR);
 }
 
 void GameViewer::renderPlayers(Coordinate cam) {
@@ -187,16 +182,16 @@ void GameViewer::renderBorder(Coordinate pos, Size sizeRect, int borderWidth, st
 void GameViewer::renderHud(){
     Size cam = this->cam.getSize();
 
-    Size sizeAmmo =  this->hud[HUD_AMMO]->getSize();
+    Size sizeAmmo =  this->hud[AMMO]->getSize();
     Coordinate dstAmmo = { cam.w - MARGIN - sizeAmmo.w, cam.h - MARGIN - sizeAmmo.h};
-    this->hud[HUD_AMMO]->render(dstAmmo);
+    this->hud[AMMO]->render(dstAmmo);
 
-    Size sizeHealth = this->hud[HUD_HEALTH]->getSize();
+    Size sizeHealth = this->hud[HEALTH]->getSize();
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
-    this->hud[HUD_HEALTH]->render(dstHealth);
+    this->hud[HEALTH]->render(dstHealth);
 
     Coordinate dstMoney = {MARGIN, MARGIN};
-    this->hud[HUD_MONEY]->render(dstMoney);
+    this->hud[MONEY]->render(dstMoney);
 
     if (this->level.bomb.planted) {
 
@@ -454,14 +449,14 @@ void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         char healtText[100];
         sprintf(healtText, "Health: %d", (int)level.mainPlayer.health);
-        this->hud[HUD_HEALTH]->setText(healtText, HUD_COLOR);
+        this->hud[HEALTH]->setText(healtText, HUD_COLOR);
     } 
 
     if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
         
         char ammoText[100];
         sprintf(ammoText, "Ammo: %d", (int)level.mainPlayer.ammo);
-        this->hud[HUD_AMMO]->setText(ammoText, HUD_COLOR);
+        this->hud[AMMO]->setText(ammoText, HUD_COLOR);
     } 
 }
 

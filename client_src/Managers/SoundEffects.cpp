@@ -1,6 +1,6 @@
-#include "SoundEffects.h"
 #include "../common_src/GeneralException.h"
 #include "yaml-cpp/yaml.h"
+#include "SoundEffects.h"
 #include <string>
 
 #define PATH_PLAYER_SOUNDS "../../client_src/yaml/playerSounds.yaml"

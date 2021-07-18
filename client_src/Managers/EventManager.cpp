@@ -1,5 +1,5 @@
-#include "eventManager.h"
-#include "gameMath.h"
+#include "EventManager.h"
+#include "GameMath.h"
 #include "../../common_src/SocketClosedException.h"
 #include <iostream>
 

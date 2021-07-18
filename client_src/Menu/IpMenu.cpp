@@ -1,5 +1,6 @@
 #include "IpMenu.h"
 #include <iostream>
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
@@ -7,6 +8,7 @@
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define FONT_SIZE 26
 #define FONT_SIZE_TYPE 20
+
 const struct Color WHITE = {0xFF, 0xFF, 0xFF};
 enum TextTextureType : int {PUT_TEXT, VARIABLE_TEXT};
 

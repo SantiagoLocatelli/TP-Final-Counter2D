@@ -1,6 +1,6 @@
-#include "gameMath.h"
-#include <math.h>
+#include "GameMath.h"
 #include <stdio.h>
+#include <math.h>
 
 #define PI 3.14159265
 

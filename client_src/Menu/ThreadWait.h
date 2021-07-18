@@ -1,8 +1,8 @@
 #ifndef __THREAD_WAIT_H__
 #define __THREAD_WAIT_H__
 
-#include "../common_src/Thread.h"
 #include "../../common_src/Protocol.h"
+#include "../common_src/Thread.h"
 
 class ThreadWait: public Thread {
 private:

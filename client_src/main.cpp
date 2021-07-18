@@ -1,14 +1,14 @@
-#include "Managers/eventManager.h"
-#include "../common_src/Stopwatch.h"
 #include "../common_src/SocketClosedException.h"
-#include "Menu/ThreadWait.h"
+#include "../../common_src/Protocol.h"
+#include "../common_src/Stopwatch.h"
+#include "Managers/EventManager.h"
 #include "Managers/GameManager.h"
 #include "Managers/GameViewer.h"
-#include <iostream>
-#include "Menu/Menu.h"
-#include "Menu/IpMenu.h"
-#include "../../common_src/Protocol.h"
 #include "Menu/LoadingMenu.h"
+#include "Menu/ThreadWait.h"
+#include "Menu/IpMenu.h"
+#include "Menu/Menu.h"
+#include <iostream>
 
 int main(int argc, char* argv[]){
     try{

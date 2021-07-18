@@ -5,6 +5,7 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
 #include "../common_src/Sdl/sdl_window.h"
+#include <SDL2/SDL_mixer.h>
 
 class LoadingMenu{
 private:

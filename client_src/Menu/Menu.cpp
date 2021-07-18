@@ -1,11 +1,11 @@
+#include "yaml-cpp/yaml.h"
 #include <dirent.h>
-#include "Menu.h"
 #include <algorithm>
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <memory>
-#include "yaml-cpp/yaml.h"
+#include "Menu.h"
 
 #define MAPS_PATH "../../common_src/maps/"
 

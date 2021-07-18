@@ -1,5 +1,5 @@
 #include "GameManager.h"
-#include "gameMath.h"
+#include "GameMath.h"
 
 #define METERS_TO_SHOW 10
 #define SIZE_SMALL_GUN 0
