@@ -9,6 +9,7 @@ TextureMap::TextureMap(){
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         info.texturePath = texture.first;
         info.isBox = texture.second == 1;
+        //info.clip = {texture.second[0], texture.second[1], texture.second[2], texture.second[3]};
         map[i] = info;
         i++;
     }

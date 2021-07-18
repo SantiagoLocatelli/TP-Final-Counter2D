@@ -1,3 +1,4 @@
+#CUIDADO SI SE DESEA AGREGAR UNA TEXTURA AGALO DEBAJO DE TODO PARA MANTENER LA ESTRUCTURA DE LOS MAPAS
 # enum WeaponType : char {KNIFE = 0, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
 # no se cuenta el cuchillo
 - [../../common_src/img/weapons/onFloor/m3_d.bmp, 2]
