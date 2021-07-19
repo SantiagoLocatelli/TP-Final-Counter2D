@@ -61,7 +61,8 @@ private:
     void loadPlayers(Size);
     void loadHudTextures();
     void loadWeapons();
-
+    SkinType getPjSkin(PlayerInfo player);
+    
 public:
 
     GameViewer(Size windowSize, LevelInfo level);

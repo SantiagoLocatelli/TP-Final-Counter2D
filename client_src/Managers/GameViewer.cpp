@@ -1,11 +1,9 @@
 #include "GameViewer.h"
 #include "../../common_src/Colors.h"
-#include "GameMath.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdio>
 #include <memory>
-#include <thread>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -52,17 +50,19 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     loadHudTextures();
 }
 
-SkinType getPjSkin(PlayerInfo player) {
+SkinType GameViewer::getPjSkin(PlayerInfo player) {
     if (player.team == COUNTER) {
-        return (SkinType) Math::getRandomNumberBetween((int)CT1, (int)CT4);
+        return this->level.counterskin;
     }
-    return (SkinType) Math::getRandomNumberBetween((int)TT1, (int)TT4);
+    return this->level.terrorSkin;
 }
 
 void GameViewer::loadPlayers(Size window){
     srand((unsigned)time(NULL));
     WeaponType mainWeaponType = this->level.mainPlayer.weapon.type;
     SkinType mainSkinType = getPjSkin(this->level.mainPlayer);
+
+
     this->mainPlayer = std::unique_ptr<MainCharacter> (new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]));
@@ -113,7 +113,7 @@ void GameViewer::loadHudTextures(){
 
     this->hud[TITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/40));
     this->hud[SUBTITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 20));
-    this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 10));
+    this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/65));
 }
 
 void GameViewer::renderPlayers(Coordinate cam) {
