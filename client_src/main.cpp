@@ -12,11 +12,13 @@
 
 int main(int argc, char* argv[]){
     try{
-        IpMenu ipMenu;
+        IpMenu* ipMenu = new IpMenu();
 
-        ipMenu.start();
+        ipMenu->start();
 
-        Protocol server(Socket(ipMenu.getIp().c_str(), ipMenu.getPort().c_str(), false));
+        Protocol server(Socket(ipMenu->getIp().c_str(), ipMenu->getPort().c_str(), false));
+
+        delete ipMenu;
 
         Size menuSize = {640, 480};
         Menu* menu = new Menu(menuSize, server);

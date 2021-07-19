@@ -45,8 +45,6 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     textureManager(renderer, level.tiles),
     cam(windowSize),
     level(level),
-    digitalText(renderer, PATH_FONT_DIGITAL, 30),
-    aerialText(renderer, PATH_FONT_AERIAL, 10),
     bullet(renderer){
 
     SDL_ShowCursor(SDL_DISABLE);
@@ -111,6 +109,12 @@ void GameViewer::loadHudTextures(){
     sprintf(moneyText, "$: %d", (int)this->level.mainPlayer.money);
     this->hud[MONEY] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
     this->hud[MONEY]->setText(moneyText, HUD_COLOR);
+
+    this->hud[TIME] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
+
+    this->hud[TITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/40));
+    this->hud[SUBTITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 20));
+    this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 12));
 }
 
 void GameViewer::renderPlayers(Coordinate cam) {
@@ -206,20 +210,20 @@ void GameViewer::renderHud(){
         sprintf(timeBomb, "Bomb: %d", (int)this->level.bomb.time);
         // seteo el color segun el tiempo restante
         if (this->level.bomb.time > ABOUT_TO_EXPLODE) {
-            this->digitalText.setText(timeBomb, HUD_COLOR);
+            this->hud[TIME]->setText(timeBomb, HUD_COLOR);
         } else {
-            this->digitalText.setText(timeBomb, ROJO_CLARO);
+            this->hud[TIME]->setText(timeBomb, ROJO_CLARO);
         }
-        Size sizeTime = this->digitalText.getSize();
+        Size sizeTime = this->hud[TIME]->getSize();
         Coordinate pos = {cam.w/2 - sizeTime.w/2, MARGIN};
-        this->digitalText.render(pos);
+        this->hud[TIME]->render(pos);
     } else {
         char time[100];
         sprintf(time, "Time: %d", (int)this->level.timeRemaining);
-        this->digitalText.setText(time, HUD_COLOR);
-        Size sizeTime = this->digitalText.getSize();
+        this->hud[TIME]->setText(time, HUD_COLOR);
+        Size sizeTime = this->hud[TIME]->getSize();
         Coordinate dstTime = {cam.w/2 - sizeTime.w/2, cam.h - MARGIN - sizeTime.h};
-        this->digitalText.render(dstTime);
+        this->hud[TIME]->render(dstTime);
     }
 
 
@@ -256,8 +260,8 @@ void GameViewer::renderBombSites(Coordinate cam){
     this->renderer.fillRect(dst);
 
     Coordinate pos = {dst.x + dst.w/2, dst.y + dst.h/2};
-    this->digitalText.setText("A", ROJO_CLARO);
-    this->digitalText.render(pos);
+    this->hud[TITLE]->setText("A", ROJO_CLARO);
+    this->hud[TITLE]->render(pos);
 
     siteA++;
     if (siteA != this->level.bombSites.end()) {
@@ -267,8 +271,8 @@ void GameViewer::renderBombSites(Coordinate cam){
         this->renderer.fillRect(dst);
 
         pos = {dst.x + dst.w/2, dst.y + dst.h/2};
-        this->digitalText.setText("B", ROJO_CLARO);
-        this->digitalText.render(pos);
+        this->hud[TITLE]->setText("B", ROJO_CLARO);
+        this->hud[TITLE]->render(pos);
     }
 
 }
@@ -322,22 +326,22 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     this->renderer.setDrawColor(BLACK.r, BLACK.g, BLACK.b, 200);
     this->renderer.fillRect(box);
 
-    this->aerialText.setText(text, WHITE);
-    Size textSize = this->aerialText.getSize();
+    this->hud[TEXT]->setText(text, WHITE);
+    Size textSize = this->hud[TEXT]->getSize();
     Coordinate textPos = {box.x + unit.w/2 , box.y + unit.h/2 - textSize.h/2};
-    this->aerialText.render(textPos);
+    this->hud[TEXT]->render(textPos);
 
     SdlTexture* weaponOnHud = this->textureManager.getWeaponOnHud(weapon);
     Coordinate weaponPos = {box.x + unit.w , box.y + unit.h - textSize.h/2};
     Size weaponSize = unit;
-    weaponOnHud->render(weaponPos.x, weaponPos.y, weaponSize.w, weaponSize.h);
+    weaponOnHud->render(weaponPos.x, weaponPos.y, weaponSize.w, weaponSize.h/2);
 
     this->renderer.setDrawColor(WHITE.r, WHITE.g, WHITE.b, 0xff);
     this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
 
     SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
-    int heightTexure = weaponOnPj->getWidth();
-    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + heightTexure/2, 15, 40, NULL, 90.0);
+    int heightTexure = weaponOnPj->getHeight();
+    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y, 15, unit.h, NULL, 90.0);
 
 
     SdlTexture* skin = this->textureManager.getSkin(CT1);
@@ -350,7 +354,7 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
 
 void GameViewer::showRoundState(){
 
-    if (this->level.state.roundState == END) {
+    if (this->level.state.roundState == END && (this->level.state.gameState == PLAYING)) {
         Size cam = this->cam.getSize();
         SDL_Rect menu = {cam.w/12, cam.h/6, 5*cam.w/6 - SIZE_BORDER_MENU, cam.h/6 - SIZE_BORDER_MENU};
         Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
@@ -377,26 +381,24 @@ void GameViewer::showRoundState(){
             sprintf(team, "Terrorist Win!");
             sprintf(text, "The Bomb exploded");
         }
-        this->aerialText.changeFontSize(25);
-        this->aerialText.setText(team, WHITE);
-        Size teamsize = this->aerialText.getSize();
+        this->hud[TITLE]->setText(team, WHITE);
+        Size teamsize = this->hud[TITLE]->getSize();
         Coordinate teamPos = {cam.w/2 - teamsize.w/2, menu.y + SIZE_BORDER_MENU + MARGIN};
 
         SDL_Rect title = {menu.x + SIZE_BORDER_MENU, menu.y + SIZE_BORDER_MENU, menu.w, teamsize.h + MARGIN};
         this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU + 50);
         this->renderer.fillRect(title);
-        this->aerialText.render(teamPos);
+        this->hud[TITLE]->render(teamPos);
         
         
-        this->aerialText.changeFontSize(20);
-        this->aerialText.setText(text, WHITE);
-        Size textSize = this->aerialText.getSize();
+        this->hud[SUBTITLE]->setText(text, WHITE);
+        Size textSize = this->hud[SUBTITLE]->getSize();
         Coordinate textPos = {cam.w/2 - textSize.w/2, teamPos.y + teamsize.h + MARGIN};
 
         SDL_Rect description = {title.x, title.y + title.h, menu.w, menu.h - title.h};
         this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
         this->renderer.fillRect(description);
-        this->aerialText.render(textPos);
+        this->hud[SUBTITLE]->render(textPos);
 
         this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
     }
@@ -405,7 +407,6 @@ void GameViewer::showRoundState(){
 void GameViewer::renderBuyMenu(){
     Size cam = this->cam.getSize();
     if (this->level.state.roundState == BUY) {
-        this->aerialText.changeFontSize(12);
 
         // rectangulo principal con su borde
         SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
@@ -443,18 +444,30 @@ void GameViewer::showGameState() {
             sprintf(title, "The game ended in a draw");
         }
         
-        SDL_Rect menu = {cam.w/12, cam.h/6, 5*cam.w/6 - SIZE_BORDER_MENU, cam.h/6 - SIZE_BORDER_MENU};
+
+        SDL_Rect menu = {cam.w/12 - SIZE_BORDER_MENU, cam.h/6 - SIZE_BORDER_MENU, 5*cam.w/6 - SIZE_BORDER_MENU*2, 2*cam.h/6 - SIZE_BORDER_MENU*2};
+        
         Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
         Coordinate pos = {menu.x, menu.y};
+        SDL_Rect titleRect = {menu.x, menu.y, menu.w, menu.h/2};
 
+        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU + 50);
+        this->renderer.fillRect(titleRect);
+        this->hud[TITLE]->setText(title, WHITE);
+        Size sizeTitle = this->hud[TITLE]->getSize();
+        Coordinate posTitle = {cam.w/2 - sizeTitle.w/2, menu.y - sizeTitle.h/2 + titleRect.h/2};
+        this->hud[TITLE]->render(posTitle);
+        
+        SDL_Rect textRect = {menu.x, menu.y + titleRect.h, menu.w, menu.h/2};
         this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
-        this->renderer.fillRect(menu);
+        this->renderer.fillRect(textRect);
+        char text[100];
+        sprintf(text, "Press Enter to exit...");
+        this->hud[TEXT]->setText(text, WHITE);
+        Size textSize = this->hud[TEXT]->getSize();
+        Coordinate textPos = {cam.w/2 - textSize.w/2, textRect.y - textSize.h/2 + textRect.h/2};
+        this->hud[TEXT]->render(textPos);
         this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
-        this->aerialText.changeFontSize(40);
-        this->aerialText.setText(title, WHITE);
-        Size sizeTitle = this->aerialText.getSize();
-        Coordinate posTitle = {cam.w/2 - sizeTitle.w/2, menu.y + MARGIN};
-        this->aerialText.render(posTitle);
     }
 }
 
@@ -477,9 +490,6 @@ void GameViewer::render(){
     showRoundState();
 
     renderer.updateScreen();
-    if (this->level.state.gameState != PLAYING) {
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-    }
 }
 
 void GameViewer::renderGameResult() {
@@ -492,11 +502,8 @@ void GameViewer::renderGameResult() {
     renderMap(cam);
     renderBombSites(cam);
     renderWeapons(cam);
-    renderPlayers(cam);
-    renderMainPlayer(cam);
     renderHud();
-    showRoundState();
-
+    showGameState();
 
     renderer.updateScreen();
 }

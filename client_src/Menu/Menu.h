@@ -14,7 +14,7 @@
 
 enum Resolution : int {STANDARD, SEMI_HIGH, HIGH};
 
-enum Button : int {QUIT, NEW_GAME, JOIN, BACK, CONFIRM, TITLE};
+enum Button : int {QUIT, NEW_GAME, JOIN, BACK, CONFIRM, LABEL};
 
 
 class Menu{
