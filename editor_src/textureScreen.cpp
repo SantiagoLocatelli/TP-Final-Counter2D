@@ -1,7 +1,7 @@
 #include "textureScreen.h"
-#define FONT_PATH "../../common_src/img/digital-7.ttf"
-#define BACKGROUND "../../common_src/img/counter.jpeg"
-#define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
+#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 
 enum keyForMap : int {FLOORS, WALLS, BACK, WEAPONS, ARROW, BACK_TO_EDITOR};
 

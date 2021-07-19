@@ -1,0 +1,10 @@
+# enum PlayerEffect : int {
+#     STEP, DYING, DROPPING, PICKING_UP};
+
+- [/usr/local/share/counter2d/resources/common/sound/player/pl_step1.wav, 0]
+- [/usr/local/share/counter2d/resources/common/sound/player/pl_step2.wav, 1]
+- [/usr/local/share/counter2d/resources/common/sound/player/pl_step3.wav, 2]
+- [/usr/local/share/counter2d/resources/common/sound/player/pl_step4.wav, 3]
+- [/usr/local/share/counter2d/resources/common/sound/player/die.wav, 4]
+- [/usr/local/share/counter2d/resources/common/sound/player/drop.wav, 5]
+- [/usr/local/share/counter2d/resources/common/sound/player/pickup.wav, 6]

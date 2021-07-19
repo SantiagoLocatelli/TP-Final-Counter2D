@@ -6,9 +6,9 @@
 #include <memory>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
-#define PATH_POINTER "../../common_src/img/pointer.bmp"
-#define PATH_FONT_DIGITAL "../../common_src/img/digital-7.ttf"
-#define PATH_FONT_AERIAL "../../common_src/img/aerial.ttf"
+#define PATH_POINTER "/usr/local/share/counter2d/resources/common/img/pointer.bmp"
+#define PATH_FONT_DIGITAL "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define PATH_FONT_AERIAL "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
 #define SIZE_CROSSHAIR 25
 #define MARGIN 10
 

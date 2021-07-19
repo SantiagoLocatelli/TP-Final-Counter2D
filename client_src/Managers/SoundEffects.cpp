@@ -3,8 +3,8 @@
 #include "SoundEffects.h"
 #include <string>
 
-#define PATH_PLAYER_SOUNDS "../../client_src/yaml/playerSounds.yaml"
-#define PATH_WEAPON_SOUNDS "../../client_src/yaml/weaponsSounds.yaml"
+#define PATH_PLAYER_SOUNDS "/usr/local/share/counter2d/resources/client/playerSounds.yaml"
+#define PATH_WEAPON_SOUNDS "/usr/local/share/counter2d/resources/client/weaponsSounds.yaml"
 
 SoundEffects::SoundEffects(){
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048) < 0){

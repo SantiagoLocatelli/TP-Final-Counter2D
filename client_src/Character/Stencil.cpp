@@ -1,7 +1,7 @@
 #include "Stencil.h"
 
 #define OPACITY 225
-#define PATH_STENCIL "../../common_src/img/stencil.bmp"
+#define PATH_STENCIL "/usr/local/share/counter2d/resources/common/img/stencil.bmp"
 
 Stencil::Stencil(SdlRenderer& renderer, Size size)
     :stencil(renderer, PATH_STENCIL, 0xff, 0xff, 0xff) {

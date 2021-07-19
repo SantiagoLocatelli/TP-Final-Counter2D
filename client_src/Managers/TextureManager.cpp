@@ -4,8 +4,8 @@
 #include "levelInfo.h"
 #include <iostream>
 
-#define PATH "../../client_src/yaml/"
-#define PATH_EXPLOSION "../../common_src/img/weapons/explosion.png"
+#define PATH "/usr/local/share/counter2d/resources/client/"
+#define PATH_EXPLOSION "/usr/local/share/counter2d/resources/common/img/weapons/explosion.png"
 
 
 TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tiles){
@@ -17,7 +17,7 @@ TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tile
 
 void TextureManager::loadWeaponsOnFloor(SdlRenderer& renderer){
     std::stringstream path;
-    path << "../../common_src/utils/";
+    path << "/usr/local/share/counter2d/resources/common/utils/";
     path << "weaponsOnFloor.yaml";
 
     YAML::Node yaml_map = YAML::LoadFile(path.str());

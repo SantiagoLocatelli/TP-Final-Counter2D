@@ -1,8 +1,8 @@
 #include "quitMenu.h"
 #include <stdio.h>
-#define FONT_PATH "../../common_src/img/digital-7.ttf"
-#define BACK_GROUND "../../common_src/img/saveBackGround.png"
-#define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define BACK_GROUND "/usr/local/share/counter2d/resources/common/img/saveBackGround.png"
+#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 enum keyForMap : int {QUESTION, CANCEL, SAVE_AND_QUIT, QUIT_NO_SAVE};
 
 QuitMenu::QuitMenu(bool& q, SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH), quit(q),

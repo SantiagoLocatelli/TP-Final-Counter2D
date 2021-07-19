@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <memory>
 #include <utility>
-#define TEXTURE_PATH "../../common_src/maps/textures.yaml"
-#define FONT_PATH "../../common_src/img/digital-7.ttf"
+#define TEXTURE_PATH "/usr/local/share/counter2d/resources/common/maps/textures.yaml"
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
 enum helperText : int {BOMB_SITE, SPAWN_SITE, PUT_TILES, TAB, ESC, HIDE};
 
 Editor::Editor(SdlRenderer& renderer, MenuManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){

@@ -1,6 +1,6 @@
 #include "GameConfig.h"
 
-GameConfig::GameConfig():configFile(YAML::LoadFile("../../server_src/game_model/GameConfig.yaml")){}
+GameConfig::GameConfig():configFile(YAML::LoadFile("/usr/local/share/counter2d/resources/server/GameConfig.yaml")){}
 
 float GameConfig::getWeapon(WeaponType type, std::string name){
     std::string weaponName;

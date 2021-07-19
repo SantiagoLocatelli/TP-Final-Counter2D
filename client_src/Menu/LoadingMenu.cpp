@@ -6,12 +6,12 @@
 #include <string>
 #include <map>
 
-#define PATH_FONT_DIGITAL "../../common_src/img/digital-7.ttf"
+#define PATH_FONT_DIGITAL "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
 #define WINDOW_LABEL " "
 
-#define VIEJA_PATH_TEXTURE "../../common_src/img/vieja.png"
-#define VIEJA_PATH_SOUND "../../common_src/sound/vieja.wav"
-#define BACKGROUND_PATH "../../common_src/img/counter.jpeg"
+#define VIEJA_PATH_TEXTURE "/usr/local/share/counter2d/resources/common/img/vieja.png"
+#define VIEJA_PATH_SOUND "/usr/local/share/counter2d/resources/common/sound/vieja.wav"
+#define BACKGROUND_PATH "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
 #define FONT_SIZE 30
 #define MARGIN 20
 

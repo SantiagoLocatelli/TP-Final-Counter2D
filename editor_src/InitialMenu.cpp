@@ -1,10 +1,10 @@
 #include "InitialMenu.h"
 #include <dirent.h>
 #include <algorithm>
-#define FONT_PATH "../../common_src/img/digital-7.ttf"
-#define FONT_PATH2 "../../common_src/img/aerial.ttf"
-#define BACKGROUND "../../common_src/img/counter.jpeg"
-#define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define FONT_PATH2 "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
+#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
+#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 #define MAPS_PER_PAGE 3
 enum keyForMap : int {CREATE_MAP, EDIT_MAP, ARROW, BACK, INTRODUCE_TEXT, MAP_NAME, QUIT};
 static void parse(std::vector<std::string>& files);
@@ -34,7 +34,7 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     std::vector<std::string> files;
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("../../common_src/maps/")) != NULL){
+    if ((dir = opendir ("/usr/local/share/counter2d/resources/common/maps/")) != NULL){
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL){
             if (ent->d_name[0] != '.'){
@@ -47,7 +47,7 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     parse(files);
     for (auto &file : files){
         this->editableMaps.emplace_back(renderer, FONT_PATH2, FONT_SIZE, file, 255, 255, 255);
-        this->mapsID.emplace_back("../../common_src/maps/" + file + ".yaml");
+        this->mapsID.emplace_back("/usr/local/share/counter2d/resources/common/maps/" + file + ".yaml");
     }
 }
 
