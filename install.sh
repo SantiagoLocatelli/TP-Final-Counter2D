@@ -25,9 +25,9 @@ cmake ..
 make
 
 # Muevo los ejecutables y los recursos a la carpeta compartida
-cp counter2dEditor /usr/local/bin/
-cp counter2dClient /usr/local/bin/
-cp counter2dServer /usr/local/bin/
+cp ./bin/counter2dEditor /usr/local/bin/
+cp ./bin/counter2dClient /usr/local/bin/
+cp ./bin/counter2dServer /usr/local/bin/
 
 mkdir -p /usr/local/share/counter2d
 

@@ -45,11 +45,11 @@ file(GLOB SDL_SRC_FILES "common_src/Sdl/*.cpp")
 
 # add the executable
 add_executable(counter2dClient client_src/main.cpp ${CLIENT_SRC_FILES} ${CHARACTER_SRC_FILES} ${MENUS_SRC_FILES} ${MANAGERS_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES})
-target_link_libraries(Client SDL2 SDL2_image SDL2_ttf SDL2_mixer pthread yaml-cpp)
+target_link_libraries(counter2dClient SDL2 SDL2_image SDL2_ttf SDL2_mixer pthread yaml-cpp)
 
 add_executable(counter2dServer server_src/main.cpp ${SERVER_SRC_FILES}
         ${COMMON_SRC_FILES} ${GAME_MODEL_SRC_FILES} ${GAME_MANAGEMENT_SRC_FILES} ${COMMUNICATIONS_SRC_FILES})
-target_link_libraries(Server box2d pthread yaml-cpp)
+target_link_libraries(counter2dServer box2d pthread yaml-cpp)
 
 add_executable(counter2dEditor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/Camera.cpp")
-target_link_libraries(Editor SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
+target_link_libraries(counter2dEditor SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
