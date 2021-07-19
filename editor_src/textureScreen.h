@@ -16,7 +16,6 @@ class TextureScreen : public Presenter{
         TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH);
         void render() override;
         void handleEvents(SDL_Event* event, SdlRenderer& renderer) override;
-        void aceptChanges() override;
         std::string getTitle() override;
         bool finish() override;
 

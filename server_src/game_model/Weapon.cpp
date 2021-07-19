@@ -31,8 +31,8 @@ void Weapon::shootBullet(){
         float actual_damage = calculateDamage(distance);
         hit->recvDamage(actual_damage);
         ray.distance = distance;
-        world->addBullet(ray);
     }
+    world->addBullet(ray);
 }
 
 WeaponType Weapon::getType(){
