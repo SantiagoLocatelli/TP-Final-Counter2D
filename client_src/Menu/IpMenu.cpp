@@ -1,5 +1,4 @@
 #include "IpMenu.h"
-#include <iostream>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -47,7 +46,6 @@ void IpMenu::start(){
                         quit = true;
                     }else{
                         this->ip = variableText;
-                        std::cout << this->ip << std::endl;
                         this->variableText = "";
                         this->map[PUT_TEXT]->setText("Type the Port", WHITE);
                         renderText = true;

@@ -11,7 +11,10 @@ background(renderer, BACKGROUND){
     for (unsigned int i = 0; i < text.size(); i++){
         if (text[i] == "Floors" || text[i] == "Walls" || text[i] == "Weapons"){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
-        }else{
+        }else if (text[i] == "->"){
+            menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE * 2, text[i], 0, 0, 0));
+        }
+        else{
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 0, 0, 0));
         }
     }
