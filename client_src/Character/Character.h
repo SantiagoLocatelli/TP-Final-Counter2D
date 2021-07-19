@@ -6,7 +6,6 @@
 #include "../levelInfo.h"
 #include "Weapon.h"
 
-
 class Character{
 
     private:

@@ -1,6 +1,6 @@
+#include "../../common_src/SocketClosedException.h" 
 #include "EventManager.h"
 #include "GameMath.h"
-#include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
 EventManager::EventManager(Protocol& com, bool& gameEnded, GameViewer& game):com(com), gameEnded(gameEnded), game(game){}

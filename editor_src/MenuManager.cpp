@@ -374,7 +374,7 @@ void MenuManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<S
 
 //numeros pares con el 0 son los width numeros impares son los height
 void MenuManager::changeSizeOfSites(std::vector<float>& vector){
-    if (vector[0] != mapSize[0] && vector[1] != mapSize[1]){
+    if (vector[0] != mapSize[0] || vector[1] != mapSize[1]){
         changeMapSize(vector[0], vector[1]);
         this->mapSize[0] = (int) vector[0];
         this->mapSize[1] = (int) vector[1];
@@ -416,7 +416,9 @@ void MenuManager::changeMapSize(const int& width, const int& height){
     }
     for (int i = 0; i < width * height; i++){
         if ((i % width) == 0 || i <= width || ((i + 1) % width) == 0 || i > (width * height) - width){
-            this->textures[i] = std::unique_ptr<SdlTexture>(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+            if (!this->textureMap[this->textures[i]->getType()].isBox){
+                this->textures[i] = std::unique_ptr<SdlTexture>(new SdlTexture(this->renderer, this->textureMap[borderType].texturePath, borderType));
+            }
             this->weaponTypes[i] = -1;
         }
     }

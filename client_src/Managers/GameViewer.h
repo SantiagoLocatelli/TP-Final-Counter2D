@@ -17,7 +17,7 @@
 #include <list>
 #include <map>
 
-enum TextHud : int {AMMO, HEALTH, TIME, SITE, MONEY}; 
+enum TextHud : int {AMMO, HEALTH, MONEY, TIME, TITLE, SUBTITLE, TEXT}; 
 
 class GameViewer{
 
@@ -39,8 +39,6 @@ private:
     std::map<TextHud, std::unique_ptr<TextTexture>> hud;
     std::list<Character> players;
     std::unique_ptr<MainCharacter> mainPlayer;
-    TextTexture digitalText;
-    TextTexture aerialText;
     ParticleBullets bullet;
     
     void renderBorder(Coordinate pos, Size sizeRect, int borderWidth, struct Color color, int opacity);
@@ -53,9 +51,10 @@ private:
     void renderShots(Coordinate cam);
     void renderBomb(Coordinate cam);
     void renderMap(Coordinate cam);
-    void renderBuyMenu();
-    void renderHud();
     void showRoundState();
+    void renderBuyMenu();
+    void showGameState();
+    void renderHud();
 
     void updateHud(LevelInfo level);
     
@@ -72,6 +71,7 @@ public:
     Coordinate mainPlayerRelativePos();
     void render();
     void update(LevelInfo level);
+    void renderGameResult();
 
     GameViewer& operator=(const GameViewer&) = delete;
     GameViewer(const GameViewer& other) = delete;

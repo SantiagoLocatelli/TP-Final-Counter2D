@@ -1,3 +1,5 @@
+#include "Menu.h"
+#include "../../common_src/Colors.h"
 #include "yaml-cpp/yaml.h"
 #include <dirent.h>
 #include <algorithm>
@@ -5,7 +7,6 @@
 #include <cstring>
 #include <string>
 #include <memory>
-#include "Menu.h"
 
 #define MAPS_PATH "../../common_src/maps/"
 
@@ -24,15 +25,10 @@
 #define PATH_FONT "../../common_src/img/digital-7.ttf"
 #define PATH "../../client_src/yaml/"
 
-const struct Color BLACK = {0x00, 0x00, 0x00};
-const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
-const struct Color WHITE = {0xff, 0xff, 0xff};
-const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
 
 const struct Size RESOLUTION_STANDARD = {600, 600};
 const struct Size RESOLUTION_SEMI_HIGH = {800, 800};
 const struct Size RESOLUTION_HIGH = {1000, 1000};
-
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 
@@ -86,7 +82,7 @@ void Menu::loadButtons(){
     pos = {this->size.w - MARGIN - sizeTexture.w, this->size.h - MARGIN - sizeTexture.h};
     this->buttons[CONFIRM]->setCoordinate(pos);
 
-    this->buttons[TITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[LABEL] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
 }
 
 
@@ -135,43 +131,43 @@ void Menu::renderCreateMenu(std::map<std::string, std::unique_ptr<TextTexture>>&
     this->background.render(0, 0, this->size.w, this->size.h);
 
     if (!mapSelected) {
-        this->buttons[TITLE]->setText("Choose a map:", HUD_COLOR);
-        sizeTexture = this->buttons[TITLE]->getSize();
+        this->buttons[LABEL]->setText("Choose a map:", HUD_COLOR);
+        sizeTexture = this->buttons[LABEL]->getSize();
         Coordinate pos = {this->size.w/2 - sizeTexture.w/2, MARGIN};
-        this->buttons[TITLE]->render(pos);
+        this->buttons[LABEL]->render(pos);
 
         for (auto it = maps.begin(); it != maps.end(); it++) {
             it->second->render();
         }
     } else if (!nameSelected && mapSelected) {
-        this->buttons[TITLE]->setText("Write the game's name:", HUD_COLOR);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, MARGIN});
+        this->buttons[LABEL]->setText("Write the game's name:", HUD_COLOR);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, MARGIN});
 
-        this->buttons[TITLE]->setText(nameGame.c_str(), WHITE);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, 200});
+        this->buttons[LABEL]->setText(nameGame.c_str(), WHITE);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, 200});
         
         this->buttons[CONFIRM]->render();
     } else if (nameSelected && mapSelected) {
 
-        this->buttons[TITLE]->setText("Quantity of players.", HUD_COLOR);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, 50});
+        this->buttons[LABEL]->setText("Quantity of players.", HUD_COLOR);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, 50});
 
-        this->buttons[TITLE]->setText("Arrow up to increase.", HUD_COLOR);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, 100});
+        this->buttons[LABEL]->setText("Arrow up to increase.", HUD_COLOR);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, 100});
 
-        this->buttons[TITLE]->setText("Arrow down to decrease.", HUD_COLOR);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, 150});
+        this->buttons[LABEL]->setText("Arrow down to decrease.", HUD_COLOR);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, 150});
 
         char playersText[10];
         sprintf(playersText, "%d", players);
-        this->buttons[TITLE]->setText(playersText, WHITE);
-        sizeTexture = this->buttons[TITLE]->getSize();
-        this->buttons[TITLE]->render({this->size.w/2 - sizeTexture.w/2, 200});
+        this->buttons[LABEL]->setText(playersText, WHITE);
+        sizeTexture = this->buttons[LABEL]->getSize();
+        this->buttons[LABEL]->render({this->size.w/2 - sizeTexture.w/2, 200});
         
         this->buttons[CONFIRM]->render();
     }
@@ -263,10 +259,10 @@ void Menu::renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& o
 
     this->background.render(0, 0, this->size.w, this->size.h);
 
-    this->buttons[TITLE]->setText("PARTIDAS: ", WHITE);
-    Size sizeTexture = this->buttons[TITLE]->getSize();
+    this->buttons[LABEL]->setText("PARTIDAS: ", WHITE);
+    Size sizeTexture = this->buttons[LABEL]->getSize();
     Coordinate pos = {this->size.w/2 - sizeTexture.w/2, MARGIN};
-    this->buttons[TITLE]->render(pos);
+    this->buttons[LABEL]->render(pos);
     this->buttons[BACK]->render();
 
     for (auto it = options.begin(); it != options.end(); it++) {
@@ -345,7 +341,7 @@ void Menu::renderOptionsResolutions(std::map<Resolution, std::unique_ptr<TextTex
     renderer.clear();
 
     this->background.render(0, 0, this->size.w, this->size.h);
-    this->buttons[TITLE]->render();
+    this->buttons[LABEL]->render();
     for (auto it = options.begin(); it != options.end(); it++) {
         it->second->render();
     }
@@ -391,10 +387,10 @@ void setResolution(Size& resolution, Resolution resolutionType) {
 void Menu::makeChooseResolution(bool& quit, Size& resolution){
     std::map<Resolution, std::unique_ptr<TextTexture>> options;
     
-    this->buttons[TITLE]->setText("Choose a resolution:", HUD_COLOR);
-    Size sizeText = this->buttons[TITLE]->getSize();
+    this->buttons[LABEL]->setText("Choose a resolution:", HUD_COLOR);
+    Size sizeText = this->buttons[LABEL]->getSize();
     Coordinate pos = {this->size.w/2 - sizeText.w/2, MARGIN};
-    this->buttons[TITLE]->setCoordinate(pos);
+    this->buttons[LABEL]->setCoordinate(pos);
 
     loadResolutions(options);
     Resolution resolutionType;
