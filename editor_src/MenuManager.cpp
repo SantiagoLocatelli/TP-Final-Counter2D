@@ -374,9 +374,11 @@ void MenuManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<S
 
 //numeros pares con el 0 son los width numeros impares son los height
 void MenuManager::changeSizeOfSites(std::vector<float>& vector){
-    changeMapSize(vector[0], vector[1]);
-    this->mapSize[0] = (int) vector[0];
-    this->mapSize[1] = (int) vector[1];
+    if (vector[0] != mapSize[0] && vector[1] != mapSize[1]){
+        changeMapSize(vector[0], vector[1]);
+        this->mapSize[0] = (int) vector[0];
+        this->mapSize[1] = (int) vector[1];
+    }
     this->bombSites["A"]->setWidthAndHeight((int) (vector[2] * TILE_SIZE), (int) (vector[3] * TILE_SIZE));
     this->bombSites["B"]->setWidthAndHeight((int) (vector[4] * TILE_SIZE), (int) (vector[5] * TILE_SIZE));
     this->spawnSites["T"]->setWidthAndHeight((int) (vector[6] * TILE_SIZE), (int) (vector[7] * TILE_SIZE));
