@@ -7,7 +7,7 @@
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
 #define MAPS_PER_PAGE 3
 enum keyForMap : int {CREATE_MAP, EDIT_MAP, ARROW, BACK, INTRODUCE_TEXT, MAP_NAME, QUIT};
-void parse(std::vector<std::string>& files);
+static void parse(std::vector<std::string>& files);
 
 InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : 
     Presenter(m, screenW, screenH), background(renderer, BACKGROUND){
@@ -51,7 +51,7 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     }
 }
 
-void parse(std::vector<std::string>& files){
+static void parse(std::vector<std::string>& files){
     std::string prot_end(".");
     for (auto &file : files){
         std::string::iterator prot_i = std::search(file.begin(),

@@ -20,7 +20,6 @@ class SdlWindow{
         void setFullScreen();
         void setFullScreenOf();
         void setTitle(std::string title);
-        void free();
         ~SdlWindow();
 };
 #endif
