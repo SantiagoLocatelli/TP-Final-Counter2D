@@ -1,20 +1,20 @@
 Game:
-  roundTime: 10000 # En segundos
-  bombTime: 10 # Tiempo hasta explosión
+  roundTime: 180 # En segundos
+  bombTime: 60 # Tiempo hasta explosión
   bombDefuseDistance: 1
-  buyTime: 10
+  buyTime: 8
   endTime: 5 #Tiempo de pantalla de final de ronda
-  roundsPerSide: 1
+  roundsPerSide: 2
   wonRoundMoney: 400
   lostRoundMoney: 250
-  terrorSkin: 2
-  counterSkin: 5
+  terrorSkin: 5
+  counterSkin: 2
 
 Player:
   health: 100
   speed: 6
-  defuseTime: 2
-  startingMoney: 1000
+  defuseTime: 5
+  startingMoney: 2000
 
 Weapons:
   Knife:
@@ -62,4 +62,4 @@ Weapons:
     maxRange: 100
     price: 1200
   Bomb:
-    speed: 1
+    speed: 3 #Tiempo en plantar

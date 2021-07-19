@@ -49,7 +49,8 @@ struct ProtState{
     GameState gameState; 
 
     //Si roundState == END te dice porque termino la ronda.
-    RoundResult endResult; 
+    RoundResult endResult;
+    std::array<uint8_t, 2> roundScore; //Las rondas ganadas de cada equipo
 };
 
 struct ProtBomb{

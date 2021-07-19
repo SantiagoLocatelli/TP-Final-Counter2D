@@ -87,8 +87,8 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
         send_float(r.height);
         send_float(r.width);
     }
-    for (int i = 0; i < 3; i++){
-        send_uint16t(mapInfo.weaponPrices[i]);
+    for (const uint16_t &price: mapInfo.weaponPrices){
+        send_uint16t(price);
     }
 }
 
@@ -126,8 +126,8 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
         recv_float(r.width);
         mapInfo.spawnSites.push_back(r);
     }
-    for (int i = 0; i < 3; i++){
-        recv_uint16t(mapInfo.weaponPrices[i]);
+    for (uint16_t &price: mapInfo.weaponPrices){
+        recv_uint16t(price);
     }
 }
 
@@ -192,6 +192,9 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
     send_byte(modelInfo.state.roundState);
     if (modelInfo.state.roundState == END)
         send_byte(modelInfo.state.endResult);
+    for (const uint8_t &score: modelInfo.state.roundScore){
+        send_byte(score);
+    }
     send_float(modelInfo.timeRemaining);
 }
 
@@ -265,6 +268,9 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
     recv_byte((char &)modelInfo.state.roundState);
     if (modelInfo.state.roundState == END)
         recv_byte((char &)modelInfo.state.endResult);
+    for (uint8_t &score: modelInfo.state.roundScore){
+        recv_byte((char &)score);
+    }
     recv_float(modelInfo.timeRemaining);
 }
 

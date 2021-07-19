@@ -20,6 +20,12 @@ GameProxy::GameProxy(const std::string &yaml_path, GameConfig &config): config(c
     mapInfo.bombSites = parser.get_sites();
     mapInfo.spawnSites = parser.get_spawn();
 
+    mapInfo.terrorSkin = (SkinType)config.getGame("terrorSkin");
+    mapInfo.counterSkin = (SkinType)config.getGame("counterSkin");
+    mapInfo.weaponPrices[0] = config.getWeapon(SNIPER, "price");
+    mapInfo.weaponPrices[1] = config.getWeapon(SHOTGUN, "price");
+    mapInfo.weaponPrices[2] = config.getWeapon(RIFLE, "price");
+
     world = new World(mapInfo, config);
     roundManager = new RoundManager(*world, config);
 
@@ -90,6 +96,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
     info.incompleteModel.state.roundState = roundManager->getRoundState();
     info.incompleteModel.state.gameState = roundManager->getGameState();
     info.incompleteModel.state.endResult = roundManager->getRoundResult();
+    info.incompleteModel.state.roundScore = roundManager->getRoundScore();
 
     return info;
 }

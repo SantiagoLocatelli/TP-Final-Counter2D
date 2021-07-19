@@ -157,3 +157,7 @@ RoundResult RoundManager::getRoundResult(){
     return result;
 }
 
+std::array<uint8_t, 2> RoundManager::getRoundScore(){
+    return wins;
+}
+

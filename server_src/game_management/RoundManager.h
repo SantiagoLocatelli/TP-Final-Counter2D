@@ -12,7 +12,7 @@ class RoundManager{
         GameConfig &config;
         RoundState roundState;
         RoundResult result;
-        int wins[2];
+        std::array<uint8_t, 2> wins;
         int terrorIdx;
         int counterIdx;
         int rounds;
@@ -26,6 +26,7 @@ class RoundManager{
         RoundState getRoundState();
         GameState getGameState();
         RoundResult getRoundResult();
+        std::array<uint8_t, 2> getRoundScore();
 
         float getTime();
 };
