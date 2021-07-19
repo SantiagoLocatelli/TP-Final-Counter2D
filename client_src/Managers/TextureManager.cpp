@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include "../../common_src/Colors.h"
 #include "yaml-cpp/yaml.h"
 #include "levelInfo.h"
 #include <iostream>
@@ -6,8 +7,6 @@
 #define PATH "../../client_src/yaml/"
 #define PATH_EXPLOSION "../../common_src/img/weapons/explosion.png"
 
-const struct Color BLACK = {0x00, 0x00, 0x00};
-const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 
 TextureManager::TextureManager(SdlRenderer& renderer, std::vector<TileInfo> tiles){
     loadTexturesWeapons(renderer);

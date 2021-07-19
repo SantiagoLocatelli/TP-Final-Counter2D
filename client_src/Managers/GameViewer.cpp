@@ -1,4 +1,5 @@
 #include "GameViewer.h"
+#include "../../common_src/Colors.h"
 #include "GameMath.h"
 #include <algorithm>
 #include <iostream>
@@ -25,13 +26,6 @@
 #define DELAY_SOUND_BOMB_QUICK 5
 #define ABOUT_TO_EXPLODE 5.0
 
-
-const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
-const struct Color ROJO = {0xff, 0x00, 0x00};
-const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
-const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
-const struct Color BLACK = {0x00, 0x00, 0x00};
-const struct Color WHITE = {0xff, 0xff, 0xff};
 
 const struct Size SIZE_SMALL_GUN = {22, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
@@ -340,7 +334,6 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
 
     SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
-    int heightTexure = weaponOnPj->getHeight();
     weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y, 15, unit.h, NULL, 90.0);
 
 

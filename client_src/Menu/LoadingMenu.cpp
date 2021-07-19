@@ -1,6 +1,7 @@
 #include "LoadingMenu.h"
 #include "../common_src/GeneralException.h"
 #include "../common_src/Stopwatch.h"
+#include "../../common_src/Colors.h"
 #include "SDL2/SDL.h"
 #include <string>
 #include <map>
@@ -14,7 +15,6 @@
 #define FONT_SIZE 30
 #define MARGIN 20
 
-const struct Color WHITE = {0xff, 0xff, 0xff};
 
 LoadingMenu::LoadingMenu(Size windowSize):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), background(renderer, BACKGROUND_PATH),

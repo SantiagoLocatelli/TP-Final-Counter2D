@@ -6,10 +6,6 @@
 #include "../../common_src/ModelInfo.h"
 #include "Managers/SoundEffects.h"
 
-struct Color {
-    uint8_t r,g,b;
-};
-
 struct Coordinate {
     int x;
     int y;
@@ -76,7 +72,6 @@ struct BombInfo {
     Coordinate pos;
     float time;
 };
-
 
 
 struct LevelInfo{

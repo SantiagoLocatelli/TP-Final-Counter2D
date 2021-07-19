@@ -5,7 +5,6 @@ Weapon::Weapon(SdlTexture& weapon, SdlTexture& anim, WeaponType type):
     weapon(weapon), anim(anim), type(type){
 }
 
-
 void Weapon::render(Coordinate dstWp, Coordinate dstAnim, Size size, float degrees, bool animated){
     if (animated && this->type == KNIFE) {
         this->anim.render(dstAnim.x, dstAnim.y, size.w, size.h, NULL, degrees + 90.0);

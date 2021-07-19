@@ -2,7 +2,6 @@
 
 #define NUM_FRAMES 4
 
-
 CrossHair::CrossHair(int width, int height, SdlTexture texture)
     :texture(std::move(texture)){
     this->area.x = 0;
