@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdio>
 #include <memory>
+#include <thread>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -335,8 +336,8 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     this->renderer.drawLine(cam.w/2, weaponPos.y, cam.w/2, weaponPos.y + unit.h);
 
     SdlTexture* weaponOnPj = this->textureManager.getWeaponOnPj(weapon);
-    int widthTexure = weaponOnPj->getWidth();
-    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + widthTexure/2, 15, 40, NULL, 90.0);
+    int heightTexure = weaponOnPj->getWidth();
+    weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y + heightTexure/2, 15, 40, NULL, 90.0);
 
 
     SdlTexture* skin = this->textureManager.getSkin(CT1);
@@ -371,7 +372,7 @@ void GameViewer::showRoundState(){
             sprintf(text, "No Time");
         } else if (this->level.state.endResult == CT_DEAD) {
             sprintf(team, "Terrorist Win!");
-            sprintf(text, "Ace");
+            sprintf(text, "Ace!");
         } else {
             sprintf(team, "Terrorist Win!");
             sprintf(text, "The Bomb exploded");
@@ -399,7 +400,6 @@ void GameViewer::showRoundState(){
 
         this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
     }
-    
 }
 
 void GameViewer::renderBuyMenu(){
@@ -430,6 +430,34 @@ void GameViewer::renderBuyMenu(){
     }
 }
 
+void GameViewer::showGameState() {
+    //enum GameState{PLAYING, T_WON, CT_WON, TIE};
+    if (this->level.state.gameState != PLAYING) {
+        Size cam = this->cam.getSize();
+        char title[100];
+        if (this->level.state.gameState == T_WON) {
+            sprintf(title, "Terrorist team win the game");
+        } else if (this->level.state.gameState == CT_WON) {
+            sprintf(title, "Counter Terrorist team win the game");
+        } else {
+            sprintf(title, "The game ended in a draw");
+        }
+        
+        SDL_Rect menu = {cam.w/12, cam.h/6, 5*cam.w/6 - SIZE_BORDER_MENU, cam.h/6 - SIZE_BORDER_MENU};
+        Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
+        Coordinate pos = {menu.x, menu.y};
+
+        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.fillRect(menu);
+        this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
+        this->aerialText.changeFontSize(40);
+        this->aerialText.setText(title, WHITE);
+        Size sizeTitle = this->aerialText.getSize();
+        Coordinate posTitle = {cam.w/2 - sizeTitle.w/2, menu.y + MARGIN};
+        this->aerialText.render(posTitle);
+    }
+}
+
 void GameViewer::render(){
     std::unique_lock<std::mutex> lock(m);
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -447,6 +475,28 @@ void GameViewer::render(){
     renderBuyMenu();
     renderHud();
     showRoundState();
+
+    renderer.updateScreen();
+    if (this->level.state.gameState != PLAYING) {
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+    }
+}
+
+void GameViewer::renderGameResult() {
+    std::unique_lock<std::mutex> lock(m);
+    renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    renderer.clear();
+
+    Coordinate cam = {this->cam.getPosX(), this->cam.getPosY()};
+
+    renderMap(cam);
+    renderBombSites(cam);
+    renderWeapons(cam);
+    renderPlayers(cam);
+    renderMainPlayer(cam);
+    renderHud();
+    showRoundState();
+
 
     renderer.updateScreen();
 }

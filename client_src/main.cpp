@@ -72,6 +72,25 @@ int main(int argc, char* argv[]){
 
         eventManager.stop();
         eventManager.join();
+
+        // es para mostrar el resultado final de la partida
+        SDL_Event e;
+        bool quit = false;
+        while (!quit) {
+            while (SDL_PollEvent(&e) != 0 && !quit) {
+                switch (e.type) {
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    case SDL_KEYDOWN:
+                        if (e.key.keysym.sym == SDLK_RETURN && e.key.repeat == 0) {
+                            quit = true;
+                        }
+                        break;
+                }
+            }
+            gameViewer.renderGameResult();
+        }
     }catch(const SocketClosedException &e){
         std::cerr << "Ocurrió un error y el servidor cerró tu conexión.\n";
     }catch (const std::exception &e){
