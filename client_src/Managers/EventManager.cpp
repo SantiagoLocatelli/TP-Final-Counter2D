@@ -56,7 +56,7 @@ void EventManager::run(){
                                 break;
                             case SDLK_4:
                                 event.type = CHANGE_WEAPON;
-                                event.info.slot = BOMB_SLOT;
+                                event.info.slot = BOMB_SLOT;              
                                 break;
                             case SDLK_8:
                                 event.type = BUY_WEAPON;
