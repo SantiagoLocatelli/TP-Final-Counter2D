@@ -1,9 +1,12 @@
 #include "communications/Accepter.h"
 #include "game_management/GameList.h"
+#include <iostream>
 
 int main(int argc, char const *argv[]){
-    if (argc != 2)
+    if (argc != 2){
+        std::cout << "Cantidad incorrecta de argumentos.\n";
         return -1;
+    }
     
     GameList gameList;
     Accepter accepter(argv[1], gameList);
