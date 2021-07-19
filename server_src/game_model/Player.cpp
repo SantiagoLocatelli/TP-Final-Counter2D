@@ -105,9 +105,10 @@ void Player::recvDamage(float damage){
                 dropWeapon();
             }
             if (weapons[BOMB_SLOT] != nullptr){
-                currentWeapon = BOMB_SLOT;
-                angle += 3.14; //Le sumo pi para tirarlo atras
-                dropWeapon();
+                //La bomba se dropea en la posicion del jugador así evitamos problemas
+                new Drop(world, body->GetPosition().x, body->GetPosition().y, weapons[BOMB_SLOT]);
+                weapons[BOMB_SLOT] = nullptr;
+                currentWeapon = KNIFE_SLOT;
             }
             dead = true;
             world.destroyBody(body);

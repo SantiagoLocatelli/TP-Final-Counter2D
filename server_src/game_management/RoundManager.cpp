@@ -1,6 +1,6 @@
 #include "RoundManager.h"
 
-RoundManager::RoundManager(World &world, GameConfig &config):timer(0), world(world), config(config), roundState(BUY), terrorIdx(0), counterIdx(1), rounds(0){
+RoundManager::RoundManager(World &world, GameConfig &config):timer(config.getGame("buyTime")), world(world), config(config), roundState(BUY), terrorIdx(0), counterIdx(1), rounds(0){
     wins[0] = 0;
     wins[1] = 0;
 }
@@ -28,16 +28,16 @@ void RoundManager::resetRound(){
 }
 
 void RoundManager::updateResult(){
-    if (timer > config.getGame("roundTime")){
-        result = TIME_ENDED;
-    }
-
     if (world.bombDefused()){
         result = BOMB_DEFUSED;
     }
 
     if (world.bombExploded()){
         result = BOMB_EXPLODED;
+    }
+
+    if (timer <= 0){
+        result = TIME_ENDED;
     }
 
     int t_alive = 0, ct_alive = 0;
@@ -59,7 +59,11 @@ void RoundManager::updateResult(){
 }
 
 GameState RoundManager::roundEnded(){
-    if (timer > config.getGame("roundTime") || world.bombDefused()){
+    if (timer <= 0 && !world.bombPlanted()){
+        return CT_WON;
+    }
+
+    if (world.bombDefused()){
         return CT_WON;
     }
 
@@ -88,13 +92,15 @@ GameState RoundManager::roundEnded(){
 }
 
 bool RoundManager::step(float delta){
-    timer += delta;
+    timer -= delta;
+    if (timer < 0)
+        timer = 0;
 
     switch (roundState)
     {
     case BUY:
-        if (timer > config.getGame("buyTime")){
-            timer = 0;
+        if (timer <= 0){
+            timer = config.getGame("roundTime");
             roundState = MIDDLE;
             return true;
         } else {
@@ -104,9 +110,9 @@ bool RoundManager::step(float delta){
     
     case MIDDLE:
         if (roundEnded() != PLAYING){
-            timer = 0;
-            roundState = END;
             updateResult();
+            timer = config.getGame("endTime");
+            roundState = END;
             int tMoney, ctMoney;
             if (roundEnded() == T_WON){
                 wins[terrorIdx]++;
@@ -133,10 +139,12 @@ bool RoundManager::step(float delta){
         break;
     
     case END:
-        if (timer > config.getGame("endTime")){
-            timer = 0;
-            resetRound();
-            roundState = BUY;
+        if (timer <= 0 ){
+            timer = config.getGame("buyTime");
+            if (getGameState() == PLAYING){
+                resetRound();
+                roundState = BUY;
+            }
         }
         return false;
         break;

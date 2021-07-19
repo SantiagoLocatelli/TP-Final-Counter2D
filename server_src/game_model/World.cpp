@@ -90,6 +90,8 @@ World::~World(){
         Drop *drop = (Drop *)fixture->GetUserData().pointer;
         if (drop != nullptr){
             //Si estoy aca es porque este b2Body era un Drop
+            if (drop->getWeapon() != nullptr)
+                delete drop->getWeapon();
             delete drop;
         }
     }
@@ -161,6 +163,8 @@ void World::resetWorld(bool changeTeams){
         Drop *drop = (Drop *)fixture->GetUserData().pointer;
         if (drop != nullptr){
             b2world.DestroyBody(fixture->GetBody());
+            if (drop->getWeapon() != nullptr)
+                delete drop->getWeapon();
             delete drop;
         }
     }
