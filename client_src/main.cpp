@@ -54,22 +54,28 @@ int main(int argc, char* argv[]){
         bool gameEnded = model.game_ended;
         EventManager eventManager(server, gameEnded, gameViewer);
         eventManager.start();
-        Stopwatch stopwatch;
+        try{
+            Stopwatch stopwatch;
 
-        Event ready;
-        ready.type = CLIENT_READY;
-        server.send_event(ready);
+            Event ready;
+            ready.type = CLIENT_READY;
+            server.send_event(ready);
 
-        server.recv_model_info(model);
-        while (joined_game && !model.game_ended) {
-            stopwatch.start();
             server.recv_model_info(model);
-            gameManager.updatedLevel(level, model);
-            gameViewer.update(level);
-            gameViewer.render();
-            while (stopwatch.msPassed() < FRAME_MS) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            while (joined_game && !model.game_ended) {
+                stopwatch.start();
+                server.recv_model_info(model);
+                gameManager.updatedLevel(level, model);
+                gameViewer.update(level);
+                gameViewer.render();
+                while (stopwatch.msPassed() < FRAME_MS) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
             }
+        } catch(const GeneralException &e){
+            eventManager.stop();
+            eventManager.join();
+            return 0;
         }
 
         eventManager.join();
