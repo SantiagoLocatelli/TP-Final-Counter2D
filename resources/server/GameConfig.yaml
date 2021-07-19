@@ -1,0 +1,65 @@
+Game:
+  roundTime: 180 # En segundos
+  bombTime: 60 # Tiempo hasta explosión
+  bombDefuseDistance: 1
+  buyTime: 8
+  endTime: 5 #Tiempo de pantalla de final de ronda
+  roundsPerSide: 5
+  wonRoundMoney: 400
+  lostRoundMoney: 250
+  terrorSkin: 5
+  counterSkin: 2
+
+Player:
+  health: 100
+  speed: 6
+  defuseTime: 5
+  startingMoney: 2000
+
+Weapons:
+  Knife:
+    damage: 15
+    speed: 2
+  Pistol:
+    maxDamage: 15
+    minDamage: 25
+    spread: 0.15
+    falloff: 2 #Daño que pierde por metro recorrido
+    speed: 0.2 #Tiempo entre disparos
+    capacity: 10 #Balas por recarga
+    reloadTime: 2
+    maxRange: 15
+  Rifle:
+    maxDamage: 22
+    minDamage: 18
+    spread: 0.1
+    falloff: 1
+    burstTime: 0.1 #Tiempo entre disparos de la misma ráfaga
+    speed: 0.4 #Tiempo entre ráfagas
+    capacity: 30 #Balas por recarga
+    reloadTime: 3
+    maxRange: 25
+    price: 1500
+  Sniper:
+    maxDamage: 90
+    minDamage: 120
+    spread: 0.05
+    falloff: 0
+    speed: 2.5 #Tiempo entre disparos
+    capacity: 5 #Balas por recarga 
+    reloadTime: 5
+    maxRange: 100
+    price: 2000
+  Shotgun:
+    bullets: 10
+    maxDamage: 20
+    minDamage: 15
+    spread: 0.4
+    falloff: 5
+    speed: 2 #Tiempo entre disparos
+    capacity: 5
+    reloadTime: 3
+    maxRange: 5
+    price: 1200
+  Bomb:
+    speed: 3 #Tiempo en plantar

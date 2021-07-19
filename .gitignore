@@ -3,5 +3,4 @@
 *.exe
 *.vscode
 main
-server
 build
