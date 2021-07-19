@@ -37,7 +37,7 @@ void IpMenu::start(){
                 if (event.key.keysym.sym == SDLK_BACKSPACE && this->variableText.length() > 0){
                     this->variableText.pop_back();
                     this->renderText = true;
-                }else if (event.key.keysym.sym == SDLK_RETURN){
+                }else if (event.key.keysym.sym == SDLK_RETURN && e.key.repeat == 0){
                     if (variableText[0] == ' '){
                         variableText.erase(variableText.begin());
                     }
