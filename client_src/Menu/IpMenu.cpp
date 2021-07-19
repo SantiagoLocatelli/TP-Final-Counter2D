@@ -3,9 +3,9 @@
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-#define FONT_PATH "../../common_src/img/digital-7.ttf"
-#define FONT_PATH2 "../../common_src/img/aerial.ttf"
-#define BACKGROUND "../../common_src/img/counter.jpeg"
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define FONT_PATH2 "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
+#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
 #define FONT_SIZE 26
 #define FONT_SIZE_TYPE 20
 

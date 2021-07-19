@@ -1,0 +1,7 @@
+# enum WeaponType : char {KNIFE = 0, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/knifeslash.png, 0]
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/shot.png, 1]
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/shot.png, 2]
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/shot.png, 3]
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/shot.png, 4]
+- [/usr/local/share/counter2d/resources/common/img/weapons/anim/bomb.bmp, 5]

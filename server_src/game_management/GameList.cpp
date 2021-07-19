@@ -9,7 +9,7 @@ void GameList::createGame(GameInfo gameInfo){
         throw GeneralException("Ya existe una partida con ese nombre");
     }
 
-    std::string path = "../../common_src/maps/";
+    std::string path = "/usr/local/share/counter2d/resources/common/maps/";
     path += gameInfo.map;
     path += ".yaml";
     gameList[gameInfo.name] = std::unique_ptr<GameThread>(new GameThread(path));

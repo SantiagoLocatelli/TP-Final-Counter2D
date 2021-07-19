@@ -1,0 +1,12 @@
+# enum WeaponEffect : int {KNIFE_SLASH, KNIFE_HIT, SHOT_PISTOL, SHOT_RIFLE, SHOT_SHOTGUN, SHOT_SNIPER, 
+#     BOMD_EXPLODE, BOMB_DEFUSE, BOMB_PIP};
+
+- [/usr/local/share/counter2d/resources/common/sound/weapons/knife_slash.wav, 0]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/knife_hit.wav, 1]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/glock18.wav, 2]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/ak47.wav, 3]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/m3.wav, 4]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/awp.wav, 5]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/c4_explode.wav, 6]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/c4_disarm.wav, 7]
+- [/usr/local/share/counter2d/resources/common/sound/weapons/c4.wav, 8]

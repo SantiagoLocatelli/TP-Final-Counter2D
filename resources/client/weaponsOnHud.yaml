@@ -1,0 +1,7 @@
+# enum WeaponType : char {KNIFE = 0, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
+# no se cuenta el cuchillo
+- [/usr/local/share/counter2d/resources/common/img/weapons/onHud/glock_m.bmp, 1]
+- [/usr/local/share/counter2d/resources/common/img/weapons/onHud/m3_m.bmp, 2]
+- [/usr/local/share/counter2d/resources/common/img/weapons/onHud/ak47_m.bmp, 3]
+- [/usr/local/share/counter2d/resources/common/img/weapons/onHud/awp_m.bmp, 4]
+- [/usr/local/share/counter2d/resources/common/img/weapons/onHud/bomb_m.bmp, 5]

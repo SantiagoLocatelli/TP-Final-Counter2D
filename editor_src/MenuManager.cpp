@@ -4,8 +4,8 @@
 #include <fstream>
 #include <utility>
 #include <memory>
-#define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
-#define WEAPONS_PATH "../../common_src/utils/weaponsOnFloor.yaml"
+#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
+#define WEAPONS_PATH "/usr/local/share/counter2d/resources/common/utils/weaponsOnFloor.yaml"
 
 MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     std::vector<std::string> vec = {CHUNK_PATH};
@@ -52,8 +52,8 @@ void MenuManager::createMap(const std::string mapID){
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
         this->weaponTypes.push_back(-1);
     }
-    std::vector<std::string> auxBombs = {"A", "B", "../../common_src/img/bombSiteA.png", "../../common_src/img/bombSiteB.png"};
-    std::vector<std::string> auxSpawns = {"T", "CT", "../../common_src/img/spawnSiteT.png", "../../common_src/img/spawnSiteCT.png"};
+    std::vector<std::string> auxBombs = {"A", "B", "/usr/local/share/counter2d/resources/common/img/bombSiteA.png", "/usr/local/share/counter2d/resources/common/img/bombSiteB.png"};
+    std::vector<std::string> auxSpawns = {"T", "CT", "/usr/local/share/counter2d/resources/common/img/spawnSiteT.png", "/usr/local/share/counter2d/resources/common/img/spawnSiteCT.png"};
     for (int i = 0; i < 2; i++){
         this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, auxBombs[i+2], 0, i * 100, 255, 0, 0));
         bombSites[auxBombs[i]]->setWidthAndHeight(100, 100);
@@ -62,7 +62,7 @@ void MenuManager::createMap(const std::string mapID){
         spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
     }
 
-    this->mapID = "../../common_src/maps/" + mapID + ".yaml";
+    this->mapID = "/usr/local/share/counter2d/resources/common/maps/" + mapID + ".yaml";
 }
 
 void MenuManager::editMap(const std::string& mapID){

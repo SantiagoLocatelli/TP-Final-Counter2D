@@ -8,10 +8,10 @@
 #include <string>
 #include <memory>
 
-#define MAPS_PATH "../../common_src/maps/"
+#define MAPS_PATH "/usr/local/share/counter2d/resources/common/maps/"
 
 #define WINDOW_LABEL "Counter Strike 2D - Main Menu"
-#define BACKGROUND_PATH "../../common_src/img/counter.jpeg"
+#define BACKGROUND_PATH "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
 #define SIZE_FONT 30
 
 #define HOVER 0
@@ -22,8 +22,8 @@
 
 #define MAX_STRING 29
 #define MARGIN 20
-#define PATH_FONT "../../common_src/img/digital-7.ttf"
-#define PATH "../../client_src/yaml/"
+#define PATH_FONT "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define PATH "/usr/local/share/counter2d/resources/client/"
 
 
 const struct Size RESOLUTION_STANDARD = {600, 600};

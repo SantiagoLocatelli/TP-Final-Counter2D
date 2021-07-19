@@ -1,8 +1,0 @@
-# enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB};
-
-- [../../common_src/img/weapons/onPlayer/knife.bmp, 0]
-- [../../common_src/img/weapons/onPlayer/glock.bmp, 1]
-- [../../common_src/img/weapons/onPlayer/m3.bmp, 2]
-- [../../common_src/img/weapons/onPlayer/ak47.bmp, 3]
-- [../../common_src/img/weapons/onPlayer/awp.bmp, 4]
-- [../../common_src/img/weapons/onPlayer/bomb.bmp, 5]
