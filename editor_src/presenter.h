@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include <vector>
-#include "../client_src/Character/camera.h"
+#include "../client_src/Character/Camera.h"
 #include "MenuManager.h"
 class Presenter{
     private:

@@ -4,13 +4,14 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "MenuManager.h"
 #include "presenter.h"
 class Editor : public Presenter{
     private:
-        SdlTexture helperBombsite, helperSpawnsite, helperPutTiles, helperTab, helperEsc, helperHide;
+        std::map<int, SdlTexture> helperMap;
 
         bool renderBombSites, renderSpawnSites, changeScene, hideHelper;
 

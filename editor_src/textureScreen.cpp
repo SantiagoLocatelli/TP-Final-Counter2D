@@ -2,11 +2,19 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
+
+enum keyForMap : int {FLOORS, WALLS, BACK, WEAPONS, ARROW, BACK_TO_EDITOR};
+
 TextureScreen::TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH),
-background(renderer, BACKGROUND), floors(renderer, FONT_PATH, FONT_SIZE, "Floors", 255, 255, 255),
-walls(renderer, FONT_PATH, FONT_SIZE, "Walls", 255, 255, 255), back(renderer, FONT_PATH, FONT_SIZE, "Back", 0, 0, 0),
-weapons(renderer, FONT_PATH, FONT_SIZE, "Weapons", 255, 255, 255), arrow(renderer, FONT_PATH, FONT_SIZE * 2, "->", 0, 0, 0),
-backToEditor(renderer, FONT_PATH, FONT_SIZE, "Back to Editor", 0, 0, 0){
+background(renderer, BACKGROUND){
+    std::vector<std::string> text = {"Floors", "Walls", "Back", "Weapons", "->", "Back to Editor"};
+    for (unsigned int i = 0; i < text.size(); i++){
+        if (text[i] == "Floors" || text[i] == "Walls" || text[i] == "Weapons"){
+            menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
+        }else{
+            menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 0, 0, 0));
+        }
+    }
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
     this->changeScene = false;
@@ -19,9 +27,9 @@ backToEditor(renderer, FONT_PATH, FONT_SIZE, "Back to Editor", 0, 0, 0){
 void TextureScreen::render(){
     SDL_Rect screen = Presenter::getCameraBox();
     if (renderFloors || renderWalls || renderWeapons){
-        this->arrow.render(screen.w - 40, Presenter::getTileSize() * 2);
-        this->arrow.renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
-        this->backToEditor.render(screen.w - backToEditor.getWidth(), screen.h - 20);
+        this->menuTextures.at(ARROW).render(screen.w - 40, Presenter::getTileSize() * 2);
+        this->menuTextures.at(ARROW).renderFlip(0, Presenter::getTileSize() * 2, SDL_FLIP_HORIZONTAL);
+        this->menuTextures.at(BACK_TO_EDITOR).render(screen.w - menuTextures.at(BACK_TO_EDITOR).getWidth(), screen.h - 20);
     }
     if (renderFloors){
         Presenter::renderMapFloors(page);
@@ -32,11 +40,11 @@ void TextureScreen::render(){
     }
     else{
         this->background.render(0, 0, screen.w, screen.h);
-        this->floors.render((screen.w - floors.getWidth())/2, (screen.h - floors.getHeight())/2 - 100);
-        this->walls.render((screen.w - walls.getWidth())/2, (screen.h - walls.getHeight())/2);
-        this->weapons.render((screen.w - weapons.getWidth())/2, (screen.h - weapons.getHeight())/2 + 100);
+        this->menuTextures.at(FLOORS).render((screen.w - menuTextures.at(FLOORS).getWidth())/2, (screen.h - menuTextures.at(FLOORS).getHeight())/2 - 100);
+        this->menuTextures.at(WALLS).render((screen.w - menuTextures.at(WALLS).getWidth())/2, (screen.h - menuTextures.at(WALLS).getHeight())/2);
+        this->menuTextures.at(WEAPONS).render((screen.w - menuTextures.at(WEAPONS).getWidth())/2, (screen.h - menuTextures.at(WEAPONS).getHeight())/2 + 100);
     }
-    this->back.render(0, screen.h - 20);
+    this->menuTextures.at(BACK).render(0, screen.h - 20);
 }
 
 void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
@@ -49,65 +57,65 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         if (event->button.button == SDL_BUTTON_LEFT){
             if (renderFloors){
                 Presenter::handleFloorsTexture(event, this->page);
-                if (back.isMouseTouching(0,screen.h - 20)){
+                if (menuTextures.at(BACK).isMouseTouching(0,screen.h - 20)){
                     this->chunk->playChunk(0);
                     renderFloors = false;
-                }else if (arrow.isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     page++;
-                }else if (arrow.isMouseTouching(0, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(0, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     if (this->page > 0){
                         this->page--;
                     }
-                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                }else if (menuTextures.at(BACK_TO_EDITOR).isMouseTouching(screen.w - menuTextures.at(BACK_TO_EDITOR).getWidth(), screen.h - 20)){
                     this->chunk->playChunk(0);
                     changeScene = true;
                 }
             }else if (renderWalls){
                 Presenter::handleWallsTexture(event, this->page);
-                if (back.isMouseTouching(0,screen.h - 20)){
+                if (menuTextures.at(BACK).isMouseTouching(0,screen.h - 20)){
                     this->chunk->playChunk(0);
                     renderWalls = false;
-                }else if (arrow.isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     page++;
-                }else if (arrow.isMouseTouching(0, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(0, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     if (this->page > 0){
                         this->page--;
                     }
-                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                }else if (menuTextures.at(BACK_TO_EDITOR).isMouseTouching(screen.w - menuTextures.at(BACK_TO_EDITOR).getWidth(), screen.h - 20)){
                     this->chunk->playChunk(0);
                     changeScene = true;
                 }
             }else if (renderWeapons){
                 Presenter::handleWeaponsTexture(event, this->page);
-                if (back.isMouseTouching(0,screen.h - 20)){
+                if (menuTextures.at(BACK).isMouseTouching(0,screen.h - 20)){
                     this->chunk->playChunk(0);
                     renderWeapons = false;
-                }else if (arrow.isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(screen.w - 40, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     page++;
-                }else if (arrow.isMouseTouching(0, Presenter::getTileSize() * 2)){
+                }else if (menuTextures.at(ARROW).isMouseTouching(0, Presenter::getTileSize() * 2)){
                     this->chunk->playChunk(0);
                     if (this->page > 0){
                         this->page--;
                     }
-                }else if (backToEditor.isMouseTouching(screen.w - backToEditor.getWidth(), screen.h - 20)){
+                }else if (menuTextures.at(BACK_TO_EDITOR).isMouseTouching(screen.w - menuTextures.at(BACK_TO_EDITOR).getWidth(), screen.h - 20)){
                     this->chunk->playChunk(0);
                     changeScene = true;
                 }
-            }else if (weapons.isMouseTouching((screen.w - weapons.getWidth())/2, (screen.h - weapons.getHeight())/2 + 100)){
+            }else if (menuTextures.at(WEAPONS).isMouseTouching((screen.w - menuTextures.at(WEAPONS).getWidth())/2, (screen.h - menuTextures.at(WEAPONS).getHeight())/2 + 100)){
                 this->chunk->playChunk(0);
                 renderWeapons = true;
-            }else if (floors.isMouseTouching((screen.w - floors.getWidth())/2, (screen.h - floors.getHeight())/2 - 100)){
+            }else if (menuTextures.at(FLOORS).isMouseTouching((screen.w - menuTextures.at(FLOORS).getWidth())/2, (screen.h - menuTextures.at(FLOORS).getHeight())/2 - 100)){
                 this->chunk->playChunk(0);
                 renderFloors = true;
-            }else if (walls.isMouseTouching((screen.w - walls.getWidth())/2, (screen.h - walls.getHeight())/2)){
+            }else if (menuTextures.at(WALLS).isMouseTouching((screen.w - menuTextures.at(WALLS).getWidth())/2, (screen.h - menuTextures.at(WALLS).getHeight())/2)){
                 this->chunk->playChunk(0);
                 renderWalls = true;
-            }else if (back.isMouseTouching(0, screen.h - 20)){
+            }else if (menuTextures.at(BACK).isMouseTouching(0, screen.h - 20)){
                 this->chunk->playChunk(0);
                 this->changeScene = true;
             }
