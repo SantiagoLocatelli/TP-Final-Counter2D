@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "SDL2/SDL.h"
 
 Camera::Camera(Size size){
     this->size = size;

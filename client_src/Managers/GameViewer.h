@@ -5,10 +5,10 @@
 #include "../common_src/Sdl/sdl_window.h"
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/TextTexture.h"
-#include "Character/ParticleBullets.h"
+#include "../../common_src/Camera.h"
 #include "Character/MainCharacter.h"
 #include "Character/Character.h"
-#include "Character/Camera.h"
+#include "ParticleBullets.h"
 #include "TextureManager.h"
 #include "SoundEffects.h"
 #include <algorithm>

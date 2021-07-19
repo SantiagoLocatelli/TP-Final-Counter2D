@@ -1,7 +1,7 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include "../levelInfo.h"
+#include "../client_src/levelInfo.h"
 #include "SDL2/SDL.h"
 
 class Camera {
