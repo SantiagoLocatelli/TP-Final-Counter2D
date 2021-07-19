@@ -464,6 +464,12 @@ void GameViewer::updateHud(LevelInfo level){
         sprintf(ammoText, "Ammo: %d", (int)level.mainPlayer.ammo);
         this->hud[AMMO]->setText(ammoText, HUD_COLOR);
     } 
+
+    if (this->level.mainPlayer.money != level.mainPlayer.money) {
+        char moneyText[100];
+        sprintf(moneyText, "$: %d", (int)level.mainPlayer.money);
+        this->hud[MONEY]->setText(moneyText, HUD_COLOR);
+    }
 }
 
 void GameViewer::update(LevelInfo newLevel){
