@@ -63,6 +63,8 @@ void Protocol::recv_float(float &f){
 }
 
 void Protocol::send_map_info(const MapInfo &mapInfo){
+    send_byte(mapInfo.terrorSkin);
+    send_byte(mapInfo.counterSkin);
     send_uint16t(mapInfo.height);
     send_uint16t(mapInfo.length);
 
@@ -85,9 +87,14 @@ void Protocol::send_map_info(const MapInfo &mapInfo){
         send_float(r.height);
         send_float(r.width);
     }
+    for (int i = 0; i < 3; i++){
+        send_uint16t(mapInfo.weaponPrices[i]);
+    }
 }
 
 void Protocol::recv_map_info(MapInfo &mapInfo){
+    recv_byte((char &)mapInfo.terrorSkin);
+    recv_byte((char &)mapInfo.counterSkin);
     recv_uint16t(mapInfo.height);
     recv_uint16t(mapInfo.length);
 
@@ -118,6 +125,9 @@ void Protocol::recv_map_info(MapInfo &mapInfo){
         recv_float(r.height);
         recv_float(r.width);
         mapInfo.spawnSites.push_back(r);
+    }
+    for (int i = 0; i < 3; i++){
+        recv_uint16t(mapInfo.weaponPrices[i]);
     }
 }
 
@@ -178,9 +188,10 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(modelInfo.bomb.timeRemaining);
     }
 
-    send_byte(modelInfo.state.roundState);
     send_byte(modelInfo.state.gameState);
-    send_byte(modelInfo.state.endResult);
+    send_byte(modelInfo.state.roundState);
+    if (modelInfo.state.roundState == END)
+        send_byte(modelInfo.state.endResult);
     send_float(modelInfo.timeRemaining);
 }
 
@@ -250,9 +261,10 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         recv_float(modelInfo.bomb.timeRemaining);
     }
 
-    recv_byte((char &)modelInfo.state.roundState);
     recv_byte((char &)modelInfo.state.gameState);
-    recv_byte((char &)modelInfo.state.endResult);
+    recv_byte((char &)modelInfo.state.roundState);
+    if (modelInfo.state.roundState == END)
+        recv_byte((char &)modelInfo.state.endResult);
     recv_float(modelInfo.timeRemaining);
 }
 
