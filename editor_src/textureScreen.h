@@ -1,13 +1,15 @@
 #ifndef __TEXTURE_SCREEN_H__
 #define __TEXTURE_SCREEN_H__
 #include "presenter.h"
+#include <map>
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/Sdl/sdl_renderer.h"
 #include "../common_src/Sdl/sdl_mixer.h"
 class TextureScreen : public Presenter{
     private:
         bool changeScene, renderFloors, renderWalls, renderWeapons;
-        SdlTexture background, floors, walls, back, weapons, arrow, backToEditor;
+        SdlTexture background;
+        std::map<int, SdlTexture>menuTextures;
         std::unique_ptr<SdlMixer> chunk;
         int page;
     public:

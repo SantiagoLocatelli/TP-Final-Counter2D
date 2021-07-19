@@ -1,5 +1,5 @@
-#include "eventManager.h"
-#include "gameMath.h"
+#include "EventManager.h"
+#include "GameMath.h"
 #include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
@@ -77,9 +77,6 @@ void EventManager::run(){
                                 break;
                         }
                         this->com.send_event(event);
-                    }
-                    if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == SDLK_b) && (e.key.repeat == 0)){
-                        this->game.toggleBuyMenu(); 
                     }
                     break; 
 

@@ -15,7 +15,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include_directories(${PROJECT_SOURCE_DIR}/client_src)
 include_directories(${PROJECT_SOURCE_DIR}/client_src/Character)
-include_directories(${PROJECT_SOURCE_DIR}/client_src/Events)
+include_directories(${PROJECT_SOURCE_DIR}/client_src/Managers)
+include_directories(${PROJECT_SOURCE_DIR}/client_src/Menu)
 include_directories(${PROJECT_SOURCE_DIR}/server_src)
 include_directories(${PROJECT_SOURCE_DIR}/server_src/game_model)
 include_directories(${PROJECT_SOURCE_DIR}/common_src)
@@ -26,7 +27,8 @@ include_directories(${PROJECT_SOURCE_DIR}/editor_src)
 #CLIENT
 file(GLOB CLIENT_SRC_FILES "client_src/*.cpp")
 file(GLOB CHARACTER_SRC_FILES "client_src/Character/*.cpp")
-file(GLOB EVENTS_SRC_FILES "client_src/Events/*.cpp")
+file(GLOB MANAGERS_SRC_FILES "client_src/Managers/*.cpp")
+file(GLOB MENUS_SRC_FILES "client_src/Menu/*.cpp")
 
 #SERVER
 file(GLOB SERVER_SRC_FILES "server_src/*.cpp")
@@ -42,14 +44,14 @@ file(GLOB COMMON_SRC_FILES "common_src/*.cpp")
 file(GLOB SDL_SRC_FILES "common_src/Sdl/*.cpp")
 
 # add the executable
-add_executable(Client client_src/main.cpp ${CLIENT_SRC_FILES} ${CHARACTER_SRC_FILES} ${EVENTS_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES})
+add_executable(Client client_src/main.cpp ${CLIENT_SRC_FILES} ${CHARACTER_SRC_FILES} ${MENUS_SRC_FILES} ${MANAGERS_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES})
 target_link_libraries(Client SDL2 SDL2_image SDL2_ttf SDL2_mixer pthread yaml-cpp)
 
 add_executable(Server server_src/main.cpp ${SERVER_SRC_FILES}
         ${COMMON_SRC_FILES} ${GAME_MODEL_SRC_FILES} ${GAME_MANAGEMENT_SRC_FILES} ${COMMUNICATIONS_SRC_FILES})
 target_link_libraries(Server box2d pthread yaml-cpp)
 
-add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/camera.cpp")
+add_executable(Editor editor_src/main.cpp ${EDITOR_SRC_FILES} ${COMMON_SRC_FILES} ${SDL_SRC_FILES} "client_src/Character/Camera.cpp")
 target_link_libraries(Editor SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
 
 

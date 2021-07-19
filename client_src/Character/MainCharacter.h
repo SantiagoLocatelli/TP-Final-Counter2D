@@ -2,9 +2,9 @@
 #define __MAIN_CHARACTER_H__
 
 #include "../levelInfo.h"
-#include "character.h"
-#include "crosshair.h"
-#include "stencil.h"
+#include "Character.h"
+#include "Crosshair.h"
+#include "Stencil.h"
 
 class MainCharacter: public Character {
 
@@ -14,6 +14,7 @@ private:
     Stencil st;
     float health;
     int ammo;
+    int money;
 
 public:
 

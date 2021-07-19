@@ -1,23 +1,20 @@
+#include "yaml-cpp/yaml.h"
 #include <dirent.h>
-#include "Menu.h"
 #include <algorithm>
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <memory>
-#include "yaml-cpp/yaml.h"
+#include "Menu.h"
 
 #define MAPS_PATH "../../common_src/maps/"
 
 #define WINDOW_LABEL "Counter Strike 2D - Main Menu"
 #define BACKGROUND_PATH "../../common_src/img/counter.jpeg"
 #define SIZE_FONT 30
-#define QUIT 0
-#define NEW_GAME 1
-#define JOIN 2
-#define BACK 3
-#define CONFIRM 4
-#define TITLE 5
+
+#define HOVER 0
+#define SHOT 1
 
 #define MAX_PLAYERS 10
 #define MIN_PLAYERS 2 
@@ -27,7 +24,7 @@
 #define PATH_FONT "../../common_src/img/digital-7.ttf"
 #define PATH "../../client_src/yaml/"
 
-const struct Color NEGRO = {0x00, 0x00, 0x00};
+const struct Color BLACK = {0x00, 0x00, 0x00};
 const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
 const struct Color WHITE = {0xff, 0xff, 0xff};
 const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
@@ -52,7 +49,7 @@ void Menu::loadSkins(SdlRenderer& renderer){
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
         std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
         SkinType skin = (SkinType) texture.second;
-        this->skins[skin] = std::unique_ptr<SdlTexture> (new SdlTexture(renderer, texture.first, NEGRO.r, NEGRO.g, NEGRO.b));
+        this->skins[skin] = std::unique_ptr<SdlTexture> (new SdlTexture(renderer, texture.first, BLACK.r, BLACK.g, BLACK.b));
     }
 }
 
@@ -197,10 +194,11 @@ void Menu::createGame(bool& joined_game, bool& quit, Event& event){
     std::string nameGame = " ";
     int quanPlayers = MIN_PLAYERS;
 
-    SDL_PumpEvents();
     bool back = false;
     while (!joined_game && !quit && !back) {
         while (SDL_PollEvent(&e) != 0 && !quit) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -240,7 +238,7 @@ void Menu::createGame(bool& joined_game, bool& quit, Event& event){
                 }
             } 
             if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT && this->buttons[CONFIRM]->isMouseTouching()) {
-                if (!nameSelected) {
+                if (!nameSelected && (nameGame.compare(" ") != 0)) {
                     nameSelected = true;
                     SDL_StopTextInput();
                 } else if (!playersSelected) {
@@ -304,9 +302,10 @@ void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
 
     SDL_Event e;
     bool back = false;
-    SDL_PumpEvents();
     while (!joined_game && !quit && !back) {
         while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -402,10 +401,11 @@ void Menu::makeChooseResolution(bool& quit, Size& resolution){
     
 
     SDL_Event e;
-    SDL_PumpEvents();
     bool selected = false;
     while (!quit && !selected) {
         while (SDL_PollEvent(&e) != 0 && !quit && !selected) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -428,10 +428,11 @@ void Menu::run(bool& joined_game, Size& windowSize){
 
     Event event;
     SDL_Event e;
-    SDL_PumpEvents();
     bool quit = false;
     while (!joined_game && !quit) {
         while (SDL_PollEvent(&e) != 0 && !joined_game) {
+            if (e.type == SDL_MOUSEMOTION)
+                continue;
             if (e.type == SDL_QUIT) {
                 quit = true;  
             } else if ((e.type == SDL_MOUSEBUTTONDOWN) && e.button.button == SDL_BUTTON_LEFT) {
@@ -447,6 +448,7 @@ void Menu::run(bool& joined_game, Size& windowSize){
         this->renderInitMenu();
     }
     if (joined_game) {
+        //makechoose skin
         makeChooseResolution(quit, windowSize);
         this->server.send_event(event);
     }

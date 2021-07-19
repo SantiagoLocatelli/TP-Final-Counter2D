@@ -1,5 +1,5 @@
 #include "GameManager.h"
-#include "Events/gameMath.h"
+#include "GameMath.h"
 
 #define METERS_TO_SHOW 10
 #define SIZE_SMALL_GUN 0
@@ -49,7 +49,7 @@ void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
 void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate player) {
     weapon.type = prot.weapons[prot.currentSlot];
 
-    Size phaseShift = {(int) (this->pixelsPerMeter.w*0.35),(int) (this->pixelsPerMeter.h*0.1)};
+    Size phaseShift = {(int) (this->pixelsPerMeter.w*0.1),(int) (this->pixelsPerMeter.h*0.1)};
 
     // SMALL GUN    
     if (weapon.type == KNIFE || weapon.type == PISTOL || weapon.type == BOMB) {
@@ -69,7 +69,6 @@ void GameManager::updateWeapon(WeaponInfo& weapon, ProtPlayer prot, Coordinate p
     weapon.posAnim.y = Math::senoOppHyp(prot.angle, ((this->pixelsPerMeter.h + phaseShift.h)/2)) + player.y;
 }
 
-
 void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
 
     player.dead = prot.dead;
@@ -86,7 +85,6 @@ void GameManager::updatePlayer(PlayerInfo& player, ProtPlayer prot) {
     }
 }
 
-
 void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
     if (prot.planted) {
         translatePosition(bomb.pos, {prot.x, prot.y});
@@ -96,16 +94,17 @@ void GameManager::updateBomb(BombInfo& bomb, ProtBomb prot) {
     bomb.planted = prot.planted;
 }
 
-
 void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
 
+    level.state = model.state;
+    level.timeRemaining = model.timeRemaining;
     // Si no esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
     level.mainPlayer.dead = model.you.dead;
 
     if (!level.mainPlayer.dead) {
         level.mainPlayer.ammo = model.you.ammo;
-
+        level.mainPlayer.money = model.you.money;
         if (level.mainPlayer.health > model.you.health) {
             level.mainPlayer.damaged = true;
         } else {
@@ -151,7 +150,6 @@ void GameManager::translateRect(BoxInfo& box, RectArea rect){
     box.size.w = Math::metersToPixels(rect.width, 1.0, this->pixelsPerMeter.w);
     box.size.h = Math::metersToPixels(rect.height, 1.0, this->pixelsPerMeter.h);
 }
-
 
 void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const ModelInfo& model){
     

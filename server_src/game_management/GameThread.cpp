@@ -35,11 +35,18 @@ void GameThread::run(){
         queue.push(model);
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(2)); 
+    bool clientsReady;
+    do{
+        clientsReady = true;
+        for (std::unique_ptr<ClientManager> &cli: clients){
+            if (!cli->isReady()){
+                clientsReady = false;
+            }
+        }
+    }while (!clientsReady);
 
 
     try{
-        
         Stopwatch stopwatch;
         do{
             stopwatch.start();

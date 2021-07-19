@@ -1,6 +1,6 @@
-#include "SoundEffects.h"
 #include "../common_src/GeneralException.h"
 #include "yaml-cpp/yaml.h"
+#include "SoundEffects.h"
 #include <string>
 
 #define PATH_PLAYER_SOUNDS "../../client_src/yaml/playerSounds.yaml"
@@ -59,6 +59,7 @@ SoundEffects::~SoundEffects(){
     for(auto it = this->weaponsEffects.begin(); it != this->weaponsEffects.end(); it++){
         Mix_FreeChunk(it->second);
     }
+    Mix_CloseAudio();
     Mix_Quit();
 }
 

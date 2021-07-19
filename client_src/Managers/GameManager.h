@@ -1,11 +1,9 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "../common_src/MapInfo.h"
 #include "../common_src/ModelInfo.h"
-#include "GameViewer.h"
+#include "../common_src/MapInfo.h"
 #include "levelInfo.h"
-#include "SoundEffects.h"
 #include <map>
 
 class GameManager {

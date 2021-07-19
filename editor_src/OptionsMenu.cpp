@@ -6,17 +6,17 @@
 #define FONT_PATH "../../common_src/img/digital-7.ttf"
 #define BACKGROUND "../../common_src/img/counter.jpeg"
 #define CHUNK_PATH "../../common_src/sound/pressButton.mp3"
+enum keyForMap : int {WIDTH, HEIGHT, SAVE_MAP, BACK, QUIT_TO_MENU, QUIT};
+
 OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH)
-  : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND),
-    widthTexture(renderer, FONT_PATH, FONT_SIZE, "WIDTH:", 255, 255, 255),
-    heightTexture(renderer, FONT_PATH, FONT_SIZE, "HEIGHT:", 255, 255, 255),
-    save(renderer, FONT_PATH, FONT_SIZE, "Save Map", 255, 255, 255),
-    back(renderer, FONT_PATH, FONT_SIZE, "Back", 255, 255, 255),
-    quitToMenu(renderer, FONT_PATH, FONT_SIZE, "Go back to Menu", 255, 255, 255),
-    quit(renderer, FONT_PATH, FONT_SIZE, "Quit", 255, 255, 255){
-    this->changeScene = false;
+  : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND){
+    std::vector<std::string> text = {"WIDTH", "HEIGHT", "Save Map", "Back", "Go back to Menu", "Quit"};
+    for (unsigned int i = 0; i < text.size(); i++){
+        menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
+    }
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
+    this->changeScene = false;
     this->renderText = false;
     this->selectedTexture = NULL;
     std::vector<SDL_Rect> aux;
@@ -53,20 +53,20 @@ void OptionsMenu::render(){
     int blanckSpace = 50;
     SDL_Rect screen = Presenter::getCameraBox();
     this->backgroundTexture.render(0, 0, screen.w, screen.h);
-    this->save.render(screen.w - 100, 0);
-    this->back.render(0, screen.h - 20);
-    this->quit.render(screen.w - quit.getWidth(), screen.h - quit.getHeight());
-    this->quitToMenu.render(0,0);
+    this->menuTextures.at(SAVE_MAP).render(screen.w - 100, 0);
+    this->menuTextures.at(BACK).render(0, screen.h - 20);
+    this->menuTextures.at(QUIT).render(screen.w - menuTextures.at(QUIT).getWidth(), screen.h - menuTextures.at(QUIT).getHeight());
+    this->menuTextures.at(QUIT_TO_MENU).render(0,0);
     for (unsigned int i = 0; i < inputOrder.size(); i++){
         if (i % 2 == 0){
             posY += 50;
-            this->textTexture[i/2].render((screen.w - textTexture[i/2].getWidth())/2 - widthTexture.getWidth()*2 - blanckSpace*2, posY);
-            this->widthTexture.render((screen.w - widthTexture.getWidth())/2 - widthTexture.getWidth() - blanckSpace, posY);
-            this->heightTexture.render((screen.w - heightTexture.getWidth())/2 + heightTexture.getWidth() + blanckSpace, posY);
-            posX = (screen.w - heightTexture.getWidth())/2;
+            this->textTexture[i/2].render((screen.w - textTexture[i/2].getWidth())/2 - menuTextures.at(WIDTH).getWidth()*2 - blanckSpace*2, posY);
+            this->menuTextures.at(WIDTH).render((screen.w - menuTextures.at(WIDTH).getWidth())/2 - menuTextures.at(WIDTH).getWidth() - blanckSpace, posY);
+            this->menuTextures.at(HEIGHT).render((screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth() + blanckSpace, posY);
+            posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2;
         }
         this->inputOrder[i]->render(posX, posY);
-        posX = (screen.w - heightTexture.getWidth())/2 + heightTexture.getWidth()*2 + blanckSpace*2;
+        posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + blanckSpace*2;
     }
 }
 
@@ -80,22 +80,22 @@ void OptionsMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
             SDL_Rect screen = Presenter::getCameraBox();
-            if (save.isMouseTouching(screen.w - 100, 0)){
+            if (menuTextures.at(SAVE_MAP).isMouseTouching(screen.w - 100, 0)){
                 this->chunk->playChunk(0);
                 Presenter::saveMap();
-            }else if (back.isMouseTouching(0, screen.h - 20)){
+            }else if (menuTextures.at(BACK).isMouseTouching(0, screen.h - 20)){
                 this->chunk->playChunk(0);
                 this->changeScene = true;
-            }else if (quitToMenu.isMouseTouching(0, 0)){
+            }else if (menuTextures.at(QUIT_TO_MENU).isMouseTouching(0, 0)){
                 Presenter::goToMenu();
                 this->changeScene = true;
-            }else if (quit.isMouseTouching(screen.w - quit.getWidth(), screen.h - 20)){
+            }else if (menuTextures.at(QUIT).isMouseTouching(screen.w - menuTextures.at(QUIT).getWidth(), screen.h - 20)){
                 Presenter::quit();
             }else{
                 for (unsigned int i = 0; i < inputOrder.size(); i++){
                     if (i % 2 == 0){
                         posY += 50;
-                        posX = (screen.w - heightTexture.getWidth())/2;
+                        posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2;
                     }
                     if (inputOrder[i]->isMouseTouching(posX, posY)){
                         this->chunk->playChunk(0);
@@ -106,7 +106,7 @@ void OptionsMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                         this->selectedTexture->setColor(255, 255, 0);
                         break;
                     }
-                    posX = (screen.w - heightTexture.getWidth())/2 + heightTexture.getWidth()*2 + blanckSpace*2;
+                    posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + blanckSpace*2;
                 }
             }
         }

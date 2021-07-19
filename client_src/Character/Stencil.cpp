@@ -1,5 +1,4 @@
-#include "stencil.h"
-#include "../Events/gameMath.h"
+#include "Stencil.h"
 
 #define OPACITY 225
 #define PATH_STENCIL "../../common_src/img/stencil.bmp"

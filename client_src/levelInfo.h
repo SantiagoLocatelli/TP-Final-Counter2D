@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 #include "../../common_src/ModelInfo.h"
-#include "SoundEffects.h"
+#include "Managers/SoundEffects.h"
 
 struct Color {
     uint8_t r,g,b;
@@ -56,6 +56,7 @@ struct MainPlayerInfo: public PlayerInfo {
     float health;
     int ammo;
     bool damaged;
+    int money;
 };
 
 struct BulletInfo {
@@ -76,10 +77,14 @@ struct BombInfo {
     float time;
 };
 
+
+
 struct LevelInfo{
     Size size;
     
     BombInfo bomb;
+    float timeRemaining;
+    ProtState state;
 
     std::vector<TileInfo> tiles;
     std::list<BoxInfo> bombSites;
