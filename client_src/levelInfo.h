@@ -77,6 +77,9 @@ struct BombInfo {
 struct LevelInfo{
     Size size;
     
+    SkinType terrorSkin;
+    SkinType counterskin;
+    std::map<WeaponType, uint16_t> weaponPrices;
     BombInfo bomb;
     float timeRemaining;
     ProtState state;

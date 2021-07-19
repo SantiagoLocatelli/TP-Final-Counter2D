@@ -31,6 +31,7 @@ public:
     void render();
     Size getSize();
     void setCoordinate(Coordinate pos);
+    void setOpacity(uint8_t opacity);
 };
 
 #endif

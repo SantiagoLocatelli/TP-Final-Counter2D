@@ -9,7 +9,8 @@ struct Color {
 
 const struct Color WHITE = {0xff, 0xff, 0xff};
 const struct Color BLACK = {0x00, 0x00, 0x00};
-const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
+const struct Color HUD_TEXT_COLOR = {0x00, 0xBB, 0x2D}; // verde fluor
+const struct Color HUD_MENU_COLOR = {0xAD, 0x86, 0x33}; // medio que dorado/amarillo
 const struct Color FONDO_ARMA = {0xFF, 0x00, 0xFF};
 const struct Color ROJO_CLARO = {0xa7, 0x03, 0x03};
 const struct Color ROJO = {0xff, 0x00, 0x00};
