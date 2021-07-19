@@ -193,5 +193,15 @@ void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const Mo
     level.mainPlayer.currentSlot = model.you.currentSlot;
     updatePlayer(level.mainPlayer, model.you);
 
+    level.counterskin = map.counterSkin;
+    level.terrorSkin = map.terrorSkin;
+
+    level.weaponPrices[SNIPER] = map.weaponPrices[0];
+    printf(" precio de la sniper: %d\n", map.weaponPrices[0]);
+    level.weaponPrices[SHOTGUN] = map.weaponPrices[1];
+    printf(" precio de la shotgn: %d\n", map.weaponPrices[1]);
+    level.weaponPrices[RIFLE] = map.weaponPrices[2];
+    printf(" precio de la rifle: %d\n", map.weaponPrices[2]);
+
     updatedLevel(level, model);
 }

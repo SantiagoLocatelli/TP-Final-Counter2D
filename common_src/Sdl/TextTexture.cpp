@@ -15,6 +15,11 @@ TextTexture::TextTexture(SdlRenderer& renderer, std::string path, int size):
     this->size = {0, 0};
 }
 
+void TextTexture::setOpacity(uint8_t opacity){
+	SDL_SetTextureBlendMode(this->mTexture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(this->mTexture, opacity);
+}
+
 void TextTexture::setText(std::string text, struct Color color){
     SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, text.c_str(), {color.r,color.g,color.b});
     if (textSurface == NULL) {

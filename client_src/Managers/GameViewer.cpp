@@ -1,11 +1,9 @@
 #include "GameViewer.h"
 #include "../../common_src/Colors.h"
-#include "GameMath.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdio>
 #include <memory>
-#include <thread>
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "../../common_src/img/pointer.bmp"
@@ -17,6 +15,7 @@
 #define OPACITY_DAMAGE 100
 #define SIZE_DAMAGE 25
 
+#define OPACITY_TEXT_HUD 200
 #define OPACITY_MENU 150
 #define SIZE_BORDER_MENU 5
 
@@ -26,6 +25,10 @@
 #define DELAY_SOUND_BOMB_QUICK 5
 #define ABOUT_TO_EXPLODE 5.0
 
+
+#define BUY_RIFLE 0
+#define BUY_SNIPER 8
+#define BUY_SHOTGUN 9
 
 const struct Size SIZE_SMALL_GUN = {22, 32};
 const struct Size SIZE_BIG_GUN = {20, 60};
@@ -47,17 +50,19 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     loadHudTextures();
 }
 
-SkinType getPjSkin(PlayerInfo player) {
+SkinType GameViewer::getPjSkin(PlayerInfo player) {
     if (player.team == COUNTER) {
-        return (SkinType) Math::getRandomNumberBetween((int)CT1, (int)CT4);
+        return this->level.counterskin;
     }
-    return (SkinType) Math::getRandomNumberBetween((int)TT1, (int)TT4);
+    return this->level.terrorSkin;
 }
 
 void GameViewer::loadPlayers(Size window){
     srand((unsigned)time(NULL));
     WeaponType mainWeaponType = this->level.mainPlayer.weapon.type;
     SkinType mainSkinType = getPjSkin(this->level.mainPlayer);
+
+
     this->mainPlayer = std::unique_ptr<MainCharacter> (new MainCharacter( level.mainPlayer, *(this->textureManager.getSkin(mainSkinType)), 
                 std::move(CrossHair(SIZE_CROSSHAIR, SIZE_CROSSHAIR, std::move(SdlTexture(renderer, PATH_POINTER, FONDO_ARMA.r, FONDO_ARMA.g, FONDO_ARMA.b)))),
                 std::move(Stencil(this->renderer, window)), this->weapons[mainWeaponType]));
@@ -92,23 +97,23 @@ void GameViewer::loadHudTextures(){
     char ammoText[100];
     sprintf(ammoText, "Ammo: %d", this->level.mainPlayer.ammo);
     this->hud[AMMO] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[AMMO]->setText(ammoText, HUD_COLOR);
+    this->hud[AMMO]->setText(ammoText, HUD_TEXT_COLOR);
     
     char healtText[100];
     sprintf(healtText, "Health: %d", (int)this->level.mainPlayer.health);
     this->hud[HEALTH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[HEALTH]->setText(healtText, HUD_COLOR);
+    this->hud[HEALTH]->setText(healtText, HUD_TEXT_COLOR);
 
     char moneyText[100];
     sprintf(moneyText, "$: %d", (int)this->level.mainPlayer.money);
     this->hud[MONEY] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
-    this->hud[MONEY]->setText(moneyText, HUD_COLOR);
+    this->hud[MONEY]->setText(moneyText, HUD_TEXT_COLOR);
 
     this->hud[TIME] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_DIGITAL, 30));
 
     this->hud[TITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/40));
     this->hud[SUBTITLE] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 20));
-    this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, 12));
+    this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/65));
 }
 
 void GameViewer::renderPlayers(Coordinate cam) {
@@ -189,13 +194,16 @@ void GameViewer::renderHud(){
 
     Size sizeAmmo =  this->hud[AMMO]->getSize();
     Coordinate dstAmmo = { cam.w - MARGIN - sizeAmmo.w, cam.h - MARGIN - sizeAmmo.h};
+    this->hud[AMMO]->setOpacity(OPACITY_TEXT_HUD);
     this->hud[AMMO]->render(dstAmmo);
 
     Size sizeHealth = this->hud[HEALTH]->getSize();
     Coordinate dstHealth = {MARGIN, cam.h - MARGIN - sizeHealth.h};
+    this->hud[HEALTH]->setOpacity(OPACITY_TEXT_HUD);
     this->hud[HEALTH]->render(dstHealth);
 
     Coordinate dstMoney = {MARGIN, MARGIN};
+    this->hud[MONEY]->setOpacity(OPACITY_TEXT_HUD);
     this->hud[MONEY]->render(dstMoney);
 
     if (this->level.bomb.planted) {
@@ -204,7 +212,7 @@ void GameViewer::renderHud(){
         sprintf(timeBomb, "Bomb: %d", (int)this->level.bomb.time);
         // seteo el color segun el tiempo restante
         if (this->level.bomb.time > ABOUT_TO_EXPLODE) {
-            this->hud[TIME]->setText(timeBomb, HUD_COLOR);
+            this->hud[TIME]->setText(timeBomb, HUD_TEXT_COLOR);
         } else {
             this->hud[TIME]->setText(timeBomb, ROJO_CLARO);
         }
@@ -214,7 +222,7 @@ void GameViewer::renderHud(){
     } else {
         char time[100];
         sprintf(time, "Time: %d", (int)this->level.timeRemaining);
-        this->hud[TIME]->setText(time, HUD_COLOR);
+        this->hud[TIME]->setText(time, HUD_TEXT_COLOR);
         Size sizeTime = this->hud[TIME]->getSize();
         Coordinate dstTime = {cam.w/2 - sizeTime.w/2, cam.h - MARGIN - sizeTime.h};
         this->hud[TIME]->render(dstTime);
@@ -379,7 +387,7 @@ void GameViewer::showRoundState(){
         Coordinate teamPos = {cam.w/2 - teamsize.w/2, menu.y + SIZE_BORDER_MENU + MARGIN};
 
         SDL_Rect title = {menu.x + SIZE_BORDER_MENU, menu.y + SIZE_BORDER_MENU, menu.w, teamsize.h + MARGIN};
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU + 50);
+        this->renderer.setDrawColor(HUD_MENU_COLOR.r, HUD_MENU_COLOR.g, HUD_MENU_COLOR.b, OPACITY_MENU + 50);
         this->renderer.fillRect(title);
         this->hud[TITLE]->render(teamPos);
         
@@ -389,7 +397,7 @@ void GameViewer::showRoundState(){
         Coordinate textPos = {cam.w/2 - textSize.w/2, teamPos.y + teamsize.h + MARGIN};
 
         SDL_Rect description = {title.x, title.y + title.h, menu.w, menu.h - title.h};
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.setDrawColor(HUD_MENU_COLOR.r, HUD_MENU_COLOR.g, HUD_MENU_COLOR.b, OPACITY_MENU);
         this->renderer.fillRect(description);
         this->hud[SUBTITLE]->render(textPos);
 
@@ -405,21 +413,21 @@ void GameViewer::renderBuyMenu(){
         SDL_Rect menu = {cam.w/6, cam.h/6, 2*cam.w/3 - SIZE_BORDER_MENU, 2*cam.h/3 - SIZE_BORDER_MENU};
         Size border = {menu.w + SIZE_BORDER_MENU, menu.h + SIZE_BORDER_MENU};
         Coordinate pos = {menu.x, menu.y};
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.setDrawColor(HUD_MENU_COLOR.r, HUD_MENU_COLOR.g, HUD_MENU_COLOR.b, OPACITY_MENU);
         this->renderer.fillRect(menu);
         this->renderBorder(pos, border, SIZE_BORDER_MENU, BLACK, 255);
 
         SDL_Rect box = {menu.x + cam.w/12, menu.y + cam.h/24, cam.w/2, cam.h/6};
         char text[100];
-        sprintf(text, "Press 8 to buy Awp:");
+        sprintf(text, "Press %d to buy Awp: $ %d", BUY_SNIPER, this->level.weaponPrices[SNIPER]);
         renderWeaponOnMenu(SNIPER, box, {cam.w/12, cam.h/12}, text);
         box.y = box.y + cam.h/6 + cam.h/24;
 
-        sprintf(text, "Press 9 to buy Shotgun:");
+        sprintf(text, "Press %d to buy Shotgun: $ %d", BUY_SHOTGUN, this->level.weaponPrices[SHOTGUN]);
         renderWeaponOnMenu(SHOTGUN, box, {cam.w/12, cam.h/12}, text);
         
         box.y = box.y + cam.h/6 + cam.h/24;
-        sprintf(text, "Press 0 to buy Rifle:");
+        sprintf(text, "Press %d to buy Rifle: $ %d", BUY_RIFLE, this->level.weaponPrices[RIFLE]);
         renderWeaponOnMenu(RIFLE, box, {cam.w/12, cam.h/12}, text);
     }
 }
@@ -444,7 +452,7 @@ void GameViewer::showGameState() {
         Coordinate pos = {menu.x, menu.y};
         SDL_Rect titleRect = {menu.x, menu.y, menu.w, menu.h/2};
 
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU + 50);
+        this->renderer.setDrawColor(HUD_MENU_COLOR.r, HUD_MENU_COLOR.g, HUD_MENU_COLOR.b, OPACITY_MENU + 50);
         this->renderer.fillRect(titleRect);
         this->hud[TITLE]->setText(title, WHITE);
         Size sizeTitle = this->hud[TITLE]->getSize();
@@ -452,7 +460,7 @@ void GameViewer::showGameState() {
         this->hud[TITLE]->render(posTitle);
         
         SDL_Rect textRect = {menu.x, menu.y + titleRect.h, menu.w, menu.h/2};
-        this->renderer.setDrawColor(HUD_COLOR.r, HUD_COLOR.g, HUD_COLOR.b, OPACITY_MENU);
+        this->renderer.setDrawColor(HUD_MENU_COLOR.r, HUD_MENU_COLOR.g, HUD_MENU_COLOR.b, OPACITY_MENU);
         this->renderer.fillRect(textRect);
         char text[100];
         sprintf(text, "Press Enter to exit...");
@@ -505,20 +513,20 @@ void GameViewer::updateHud(LevelInfo level){
     if (this->level.mainPlayer.health != level.mainPlayer.health) {
         char healtText[100];
         sprintf(healtText, "Health: %d", (int)level.mainPlayer.health);
-        this->hud[HEALTH]->setText(healtText, HUD_COLOR);
+        this->hud[HEALTH]->setText(healtText, HUD_TEXT_COLOR);
     } 
 
     if (this->level.mainPlayer.ammo != level.mainPlayer.ammo) {
         
         char ammoText[100];
         sprintf(ammoText, "Ammo: %d", (int)level.mainPlayer.ammo);
-        this->hud[AMMO]->setText(ammoText, HUD_COLOR);
+        this->hud[AMMO]->setText(ammoText, HUD_TEXT_COLOR);
     } 
 
     if (this->level.mainPlayer.money != level.mainPlayer.money) {
         char moneyText[100];
         sprintf(moneyText, "$: %d", (int)level.mainPlayer.money);
-        this->hud[MONEY]->setText(moneyText, HUD_COLOR);
+        this->hud[MONEY]->setText(moneyText, HUD_TEXT_COLOR);
     }
 }
 
