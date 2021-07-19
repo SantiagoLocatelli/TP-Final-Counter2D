@@ -1,12 +1,13 @@
 #ifndef __SDL_TTF_H__
 #define __SDL_TTF_H__
 
-#include <SDL2/SDL.h>
+#include "../../client_src/levelInfo.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "sdl_renderer.h"
-#include "../../client_src/levelInfo.h"
+#include <SDL2/SDL.h>
 #include <string>
+#include "../Colors.h"
 
 class TextTexture{
 

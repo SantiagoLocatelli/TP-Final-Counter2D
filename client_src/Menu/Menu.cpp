@@ -1,3 +1,5 @@
+#include "Menu.h"
+#include "../../common_src/Colors.h"
 #include "yaml-cpp/yaml.h"
 #include <dirent.h>
 #include <algorithm>
@@ -5,7 +7,6 @@
 #include <cstring>
 #include <string>
 #include <memory>
-#include "Menu.h"
 
 #define MAPS_PATH "../../common_src/maps/"
 
@@ -24,15 +25,10 @@
 #define PATH_FONT "../../common_src/img/digital-7.ttf"
 #define PATH "../../client_src/yaml/"
 
-const struct Color BLACK = {0x00, 0x00, 0x00};
-const struct Color HUD_COLOR = {0xAD, 0x86, 0x33};
-const struct Color WHITE = {0xff, 0xff, 0xff};
-const struct SDL_Rect FRAME_TO_SHOW = {32, 32, 32, 32};
 
 const struct Size RESOLUTION_STANDARD = {600, 600};
 const struct Size RESOLUTION_SEMI_HIGH = {800, 800};
 const struct Size RESOLUTION_HIGH = {1000, 1000};
-
 
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 

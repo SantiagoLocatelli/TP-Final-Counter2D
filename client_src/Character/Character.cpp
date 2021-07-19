@@ -1,9 +1,10 @@
-#include "Character.h"
 #include "../Managers/GameMath.h"
+#include "Character.h"
 #include <utility>
 
 #define DELAY_SOUND 6
 #define PHASE_SHIFT 90
+
 const SDL_Rect SRC_KNIFE = {0, 0, 32, 32};
 const SDL_Rect SRC_BIG_GUN = {0, 64, 32, 32};
 const SDL_Rect SRC_PISTOL = {32, 32, 32, 32};

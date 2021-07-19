@@ -1,4 +1,5 @@
 #include "IpMenu.h"
+#include "../../common_src/Colors.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -8,7 +9,6 @@
 #define FONT_SIZE 26
 #define FONT_SIZE_TYPE 20
 
-const struct Color WHITE = {0xFF, 0xFF, 0xFF};
 enum TextTextureType : int {PUT_TEXT, VARIABLE_TEXT};
 
 IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
