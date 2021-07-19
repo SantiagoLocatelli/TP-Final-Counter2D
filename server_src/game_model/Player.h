@@ -34,7 +34,6 @@ class Player: public Hittable{
         void setBody(float x, float y);
 
     public:
-        //TODO: No me gusta que esto sea público
         bool canMove;
         bool shot;
         

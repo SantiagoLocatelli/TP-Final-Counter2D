@@ -94,7 +94,7 @@ std::list<ProtDrop> WorldParser::get_weapons(){
         ProtDrop drop;
         if (weapons[i] != -1){
             drop.pos.x = i%length;
-            drop.pos.y = i/height;
+            drop.pos.y = i/length;
             drop.type = (WeaponType)weapons[i];
             drops.push_back(drop);
         }

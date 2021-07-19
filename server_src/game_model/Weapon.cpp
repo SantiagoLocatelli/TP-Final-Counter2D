@@ -67,7 +67,9 @@ float Weapon::calculateDamage(float distance){
     float r = ((float) rand()) / (float) RAND_MAX;
     float damage = config.getWeapon(type, "minDamage") + (r * (config.getWeapon(type, "maxDamage") - config.getWeapon(type, "minDamage")));
     //El daño disminuye con la distancia
-    damage *= 1/(distance*config.getWeapon(type, "falloff")+1);
+    damage -= config.getWeapon(type, "falloff")*distance;
+    if (damage < 0)
+        return 0;
 
     return damage;
 }

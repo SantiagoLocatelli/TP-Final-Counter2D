@@ -55,13 +55,11 @@ class World{
         std::list<Drop*> getDrops();
         void destroyBody(b2Body *body);
 
-        //TODO: Pasar estos métodos a su propia clase 
         bool bombExploded();
         void defuseBomb();
         bool bombDefused();
         bool bombPlanted();
 
-        //TODO: Hacer estas tres como canBuy (le pasas el player)
         bool canPlant(float x, float y);
         bool canDefuse(float x, float y);
         void plantBomb(float x, float y);
