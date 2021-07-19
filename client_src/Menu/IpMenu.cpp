@@ -26,8 +26,11 @@ IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
 }
 
 void IpMenu::start(){
+
+
     bool quit = false;
     SDL_Event event;
+    SDL_PollEvent(&event);
     isPort = false;
     while (!quit) {
         while (SDL_PollEvent(&event)){
@@ -41,10 +44,10 @@ void IpMenu::start(){
                     if (variableText[0] == ' '){
                         variableText.erase(variableText.begin());
                     }
-                    if (isPort){
+                    if (isPort && variableText.compare("") != 0 ){
                         this->port = variableText;
                         quit = true;
-                    }else{
+                    }else if (variableText.compare("") != 0){
                         this->ip = variableText;
                         this->variableText = "";
                         this->map[PUT_TEXT]->setText("Type the Port", WHITE);
