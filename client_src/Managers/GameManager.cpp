@@ -28,15 +28,18 @@ void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
     bullet.pos.y += Math::senoOppHyp(prot.angle, this->pixelsPerMeter.h/2);
     
     Position distanceMeters;
-    distanceMeters.x = Math::cosAdHyp(prot.angle, prot.distance);
-    distanceMeters.y = Math::senoOppHyp(prot.angle, prot.distance);
+    distanceMeters.x = Math::cosAdHyp(prot.angle, prot.distance + 1);
+    distanceMeters.y = Math::senoOppHyp(prot.angle, prot.distance + 1);
 
     Coordinate distancePixels;
-    translatePosition(distancePixels, distanceMeters);
+    // translatePosition(distancePixels, distanceMeters);
+    translatePosition(bullet.dst, distanceMeters);
+    bullet.dst.x += bullet.pos.x;
+    bullet.dst.y += bullet.pos.y;
 
-    int distance = Math::pythagoras(distancePixels.x, distancePixels.y) + 5;
-    bullet.dst.x = Math::cosAdHyp(prot.angle, distance) + bullet.pos.x;
-    bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
+    // int distance = Math::pythagoras(distancePixels.x, distancePixels.y) + 5;
+    // bullet.dst.x = Math::cosAdHyp(prot.angle, distance) + bullet.pos.x;
+    // bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
 }
 
 void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){
@@ -197,11 +200,8 @@ void GameManager::initializeLevel(LevelInfo& level, const MapInfo& map, const Mo
     level.terrorSkin = map.terrorSkin;
 
     level.weaponPrices[SNIPER] = map.weaponPrices[0];
-    printf(" precio de la sniper: %d\n", map.weaponPrices[0]);
     level.weaponPrices[SHOTGUN] = map.weaponPrices[1];
-    printf(" precio de la shotgn: %d\n", map.weaponPrices[1]);
     level.weaponPrices[RIFLE] = map.weaponPrices[2];
-    printf(" precio de la rifle: %d\n", map.weaponPrices[2]);
 
     updatedLevel(level, model);
 }

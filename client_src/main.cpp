@@ -72,7 +72,6 @@ int main(int argc, char* argv[]){
             }
         }
 
-        eventManager.stop();
         eventManager.join();
 
         // es para mostrar el resultado final de la partida

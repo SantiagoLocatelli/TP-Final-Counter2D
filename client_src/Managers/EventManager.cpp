@@ -13,6 +13,8 @@ void EventManager::run(){
             switch (e.type) {
                 case SDL_QUIT:
                     this->gameEnded = true; 
+                    e.type = SDL_QUIT;
+                    SDL_PushEvent(&e);
                     break;
 
                 //Ambos casos hacen lo mismo
@@ -112,10 +114,4 @@ void EventManager::run(){
     } catch (const std::exception &e){
         std::cerr << "ERROR en `EventManager`: " << e.what() << std::endl;
     }
-}
-
-void EventManager::stop(){
-    SDL_Event e;
-    e.type = SDL_QUIT;
-    SDL_PushEvent(&e);
 }
