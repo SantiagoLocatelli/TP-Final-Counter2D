@@ -39,7 +39,7 @@ void World::step(float delta){
         bomb.timeRemaining -= delta;
     }
 
-    b2world.Step(delta, 10, 9);
+    b2world.Step(delta, 8, 3);
 
     for (b2Body *b : bodiesToDestroy){
         //Aca elimino todos los drops
