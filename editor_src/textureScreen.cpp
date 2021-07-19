@@ -126,8 +126,6 @@ void TextureScreen::handleEvents(SDL_Event* event, SdlRenderer& renderer){
     }
 }
 
-void TextureScreen::aceptChanges(){}
-
 std::string TextureScreen::getTitle(){
     return "Select Texture";
 }

@@ -27,6 +27,5 @@ class OptionsMenu : public Presenter{
         std::string getTitle() override;
         void aceptChanges() override;
         bool finish() override;
-        void init();
 };
 #endif

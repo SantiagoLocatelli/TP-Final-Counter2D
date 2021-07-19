@@ -29,15 +29,10 @@ class SdlTexture{
 
 		bool isMouseTouching(int posX, int posY);
 		bool isMouseTouching(int posX, int posY, int width, int height);
-
-		//Loads image at specified path
-		//bool loadFromFile(std::string path, SDL_Renderer*& renderer);
 		
-		#if defined(SDL_TTF_MAJOR_VERSION)
 		//Creates image from font string
 		bool loadFromRenderedText(std::string textureText, SDL_Color textColor,
              SDL_Renderer*& renderer, TTF_Font*& font);
-		#endif
 
 		void free();
 
