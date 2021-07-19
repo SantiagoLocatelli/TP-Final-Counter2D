@@ -8,7 +8,7 @@ enum WeaponType : char {KNIFE, PISTOL, SHOTGUN, RIFLE, SNIPER, BOMB, NO_WEAPON};
 
 enum RoundState : char {BUY, MIDDLE, END};
 
-enum GameState : char{PLAYING, T_WON, CT_WON, TIE};
+enum GameState : char {PLAYING, T_WON, CT_WON, TIE};
 
 enum RoundResult : char {T_DEAD, BOMB_DEFUSED, TIME_ENDED, /*CT WIN*/
                        CT_DEAD, BOMB_EXPLODED}; /*T WIN*/

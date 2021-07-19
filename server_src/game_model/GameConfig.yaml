@@ -7,6 +7,8 @@ Game:
   roundsPerSide: 1
   wonRoundMoney: 400
   lostRoundMoney: 250
+  terrorSkin: 2
+  counterSkin: 5
 
 Player:
   health: 100
