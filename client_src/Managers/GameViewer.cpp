@@ -345,9 +345,9 @@ void GameViewer::renderWeaponOnMenu(WeaponType weapon, SDL_Rect box, Size unit, 
     weaponOnPj->render(cam.w/2 + unit.w + weaponSize.w/2, weaponPos.y, 15, unit.h, NULL, 90.0);
 
 
-    SdlTexture* skin = this->textureManager.getSkin(CT1);
+    SdlTexture* skin = this->textureManager.getSkin(this->level.counterskin);
     if (this->level.mainPlayer.team == TERROR) {
-        skin = this->textureManager.getSkin(TT1);
+        skin = this->textureManager.getSkin(this->level.terrorSkin);
     }
     SDL_Rect clip = {0, 64, 32, 32};
     skin->render(cam.w/2 + unit.w, weaponPos.y, weaponSize.w, weaponSize.h, &clip, 90.0);

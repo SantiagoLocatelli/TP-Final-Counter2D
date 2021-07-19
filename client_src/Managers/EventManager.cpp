@@ -1,6 +1,6 @@
-#include "../../common_src/SocketClosedException.h" 
 #include "EventManager.h"
 #include "GameMath.h"
+#include "../../common_src/SocketClosedException.h"
 #include <iostream>
 
 EventManager::EventManager(Protocol& com, bool& gameEnded, GameViewer& game):com(com), gameEnded(gameEnded), game(game){}
@@ -13,8 +13,6 @@ void EventManager::run(){
             switch (e.type) {
                 case SDL_QUIT:
                     this->gameEnded = true; 
-                    e.type = SDL_QUIT;
-                    SDL_PushEvent(&e);
                     break;
 
                 //Ambos casos hacen lo mismo
@@ -72,8 +70,6 @@ void EventManager::run(){
                                 event.type = BUY_WEAPON;
                                 event.info.type = RIFLE;
                                 break;
-                            
-
                             case SDLK_g:
                                 event.type = DROP_WEAPON;
                                 break;
@@ -88,15 +84,9 @@ void EventManager::run(){
                     switch (e.button.button){
                         case SDL_BUTTON_LEFT:
                             event.type = TOGGLE_WEAPON;
-                            break;
-                        case SDL_BUTTON_RIGHT:
-                            // apuntar con mira o cambiar modo
-                            break;
-                        case SDL_BUTTON_MIDDLE:
-                            // cualquier que se les ocurra
+                            this->com.send_event(event);
                             break;
                     }
-                    this->com.send_event(event);
                     break;
                 case SDL_MOUSEMOTION:
                     Coordinate pos = game.mainPlayerRelativePos();
@@ -114,4 +104,10 @@ void EventManager::run(){
     } catch (const std::exception &e){
         std::cerr << "ERROR en `EventManager`: " << e.what() << std::endl;
     }
+}
+
+void EventManager::stop(){
+    SDL_Event e;
+    e.type = SDL_QUIT;
+    SDL_PushEvent(&e);
 }

@@ -22,24 +22,12 @@ void GameManager::translatePosition(Coordinate& coord, Position pos){
 
 void GameManager::updateBullet(BulletInfo& bullet, Bullet prot) {
     translatePosition(bullet.pos, prot.pos);
-
-    // es para que la bullet salga desde el arma y no desde el centro del jugador
     bullet.pos.x += Math::cosAdHyp(prot.angle, this->pixelsPerMeter.w/2);
     bullet.pos.y += Math::senoOppHyp(prot.angle, this->pixelsPerMeter.h/2);
     
-    Position distanceMeters;
-    distanceMeters.x = Math::cosAdHyp(prot.angle, prot.distance + 1);
-    distanceMeters.y = Math::senoOppHyp(prot.angle, prot.distance + 1);
-
-    Coordinate distancePixels;
-    // translatePosition(distancePixels, distanceMeters);
-    translatePosition(bullet.dst, distanceMeters);
-    bullet.dst.x += bullet.pos.x;
-    bullet.dst.y += bullet.pos.y;
-
-    // int distance = Math::pythagoras(distancePixels.x, distancePixels.y) + 5;
-    // bullet.dst.x = Math::cosAdHyp(prot.angle, distance) + bullet.pos.x;
-    // bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
+    int distance = Math::metersToPixels(prot.distance, 1, this->pixelsPerMeter.w) + 5;
+    bullet.dst.x = Math::cosAdHyp(prot.angle, distance) + bullet.pos.x;
+    bullet.dst.y = Math::senoOppHyp(prot.angle, distance) + bullet.pos.y;
 }
 
 void GameManager::updateDrop(DropInfo& drop, ProtDrop prot){

@@ -19,6 +19,7 @@ public:
     ~EventManager() = default;
 
     void run() override;
+    void stop();
 
     EventManager& operator=(const EventManager&) = delete;
     EventManager(const EventManager&) = delete;

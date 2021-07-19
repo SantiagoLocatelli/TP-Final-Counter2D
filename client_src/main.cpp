@@ -78,8 +78,6 @@ int main(int argc, char* argv[]){
             return 0;
         }
 
-        eventManager.join();
-
         // es para mostrar el resultado final de la partida
         SDL_Event e;
         bool quit = false;
