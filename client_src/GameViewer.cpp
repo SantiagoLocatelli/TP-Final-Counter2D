@@ -152,7 +152,13 @@ void GameViewer::renderMap(Coordinate cam){
         uint8_t tile = this->level.tiles[i].id;
         Coordinate pos = this->level.tiles[i].pos;
         Size size = this->level.tiles[i].size;
-        this->textureManager.getTiles(tile)->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
+        TextureInfo tileInfo = this->textureManager.getTileInfo(tile);
+
+        if (tileInfo.clip.x == -1) {
+            this->textureManager.getTiles(tile)->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h);
+        } else {
+            this->textureManager.getTiles(tile)->render(pos.x-cam.x, pos.y-cam.y, size.w, size.h, &tileInfo.clip);
+        }
     }
 }
 

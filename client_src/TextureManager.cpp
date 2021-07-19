@@ -115,6 +115,7 @@ void TextureManager::loadTiles(SdlRenderer& renderer, std::vector<TileInfo> tile
     
     for (uint8_t tile : distinctTiles) {
         this->tiles[tile] = new SdlTexture(renderer, textureMap[tile].texturePath); 
+        this->tilesInfo[tile] = textureMap[tile];
     }
 }
 
@@ -183,3 +184,4 @@ SdlTexture* TextureManager::getWeaponOnFloor(WeaponType weapon){return (this->we
 SdlTexture* TextureManager::getWeaponAnim(WeaponType weapon){return (this->animWeaponOnPj[weapon]);}
 SdlTexture* TextureManager::getSkin(SkinType skin){return (this->skins[skin]);}
 SdlTexture* TextureManager::getTiles(uint8_t tile){return (this->tiles[tile]);}
+TextureInfo TextureManager::getTileInfo(uint8_t tileInfo){return this->tilesInfo[tileInfo];}

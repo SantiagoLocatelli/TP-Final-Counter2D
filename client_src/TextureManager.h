@@ -21,6 +21,7 @@ private:
     std::map<WeaponType, SdlTexture*> weaponsOnFloor;
     std::map<WeaponType, SdlTexture*> weaponsOnHud;
     std::map<uint8_t, SdlTexture*> tiles;
+    std::map<uint8_t, TextureInfo> tilesInfo;
 
     void loadTiles(SdlRenderer& renderer, std::vector<TileInfo> tiles);
     void loadTexturesWeapons(SdlRenderer& renderer);
@@ -42,6 +43,7 @@ public:
     SdlTexture* getWeaponAnim(WeaponType weapon);
     SdlTexture* getSkin(SkinType skin);
     SdlTexture* getTiles(uint8_t tile);
+    TextureInfo getTileInfo(uint8_t tileInfo);
 };
 
 #endif
