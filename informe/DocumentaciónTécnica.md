@@ -5,12 +5,20 @@
 
 # Documentación técnica
 
-## Requerimientos de software
-
 ## Descripción general
 
-## Editor
+El proyecto consta de 3 módulos principales. El Servidor, el Cliente, y el Editor.
+
+### Editor
 El editor se encarga de editar o crear mapas implementando *drag and drop*, *point and click*, varios menús distintos con textos claros para ser *user friendly* y  utilizando la librería SDL para renderizar las texturas.
+
+### Cliente
+El cliente se encarga de la interacción con el usuario, ya sea para unirse al servidor, tanto como para recibir la información actualizada del juego, y mediante una interfaz gráfica adecuada, mostrarsela al jugador.
+
+### Server
+El servidor es el programa encargado de mantener las partidas funcionando. Todos los clientes mandan las acciones que quieren realizar y el servidor les responde a todos con un modelo de juego actualizado. El servidor tiene que poder soportar múltiples partidas con varios jugadores cada una.
+
+## Editor
 
 ### EventLoop
 Dentro del main se encuentra el principal *event loop* el cual crea un stack de la clase `Presenter` para facilitar la navegación entre menús.
@@ -57,8 +65,6 @@ Encargada de mostrar todas las texturas que se encuentran en el programa, dividi
 <img src='img/SequenceDiagramTextureScreen.jpeg?raw=true'>
 
 ## Cliente
-
-El cliente se encarga de la interacción con el usuario, ya sea para unirse al servidor, tanto como para recibir la información actualizada del juego, y mediante una interfaz gráfica adecuada, mostrarsela al jugador.
 
 ### Character
 
@@ -124,7 +130,6 @@ Según todas las clases comentadas, se deja una ilustración de como seria el Ga
 <img src='img/GameLoop.png?raw=true'>
 
 ## Servidor
-El servidor es el programa encargado de mantener las partidas funcionando. Todos los clientes mandan las acciones que quieren realizar y el servidor les responde a todos con un modelo de juego actualizado. El servidor tiene que poder soportar múltiples partidas con varios jugadores cada una.
 
 ### Accepter
 La clase `Accepter` se encarga de aceptar las conexiones de todos los clientes. Cuando se conecta un nuevo cliente se lo pasa al LobbyManager para que realice toda la comunicación y poder continuar aceptando.

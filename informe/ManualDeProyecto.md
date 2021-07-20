@@ -30,7 +30,7 @@ El sistema multijugador se debe realizar a través de un protocolo TCP, junto a 
 
 Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo, el siguiente listado es un aproximado:
 
-#### Juan Bautista xifro: Editor
+#### Juan Bautista Xifro: Editor
 - Menú inicial, servidor a unirse.
 - Drag and Drop.
 - Point and Click.
@@ -40,34 +40,46 @@ Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo
 - Renderizado de texturas.
 - Encapsulamiento en clases RAII de funciones SDL.
 - Manejo de eventos Editor.
+- Armado de CMake para todo el proyecto.
 
-#### Tomás Rodriguez Dala
+#### Tomás Rodriguez Dala: Servidor
+- Manejo de Sockets.
+- Protocolo de comunicación entre el cliente y servidor.
+- Manejo de múltiples clientes y partidas.
+- Lógica del juego.
+    - Jugadores
+    - Armas
+    - Drops
+    - Etc.
+- Detección de colisiones con Box2d.
+- Ray casting con Box2d.
+- Armado del script de instalación.
 
-#### Santiago Locatelli
+#### Santiago Locatelli: Cliente
 
-- Animaciones baśicas.
+- Animaciones básicas.
 - Renderizado de texturas.
 - Inclusión de sonido al juego.
 - Renderizado del Hud.
 - Armado de menu de compra.
 - Menu inicial, crear o unirse a una partida.
-- Logica de movimiento de camara.
-- Logica del stencil.
+- Lógica de movimiento de camara.
+- Lógica del stencil.
 - Representación de los objetos en el motor gráfico.
 - Encapsulamiento en clases RAII de funciones SDL.
 
 ## Evolución del Proyecto
 
 #### Semana 1 (08/06/2021)
-- Servidor: Simulación baśica de colisiones.
+- Servidor: Simulación básica de colisiones.
 - Cliente: Renderizado básico de texturas.
 - Editor: Encapsulamiento de herramientas SDL.
 #### Semana 2 (15/06/2021)
 - Servidor: Protocolo básico.
-- Cliente: Lógica de camara y movimiento de jugador.
+- Cliente: Lógica de cámara y movimiento de jugador.
 - Editor: Investigación en documentación para el Editor.
 #### Semana 3 (22/06/2021)
-- Servidor: Envio y recepción de eventos en distintos hilos.
+- Servidor: Envío y recepción de eventos en distintos hilos.
 - Cliente: Animaciones, stencil. Primera representación del jugador en el motor gráfico.
 - Editor: Primer modelo editor, se puede editar mapas.
 #### Semana 4 (29/06/2021)
@@ -89,51 +101,43 @@ Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo
 
 
 ## Inconvenientes Encontrados
+### Cliente
+- La biblioteca Box2D se maneja mejor en metros que en píxeles, y SDL se maneja en píxeles, por lo que esto llevó a una conversión que provocó algunos obtáculos.
 
-La biblioteca Box2D se maneja mejor en metros que en pixeles, y SDL se maneja en pixeles, por lo que esto llevó a una conversión que provocó algunos obtáculos.
+### Servidor
+- Para simular los disparos en la partida tuve que aprender sobre ray casting en box2d. Cada cuerpo de box2d tiene un objeto `Hittable` adentro y la clase `b2World` puede hacer ray casting de manera eficiente. Además gracias al polimorfismo, las cajas pueden bloquear balas ya que también son de tipo `Hittable`.
+- Para simular los drops Box2d proporciona un tipo de cuerpo especial llamada "sensor". Los sensores permiten detectar colisiones con otros cuerpos sin frenar su movimiento. 
 
-Por parte del servidor, el simulamiento de los disparos, armas.
-
-Por parte del editor, el ajuste del tamaño del mapa manteniendo el orden de las texturas.
+### Editor
+- El ajuste del tamaño del mapa manteniendo el orden de las texturas.
 
 ## Análisis de Puntos Pendientes
 
-Por parte del cliente, un mejor manejo del Stencil
+Por parte del cliente, un mejor manejo del Stencil. Y mostrar las estadísticas de cada jugador al finalizar la partida.
 
 Por parte del Editor, un mejor uso de las imagenes *tilemaps* y un modelado de las clases un poco mas modularizado.
 
 ## Herramientas
 
-- Box2D
+- Box2D: Para la simulación de colisiones, disparos y objetos físicos.
 
-Para la simulación de colisiones, disparos y objetos físicos.
-- SDL
+- SDL: Para la realización del motor gráfico, y el editor de mapas.
 
-Para la realización del motor gráfico, y el editor de mapas.
-- Yaml
+- Yaml-cpp: Parseo de archivos de tipo yaml.
 
-Parseo de archivos.
-- CMake
+- CMake: Automatización compilación del proyecto.
 
-Automatización compilación del proyecto.
-- Make
+- Make: Integración con cmake para la compilación de proyecto.
 
-Integración con cmake para la compilación de proyecto.
-- Valgrind
+- Valgrind: Manejo de errores de memoria.
 
-Manejo de errores de memoria.
-- GDB
+- GDB: Debugg de errores.
 
-Debugg de errores.
-- Git/GitHub
+- Git/GitHub: Para control de versiones y alojamiento del proyecto.
 
-Para control de versiones y alojamiento del proyecto.
-- Visual Studio Code
+- Visual Studio Code: Desarrollo del código fuente.
 
-Desarrollo del código fuente.
-- Discord
-
-Reuniones y discutir sobre cuestiones de interés.
+- Discord: Reuniones y discutir sobre cuestiones de interés.s
 
 ## Conclusiones
 
