@@ -26,7 +26,6 @@
 #define DELAY_SOUND_BOMB_QUICK 5
 #define ABOUT_TO_EXPLODE 5.0
 
-
 #define BUY_RIFLE 0
 #define BUY_SNIPER 8
 #define BUY_SHOTGUN 9
@@ -140,7 +139,6 @@ void GameViewer::renderPlayers(Coordinate cam) {
             it->render(cam);
 
             PlayerInfo player = it->getInfo();
-            // setVolume(player.pos);
             int volume = setVolume(player.pos);
             for (PlayerEffect effect : player.sounds) {
                 this->sounds.playPlayerSound(effect, volume);
@@ -184,7 +182,6 @@ void GameViewer::renderMap(Coordinate cam){
 void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
     PlayerInfo player = this->mainPlayer->getInfo();
-    // this->sounds.setVolume(100);
 
     for (PlayerEffect effect : player.sounds) {
         this->sounds.playPlayerSound(effect, 100);
@@ -330,7 +327,6 @@ void GameViewer::renderBomb(Coordinate cam){
         this->delaySound++;
         int volume = setVolume(pos);
 
-        // setVolume(this->level.bomb.pos);
         // seteo el delay segun el tiempo restante
         if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
             this->sounds.playWeaponSound(BOMB_PIP, volume); 

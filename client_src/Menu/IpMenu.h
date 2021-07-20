@@ -13,12 +13,14 @@ class IpMenu{
     private:
         SdlWindow window;
         SdlRenderer renderer;
+        Mix_Music *music;
         SdlTexture background;
         bool renderText, isPort;
         std::string ip, port, variableText;
         std::map<int, std::unique_ptr<TextTexture>> map;
     public:
         IpMenu();
+        ~IpMenu();
         void start();
         std::string getIp();
         std::string getPort();

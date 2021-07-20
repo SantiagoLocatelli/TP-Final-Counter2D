@@ -31,7 +31,6 @@ int main(int argc, char* argv[]){
             return 0;
         } 
 
-
         MapInfo map;
         ModelInfo model;
         bool loading = true;
@@ -62,7 +61,7 @@ int main(int argc, char* argv[]){
             server.send_event(ready);
 
             server.recv_model_info(model);
-            while (joined_game && !model.game_ended) {
+            while (!model.game_ended) {
                 stopwatch.start();
                 server.recv_model_info(model);
                 gameManager.updatedLevel(level, model);
