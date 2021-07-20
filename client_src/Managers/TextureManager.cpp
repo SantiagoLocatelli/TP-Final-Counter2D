@@ -1,7 +1,7 @@
 #include "TextureManager.h"
 #include "../../common_src/Colors.h"
 #include "yaml-cpp/yaml.h"
-#include "levelInfo.h"
+#include "LevelInfo.h"
 #include <iostream>
 
 #define PATH "/usr/local/share/counter2d/resources/client/"

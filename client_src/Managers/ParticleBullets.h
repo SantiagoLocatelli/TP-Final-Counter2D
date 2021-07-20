@@ -3,7 +3,7 @@
 
 #include "../../common_src/Sdl/sdl_renderer.h"
 #include "../../common_src/ModelInfo.h"
-#include "levelInfo.h"
+#include "LevelInfo.h"
 
 class ParticleBullets{
 private:

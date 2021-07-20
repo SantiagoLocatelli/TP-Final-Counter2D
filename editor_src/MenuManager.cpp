@@ -512,9 +512,11 @@ void MenuManager::changeTexture(const SDL_Rect& camera){
 void MenuManager::putBombSites(const int numberOfBombs){
     if (numberOfBombs == 1 && this->rectSites.size() == 4){
         this->rectSites.erase("B");
+        this->needsToSave = "*";
     }else if (numberOfBombs == 2 && this->rectSites.size() == 3){
         this->rectSites.emplace("B", new Draggable(this->renderer, BOMB_SITE_B, 100, 400, 255, 0, 0));
         this->rectSites["B"]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
+        this->needsToSave = "*";
     }
 }
 

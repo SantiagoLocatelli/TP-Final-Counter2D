@@ -1,0 +1,72 @@
+@startuml
+class main
+
+class GameList{
+    - map<string, GameInfo> gameInfoList
+    - mutex m
+
+    + void createGame(GameInfo gameInfo)
+    + void joinGame(string name, Protocol protocol)
+    + list<GameInfo> getAvaliableGames()
+}
+
+abstract Thread{
+    - thread thread
+
+    - {abstract} void run()  
+    + void start()
+    + void join()
+}
+
+class Accepter{
+    - void run()
+    + void stop()
+}
+
+class LobbyManager{
+    - void run()
+    + bool finished()
+}
+
+class GameThread{
+    - void run()
+    
+    + void addPlayer(Protocol protocol)
+    + bool ended()
+}
+
+class Protocol{
+    - void send_uint16t(const uint16_t &buf)
+    - void recv_uint16t(uint16_t &buf)
+    - void send_byte(const char &byte)
+    - void recv_byte(char &byte)
+
+    + void send_game_list(const list<GameInfo> &gameList)
+    + void recv_game_list(list<GameInfo> &gameList)
+    + void send_event(const Event event)
+    + void recv_event(Event &event)
+}
+
+class Socket{
+    - int fd
+    - bool is_server
+
+    + Socket accept_one()
+    + void close_socket()
+    + void send_buffer(const char *buf, size_t len)
+    + void recv_buffer(char *buf, size_t len)
+}
+
+main *-- GameList
+main *-- Accepter
+Accepter --|> Thread
+LobbyManager --|> Thread
+GameThread --|> Thread
+Accepter o-- GameList
+Accepter *-- Socket
+Accepter --> LobbyManager
+GameList *-- "*" GameThread
+LobbyManager o-- GameList
+LobbyManager *-- Protocol
+Protocol *-- Socket
+@enduml

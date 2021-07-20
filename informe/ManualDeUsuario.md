@@ -1,4 +1,4 @@
-<img src='img/logo_fiuba.png?raw=true'>
+<img src='img/logo_fiuba.png?raw|true'>
 
 # Taller de Programación I - (75.42/95.08)
 # Trabajo Práctico Final - Counter-Strike-2D -
@@ -45,6 +45,18 @@ Una vez adentro de la partida los controles son los siguientes:
 - `8 9 0`: Comprar armas
 
 ### Editor
+**IMPORTANTE** debido a que se deben tener permisos de súper usuario el editor se debe correr con sudo.
+ejemplo de uso: `sudo counter2dEditor`
+Una vez inicia los menús se manes con el click izquierdo del mouse.
+Si se decide crear un mapa se puede introducir un nombre a este y luego con la tecla ```ENTER``` se podrá empezar a editarlo.
+```Click derecho``` para introducir texturas al mapa.
+```ESCAPE``` abre el menú de opciones dentro del el para cambiar los números se puede hacer click en ellos y poner o borrar a gusto.
+```TAB``` abre el menú donde se encuentran las texturas donde se puede hacer click izquierdo en la que se quiera usar.
+```Mantener 1``` para mostrar los bombSites (se pueden arrastrar con click izquierdo).
+```Mantener 2``` para mostrar los spawnSites (se pueden arrastrar con click izquierdo).
+``Apretar 9``` para pausar o reanudar la musica.
+```Apretar 3``` para ocultar o mostrar el texto de ayuda.
+```CTRL S``` para guardar.
 
 ## Configuración
 El archivo de configuración se encuentra en `/usr/local/share/counter2d/resources/server/GameConfig.yaml`. Se pueden modificar todos los valores para cambiar el comportamiento de distintos elementos del juego. A continuación menciono que representa cada valor.

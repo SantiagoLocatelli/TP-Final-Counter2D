@@ -1,7 +1,7 @@
 #ifndef __GAMEMATH_H__
 #define __GAMEMATH_H__
 
-#include "../levelInfo.h"
+#include "../LevelInfo.h"
 
 class Math{
     public:

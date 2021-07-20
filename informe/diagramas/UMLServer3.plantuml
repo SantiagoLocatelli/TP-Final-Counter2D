@@ -1,0 +1,127 @@
+@startuml
+class World{
+    - CollisionHandler collisionHandler
+    - list<b2Body*> bodiesToDestroy
+    - ProtBomb bomb
+    - MapInfo mapInfo
+    - list<ProtDrop> startingDrops
+    + b2World b2world
+    + GameConfig &config     
+
+    - bool positionInArea(float x, float y, RectArea area)
+    - b2Vec2 getValidPosition(RectArea area)
+    - void addDrop(Weapon *weapon, float x, float y)
+    + vector<Player> &getPlayers()
+    + list<Drop*> getDrops()
+    + void destroyBody(b2Body *body)
+    + void step(float delta)
+    + void resetWorld(bool changeTeams)  
+    + bool canPlant(float x, float y)
+    + bool canDefuse(float x, float y)
+    + void plantBomb(float x, float y)
+}
+
+class Player{
+World &world
+    - b2Body *body
+    - GameConfig &config
+    - array<bool, 4> movement
+    - WeaponSlot currentWeapon
+    - WeaponSlot slotToDestroy
+    - bool dead
+    - float health
+    - float angle
+    - Team team
+    - bool defusing
+    - float defuseTime
+    - int money
+    + bool canMove
+
+    + void reset(float x, float y, Team team)
+    + void step(float delta)
+    + void toggleMovement(Direction dir)
+    + void updateVelocity()
+    + void toggleWeapon()
+    + void recvDamage(float damage)
+    + bool isDead() 
+    + void dropWeapon()
+    + bool canTake(Weapon *weapon)
+    + void takeWeapon(Weapon *weapon)
+    + void changeWeapon(WeaponSlot slot)
+    + void toggleDefuse()
+    + void buyWeapon(WeaponType weaponType)
+}
+
+class Box{
+    + void recvDamage(float damage) 
+    + bool isBox() 
+}
+
+abstract Hittable{
+    # b2Fixture *fixture
+
+    + {abstract} void recvDamage(float damage)
+    + b2Vec2 getPosition()
+    + {abstract} bool isBox() 
+}
+
+class CollisionHandler{
+    - void BeginContact(b2Contact* contact)      
+}
+
+class Drop{
+    - b2Body *body
+    - b2Fixture *fixture
+
+    + Weapon *getWeapon()
+    + array<float, 2> getPosition()
+    + Weapon *getTaken()
+}
+
+class RayCaster{
+    - b2World &world
+    - float fraction
+
+    - float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
+    + float castRay(Ray ray, Hittable *&hit)
+}
+
+abstract Weapon{
+    - WeaponType type
+    - WeaponSlot slot
+    - GameConfig &config
+    - int bullets
+    - float reloadTime
+    - float shootTime
+    - bool toggled
+    - RayCaster rayCaster
+
+    - float calculateDamage(float distance)
+    + void changeOwner(Player *newOwner)
+    + World *getWorld()
+    + WeaponType getType()
+    + WeaponSlot getSlot()
+    + int getAmmo()
+    + void toggle()
+    + void reload()
+    + void step(float delta)
+    + void shootBullet()
+    + int getPrice()
+}
+
+World *-- CollisionHandler
+World *-- "*" Player
+World *-- "*" Box
+World --> Drop
+CollisionHandler --> Hittable
+CollisionHandler --> Drop
+Box --|> Hittable
+Player o-- World
+Player --|> Hittable
+Player o-- "4" Weapon
+RayCaster --> Hittable
+Drop o-- Weapon
+Weapon *-- RayCaster
+Weapon o-- Player
+Weapon o-- World
+@enduml

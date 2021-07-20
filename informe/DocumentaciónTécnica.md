@@ -58,6 +58,71 @@ Encargada de mostrar todas las texturas que se encuentran en el programa, dividi
 
 ## Cliente
 
+El cliente se encarga de la interacción con el usuario, ya sea para unirse al servidor, tanto como para recibir la información actualizada del juego, y mediante una interfaz gráfica adecuada, mostrarsela al jugador.
+
+### Character
+
+Se encarga de la representación básica de un jugador en el motor gráfico. Permite, actualizar la información del mismo, y renderizarlo.
+
+### Weapon
+
+Esta clase nos permite la representación gráfica de las armas, independientemente del tipo, con sus respectiva animación.
+
+### MainCharacter
+
+Es una clase que hereda de la clase `Character`, la cual difiera de esta, ya que `MainCharacter` cuenta con un `Stencil` y una `CrossHair`. Es decir, contiene más información que la clase `Character`, y permite lo mismo.
+
+### Stencil
+
+Clase que otorga el comportamiento esperado de la técnica de dibujo stencil.
+
+### CrossHair
+
+Clase que brinda la renderización de la mira del personaje.
+
+#### Ilustación de como se relacionan las clases
+<img src='img/Character.png?raw=true'>
+
+### GameManager
+
+Tiene como responsabilidad traducir lo que manda el servidor. Traduce de metros a pixeles, tiene dos métodos importantes, los cuales son **initializeLevel** y **updatedLevel**.
+
+### GameViewer
+
+Esta clase es el eje principal de toda la interfaz de usuario, actualiza toda la información del juego, segun el nuevo modelo que se le mande, y por otro lado tambien se encarga de renderizar y mostrar todo lo que pasa al usuario.
+
+### ParticleBullets
+
+Otorga el comportamiento para renderizar las balas.
+
+### SoundEffects
+
+Esta clase se encarga de cargar todos los sonidos a través de yamls, y brinda los métodos correspondiente para reproducirlos.
+
+### TextureManager
+
+Tiene un comportamiento similar a `SoundEffects`, pero con texturas, las carga desde yamls, y se encarga de destruirlas.
+
+<img src='img/Managers.png?raw=true'>
+
+### EventManager
+
+Clase que se encarga del envío de eventos del jugador, en un hilo diferente.
+
+### GameMath
+
+Esta clase encapsula ciertos calculos que se hacen durante la traducción de metros a pixeles.
+
+### Menus
+
+Este paquete se encarga del todo el comportamiento de interacción con el usuario, como unirse al servidor, crear o unirse a una partida, todo lo previo a comenzar el juego.
+
+### GameLoop
+
+Según todas las clases comentadas, se deja una ilustración de como seria el GameLoop
+
+<img src='img/GameLoop.png?raw=true'>
+
 ## Servidor
 El servidor es el programa encargado de mantener las partidas funcionando. Todos los clientes mandan las acciones que quieren realizar y el servidor les responde a todos con un modelo de juego actualizado. El servidor tiene que poder soportar múltiples partidas con varios jugadores cada una.
 

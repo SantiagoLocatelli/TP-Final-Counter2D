@@ -3,7 +3,7 @@
 
 #include "../../common_src/Sdl/sdl_texture.h"
 #include "../Managers/SoundEffects.h"
-#include "../levelInfo.h"
+#include "../LevelInfo.h"
 #include <string>
 #include <list>
 

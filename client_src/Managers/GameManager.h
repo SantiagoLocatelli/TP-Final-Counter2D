@@ -3,7 +3,7 @@
 
 #include "../common_src/ModelInfo.h"
 #include "../common_src/MapInfo.h"
-#include "levelInfo.h"
+#include "LevelInfo.h"
 #include <map>
 
 class GameManager {
