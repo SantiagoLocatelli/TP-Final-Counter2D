@@ -13,10 +13,8 @@ class TextureFactory{
     public:
         void unmarshalMap(const char *yamlFile, TextureMap& map, std::vector<std::unique_ptr<SdlTexture>>& textures,
          std::vector<int>& mapSize, SdlRenderer& renderer);
-        void unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites,
-         SdlRenderer& renderer, const int& tile_size);
-        void unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& spawnSites,
-         SdlRenderer& renderer, const int& tile_size);
         void unmarshalWeapons(const char *yamlFile, std::vector<int>& weaponMap);
+        void unmarshalSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& rectSites,
+         SdlRenderer& renderer, const int& tile_size);
 };
 #endif

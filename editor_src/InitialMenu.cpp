@@ -7,8 +7,8 @@ static void parse(std::vector<std::string>& files);
 
 InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : 
     Presenter(m, screenW, screenH), background(renderer, BACKGROUND){
-    std::vector<std::string> aux = {"Crear Mapa", "Editar Mapa", "->",
-     "Back", "Introduzca el nombre del mapa", "mapaNuevo", "quit"};
+    std::vector<std::string> aux = {"Create Map", "Edit Map", "->",
+     "Back", "Type map name", "newMap", "quit"};
     for (unsigned int i = 0; i < aux.size(); i++){
         if (i == ARROW){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE * 2, aux[i], 255, 255, 255));    

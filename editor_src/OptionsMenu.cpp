@@ -3,13 +3,18 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
-enum keyForMap : int {WIDTH, HEIGHT, SAVE_MAP, BACK, QUIT_TO_MENU, QUIT};
+#define BLANCK_SPACE 50
+enum keyForMap : int {WIDTH, HEIGHT, SAVE_MAP, BACK, QUIT_TO_MENU, QUIT, BOMB_SITES, ARROW, NUMBRE_BOMBS};
 
 OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH)
   : Presenter(m, screenW, screenH), backgroundTexture(renderer, BACKGROUND){
-    std::vector<std::string> text = {"WIDTH", "HEIGHT", "Save Map", "Back", "Go back to Menu", "Quit"};
+    std::vector<std::string> text = {"WIDTH", "HEIGHT", "Save Map", "Back", "Go back to Menu", "Quit", "Bomb Sites:", "->"};
     for (unsigned int i = 0; i < text.size(); i++){
-        menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
+        if (i == ARROW){
+           menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE * 2, text[i], 255, 255, 255)); 
+        }else{
+            menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
+        }
     }
     std::vector<std::string> vec = {CHUNK_PATH};
     this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
@@ -18,7 +23,12 @@ OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     this->selectedTexture = NULL;
     std::vector<SDL_Rect> aux;
     Presenter::fillSize(aux);
-    std::vector<std::string> labels = {"Map Size:", "Bomb A:", "Bomb B:", "T Spawn", "CT Spawn"};
+    std::vector<std::string> labels = {"Map Size:", "Spawn T:", "Spawn CT:", "Bomb A:", "Bomb B:"};
+    if (aux.size() == 5){
+        this->numberOfBombs = 2;
+    }else{
+        this->numberOfBombs = 1;
+    }
     for (unsigned int i = 0; i < aux.size(); i++){
         std::string width = std::to_string(aux[i].w);
         std::string height = std::to_string(aux[i].h);
@@ -31,6 +41,7 @@ OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
 
         this->textTexture.emplace_back(renderer, FONT_PATH, FONT_SIZE, labels[i], 255, 255, 255);
     }
+    menuTextures.emplace(NUMBRE_BOMBS, SdlTexture(renderer, FONT_PATH, FONT_SIZE, std::to_string(this->numberOfBombs), 255, 255, 255));
 }
 
 void OptionsMenu::render(){
@@ -47,7 +58,6 @@ void OptionsMenu::render(){
     }
     int posY = 0;
     int posX = 0;
-    int blanckSpace = 50;
     SDL_Rect screen = Presenter::getCameraBox();
     this->backgroundTexture.render(0, 0, screen.w, screen.h);
     this->menuTextures.at(SAVE_MAP).render(screen.w - 100, 0);
@@ -57,18 +67,22 @@ void OptionsMenu::render(){
     for (unsigned int i = 0; i < inputOrder.size(); i++){
         if (i % 2 == 0){
             posY += 50;
-            this->textTexture[i/2].render((screen.w - textTexture[i/2].getWidth())/2 - menuTextures.at(WIDTH).getWidth()*2 - blanckSpace*2, posY);
-            this->menuTextures.at(WIDTH).render((screen.w - menuTextures.at(WIDTH).getWidth())/2 - menuTextures.at(WIDTH).getWidth() - blanckSpace, posY);
-            this->menuTextures.at(HEIGHT).render((screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth() + blanckSpace, posY);
+            this->textTexture[i/2].render((screen.w - textTexture[i/2].getWidth())/2 - menuTextures.at(WIDTH).getWidth()*2 - BLANCK_SPACE*2, posY);
+            this->menuTextures.at(WIDTH).render((screen.w - menuTextures.at(WIDTH).getWidth())/2 - menuTextures.at(WIDTH).getWidth() - BLANCK_SPACE, posY);
+            this->menuTextures.at(HEIGHT).render((screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth() + BLANCK_SPACE, posY);
             posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2;
         }
         this->inputOrder[i]->render(posX, posY);
-        posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + blanckSpace*2;
+        posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + BLANCK_SPACE*2;
     }
+    this->menuTextures.at(BOMB_SITES).render((screen.w - menuTextures.at(BOMB_SITES).getWidth())/2 - BLANCK_SPACE*4, posY + 50);
+    this->menuTextures.at(ARROW).renderFlip((screen.w - menuTextures.at(ARROW).getWidth())/2 - BLANCK_SPACE*2, posY + 40, SDL_FLIP_HORIZONTAL);
+    this->menuTextures.at(NUMBRE_BOMBS).render((screen.w - menuTextures.at(NUMBRE_BOMBS).getWidth())/2 - BLANCK_SPACE*1, posY + 50);
+    this->menuTextures.at(ARROW).render((screen.w - menuTextures.at(ARROW).getWidth())/2, posY + 40);
 }
 
 void OptionsMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
-    int posY = 0, posX, blanckSpace = 50;
+    int posY = 0, posX;
     if (event->type == SDL_KEYDOWN){
         if(event->key.keysym.sym == SDLK_ESCAPE && event->key.repeat == 0){
             this->changeScene = true;
@@ -103,8 +117,16 @@ void OptionsMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
                         this->selectedTexture->setColor(255, 255, 0);
                         break;
                     }
-                    posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + blanckSpace*2;
+                    posX = (screen.w - menuTextures.at(HEIGHT).getWidth())/2 + menuTextures.at(HEIGHT).getWidth()*2 + BLANCK_SPACE*2;
                 }
+            }if (menuTextures.at(ARROW).isMouseTouching((screen.w - menuTextures.at(ARROW).getWidth())/2 - BLANCK_SPACE*2, posY + 40)){
+                this->chunk->playChunk(0);
+                this->numberOfBombs = 1;
+                this->menuTextures.at(NUMBRE_BOMBS).changeTextTexture("1", FONT_PATH, FONT_SIZE, 255, 255, 255);
+            }else if (menuTextures.at(ARROW).isMouseTouching((screen.w - menuTextures.at(ARROW).getWidth())/2, posY + 40)){
+                this->chunk->playChunk(0);
+                this->numberOfBombs = 2;
+                this->menuTextures.at(NUMBRE_BOMBS).changeTextTexture("2", FONT_PATH, FONT_SIZE, 255, 255, 255);
             }
         }
     }else if (selectedTexture != NULL){
@@ -163,6 +185,7 @@ void OptionsMenu::aceptChanges(){
         i++;
     }
     Presenter::changeSizeOfSites(vector);
+    Presenter::putBombSites(this->numberOfBombs);
 }
 
 bool OptionsMenu::finish(){

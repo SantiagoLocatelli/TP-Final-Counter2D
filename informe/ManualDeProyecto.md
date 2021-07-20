@@ -31,7 +31,15 @@ El sistema multijugador se debe realizar a través de un protocolo TCP, junto a 
 Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo, el siguiente listado es un aproximado:
 
 #### Juan Bautista xifro: Editor
-- Menu inicial, servidor a unirse. 
+- Menú inicial, servidor a unirse.
+- Drag and Drop.
+- Point and Click.
+- Ajustar tamaño del mapa.
+- Cargar a memoria archivos tipo yaml.
+- Guardar mapas a archivos tipo ymal.
+- Renderizado de texturas.
+- Encapsulamiento en clases RAII de funciones SDL.
+- Manejo de eventos Editor.
 
 #### Tomás Rodriguez Dala
 
@@ -46,6 +54,7 @@ Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo
 - Logica de movimiento de camara.
 - Logica del stencil.
 - Representación de los objetos en el motor gráfico.
+- Encapsulamiento en clases RAII de funciones SDL.
 
 ## Evolución del Proyecto
 
@@ -85,9 +94,13 @@ La biblioteca Box2D se maneja mejor en metros que en pixeles, y SDL se maneja en
 
 Por parte del servidor, el simulamiento de los disparos, armas.
 
+Por parte del editor, el ajuste del tamaño del mapa manteniendo el orden de las texturas.
+
 ## Análisis de Puntos Pendientes
 
 Por parte del cliente, un mejor manejo del Stencil
+
+Por parte del Editor, un mejor uso de las imagenes *tilemaps* y un modelado de las clases un poco mas modularizado.
 
 ## Herramientas
 
@@ -124,10 +137,10 @@ Reuniones y discutir sobre cuestiones de interés.
 
 ## Conclusiones
 
-Nos encontramos con un proyecto grande, para el tiempo dado, lo cual significó un desafío para nosotros. Las primeras semanas fueron lentas, pero a medida que fue pasando el tiempo ibamos agregando más y más features.
+Nos encontramos con un proyecto grande, para el tiempo dado, lo cual significó un desafío para nosotros. Las primeras semanas fueron lentas debido a la gran cantidad de documentación a leer, pero a medida que fue pasando el tiempo íbamos agregando más y más features.
 
 Pero podemos decir que nos terminamos llevando una experiencia agradable, ya que como grupo nos entendimos bien, y pudimos afrontar los obstáculos que se fueron dando a medida que se iba avanzando.
 
 Reconocemos que la primer entrega no fue la mejor, pero en esas dos semanas que restaban compensamos mucho los requisitos que faltaban.
 
-Entonces en conclusión, nos llevamos una buena expriencia, en la cual pudimos solidificar los conocimientos dados en la materia, ya sea desde la teoría como la práctica con las nuevas herramientas y técnicas de programación.
+Entonces en conclusión, nos llevamos una buena experiencia, en la cual pudimos solidificar los conocimientos dados en la materia, ya sea desde la teoría como la práctica con las nuevas herramientas y técnicas de programación sumándole el conocimiento de las nuevas librerías Box2d y SDL y una gran experiencia de la programación orientada a eventos.
