@@ -7,3 +7,5 @@
 - Santiago Locatelli (104107)
 - Bautista Xifro (101717)
 - Tomás Rodríguez Dala (102361)
+
+### Toda la documentación está incluída en la carpeta `informes`
