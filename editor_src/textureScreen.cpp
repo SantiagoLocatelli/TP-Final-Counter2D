@@ -1,7 +1,4 @@
 #include "textureScreen.h"
-#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
-#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 
 enum keyForMap : int {FLOORS, WALLS, BACK, WEAPONS, ARROW, BACK_TO_EDITOR};
 
@@ -9,9 +6,9 @@ TextureScreen::TextureScreen(SdlRenderer& renderer, MenuManager& m ,int screenW,
 background(renderer, BACKGROUND){
     std::vector<std::string> text = {"Floors", "Walls", "Back", "Weapons", "->", "Back to Editor"};
     for (unsigned int i = 0; i < text.size(); i++){
-        if (text[i] == "Floors" || text[i] == "Walls" || text[i] == "Weapons"){
+        if (i == FLOORS || i == WALLS || i == WEAPONS){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
-        }else if (text[i] == "->"){
+        }else if (i == ARROW){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE * 2, text[i], 0, 0, 0));
         }
         else{

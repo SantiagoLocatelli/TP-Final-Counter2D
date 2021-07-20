@@ -1,12 +1,9 @@
 #include "quitMenu.h"
 #include <stdio.h>
-#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-#define BACK_GROUND "/usr/local/share/counter2d/resources/common/img/saveBackGround.png"
-#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 enum keyForMap : int {QUESTION, CANCEL, SAVE_AND_QUIT, QUIT_NO_SAVE};
 
 QuitMenu::QuitMenu(bool& q, SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH), quit(q),
-backGround(renderer, BACK_GROUND){
+backGround(renderer, SAVE_BACKGROUND){
     std::vector<std::string> text = {"Tenes cambios sin guardar, Estas seguro que queres salir?", "Cancelar", "Guardar y salir", "Salir sin guardar"};
     for (unsigned int i = 0; i < text.size(); i++){
         menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));

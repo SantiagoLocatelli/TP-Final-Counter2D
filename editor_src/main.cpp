@@ -27,11 +27,12 @@ int main(int argc, char* args[]){
         presenter.emplace(std::unique_ptr<Presenter>(new InitialMenu(renderer, menuManager, EDITOR_SCREEN_WIDTH, EDITOR_SCREEN_HEIGHT)));
 
         //Main loop flag
-        bool quit = false;
+        bool quit = false, music = true;
 
         //Event handler
         SDL_Event event;
         
+        menuManager.playMusic();
         //While application is running
         while (!quit){
             //Handle events on queue
@@ -42,6 +43,16 @@ int main(int argc, char* args[]){
                         presenter.emplace(std::unique_ptr<Presenter>(new QuitMenu(quit, renderer, menuManager, EDITOR_SCREEN_WIDTH, EDITOR_SCREEN_HEIGHT)));
                     }else{
                         quit = true;
+                    }
+                }else if (event.type == SDL_KEYDOWN){
+                    if (event.key.keysym.sym == SDLK_9){
+                        if (music){
+                            menuManager.pauseMusic();
+                            music = false;
+                        }else{
+                            menuManager.playMusic();
+                            music = true;
+                        }
                     }
                 }
                 presenter.top()->handleEvents(&event, renderer);

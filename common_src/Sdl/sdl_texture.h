@@ -36,9 +36,9 @@ class SdlTexture{
 
 		void free();
 
-		void setColor( Uint8 red, Uint8 green, Uint8 blue );
+		void setColor(Uint8 red, Uint8 green, Uint8 blue);
 
-		void setBlendMode( SDL_BlendMode blending );
+		void setBlendMode(SDL_BlendMode blending);
 
 		void setAlpha(Uint8 alpha);
 		
