@@ -98,7 +98,7 @@ Por parte del editor, el ajuste del tamaño del mapa manteniendo el orden de las
 
 ## Análisis de Puntos Pendientes
 
-Por parte del cliente, un mejor manejo del Stencil
+Por parte del cliente, un mejor manejo del Stencil. Y mostrar las estadísticas de cada jugador al finalizar la partida.
 
 Por parte del Editor, un mejor uso de las imagenes *tilemaps* y un modelado de las clases un poco mas modularizado.
 
