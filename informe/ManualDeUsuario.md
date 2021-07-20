@@ -38,8 +38,9 @@ Para crear una partida simplemente seguir las indicaciones en el menu, una vez u
 Una vez adentro de la partida los controles son los siguientes:
 - `W A S D`: Moverse
 - `Mouse`: Apuntar
-- `Clic izquierdo`: Disparar 
+- `Clic izquierdo`: Disparar. En el caso de la bomba se usa **para plantar**
 - `1 2 3 4`: Cambiar de armas
+- `R`: Recargar arma
 - `G`: Soltar arma actual
 - `E`: Desactivar bomba (solo anti-terroristas)
 - `8 9 0`: Comprar armas
