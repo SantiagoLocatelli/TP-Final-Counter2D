@@ -44,7 +44,7 @@ void IpMenu::start(){
     isPort = false;
 
     Mix_PlayMusic(this->music, -1);
-    Mix_VolumeMusic(64);
+    Mix_VolumeMusic(32);
     bool mute = false;
 
     TextTexture muteText(this->renderer, FONT_PATH, 15);

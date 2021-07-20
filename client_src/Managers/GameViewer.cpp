@@ -529,7 +529,7 @@ void GameViewer::render(){
 void GameViewer::playMusic(){
     std::unique_lock<std::mutex> lock(m);
     Mix_PlayMusic(this->music, -1);
-    Mix_VolumeMusic(64);
+    Mix_VolumeMusic(32);
 }
 
 void GameViewer::stopMusic(){
