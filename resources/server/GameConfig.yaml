@@ -1,7 +1,7 @@
 Game:
   roundTime: 180 # En segundos
   bombTime: 60 # Tiempo hasta explosión
-  bombDefuseDistance: 1
+  bombDefuseDistance: 1.5
   buyTime: 8
   endTime: 5 #Tiempo de pantalla de final de ronda
   roundsPerSide: 5
@@ -13,7 +13,7 @@ Game:
 Player:
   health: 100
   speed: 6
-  defuseTime: 5
+  defuseTime: 3
   startingMoney: 2000
 
 Weapons:
@@ -45,7 +45,7 @@ Weapons:
     minDamage: 120
     spread: 0.05
     falloff: 0
-    speed: 2.5 #Tiempo entre disparos
+    speed: 2 #Tiempo entre disparos
     capacity: 5 #Balas por recarga 
     reloadTime: 5
     maxRange: 100
@@ -56,10 +56,10 @@ Weapons:
     minDamage: 15
     spread: 0.4
     falloff: 5
-    speed: 2 #Tiempo entre disparos
+    speed: 1.5 #Tiempo entre disparos
     capacity: 5
     reloadTime: 3
     maxRange: 5
     price: 1200
   Bomb:
-    speed: 3 #Tiempo en plantar
+    speed: 2 #Tiempo en plantar
