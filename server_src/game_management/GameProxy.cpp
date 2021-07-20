@@ -90,7 +90,7 @@ CompleteModelInfo GameProxy::getModelInfo(){
         info.incompleteModel.drops.push_back(d);
     }
 
-    info.incompleteModel.game_ended = ended();
+    info.incompleteModel.gameEnded = ended();
     info.incompleteModel.bomb = world->getBomb();
     info.incompleteModel.timeRemaining = roundManager->getTime();
     info.incompleteModel.state.roundState = roundManager->getRoundState();

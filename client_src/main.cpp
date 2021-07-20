@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
         gameManager.initializeLevel(level, map, model);
         GameViewer gameViewer(windowSize, level); 
 
-        bool gameEnded = model.game_ended;
+        bool gameEnded = model.gameEnded;
         EventManager eventManager(server, gameEnded, gameViewer);
         eventManager.start();
         try{
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]){
             server.send_event(ready);
 
             server.recv_model_info(model);
-            while (joined_game && !model.game_ended) {
+            while (joined_game && !model.gameEnded) {
                 stopwatch.start();
                 server.recv_model_info(model);
                 gameManager.updatedLevel(level, model);

@@ -67,7 +67,7 @@ struct ModelInfo{
     std::list<Bullet> bullets;
     std::list<ProtDrop> drops;
     ProtBomb bomb;
-    bool game_ended;
+    bool gameEnded;
     ProtState state;
     float timeRemaining;
 };

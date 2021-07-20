@@ -178,7 +178,7 @@ void Protocol::send_model_info(const ModelInfo &modelInfo){
         send_float(d.pos.y);
     }
 
-    send_bool(modelInfo.game_ended);
+    send_bool(modelInfo.gameEnded);
 
     send_bool(modelInfo.bomb.planted);
     if (modelInfo.bomb.planted){
@@ -254,7 +254,7 @@ void Protocol::recv_model_info(ModelInfo &modelInfo){
         modelInfo.drops.push_back(d);
     }
     
-    recv_bool(modelInfo.game_ended);
+    recv_bool(modelInfo.gameEnded);
 
     recv_bool(modelInfo.bomb.planted);
     if (modelInfo.bomb.planted){

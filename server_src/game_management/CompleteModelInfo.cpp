@@ -26,7 +26,7 @@ ModelInfo CompleteModelInfo::getModelInfo(int id){
 }
 
 bool CompleteModelInfo::ended(){
-    return incompleteModel.game_ended;
+    return incompleteModel.gameEnded;
 }
 
 CompleteModelInfo::CompleteModelInfo(CompleteModelInfo&& other){

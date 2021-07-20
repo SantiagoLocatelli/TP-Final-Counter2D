@@ -11,18 +11,11 @@ class World{
     - bool positionInArea(float x, float y, RectArea area)
     - b2Vec2 getValidPosition(RectArea area)
     - void addDrop(Weapon *weapon, float x, float y)
-    + void addBox(int grid_x, int grid_y)
-    + void createPlayer(Team team)
     + vector<Player> &getPlayers()
-    + void addStartingDrop(ProtDrop drop)
     + list<Drop*> getDrops()
     + void destroyBody(b2Body *body)
     + void step(float delta)
     + void resetWorld(bool changeTeams)  
-    + bool bombExploded()
-    + void defuseBomb()
-    + bool bombDefused()
-    + bool bombPlanted()
     + bool canPlant(float x, float y)
     + bool canDefuse(float x, float y)
     + void plantBomb(float x, float y)
@@ -51,20 +44,17 @@ World &world
     + void toggleWeapon()
     + void recvDamage(float damage)
     + bool isDead() 
-    + void reloadWeapon()
     + void dropWeapon()
     + bool canTake(Weapon *weapon)
     + void takeWeapon(Weapon *weapon)
-    + void destroyWeapon(WeaponSlot slot)
     + void changeWeapon(WeaponSlot slot)
     + void toggleDefuse()
     + void buyWeapon(WeaponType weaponType)
-    + bool isBox()
 }
 
 class Box{
-    void recvDamage(float damage) 
-    bool isBox() 
+    + void recvDamage(float damage) 
+    + bool isBox() 
 }
 
 abstract Hittable{
@@ -119,29 +109,6 @@ abstract Weapon{
     + int getPrice()
 }
 
-class Knife{
-    + void toggle() 
-    + void reload() 
-}
-
-class Pistol
-class Sniper
-class Shotgun{
-    + void toggle()
-}
-class Rifle{
-    + void toggle() 
-    + void step(float delta) 
-}
-
-class Bomb{
-    - float plantTime
-        
-    + void toggle() 
-    + void reload() 
-    + void step(float delta) 
-}
-
 World *-- CollisionHandler
 World *-- "*" Player
 World *-- "*" Box
@@ -157,10 +124,4 @@ Drop o-- Weapon
 Weapon *-- RayCaster
 Weapon o-- Player
 Weapon o-- World
-Knife --|> Weapon
-Pistol --|> Weapon
-Sniper --|> Weapon
-Shotgun --|> Weapon
-Rifle --|> Weapon
-Bomb --|> Weapon
 @enduml
