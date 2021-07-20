@@ -74,11 +74,11 @@ Se encarga de la representación básica de un jugador en el motor gráfico. Per
 
 ### Weapon
 
-Esta clase nos permite la representación gráfica de las armas, independientemente del tipo, con sus respectiva animación.
+Esta clase nos permite la representación gráfica de las armas, independientemente del tipo, con su respectiva animación.
 
 ### MainCharacter
 
-Es una clase que hereda de la clase `Character`, la cual difiera de esta, ya que `MainCharacter` cuenta con un `Stencil` y una `CrossHair`. Es decir, contiene más información que la clase `Character`, y permite lo mismo.
+Es una clase que hereda de la clase `Character`, ya que `MainCharacter` cuenta con un `Stencil` y una `CrossHair`, que un `Character` por si solo no. Es decir, contiene más información, y permite lo mismo.
 
 ### Stencil
 
