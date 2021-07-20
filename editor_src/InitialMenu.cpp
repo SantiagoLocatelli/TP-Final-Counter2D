@@ -1,22 +1,18 @@
 #include "InitialMenu.h"
 #include <dirent.h>
 #include <algorithm>
-#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-#define FONT_PATH2 "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
-#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
-#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
-#define MAPS_PER_PAGE 3
+#define MAPS_PER_PAGE 5
 enum keyForMap : int {CREATE_MAP, EDIT_MAP, ARROW, BACK, INTRODUCE_TEXT, MAP_NAME, QUIT};
 static void parse(std::vector<std::string>& files);
 
 InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : 
     Presenter(m, screenW, screenH), background(renderer, BACKGROUND){
     std::vector<std::string> aux = {"Crear Mapa", "Editar Mapa", "->",
-     "Back", "Introduzca el nombre del mapa", "Nombre del mapa...", "quit"};
+     "Back", "Introduzca el nombre del mapa", "mapaNuevo", "quit"};
     for (unsigned int i = 0; i < aux.size(); i++){
-        if (aux[i] == "->"){
+        if (i == ARROW){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE * 2, aux[i], 255, 255, 255));    
-        }else if (aux[i] == "Nombre del mapa..."){
+        }else if (i == MAP_NAME){
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH2, FONT_SIZE, aux[i], 255, 255, 255));
         }else{
             menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, aux[i], 255, 255, 255));
@@ -29,12 +25,12 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     this->changeScene = false;
     this->renderText = false;
     this->page = 0;
-    this->createMapID = "Nombre del mapa...";
+    this->createMapID = aux[MAP_NAME];
 
     std::vector<std::string> files;
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("/usr/local/share/counter2d/resources/common/maps/")) != NULL){
+    if ((dir = opendir (MAPS_DIR)) != NULL){
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL){
             if (ent->d_name[0] != '.'){
@@ -47,7 +43,7 @@ InitialMenu::InitialMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int
     parse(files);
     for (auto &file : files){
         this->editableMaps.emplace_back(renderer, FONT_PATH2, FONT_SIZE, file, 255, 255, 255);
-        this->mapsID.emplace_back("/usr/local/share/counter2d/resources/common/maps/" + file + ".yaml");
+        this->mapsID.emplace_back(MAPS_DIR + file + ".yaml");
     }
 }
 
@@ -123,9 +119,11 @@ void InitialMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         }
         //Special text input event
         else if (event->type == SDL_TEXTINPUT){
-            //Append character
-            this->createMapID += event->text.text;
-            this->renderText = true;        
+            if (event->text.text[0] != 32){
+                //Append character
+                this->createMapID += event->text.text;
+                this->renderText = true;
+            }
         }
     }else if (event->type == SDL_MOUSEBUTTONDOWN){
         if (event->button.button == SDL_BUTTON_LEFT){
