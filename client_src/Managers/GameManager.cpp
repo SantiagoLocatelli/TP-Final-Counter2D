@@ -91,27 +91,18 @@ void GameManager::updatedLevel(LevelInfo& level, const ModelInfo& model){
     level.timeRemaining = model.timeRemaining;
     // Si no esta muerto se actualiza con el you, sino con el primero
     // que se encuentre que este vivo.
+
     level.mainPlayer.dead = model.you.dead;
-
-    if (!level.mainPlayer.dead) {
-        level.mainPlayer.ammo = model.you.ammo;
-        level.mainPlayer.money = model.you.money;
-        if (level.mainPlayer.health > model.you.health) {
-            level.mainPlayer.damaged = true;
-        } else {
-            level.mainPlayer.damaged = false;
-        }
-        level.mainPlayer.health = model.you.health;
-        updatePlayer(level.mainPlayer, model.you);
-
+    level.mainPlayer.ammo = model.you.ammo;
+    level.mainPlayer.money = model.you.money;
+    if (level.mainPlayer.health > model.you.health) {
+        level.mainPlayer.damaged = true;
     } else {
-        auto it = model.players.begin();
-        auto end = model.players.end();
-        while (it != end && it->dead && level.mainPlayer.team != it->team) {
-            it++;
-        }
-        if (it != end) updatePlayer(level.mainPlayer, *it);
+        level.mainPlayer.damaged = false;
     }
+    level.mainPlayer.health = model.you.health;
+    updatePlayer(level.mainPlayer, model.you);
+
 
     auto player = level.players.begin();
     for (auto prot = model.players.begin(); prot != model.players.end(); prot++){

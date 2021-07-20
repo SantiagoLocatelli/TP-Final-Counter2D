@@ -23,8 +23,9 @@ public:
     SoundEffects();
     ~SoundEffects();
 
-    void playWeaponSound(WeaponEffect effect);
-    void playPlayerSound(PlayerEffect effect);
+    // void setVolume(int volumePercetange);
+    void playWeaponSound(WeaponEffect effect, int volumePercetange);
+    void playPlayerSound(PlayerEffect effect, int volumePercetange);
 };
 
 #endif

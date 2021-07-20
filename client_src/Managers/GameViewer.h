@@ -62,7 +62,9 @@ private:
     void loadHudTextures();
     void loadWeapons();
     SkinType getPjSkin(PlayerInfo player);
-    
+    bool isVisibleByMainPlayer(Coordinate pos);
+    int setVolume(Coordinate pos);
+
 public:
 
     GameViewer(Size windowSize, LevelInfo level);

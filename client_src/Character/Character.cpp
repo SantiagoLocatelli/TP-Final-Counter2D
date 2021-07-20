@@ -48,6 +48,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
     this->player.sounds.clear();
 
     if (!this->player.dead && info.dead) {
+        printf("se murio el pj\n");
         this->player.sounds.push_back(DYING);
     }
 
@@ -57,6 +58,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
     this->weapon = weapon;
 
     if (!Math::equalCoords(player.pos, info.pos)) {
+        printf("se actualiza el frame de step\n");
         this->delay++;
         if (this->delay == DELAY_SOUND) {
             PlayerEffect effect = (PlayerEffect)Math::getRandomNumberBetween((int)STEP1, (int)STEP4);

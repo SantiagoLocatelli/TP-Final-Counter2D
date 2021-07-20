@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdio>
 #include <memory>
+#include "GameMath.h"
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "/usr/local/share/counter2d/resources/common/img/pointer.bmp"
@@ -116,17 +117,49 @@ void GameViewer::loadHudTextures(){
     this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/65));
 }
 
+bool GameViewer::isVisibleByMainPlayer(Coordinate pos) {
+    SDL_Rect cam = this->cam.getRect();
+    return (pos.x >= cam.x && pos.x <= cam.w && pos.y >= cam.y && pos.y <= cam.h);
+}
+
+// void GameViewer::setVolume(Coordinate pos){
+//     bool isVisible = isVisibleByMainPlayer(pos);
+//     int distanceBetweenMain = Math::manhattanDistance(pos, this->level.mainPlayer.pos);
+//     if (isVisible) {
+//         this->sounds.setVolume(100);
+//     } else if (distanceBetweenMain > this->level.size.w/2) {
+//         this->sounds.setVolume(0);
+//     } else {
+//         this->sounds.setVolume(50);
+//     }
+// }
+
+int GameViewer::setVolume(Coordinate pos){
+    bool isVisible = isVisibleByMainPlayer(pos);
+    int distanceBetweenMain = Math::manhattanDistance(pos, this->level.mainPlayer.pos);
+    if (isVisible) {
+        return 100;
+    } else if (distanceBetweenMain > this->level.size.w/4) {
+        return 0;
+    } else {
+        return 50;
+    }
+}
+
+
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
             it->render(cam);
 
             PlayerInfo player = it->getInfo();
+            // setVolume(player.pos);
+            int volume = setVolume(player.pos);
             for (PlayerEffect effect : player.sounds) {
-                this->sounds.playPlayerSound(effect);
+                this->sounds.playPlayerSound(effect, volume);
             }
             if (player.shooting) {
-                this->sounds.playWeaponSound(player.weapon.sound);
+                this->sounds.playWeaponSound(player.weapon.sound, volume);
             }
         }
     }
@@ -163,11 +196,14 @@ void GameViewer::renderMap(Coordinate cam){
 
 void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
-    for (PlayerEffect effect : this->level.mainPlayer.sounds) {
-        this->sounds.playPlayerSound(effect);
+    PlayerInfo player = this->mainPlayer->getInfo();
+    // this->sounds.setVolume(100);
+
+    for (PlayerEffect effect : player.sounds) {
+        this->sounds.playPlayerSound(effect, 100);
     }
-    if (this->level.mainPlayer.shooting) {
-        this->sounds.playWeaponSound(this->level.mainPlayer.weapon.sound);
+    if (player.shooting) {
+        this->sounds.playWeaponSound(player.weapon.sound, 100);
     }
 }
 
@@ -305,19 +341,21 @@ void GameViewer::renderBomb(Coordinate cam){
         this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
         
         this->delaySound++;
+        int volume = setVolume(pos);
 
+        // setVolume(this->level.bomb.pos);
         // seteo el delay segun el tiempo restante
         if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
-            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->sounds.playWeaponSound(BOMB_PIP, volume); 
             this->delaySound = 0;
         } else if (this->delaySound >= DELAY_SOUND_BOMB_QUICK && this->level.bomb.time < ABOUT_TO_EXPLODE){
-            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->sounds.playWeaponSound(BOMB_PIP, volume); 
             this->delaySound = 0;
         }
 
         if (this->level.bomb.time < 0.1) {
             this->renderExplosion(cam);
-            this->sounds.playWeaponSound(BOMD_EXPLODE);
+            this->sounds.playWeaponSound(BOMD_EXPLODE, volume);
         }
     }
 }
@@ -536,6 +574,7 @@ void GameViewer::update(LevelInfo newLevel){
     updateHud(newLevel);
     WeaponType mainType = newLevel.mainPlayer.weapon.type;
     this->mainPlayer->update(newLevel.mainPlayer, this->weapons[mainType]);
+    this->level.mainPlayer = this->mainPlayer->getMainPlayerInfo();
 
     auto it = this->players.begin();
     for (PlayerInfo player : this->level.players) {
