@@ -44,7 +44,7 @@ void QuitMenu::handleEvents(SDL_Event* event, SdlRenderer& renderer){
         }else if (event->key.keysym.sym == SDLK_ESCAPE){
             this->changeScene = true;
         }
-        }
+    }
 }
 
 std::string QuitMenu::getTitle(){

@@ -15,6 +15,7 @@ MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : re
     this->goToStart = false;
     this->isWeapon = false;
     this->quitEditor = false;
+    this->TwoBombSites = true;
     
     YAML::Node yaml_map = YAML::LoadFile(WEAPONS_PATH);
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
@@ -50,14 +51,17 @@ void MenuManager::createMap(const std::string mapID){
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
         this->weaponTypes.push_back(-1);
     }
-    std::vector<std::string> auxBombs = {"A", "B", BOMB_SITE_A, BOMB_SITE_B};
-    std::vector<std::string> auxSpawns = {"T", "CT", SPAWN_SITE_T, SPAWN_SITE_CT};
-    for (int i = 0; i < 2; i++){
-        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, auxBombs[i+2], 100, (i * 100) + 100, 255, 0, 0));
-        bombSites[auxBombs[i]]->setWidthAndHeight(100, 100);
-
-        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, auxSpawns[i+2], 400, (i * 100) + 100, 0, 255, 0));
-        spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
+    std::vector<std::string> spawnSites = {"T", SPAWN_SITE_T, "CT", SPAWN_SITE_CT};
+    for (int i = 0; i < spawnSites.size() - 1; i++){
+        this->rectSites.emplace(spawnSites[i], new Draggable(this->renderer, spawnSites[i+1], 3 * TILE_SIZE, i * 3 * TILE_SIZE, 0, 255, 0));
+        rectSites[spawnSites[i]]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
+        i++;
+    }
+    std::vector<std::string> bombSites = {"A", BOMB_SITE_A , "B", BOMB_SITE_B};
+    for (int i = 0; i < bombSites.size() - 1; i++){
+        this->rectSites.emplace(bombSites[i], new Draggable(this->renderer, bombSites[i+1], 6 * TILE_SIZE, i * 6 * TILE_SIZE, 255, 0, 0));
+        rectSites[bombSites[i]]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
+        i++;
     }
 
     this->mapID = MAPS_DIR + mapID + ".yaml";
@@ -69,8 +73,7 @@ void MenuManager::editMap(const std::string& mapID){
     this->currentType = 0;
     this->isWeapon = false;
     factory.unmarshalMap(mapID.c_str(), this->textureMap, this->textures, this->mapSize, this->renderer);
-    factory.unmarshalBombSites(mapID.c_str(), this->bombSites, this->renderer, TILE_SIZE);
-    factory.unmarshalSpawnSites(mapID.c_str(), this->spawnSites, this->renderer, TILE_SIZE);
+    factory.unmarshalSites(mapID.c_str(), this->rectSites, this->renderer, TILE_SIZE);
     factory.unmarshalWeapons(mapID.c_str(), this->weaponTypes);
 }
 
@@ -79,10 +82,13 @@ void MenuManager::loadToFile(){
     std::vector<int> textureTypes;
     
     // get the position and dimension from the textures
-    SDL_Rect bombSiteA = this->bombSites["A"]->getBox();
-    SDL_Rect bombSiteB = this->bombSites["B"]->getBox();
-    SDL_Rect spawnSiteT = this->spawnSites["T"]->getBox();
-    SDL_Rect spawnSiteCT = this->spawnSites["CT"]->getBox();
+    SDL_Rect bombSiteA = this->rectSites["A"]->getBox();
+    SDL_Rect bombSiteB = {0,0,0,0};
+    if (rectSites.size() == 4){
+        SDL_Rect bombSiteB = this->rectSites["B"]->getBox();
+    }
+    SDL_Rect spawnSiteT = this->rectSites["T"]->getBox();
+    SDL_Rect spawnSiteCT = this->rectSites["CT"]->getBox();
 
     // position of bombs
     std::vector<float> positionA = { (float) bombSiteA.x/ (float) TILE_SIZE, (float) bombSiteA.y/ (float) TILE_SIZE};
@@ -197,22 +203,22 @@ void MenuManager::renderWeapons(const SDL_Rect& camera){
 }
 
 void MenuManager::renderBombSites(const SDL_Rect& camera){
-    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
-    while (iterator != this->bombSites.end()){
-        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
-        iterator->second->setAlpha(100);
-        iterator->second->render(camera);
-        ++iterator;
+    std::vector<std::string> aux = {"A"};
+    if (rectSites.size() == 4){
+        aux.push_back("B");
+    }
+    for (auto label : aux){
+        this->rectSites[label]->setBlendMode(SDL_BLENDMODE_BLEND);
+        this->rectSites[label]->setAlpha(100);
+        this->rectSites[label]->render(camera);
     }
 }
 
 void MenuManager::renderSpawnSites(const SDL_Rect& camera){
-    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
-    while (iterator != this->spawnSites.end()){
-        iterator->second->setBlendMode(SDL_BLENDMODE_BLEND);
-        iterator->second->setAlpha(100);
-        iterator->second->render(camera);
-        ++iterator;
+    for (auto label : {"T", "CT"}){
+        this->rectSites[label]->setBlendMode(SDL_BLENDMODE_BLEND);
+        this->rectSites[label]->setAlpha(100);
+        this->rectSites[label]->render(camera);
     }
 }
 
@@ -274,32 +280,32 @@ void MenuManager::renderMapTextures(int& page, std::vector<SdlTexture>& textures
 }
 
 void MenuManager::handleBombSitesEvent(SDL_Event* event, const SDL_Rect& camera){
-    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->bombSites.begin();
-    while (iterator != this->bombSites.end()){
-        int auxX = iterator->second->getPosX();
-        int auxY = iterator->second->getPosY();
+    std::vector<std::string> aux = {"A"};
+    if (rectSites.size() == 4){
+        aux.push_back("B");
+    }
+    for (auto label : aux){
+        int auxX = this->rectSites[label]->getPosX();
+        int auxY = this->rectSites[label]->getPosY();
 
-        iterator->second->handleEvent(event, camera);
-        
-        if (auxX != iterator->second->getPosX() || auxY != iterator->second->getPosY()){
+        this->rectSites[label]->handleEvent(event, camera);
+
+        if (auxX != this->rectSites[label]->getPosX() || auxY != this->rectSites[label]->getPosY()){
             this->needsToSave = "*";
-        }
-        ++iterator;
+        } 
     }
 }
 
 void MenuManager::handleSpawnSitesEvent(SDL_Event* event, const SDL_Rect& camera){
-    std::map<std::string, std::unique_ptr<Draggable>>::iterator iterator = this->spawnSites.begin();
-    while (iterator != this->spawnSites.end()){
-        int auxX = iterator->second->getPosX();
-        int auxY = iterator->second->getPosY();
+    for (auto label : {"T", "CT"}){
+        int auxX = this->rectSites[label]->getPosX();
+        int auxY = this->rectSites[label]->getPosY();
 
-        iterator->second->handleEvent(event, camera);
+        this->rectSites[label]->handleEvent(event, camera);
 
-        if (auxX != iterator->second->getPosX() || auxY != iterator->second->getPosY()){
+        if (auxX != this->rectSites[label]->getPosX() || auxY != this->rectSites[label]->getPosY()){
             this->needsToSave = "*";
-        }
-        ++iterator;
+        } 
     }
 }
 
@@ -377,10 +383,12 @@ void MenuManager::changeSizeOfSites(std::vector<float>& vector){
         this->mapSize[0] = (int) vector[0];
         this->mapSize[1] = (int) vector[1];
     }
-    this->bombSites["A"]->setWidthAndHeight((int) (vector[2] * TILE_SIZE), (int) (vector[3] * TILE_SIZE));
-    this->bombSites["B"]->setWidthAndHeight((int) (vector[4] * TILE_SIZE), (int) (vector[5] * TILE_SIZE));
-    this->spawnSites["T"]->setWidthAndHeight((int) (vector[6] * TILE_SIZE), (int) (vector[7] * TILE_SIZE));
-    this->spawnSites["CT"]->setWidthAndHeight((int) (vector[8] * TILE_SIZE), (int) (vector[9] * TILE_SIZE));
+    this->rectSites["T"]->setWidthAndHeight((int) (vector[2] * TILE_SIZE), (int) (vector[3] * TILE_SIZE));
+    this->rectSites["CT"]->setWidthAndHeight((int) (vector[4] * TILE_SIZE), (int) (vector[5] * TILE_SIZE));
+    this->rectSites["A"]->setWidthAndHeight((int) (vector[6] * TILE_SIZE), (int) (vector[7] * TILE_SIZE));
+    if (rectSites.size() == 4){
+        this->rectSites["B"]->setWidthAndHeight((int) (vector[8] * TILE_SIZE), (int) (vector[9] * TILE_SIZE));
+    }
 }
 
 void MenuManager::changeMapSize(const int& width, const int& height){
@@ -502,8 +510,20 @@ void MenuManager::changeTexture(const SDL_Rect& camera){
     }
 }
 
+void MenuManager::putBombSites(const int numberOfBombs){
+    if (numberOfBombs == 1 && this->rectSites.size() == 4){
+        this->rectSites.erase("B");
+    }else if (numberOfBombs == 2 && this->rectSites.size() == 3){
+        this->rectSites.emplace("B", new Draggable(this->renderer, BOMB_SITE_B, 100, 400, 255, 0, 0));
+        this->rectSites["B"]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
+    }
+}
+
 void MenuManager::fillSize(std::vector<SDL_Rect>& vector){
-    vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, bombSites["A"]->getBox(), bombSites["B"]->getBox(), spawnSites["T"]->getBox(), spawnSites["CT"]->getBox()};
+    vector = {{0,0, mapSize[0] * TILE_SIZE, mapSize[1] * TILE_SIZE}, rectSites["T"]->getBox(), rectSites["CT"]->getBox(), rectSites["A"]->getBox()};
+    if (rectSites.size() == 4){
+        vector.push_back(rectSites["B"]->getBox());
+    }
     changeToMeters(vector);
 }
 
