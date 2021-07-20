@@ -13,7 +13,7 @@ class ClientManager: public Thread{
         Protocol protocol;
         int id;
         EventReceiver receiver;
-        std::atomic_bool keep_sending;
+        std::atomic_bool keepSending;
         ModelQueue &modelQueue;
         MapInfo map;
         std::atomic_bool ready;

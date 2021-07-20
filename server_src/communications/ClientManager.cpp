@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-ClientManager::ClientManager(Protocol protocol, EventQueue &eventQueue, ModelQueue &modelQueue, MapInfo map, int id):protocol(std::move(protocol)), id(id), receiver(this->protocol, eventQueue, id), keep_sending(true), modelQueue(modelQueue), map(map), ready(false){}
+ClientManager::ClientManager(Protocol protocol, EventQueue &eventQueue, ModelQueue &modelQueue, MapInfo map, int id):protocol(std::move(protocol)), id(id), receiver(this->protocol, eventQueue, id), keepSending(true), modelQueue(modelQueue), map(map), ready(false){}
 
 void ClientManager::run(){
     try{
@@ -19,12 +19,12 @@ void ClientManager::run(){
         ready = true;
 
         receiver.start();
-        while (keep_sending){
+        while (keepSending){
             model = modelQueue.pop();
             modelInfo = model->getModelInfo(id);
             protocol.send_model_info(modelInfo);
 
-            keep_sending = !model->ended();
+            keepSending = !model->ended();
         }
     } catch (const SocketClosedException &e){
     } catch (const std::exception &e){
@@ -36,7 +36,7 @@ void ClientManager::run(){
 }
 
 bool ClientManager::finished(){
-    return !keep_sending;
+    return !keepSending;
 }
 
 bool ClientManager::isReady(){

@@ -11,8 +11,8 @@ class LobbyManager: public Thread{
         GameList &gameList;
         Protocol protocol;
         bool keepReceiving;
-        void run();
-    
+
+        void run() override;
     public:
         LobbyManager(Socket skt, GameList &gameList);
         bool finished();

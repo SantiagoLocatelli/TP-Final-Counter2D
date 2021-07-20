@@ -23,20 +23,15 @@ class GameProxy{
         explicit GameProxy(const std::string &yamlPath, GameConfig &config);
 
         void setUpGame();
-        void step(float delta);        
+        void step(float delta);
+        void clearFrameEvents();
+        bool ended();     
+
+        void createPlayer(Team team);
+        Player &getPlayer(int id);
 
         MapInfo getMapInfo();
         CompleteModelInfo getModelInfo();
-
-        //Crea un jugador 
-        void createPlayer(Team team);
-
-        Player &getPlayer(int id);
-
-        void clearFrameEvents();
-
-        bool ended();
-
         RoundState getRoundState();
 
         ~GameProxy();

@@ -20,11 +20,12 @@ class GameThread: public Thread{
         std::list<ModelQueue> modelQueues;
         EventQueue eventQueue;
         EventHandler eventHandler;
+
         std::atomic_bool gameEnded;
         int playerNumber;
         std::mutex m;
 
-        void run();
+        void run() override;
     
     public:
         explicit GameThread(std::string map_path);

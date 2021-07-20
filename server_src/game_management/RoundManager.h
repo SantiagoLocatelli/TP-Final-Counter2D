@@ -21,13 +21,14 @@ class RoundManager{
         void updateResult();
     public:
         RoundManager(World &world, GameConfig &config);
+
         void resetRound();
         bool step(float delta);
+
         RoundState getRoundState();
         GameState getGameState();
         RoundResult getRoundResult();
         std::array<uint8_t, 2> getRoundScore();
-
         float getTime();
 };
 

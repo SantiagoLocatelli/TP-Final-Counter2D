@@ -1,0 +1,136 @@
+@startuml
+class GameThread{
+    - GameConfig gameConfig
+    - atomic_bool gameEnded
+    - int playerNumber
+    - mutex m
+
+    - void run()
+    
+    + void addPlayer(Protocol protocol)
+    + bool ended()
+}
+
+class CompleteModelInfo{
+    - vector<You> players
+    - ModelInfo incompleteModel
+    
+    + ModelInfo getModelInfo(int id)
+    + bool ended()
+}
+
+class ClientManager{
+    private:
+    - Protocol protocol
+    - int id
+    - atomic_bool keepSending
+    - MapInfo map
+    - atomic_bool ready
+
+    - void run()
+    + bool finished()
+    + bool isReady()
+}
+
+class GameProxy{
+    - MapInfo mapInfo
+    - GameConfig &config
+    
+    + void setUpGame()
+    + void step(float delta)
+    + void clearFrameEvents()
+    + bool ended()     
+    + void createPlayer(Team team)
+    + Player &getPlayer(int id)        
+    + MapInfo getMapInfo()
+    + CompleteModelInfo getModelInfo()
+    + RoundState getRoundState()
+}
+
+class ModelQueue{
+    - mutex m
+    - condition_variable cv
+
+    + void push(shared_ptr<CompleteModelInfo> model)
+    + shared_ptr<CompleteModelInfo> pop()
+}
+
+class EventReceiver{
+    - Protocol &protocol
+    - int id
+    - bool keep_listening
+
+    - void run()
+    + void stop()
+}
+
+class EventQueue{
+    - mutex m
+    - queue<pair<int, Event>> queue
+
+    + void push(int id, Event event)
+    + bool isEmpty()
+    + Event pop(int &id)
+}
+
+class RoundManager{
+    - float timer
+    - GameConfig &config
+    - RoundState roundState
+    - RoundResult result
+    - array<uint8_t, 2> wins
+    - int terrorIdx
+    - int counterIdx
+    - int rounds
+
+    - GameState roundEnded()
+    - void updateResult()
+    + void resetRound()
+    + bool step(float delta)
+    + RoundState getRoundState()
+    + GameState getGameState()
+    + RoundResult getRoundResult()
+    + array<uint8_t, 2> getRoundScore()
+    + float getTime()
+}
+
+class World{
+    - vector<Player> players
+    - list<Box> boxes
+    - list<Ray> bullets
+    - ProtBomb bomb
+    - MapInfo mapInfo
+    - list<ProtDrop> startingDrops
+    + GameConfig &config
+
+    + void addBox(int grid_x, int grid_y)
+    + void createPlayer(Team team)
+    + vector<Player> &getPlayers()
+    + void addStartingDrop(ProtDrop drop)
+    + list<Drop*> getDrops()
+    + void step(float delta)
+    + void resetWorld(bool changeTeams)
+    + void addBullet(Ray ray)
+    + list<Ray> &getBullets()
+    + void clearBullets()
+    + bool bombExploded()
+    + bool bombDefused()
+    + bool bombPlanted()
+    + ProtBomb getBomb()
+}
+
+GameThread *-- EventQueue
+GameThread *-- "*" ClientManager
+GameThread *-- "*" ModelQueue
+GameThread *-- GameProxy
+GameThread --> CompleteModelInfo
+ClientManager *-- EventReceiver
+ClientManager o-- ModelQueue
+GameProxy *-- CompleteModelInfo
+GameProxy *-- RoundManager
+GameProxy *-- World
+ModelQueue o-- "*" CompleteModelInfo
+EventReceiver o-- EventQueue
+RoundManager o-- World
+
+@enduml

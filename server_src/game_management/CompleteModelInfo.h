@@ -14,8 +14,10 @@ class CompleteModelInfo{
     public:
         CompleteModelInfo() = default;
         CompleteModelInfo(CompleteModelInfo&& other);
+
         ModelInfo getModelInfo(int id);
         bool ended();
+        
         CompleteModelInfo& operator=(CompleteModelInfo&& other);
     
     friend class GameProxy;

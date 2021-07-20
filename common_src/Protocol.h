@@ -15,9 +15,7 @@ class Protocol{
     private:
         Socket skt;
         
-        //Envía un short por el socket. 
         void send_uint16t(const uint16_t &buf);
-        //Recibe un short por el socket.
         void recv_uint16t(uint16_t &buf);
 
         void send_byte(const char &byte);
@@ -27,7 +25,8 @@ class Protocol{
         void recv_bool(bool &b);
 
         //Envía un float por el socket. Solo se envían los primeros 
-        //DEC_SENT decimales, el resto se pierde.
+        //DEC_SENT decimales, el resto se pierde. Sólo puede enviar 
+        //floats positivos
         void send_float(const float &f);
         void recv_float(float &f);
     

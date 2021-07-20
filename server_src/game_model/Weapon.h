@@ -19,25 +19,28 @@ class Weapon{
         WeaponType type;
         WeaponSlot slot;
         GameConfig &config;
+        RayCaster rayCaster;
+        
         int bullets;
         float reloadTime;
         float shootTime;
         bool toggled;
-        RayCaster rayCaster;
 
         virtual float calculateDamage(float distance);
     public:
         Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot);
+
         void changeOwner(Player *newOwner);
-        World *getWorld();
-        WeaponType getType();
-        WeaponSlot getSlot();
-        int getAmmo();
         virtual void toggle();
         virtual void reload();
         virtual void step(float delta);
         void shootBullet();
+        World *getWorld();
+        WeaponType getType();
+        WeaponSlot getSlot();
+        int getAmmo();
         int getPrice();
+        
         virtual ~Weapon() = default;
 };
 

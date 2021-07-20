@@ -16,16 +16,18 @@ class Weapon;
 
 class Player: public Hittable{
     private:
-        float health;
-        float angle;
         World &world;
         b2Body *body;
-        bool dead;
         GameConfig &config;
         std::array<bool, 4> movement;
+
         std::array<Weapon*, 4> weapons;
         WeaponSlot currentWeapon;
         WeaponSlot slotToDestroy;
+
+        bool dead;
+        float health;
+        float angle;
         Team team;
         bool defusing;
         float defuseTime;
@@ -39,16 +41,18 @@ class Player: public Hittable{
         
         Player(World &world, float start_x, float start_y, GameConfig &config, Team team);
 
-        //Métodos de movimiento/posicion
+        void reset(float x, float y, Team team);
+        void step(float delta);
+
         void toggleMovement(Direction dir);
         void updateVelocity();
         std::array<float, 2> getPosition() const;
         void setAngle(float angle);
         float getAngle() const;
         Team getTeam() const;
-        void reset(float x, float y, Team team);
+        int getMoney() const;
+        void addMoney(int money);
 
-        //Métodos de disparos/vida
         void toggleWeapon();
         void recvDamage(float damage) override;
         float getHealth() const;
@@ -57,18 +61,14 @@ class Player: public Hittable{
         WeaponSlot getWeaponSlot() const;
         void reloadWeapon();
 
-        //Inventario
         void dropWeapon();
         bool canTake(Weapon *weapon);
         void takeWeapon(Weapon *weapon);
         void destroyWeapon(WeaponSlot slot);
         void changeWeapon(WeaponSlot slot);
         void toggleDefuse();
-        void step(float delta);
         int getAmmo() const;
         void buyWeapon(WeaponType weaponType);
-        int getMoney() const;
-        void addMoney(int money);
         bool isBox() override;
 
         ~Player();
