@@ -73,15 +73,15 @@ Algunas tareas realizadas se llevaron a cabo por más de un integrante del grupo
 #### Semana 4 (29/06/2021)
 - Servidor: Integración Servidor-Cliente. Lógica básica de armas. Manejo multiclientes.
 - Cliente: Integración Servidor-Cliente. Renderizado de armas, más animaciones. Primeros sonidos.
-- Editor: Creación de mapas. Creación de FactoryMap.
+- Editor: Creación de mapas. Creación de TextureFactory.
 #### Semana 5 (06/07/2021)
 - Servidor: Manejo de rondas. Lógica de armas y disparos terminado.
 - Cliente: Agregado de más sonidos. Primer versión Hud.
-- Editor: Integracion Factory-Servidor. Mejora UI. Cambiar el tamaño del mapa.
+- Editor: Integracion Factory-Servidor. Mejora UserFriendly. Cambiar el tamaño del mapa.
 #### Semana 6 (13/07/2021) 
 - Servidor: Lógica de la tienda. Multipartidas.
 - Cliente: Hud terminado. Corrección de errores. Integración con TextureManager.
-- Editor: Corrección de errores. UI terminada.
+- Editor: Corrección de errores. Manejo de Menús terminada.
 #### Semana 7 (20/07/2021)
 - Servidor: Corrección de errores. Últimos agregados en el protocolo.
 - Cliente: Manejo de mensaje de ronda y partida terminada. Menu de inicio, crear o unirse partida. Corrección de errores. Menu de loading.
