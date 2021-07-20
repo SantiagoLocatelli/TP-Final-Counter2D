@@ -32,35 +32,33 @@ void TextureFactory::unmarshalWeapons(const char *yamlFile, std::vector<int>& we
     }
 }
 
-void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
-    YAML::Node yaml_map = YAML::LoadFile(yamlFile);
-    YAML::Node Site = yaml_map["bombSite"];
-
-    std::vector<float> position = Site["A"]["position"].as<std::vector<float>>();
-    std::vector<float> size = Site["A"]["size"].as<std::vector<float>>();
-
-    bombSites.emplace("A", new Draggable(renderer, BOMB_SITE_A, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
-    bombSites["A"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
-
-    position = Site["B"]["position"].as<std::vector<float>>();
-    size = Site["B"]["size"].as<std::vector<float>>();
-
-    bombSites.emplace("B", new Draggable(renderer, BOMB_SITE_B, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
-    bombSites["B"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
-}
-
-void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& spawnSites, SdlRenderer& renderer, const int& tile_size){
+void TextureFactory::unmarshalSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& rectSites, SdlRenderer& renderer, const int& tile_size){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["spawnSite"];
     std::vector<float> position = Site["T"]["position"].as<std::vector<float>>();
     std::vector<float> size = Site["T"]["size"].as<std::vector<float>>();
 
-    spawnSites.emplace("T", new Draggable(renderer, SPAWN_SITE_T, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
-    spawnSites["T"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+    rectSites.emplace("T", new Draggable(renderer, SPAWN_SITE_T, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    rectSites["T"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
     position = Site["CT"]["position"].as<std::vector<float>>();
     size = Site["CT"]["size"].as<std::vector<float>>();
 
-    spawnSites.emplace("CT", new Draggable(renderer, SPAWN_SITE_CT, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
-    spawnSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+    rectSites.emplace("CT", new Draggable(renderer, SPAWN_SITE_CT, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    rectSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+
+    YAML::Node SiteTwo = yaml_map["bombSite"];
+    position = SiteTwo["A"]["position"].as<std::vector<float>>();
+    size = SiteTwo["A"]["size"].as<std::vector<float>>();
+
+    rectSites.emplace("A", new Draggable(renderer, BOMB_SITE_A, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+    rectSites["A"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+
+    position = SiteTwo["B"]["position"].as<std::vector<float>>();
+    size = SiteTwo["B"]["size"].as<std::vector<float>>();
+
+    if (size[0] != 0){
+        rectSites.emplace("B", new Draggable(renderer, BOMB_SITE_B, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+        rectSites["B"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+    }
 }

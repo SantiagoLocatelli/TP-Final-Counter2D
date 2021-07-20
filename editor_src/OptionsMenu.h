@@ -19,6 +19,7 @@ class OptionsMenu : public Presenter{
         bool renderText;
         std::unique_ptr<SdlMixer> chunk;
         bool changeScene;
+        int numberOfBombs;
 
     public:
         OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH);

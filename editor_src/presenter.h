@@ -40,6 +40,7 @@ class Presenter{
         void changeTexture();
         void createMap(const std::string mapID);
         void editMap(const std::string& mapID);
+        void putBombSites(const int numberOfBombs);
         void needToSave();
         void saveMap();
         void goToMenu();

@@ -11,7 +11,7 @@
 #include <utility>
 
 Player::Player(World &world, float start_x, float start_y, GameConfig &config, Team team)
-:health(100), angle(0), world(world), dead(false), config(config), team(team), defusing(false), defuseTime(0), money(config.getPlayer("startingMoney")), canMove(true), shot(false){
+:world(world), config(config), dead(false), health(100), angle(0), team(team), defusing(false), defuseTime(0), money(config.getPlayer("startingMoney")), canMove(true), shot(false){
     setBody(start_x, start_y);
     weapons[KNIFE_SLOT] = new Knife(&world, config);
     weapons[KNIFE_SLOT]->changeOwner(this);

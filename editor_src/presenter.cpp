@@ -77,6 +77,10 @@ void Presenter::editMap(const std::string& mapID){
     this->menuManager.editMap(mapID);
 }
 
+void Presenter::putBombSites(const int numberOfBombs){
+    this->menuManager.putBombSites(numberOfBombs);
+}
+
 void Presenter::needToSave(){
     this->menuManager.needToSave();
 }
