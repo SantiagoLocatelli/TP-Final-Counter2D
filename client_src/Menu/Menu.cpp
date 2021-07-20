@@ -417,11 +417,7 @@ void Menu::run(bool& joined_game, Size& windowSize){
     Event event;
     SDL_Event e;
     bool quit = false;
-    // Mix_PlayMusic(this->music, -1);
-    if(Mix_PlayMusic(music, -1)==-1) {
-        printf("Mix_PlayMusic: %s\n", Mix_GetError());
-        // well, there's no music, but most games don't break without music...
-    }
+    Mix_PlayMusic(this->music, -1);
     Mix_VolumeMusic(64);
     bool mute = false;
 

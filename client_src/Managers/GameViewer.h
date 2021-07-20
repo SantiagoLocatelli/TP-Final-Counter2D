@@ -35,6 +35,7 @@ private:
 
     LevelInfo level;
 
+    Mix_Music *music;
     std::map<WeaponType, Weapon*> weapons;
     std::map<TextHud, std::unique_ptr<TextTexture>> hud;
     std::list<Character> players;
@@ -72,6 +73,9 @@ public:
 
     void setCrossHair(Coordinate pos);
     Coordinate mainPlayerRelativePos();
+
+    void playMusic();
+    void stopMusic();
     void render();
     void update(LevelInfo level);
     void renderGameResult();

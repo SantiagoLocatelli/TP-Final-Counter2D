@@ -10,6 +10,7 @@
 #define PATH_POINTER "/usr/local/share/counter2d/resources/common/img/pointer.bmp"
 #define PATH_FONT_DIGITAL "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
 #define PATH_FONT_AERIAL "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
+#define MUSIC_PATH "/usr/local/share/counter2d/resources/common/sound/menu.wav"
 #define SIZE_CROSSHAIR 25
 #define MARGIN 10
 
@@ -43,6 +44,14 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     cam(windowSize),
     level(level),
     bullet(renderer){
+
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+    }
+    music = Mix_LoadMUS(MUSIC_PATH);
+	if( music == NULL ){
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
 
     SDL_ShowCursor(SDL_DISABLE);
     loadWeapons();
@@ -91,6 +100,9 @@ GameViewer::~GameViewer(){
         it++;
         delete aux;
     }
+    Mix_FreeMusic(this->music);
+    Mix_CloseAudio();
+	Mix_Quit();
 }
 
 void GameViewer::loadHudTextures(){
@@ -512,6 +524,17 @@ void GameViewer::render(){
     showRoundState();
 
     renderer.updateScreen();
+}
+
+void GameViewer::playMusic(){
+    std::unique_lock<std::mutex> lock(m);
+    Mix_PlayMusic(this->music, -1);
+    Mix_VolumeMusic(64);
+}
+
+void GameViewer::stopMusic(){
+    std::unique_lock<std::mutex> lock(m);
+    Mix_HaltMusic();
 }
 
 void GameViewer::renderGameResult() {
