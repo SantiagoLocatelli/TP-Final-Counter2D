@@ -45,17 +45,15 @@ std::vector<RectArea> WorldParser::get_sites(){
     r.width = size[0];
     r.height = size[1];
     v.push_back(r);
-    try{
-        position = mapYaml["bombSite"]["B"]["position"].as<std::vector<float>>();
-        size = mapYaml["bombSite"]["B"]["size"].as<std::vector<float>>();
 
+    size = mapYaml["bombSite"]["B"]["size"].as<std::vector<float>>();
+    if (size[0] != 0){ //Si tiene size 0 este site es inválido
+        position = mapYaml["bombSite"]["B"]["position"].as<std::vector<float>>();
         r.x = position[0];
         r.y = position[1];
         r.width = size[0];
         r.height = size[1];
         v.push_back(r);
-    } catch (const YAML::TypedBadConversion<std::vector<float>> &e){
-        //Esto significa que no hay B site
     }
 
     return v;

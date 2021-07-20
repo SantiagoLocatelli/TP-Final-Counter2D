@@ -21,8 +21,7 @@ class MenuManager{
         std::string mapID;
         std::vector<std::unique_ptr<SdlTexture>> textures;
         std::vector<SdlTexture> floorTextureScreen, wallTextureScreen, weaponTextureScreen;
-        std::map<std::string, std::unique_ptr<Draggable>> bombSites;
-        std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
+        std::map<std::string, std::unique_ptr<Draggable>> rectSites;
         std::map<int, SdlTexture> weaponMap;
         std::string needsToSave;
         std::unique_ptr<SdlMixer> music;
@@ -58,6 +57,7 @@ class MenuManager{
         void deleteTextureRows(const int newRows);
         void insertTextureColumns(const int endOfRowPosition , const int newColumns);
         void insertTextureRows(const int columnsNumber);
+        void putBombSites(const int numberOfBombs);
 
         void fillSize(std::vector<SDL_Rect>& vector);
         void changeTexture(const SDL_Rect& camera);
