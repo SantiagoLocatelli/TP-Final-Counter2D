@@ -1,4 +1,4 @@
-#define MELODY "/usr/local/share/counter2d/resources/common/sound/resident.mp3"
+#define MELODY "/usr/local/share/counter2d/resources/common/sound/resident.wav"
 #define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 #define WEAPONS_PATH "/usr/local/share/counter2d/resources/common/utils/weaponsOnFloor.yaml"
 #define TEXTURE_PATH "/usr/local/share/counter2d/resources/common/maps/textures.yaml"
