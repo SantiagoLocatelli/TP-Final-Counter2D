@@ -5,7 +5,7 @@
 #include "../common_src/Sdl/sdl_texture.h"
 #include "../common_src/TextureMap.h"
 #include "../common_src/Utils.h"
-#include "levelInfo.h"
+#include "LevelInfo.h"
 #include <vector>
 #include <map>
 

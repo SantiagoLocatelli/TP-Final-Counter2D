@@ -8,7 +8,7 @@
 #include "../common_src/Protocol.h"
 #include "../common_src/Event.h"
 #include <SDL2/SDL_mixer.h>
-#include "levelInfo.h"
+#include "LevelInfo.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <list>
