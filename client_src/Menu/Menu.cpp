@@ -418,7 +418,7 @@ void Menu::run(bool& joined_game, Size& windowSize){
     SDL_Event e;
     bool quit = false;
     Mix_PlayMusic(this->music, -1);
-    Mix_VolumeMusic(64);
+    Mix_VolumeMusic(32);
     bool mute = false;
 
     TextTexture muteText(this->renderer, FONT_PATH, 15);
@@ -453,7 +453,6 @@ void Menu::run(bool& joined_game, Size& windowSize){
         this->renderInitMenu(muteText);
     }
     if (joined_game) {
-        //makechoose skin
         makeChooseResolution(quit, windowSize);
         this->server.send_event(event);
     }
