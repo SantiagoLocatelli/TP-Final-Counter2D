@@ -4,7 +4,7 @@ enum keyForMap : int {QUESTION, CANCEL, SAVE_AND_QUIT, QUIT_NO_SAVE};
 
 QuitMenu::QuitMenu(bool& q, SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH) : Presenter(m, screenW, screenH), quit(q),
 backGround(renderer, SAVE_BACKGROUND){
-    std::vector<std::string> text = {"Tenes cambios sin guardar, Estas seguro que queres salir?", "Cancelar", "Guardar y salir", "Salir sin guardar"};
+    std::vector<std::string> text = {"Warning, you have not save your changes, are you sure you want to quit?", "Cancel", "Save and quit", "Quit without saving"};
     for (unsigned int i = 0; i < text.size(); i++){
         menuTextures.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
     }

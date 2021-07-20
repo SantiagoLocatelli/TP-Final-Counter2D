@@ -33,6 +33,7 @@ int main(int argc, char* args[]){
         SDL_Event event;
         
         menuManager.playMusic();
+        Mix_VolumeMusic(64);
         //While application is running
         while (!quit){
             //Handle events on queue
