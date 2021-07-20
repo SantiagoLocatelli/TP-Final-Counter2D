@@ -15,7 +15,6 @@ MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : re
     this->goToStart = false;
     this->isWeapon = false;
     this->quitEditor = false;
-    this->TwoBombSites = true;
     
     YAML::Node yaml_map = YAML::LoadFile(WEAPONS_PATH);
 	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
@@ -52,13 +51,13 @@ void MenuManager::createMap(const std::string mapID){
         this->weaponTypes.push_back(-1);
     }
     std::vector<std::string> spawnSites = {"T", SPAWN_SITE_T, "CT", SPAWN_SITE_CT};
-    for (int i = 0; i < spawnSites.size() - 1; i++){
+    for (unsigned int i = 0; i < spawnSites.size() - 1; i++){
         this->rectSites.emplace(spawnSites[i], new Draggable(this->renderer, spawnSites[i+1], 3 * TILE_SIZE, i * 3 * TILE_SIZE, 0, 255, 0));
         rectSites[spawnSites[i]]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
         i++;
     }
     std::vector<std::string> bombSites = {"A", BOMB_SITE_A , "B", BOMB_SITE_B};
-    for (int i = 0; i < bombSites.size() - 1; i++){
+    for (unsigned int i = 0; i < bombSites.size() - 1; i++){
         this->rectSites.emplace(bombSites[i], new Draggable(this->renderer, bombSites[i+1], 6 * TILE_SIZE, i * 6 * TILE_SIZE, 255, 0, 0));
         rectSites[bombSites[i]]->setWidthAndHeight(3 * TILE_SIZE, 3 * TILE_SIZE);
         i++;
@@ -85,7 +84,7 @@ void MenuManager::loadToFile(){
     SDL_Rect bombSiteA = this->rectSites["A"]->getBox();
     SDL_Rect bombSiteB = {0,0,0,0};
     if (rectSites.size() == 4){
-        SDL_Rect bombSiteB = this->rectSites["B"]->getBox();
+        bombSiteB = this->rectSites["B"]->getBox();
     }
     SDL_Rect spawnSiteT = this->rectSites["T"]->getBox();
     SDL_Rect spawnSiteCT = this->rectSites["CT"]->getBox();

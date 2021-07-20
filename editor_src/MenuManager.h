@@ -27,7 +27,7 @@ class MenuManager{
         std::unique_ptr<SdlMixer> music;
 
         std::vector<int> weaponTypes;
-        bool goToStart, isWeapon, quitEditor, TwoBombSites;
+        bool goToStart, isWeapon, quitEditor;
     public:
         MenuManager(SdlRenderer& r, int screenWidth, int screenHeight);
         void loadToFile();
