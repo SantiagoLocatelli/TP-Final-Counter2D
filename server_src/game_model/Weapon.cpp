@@ -1,7 +1,7 @@
 #include "Weapon.h"
 #include <cstdlib>
 
-Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config), bullets(0), reloadTime(0), shootTime(0),toggled(false), rayCaster(world->b2world){}
+Weapon::Weapon(World *world, GameConfig &config, WeaponType type, WeaponSlot slot):owner(nullptr), world(world), type(type), slot(slot), config(config), rayCaster(world->b2world), bullets(0), reloadTime(0), shootTime(0),toggled(false){}
 
 
 void Weapon::changeOwner(Player *newOwner){
