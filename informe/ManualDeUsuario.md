@@ -30,6 +30,20 @@ Lo primero que hay que hacer es correr el servidor especificando el puerto a usa
 ### Cliente
 Una vez que se corrió el servidor se puede correr el cliente. Para correr el cliente simplemente hay que hacer `counter2dClient`.
 Lo primero que hay que hacer es ingresar la IP del dispositivo que está corriendo el servidor ("localhost" si es nuestra propia PC) y luego el puerto especificado al crear el servidor. Una vez hecho esto ya deberíamos estar conectados y se puede crear una partida.
+### Editor
+**IMPORTANTE** debido a que se deben tener permisos de súper usuario el editor se debe correr con sudo.
+ejemplo de uso: `sudo counter2dEditor`
+Una vez inicia los menús se manes con el click izquierdo del mouse.
+Si se decide crear un mapa se puede introducir un nombre a este y luego con la tecla ```ENTER``` se podrá empezar a editarlo.
+```Click derecho``` para introducir texturas al mapa.
+```ESCAPE``` abre el menú de opciones dentro del el para cambiar los números se puede hacer click en ellos y poner o borrar a gusto.
+```TAB``` abre el menú donde se encuentran las texturas donde se puede hacer click izquierdo en la que se quiera usar.
+```Mantener 1``` para mostrar los bombSites (se pueden arrastrar con click izquierdo).
+```Mantener 2``` para mostrar los spawnSites (se pueden arrastrar con click izquierdo).
+``Apretar 9``` para pausar o reanudar la musica.
+```Apretar 3``` para ocultar o mostrar el texto de ayuda.
+```CTRL S``` para guardar.
+
 
 
 ## Configuración

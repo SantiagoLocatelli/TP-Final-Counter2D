@@ -17,7 +17,7 @@ int main(int argc, char* args[]){
     try{
         SdlWindow window("Editor", EDITOR_SCREEN_WIDTH, EDITOR_SCREEN_HEIGHT);
         SdlRenderer renderer(&window);
-        //window.setFullScreen();
+        window.setFullScreen();
 
         MenuManager menuManager(renderer, EDITOR_SCREEN_WIDTH, EDITOR_SCREEN_HEIGHT);
 
