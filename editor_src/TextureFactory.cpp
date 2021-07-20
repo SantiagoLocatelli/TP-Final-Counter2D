@@ -47,14 +47,15 @@ void TextureFactory::unmarshalSites(const char *yamlFile, std::map<std::string, 
     rectSites.emplace("CT", new Draggable(renderer, SPAWN_SITE_CT, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
     rectSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
-    position = Site["A"]["position"].as<std::vector<float>>();
-    size = Site["A"]["size"].as<std::vector<float>>();
+    YAML::Node SiteTwo = yaml_map["bombSite"];
+    position = SiteTwo["A"]["position"].as<std::vector<float>>();
+    size = SiteTwo["A"]["size"].as<std::vector<float>>();
 
     rectSites.emplace("A", new Draggable(renderer, BOMB_SITE_A, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
     rectSites["A"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
-    position = Site["B"]["position"].as<std::vector<float>>();
-    size = Site["B"]["size"].as<std::vector<float>>();
+    position = SiteTwo["B"]["position"].as<std::vector<float>>();
+    size = SiteTwo["B"]["size"].as<std::vector<float>>();
 
     if (size[0] != 0){
         rectSites.emplace("B", new Draggable(renderer, BOMB_SITE_B, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
