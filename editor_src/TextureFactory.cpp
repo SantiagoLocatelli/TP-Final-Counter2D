@@ -1,5 +1,6 @@
 #include "TextureFactory.h"
 #include "yaml-cpp/yaml.h"
+#include "macros.h"
 #include <utility>
 #include <stdio.h>
 
@@ -38,28 +39,28 @@ void TextureFactory::unmarshalBombSites(const char *yamlFile, std::map<std::stri
     std::vector<float> position = Site["A"]["position"].as<std::vector<float>>();
     std::vector<float> size = Site["A"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("A", new Draggable(renderer, "/usr/local/share/counter2d/resources/common/img/bombSiteA.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+    bombSites.emplace("A", new Draggable(renderer, BOMB_SITE_A, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
     bombSites["A"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
     position = Site["B"]["position"].as<std::vector<float>>();
     size = Site["B"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("B", new Draggable(renderer, "/usr/local/share/counter2d/resources/common/img/bombSiteB.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
+    bombSites.emplace("B", new Draggable(renderer, BOMB_SITE_B, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 255, 0, 0));
     bombSites["B"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 }
 
-void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& bombSites, SdlRenderer& renderer, const int& tile_size){
+void TextureFactory::unmarshalSpawnSites(const char *yamlFile, std::map<std::string, std::unique_ptr<Draggable>>& spawnSites, SdlRenderer& renderer, const int& tile_size){
     YAML::Node yaml_map = YAML::LoadFile(yamlFile);
     YAML::Node Site = yaml_map["spawnSite"];
     std::vector<float> position = Site["T"]["position"].as<std::vector<float>>();
     std::vector<float> size = Site["T"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("T", new Draggable(renderer, "/usr/local/share/counter2d/resources/common/img/spawnSiteT.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
-    bombSites["T"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+    spawnSites.emplace("T", new Draggable(renderer, SPAWN_SITE_T, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    spawnSites["T"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 
     position = Site["CT"]["position"].as<std::vector<float>>();
     size = Site["CT"]["size"].as<std::vector<float>>();
 
-    bombSites.emplace("CT", new Draggable(renderer, "/usr/local/share/counter2d/resources/common/img/spawnSiteCT.png", (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
-    bombSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
+    spawnSites.emplace("CT", new Draggable(renderer, SPAWN_SITE_CT, (int) (position[0] * tile_size), (int) (position[1] * tile_size), 0, 255, 0));
+    spawnSites["CT"]->setWidthAndHeight((int) (size[0] * tile_size), (int) (size[1] * tile_size));
 }

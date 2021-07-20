@@ -25,7 +25,7 @@ class MenuManager{
         std::map<std::string, std::unique_ptr<Draggable>> spawnSites;
         std::map<int, SdlTexture> weaponMap;
         std::string needsToSave;
-        std::unique_ptr<SdlMixer> chunk;
+        std::unique_ptr<SdlMixer> music;
 
         std::vector<int> weaponTypes;
         bool goToStart, isWeapon, quitEditor;
@@ -67,6 +67,8 @@ class MenuManager{
         void needToSave();
         void goToMenu();
         void requestQuit();
+        void playMusic();
+        void pauseMusic();
 
         bool quitToMenu();
         bool quit();

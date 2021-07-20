@@ -3,9 +3,6 @@
 #include <utility>
 #include <stdio.h>
 #include <stdlib.h>
-#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-#define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
-#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
 enum keyForMap : int {WIDTH, HEIGHT, SAVE_MAP, BACK, QUIT_TO_MENU, QUIT};
 
 OptionsMenu::OptionsMenu(SdlRenderer& renderer, MenuManager& m ,int screenW, int screenH)

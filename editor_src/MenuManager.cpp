@@ -4,12 +4,10 @@
 #include <fstream>
 #include <utility>
 #include <memory>
-#define CHUNK_PATH "/usr/local/share/counter2d/resources/common/sound/pressButton.mp3"
-#define WEAPONS_PATH "/usr/local/share/counter2d/resources/common/utils/weaponsOnFloor.yaml"
 
 MenuManager::MenuManager(SdlRenderer& r, int screenWidth, int screenHeight) : renderer(r){
     std::vector<std::string> vec = {CHUNK_PATH};
-    this->chunk = std::unique_ptr<SdlMixer>(new SdlMixer(vec));
+    this->music = std::unique_ptr<SdlMixer>(new SdlMixer(MELODY, vec));
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
     this->currentType = 0;
@@ -52,17 +50,17 @@ void MenuManager::createMap(const std::string mapID){
     for (int i = 0; i < (int) (mapSize[0] * mapSize[1]); i++){
         this->weaponTypes.push_back(-1);
     }
-    std::vector<std::string> auxBombs = {"A", "B", "/usr/local/share/counter2d/resources/common/img/bombSiteA.png", "/usr/local/share/counter2d/resources/common/img/bombSiteB.png"};
-    std::vector<std::string> auxSpawns = {"T", "CT", "/usr/local/share/counter2d/resources/common/img/spawnSiteT.png", "/usr/local/share/counter2d/resources/common/img/spawnSiteCT.png"};
+    std::vector<std::string> auxBombs = {"A", "B", BOMB_SITE_A, BOMB_SITE_B};
+    std::vector<std::string> auxSpawns = {"T", "CT", SPAWN_SITE_T, SPAWN_SITE_CT};
     for (int i = 0; i < 2; i++){
-        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, auxBombs[i+2], 0, i * 100, 255, 0, 0));
+        this->bombSites.emplace(auxBombs[i], new Draggable(this->renderer, auxBombs[i+2], 100, (i * 100) + 100, 255, 0, 0));
         bombSites[auxBombs[i]]->setWidthAndHeight(100, 100);
 
-        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, auxSpawns[i+2], 200, (i * 100), 0, 255, 0));
+        this->spawnSites.emplace(auxSpawns[i], new Draggable(this->renderer, auxSpawns[i+2], 400, (i * 100) + 100, 0, 255, 0));
         spawnSites[auxSpawns[i]]->setWidthAndHeight(100, 100);
     }
 
-    this->mapID = "/usr/local/share/counter2d/resources/common/maps/" + mapID + ".yaml";
+    this->mapID = MAPS_DIR + mapID + ".yaml";
 }
 
 void MenuManager::editMap(const std::string& mapID){
@@ -342,7 +340,7 @@ void MenuManager::handleSelectTexture(SDL_Event* event, int& page, std::vector<S
                 j++;
                 //If the mouse is inside the tile
                 if ((x > textureX) && (x < textureX + TILE_SIZE) && (y > textureY) && (y < textureY + TILE_SIZE)){
-                    this->chunk->playChunk(0);
+                    this->music->playChunk(0);
                     this->currentType = textures[i].getType();
                     break;
                 }
@@ -516,6 +514,14 @@ void MenuManager::changeToMeters(std::vector<SDL_Rect>& vector){
         value.w = value.w/TILE_SIZE;
         value.h = value.h/TILE_SIZE;
     }
+}
+
+void MenuManager::playMusic(){
+    this->music->play();
+}
+
+void MenuManager::pauseMusic(){
+    this->music->pause();
 }
 
 void MenuManager::goToMenu(){
