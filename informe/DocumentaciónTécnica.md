@@ -5,8 +5,6 @@
 
 # Documentación técnica
 
-## Requerimientos de software
-
 ## Descripción general
 
 El proyecto consta de 3 módulos principales. El Servidor, el Cliente, y el Editor.
