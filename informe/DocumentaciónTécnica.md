@@ -51,7 +51,7 @@ Menú que interrumpe al usuario al cerrar el editor si tiene cambios no guardado
 
 <img src='img/SequenceDiagramQuitMenu.jpeg?raw=true'>
 
-###TextureScreen
+### TextureScreen
 Encargada de mostrar todas las texturas que se encuentran en el programa, dividiéndolas en pisos, paredes y armas y manejar los eventos para la selección de la textura a ingresar.
 
 <img src='img/SequenceDiagramTextureScreen.jpeg?raw=true'>
