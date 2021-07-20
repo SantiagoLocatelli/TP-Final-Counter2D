@@ -8,11 +8,22 @@
 #define BACKGROUND "/usr/local/share/counter2d/resources/common/img/counter.jpeg"
 #define FONT_SIZE 26
 #define FONT_SIZE_TYPE 20
+#define MUSIC_PATH "/usr/local/share/counter2d/resources/common/sound/menu.wav"
+#define MARGIN 20
 
 enum TextTextureType : int {PUT_TEXT, VARIABLE_TEXT};
 
 IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
     renderer(&window), background(renderer, BACKGROUND){
+
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+    }
+    music = Mix_LoadMUS(MUSIC_PATH);
+	if( music == NULL ){
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
+
     this->renderText = false;
     this->variableText = " ";
     this->ip = "";
@@ -27,11 +38,21 @@ IpMenu::IpMenu():window("IpMenu", SCREEN_WIDTH, SCREEN_HEIGHT),
 
 void IpMenu::start(){
 
-
     bool quit = false;
     SDL_Event event;
     SDL_PollEvent(&event);
     isPort = false;
+
+    Mix_PlayMusic(this->music, -1);
+    Mix_VolumeMusic(64);
+    bool mute = false;
+
+    TextTexture muteText(this->renderer, FONT_PATH, 15);
+    muteText.setText("Click here to mute or unmute", WHITE);
+    Size muteSize = muteText.getSize();
+    Coordinate mutePos = {SCREEN_WIDTH - muteSize.w - MARGIN, SCREEN_HEIGHT - MARGIN - muteSize.h};
+    muteText.setCoordinate(mutePos);
+
     while (!quit) {
         while (SDL_PollEvent(&event)){
             if (event.type == SDL_QUIT){
@@ -66,6 +87,14 @@ void IpMenu::start(){
                 }
                 this->renderText = true;
             }
+            if((event.type == SDL_MOUSEBUTTONDOWN) && event.button.button == SDL_BUTTON_LEFT && muteText.isMouseTouching()) {
+                if (mute) {
+                    Mix_ResumeMusic();
+                } else {
+                    Mix_PauseMusic();
+                }
+                mute = !mute;
+            }
         }
         if (renderText){
             if (this->variableText == ""){
@@ -85,8 +114,11 @@ void IpMenu::start(){
         this->map[VARIABLE_TEXT]->render({(window.getWidth() - this->map[VARIABLE_TEXT]->getSize().w)/2,
          (window.getHeight() - this->map[VARIABLE_TEXT]->getSize().h)/2});
 
+        muteText.render();
+        
         renderer.updateScreen();
     }
+    Mix_HaltMusic();
 }
 
 std::string IpMenu::getIp(){
@@ -95,4 +127,10 @@ std::string IpMenu::getIp(){
 
 std::string IpMenu::getPort(){
     return this->port;
+}
+
+IpMenu::~IpMenu(){
+    Mix_FreeMusic(this->music);
+    Mix_CloseAudio();
+	Mix_Quit();
 }

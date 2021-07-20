@@ -12,7 +12,6 @@ SoundEffects::SoundEffects(){
         sprintf(err, "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
         throw GeneralException(err);
     }
-    Mix_Volume(-1, 64);
     loadPlayerSounds();
     loadWeaponSounds();
 }
@@ -24,11 +23,9 @@ void SoundEffects::loadPlayerSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         PlayerEffect effect = (PlayerEffect)sound.second;
         this->playerEffects[effect] = Mix_LoadWAV(sound.first.c_str());
-        Mix_VolumeChunk(this->playerEffects[effect], 64);
         i++;
     }
 }
-
 
 void SoundEffects::loadWeaponSounds(){
     YAML::Node yaml_map = YAML::LoadFile(PATH_WEAPON_SOUNDS);
@@ -37,20 +34,23 @@ void SoundEffects::loadWeaponSounds(){
         std::pair<std::string, int> sound = it->as<std::pair<std::string, int>>();
         WeaponEffect effect = (WeaponEffect)sound.second;
         this->weaponsEffects[effect] = Mix_LoadWAV(sound.first.c_str());
-        Mix_VolumeChunk(this->weaponsEffects[effect], 64);
         i++;
     }
 }
 
+void SoundEffects::playPlayerSound(PlayerEffect effect, int volumePercetange){
+    int volume = (volumePercetange * 128)/100; 
+    Mix_VolumeChunk(this->playerEffects[effect], volume);
 
-void SoundEffects::playPlayerSound(PlayerEffect effect){
     Mix_PlayChannel(-1, this->playerEffects[effect], 0);
 }
 
-void SoundEffects::playWeaponSound(WeaponEffect effect){
+void SoundEffects::playWeaponSound(WeaponEffect effect, int volumePercetange){
+    int volume = (volumePercetange * 128)/100; 
+
+    Mix_VolumeChunk(this->weaponsEffects[effect], volume);
     Mix_PlayChannel(-1, this->weaponsEffects[effect], 0);
 }
-
 
 SoundEffects::~SoundEffects(){
     for(auto it = this->playerEffects.begin(); it != this->playerEffects.end(); it++){

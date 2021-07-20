@@ -36,7 +36,7 @@ void Character::render(Coordinate cam){
     this->texture.render(dstPj.x, dstPj.y, dstPj.w, dstPj.h, &srcPj, this->player.degrees + PHASE_SHIFT);
 }
 
-int quantityWeapons(std::array<WeaponType, 4> weapons){
+int Character::quantityWeapons(std::array<WeaponType, 4> weapons){
     int quantity = 0;
     for (int i = 0; i < (int)weapons.size(); i++) {
         if (weapons[i] != NO_WEAPON) quantity++;
@@ -72,6 +72,7 @@ void Character::update(PlayerInfo info, Weapon* weapon){
     } else if (newQuantity > oldQuantity) {
         this->player.sounds.push_back(PICKING_UP);
     }
+
     this->player.weapons = info.weapons;
     this->player.currentSlot = info.currentSlot;
 
@@ -102,17 +103,6 @@ int Character::getPosX(){return this->player.pos.x;}
 SDL_Rect Character::getRect(){return {this->player.pos.x, this->player.pos.x, this->player.size.w, this->player.size.h};}
 float Character::getDegrees(){return this->player.degrees;}
 PlayerInfo Character::getInfo(){return this->player;}
-
-// Character& Character::operator=(Character&& other){
-//     this->texture = other.texture;
-//     this->player = other.player;
-//     this->weapon = other.weapon;
-//     return *this;
-// }
-
-// Character::Character(Character&& other):texture(other.texture), weapon(other.weapon){
-//     this->player = other.player;
-// }
 
 Character& Character::operator=(const Character& other){
     this->texture = other.texture;

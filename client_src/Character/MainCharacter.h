@@ -12,9 +12,7 @@ private:
 
     CrossHair cr;
     Stencil st;
-    float health;
-    int ammo;
-    int money;
+    MainPlayerInfo player;
 
 public:
 
@@ -22,6 +20,7 @@ public:
     void render(Coordinate cam);
     void update(MainPlayerInfo info, Weapon* weapon);
     void setCrossHair(Coordinate pos);
+    MainPlayerInfo getMainPlayerInfo();
 };
 
 

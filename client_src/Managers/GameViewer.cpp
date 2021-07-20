@@ -4,11 +4,13 @@
 #include <iostream>
 #include <cstdio>
 #include <memory>
+#include "GameMath.h"
 
 #define WINDOW_LABEL "Counter-Strike 2D"
 #define PATH_POINTER "/usr/local/share/counter2d/resources/common/img/pointer.bmp"
 #define PATH_FONT_DIGITAL "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
 #define PATH_FONT_AERIAL "/usr/local/share/counter2d/resources/common/img/aerial.ttf"
+#define MUSIC_PATH "/usr/local/share/counter2d/resources/common/sound/menu.wav"
 #define SIZE_CROSSHAIR 25
 #define MARGIN 10
 
@@ -24,7 +26,6 @@
 #define DELAY_SOUND_BOMB 20
 #define DELAY_SOUND_BOMB_QUICK 5
 #define ABOUT_TO_EXPLODE 5.0
-
 
 #define BUY_RIFLE 0
 #define BUY_SNIPER 8
@@ -43,6 +44,14 @@ GameViewer::GameViewer(Size windowSize, LevelInfo level): window(WINDOW_LABEL, w
     cam(windowSize),
     level(level),
     bullet(renderer){
+
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+    }
+    music = Mix_LoadMUS(MUSIC_PATH);
+	if( music == NULL ){
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
 
     SDL_ShowCursor(SDL_DISABLE);
     loadWeapons();
@@ -91,6 +100,9 @@ GameViewer::~GameViewer(){
         it++;
         delete aux;
     }
+    Mix_FreeMusic(this->music);
+    Mix_CloseAudio();
+	Mix_Quit();
 }
 
 void GameViewer::loadHudTextures(){
@@ -116,17 +128,35 @@ void GameViewer::loadHudTextures(){
     this->hud[TEXT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT_AERIAL, this->cam.getWidth()/65));
 }
 
+bool GameViewer::isVisibleByMainPlayer(Coordinate pos) {
+    SDL_Rect cam = this->cam.getRect();
+    return (pos.x >= cam.x && pos.x <= cam.w && pos.y >= cam.y && pos.y <= cam.h);
+}
+
+int GameViewer::setVolume(Coordinate pos){
+    bool isVisible = isVisibleByMainPlayer(pos);
+    int distanceBetweenMain = Math::manhattanDistance(pos, this->level.mainPlayer.pos);
+    if (isVisible) {
+        return 100;
+    } else if (distanceBetweenMain > this->level.size.w/4) {
+        return 0;
+    } else {
+        return 50;
+    }
+}
+
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){
         if (!it->isDead()) {
             it->render(cam);
 
             PlayerInfo player = it->getInfo();
+            int volume = setVolume(player.pos);
             for (PlayerEffect effect : player.sounds) {
-                this->sounds.playPlayerSound(effect);
+                this->sounds.playPlayerSound(effect, volume);
             }
             if (player.shooting) {
-                this->sounds.playWeaponSound(player.weapon.sound);
+                this->sounds.playWeaponSound(player.weapon.sound, volume);
             }
         }
     }
@@ -163,11 +193,13 @@ void GameViewer::renderMap(Coordinate cam){
 
 void GameViewer::renderMainPlayer(Coordinate cam){
     this->mainPlayer->render(cam);
-    for (PlayerEffect effect : this->level.mainPlayer.sounds) {
-        this->sounds.playPlayerSound(effect);
+    PlayerInfo player = this->mainPlayer->getInfo();
+
+    for (PlayerEffect effect : player.sounds) {
+        this->sounds.playPlayerSound(effect, 100);
     }
-    if (this->level.mainPlayer.shooting) {
-        this->sounds.playWeaponSound(this->level.mainPlayer.weapon.sound);
+    if (player.shooting) {
+        this->sounds.playWeaponSound(player.weapon.sound, 100);
     }
 }
 
@@ -305,19 +337,20 @@ void GameViewer::renderBomb(Coordinate cam){
         this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
         
         this->delaySound++;
+        int volume = setVolume(pos);
 
         // seteo el delay segun el tiempo restante
         if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
-            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->sounds.playWeaponSound(BOMB_PIP, volume); 
             this->delaySound = 0;
         } else if (this->delaySound >= DELAY_SOUND_BOMB_QUICK && this->level.bomb.time < ABOUT_TO_EXPLODE){
-            this->sounds.playWeaponSound(BOMB_PIP); 
+            this->sounds.playWeaponSound(BOMB_PIP, volume); 
             this->delaySound = 0;
         }
 
         if (this->level.bomb.time < 0.1) {
             this->renderExplosion(cam);
-            this->sounds.playWeaponSound(BOMD_EXPLODE);
+            this->sounds.playWeaponSound(BOMD_EXPLODE, volume);
         }
     }
 }
@@ -493,6 +526,17 @@ void GameViewer::render(){
     renderer.updateScreen();
 }
 
+void GameViewer::playMusic(){
+    std::unique_lock<std::mutex> lock(m);
+    Mix_PlayMusic(this->music, -1);
+    Mix_VolumeMusic(64);
+}
+
+void GameViewer::stopMusic(){
+    std::unique_lock<std::mutex> lock(m);
+    Mix_HaltMusic();
+}
+
 void GameViewer::renderGameResult() {
     std::unique_lock<std::mutex> lock(m);
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -536,6 +580,7 @@ void GameViewer::update(LevelInfo newLevel){
     updateHud(newLevel);
     WeaponType mainType = newLevel.mainPlayer.weapon.type;
     this->mainPlayer->update(newLevel.mainPlayer, this->weapons[mainType]);
+    this->level.mainPlayer = this->mainPlayer->getMainPlayerInfo();
 
     auto it = this->players.begin();
     for (PlayerInfo player : this->level.players) {

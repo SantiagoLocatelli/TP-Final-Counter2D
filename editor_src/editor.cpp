@@ -4,17 +4,14 @@
 #include <stdio.h>
 #include <memory>
 #include <utility>
-#define TEXTURE_PATH "/usr/local/share/counter2d/resources/common/maps/textures.yaml"
-#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-enum helperText : int {BOMB_SITE, SPAWN_SITE, PUT_TILES, TAB, ESC, HIDE};
+enum helperText : int {BOMB_SITE, SPAWN_SITE, PUT_TILES, TAB, ESC, MUSIC, HIDE};
 
 Editor::Editor(SdlRenderer& renderer, MenuManager& m, int screenW, int screenH) : Presenter(m, screenW, screenH){
-    helperMap.emplace(BOMB_SITE, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "mantenga 1 para ver los bomsites", 255, 255, 255));
-    helperMap.emplace(SPAWN_SITE, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "mantenga 2 para ver los spawnsites", 255, 255, 255));
-    helperMap.emplace(PUT_TILES, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "click derecho para poner las texturas", 255, 255, 255));
-    helperMap.emplace(TAB, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "aprete TAB para cambiar texturas", 255, 255, 255));
-    helperMap.emplace(ESC, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "aprete ESCAPE para ver opciones", 255, 255, 255));
-    helperMap.emplace(HIDE, SdlTexture(renderer, FONT_PATH, FONT_SIZE, "aprete 3 para ocultar este texto", 255, 255, 255));
+    std::vector<std::string> text = {"mantenga 1 para ver los bomsites", "mantenga 2 para ver los spawnsites", "click derecho para poner las texturas",
+     "aprete TAB para cambiar texturas", "aprete ESCAPE para ver opciones", "aprete 9 para pausar la musica", "aprete 3 para ocultar este texto"};
+    for (unsigned int i = 0; i < text.size(); i++){
+        helperMap.emplace(i, SdlTexture(renderer, FONT_PATH, FONT_SIZE, text[i], 255, 255, 255));
+    }
     this->renderBombSites = false;
     this->renderSpawnSites = false;
     this->changeScene = false;

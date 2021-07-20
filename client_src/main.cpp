@@ -31,7 +31,6 @@ int main(int argc, char* argv[]){
             return 0;
         } 
 
-
         MapInfo map;
         ModelInfo model;
         bool loading = true;
@@ -62,7 +61,8 @@ int main(int argc, char* argv[]){
             server.send_event(ready);
 
             server.recv_model_info(model);
-            while (joined_game && !model.gameEnded) {
+
+            while (!model.gameEnded) {
                 stopwatch.start();
                 server.recv_model_info(model);
                 gameManager.updatedLevel(level, model);
@@ -77,10 +77,12 @@ int main(int argc, char* argv[]){
             eventManager.join();
             return 0;
         }
-
-        // es para mostrar el resultado final de la partida
+        eventManager.stop();
+        eventManager.join();
+            // es para mostrar el resultado final de la partida
         SDL_Event e;
         bool quit = false;
+        gameViewer.playMusic();
         while (!quit) {
             while (SDL_PollEvent(&e) != 0 && !quit) {
                 switch (e.type) {

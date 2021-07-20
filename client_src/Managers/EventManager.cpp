@@ -23,58 +23,71 @@ void EventManager::run(){
                             case SDLK_w: 
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = UP; 
+                                this->com.send_event(event);
                                 break;
                             case SDLK_s: 
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = DOWN; 
+                                this->com.send_event(event);
                                 break;
                             case SDLK_a: 
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = LEFT; 
+                                this->com.send_event(event);
                                 break;
                             case SDLK_d: 
                                 event.type = TOGGLE_MOVEMENT;
                                 event.info.dir = RIGHT; 
+                                this->com.send_event(event);
                                 break;
                             case SDLK_e: 
                                 event.type = TOGGLE_DEFUSE;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_r:
                                 event.type = RELOAD_WEAPON;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_1: 
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = KNIFE_SLOT;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_2:
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = SECONDARY;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_3:
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = PRIMARY;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_4:
                                 event.type = CHANGE_WEAPON;
                                 event.info.slot = BOMB_SLOT;              
+                                this->com.send_event(event);
                                 break;
                             case SDLK_8:
                                 event.type = BUY_WEAPON;
                                 event.info.type = SNIPER;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_9:
                                 event.type = BUY_WEAPON;
                                 event.info.type = SHOTGUN;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_0:
                                 event.type = BUY_WEAPON;
                                 event.info.type = RIFLE;
+                                this->com.send_event(event);
                                 break;
                             case SDLK_g:
                                 event.type = DROP_WEAPON;
+                                this->com.send_event(event);
                                 break;
                         }
-                        this->com.send_event(event);
                     }
                     break; 
 

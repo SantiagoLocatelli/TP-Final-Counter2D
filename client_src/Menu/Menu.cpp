@@ -22,9 +22,8 @@
 
 #define MAX_STRING 29
 #define MARGIN 20
-#define PATH_FONT "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
-#define PATH "/usr/local/share/counter2d/resources/client/"
-
+#define FONT_PATH "/usr/local/share/counter2d/resources/common/img/digital-7.ttf"
+#define MUSIC_PATH "/usr/local/share/counter2d/resources/common/sound/menu.wav"
 
 const struct Size RESOLUTION_STANDARD = {600, 600};
 const struct Size RESOLUTION_SEMI_HIGH = {800, 800};
@@ -33,58 +32,51 @@ const struct Size RESOLUTION_HIGH = {1000, 1000};
 Menu::Menu(Size windowSize, Protocol& server):window(WINDOW_LABEL, windowSize.w, windowSize.h),
     renderer(&window), size(windowSize), 
     background(this->renderer, BACKGROUND_PATH), server(server){
-    loadButtons();
-    loadSkins(renderer);
-}
-
-void Menu::loadSkins(SdlRenderer& renderer){
-    std::stringstream path;
-    path << PATH;
-    path << "playerSkins.yaml";
-    YAML::Node yaml_map = YAML::LoadFile(path.str());
-	for (YAML::iterator it = yaml_map.begin(); it != yaml_map.end(); ++it) {
-        std::pair<std::string, int> texture = it->as<std::pair<std::string, int>>();
-        SkinType skin = (SkinType) texture.second;
-        this->skins[skin] = std::unique_ptr<SdlTexture> (new SdlTexture(renderer, texture.first, BLACK.r, BLACK.g, BLACK.b));
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
     }
+    music = Mix_LoadMUS(MUSIC_PATH);
+	if( music == NULL ){
+		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+	}
+    loadButtons();
 }
 
 
 void Menu::loadButtons(){
-    this->buttons[QUIT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[QUIT] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     this->buttons[QUIT]->setText("Quit Game", WHITE);
     Size sizeTexture = this->buttons[QUIT]->getSize();
     Coordinate pos = {MARGIN, this->size.h - MARGIN - sizeTexture.h}; 
     this->buttons[QUIT]->setCoordinate(pos);
    
-    this->buttons[NEW_GAME] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[NEW_GAME] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     this->buttons[NEW_GAME]->setText("Create Game", WHITE);
     sizeTexture = this->buttons[NEW_GAME]->getSize();
     pos.y = pos.y - sizeTexture.h - MARGIN;
     this->buttons[NEW_GAME]->setCoordinate(pos);
 
-    this->buttons[JOIN] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[JOIN] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     this->buttons[JOIN]->setText("Join Game", WHITE);
     sizeTexture = this->buttons[JOIN]->getSize();
     pos.y = pos.y - sizeTexture.h - MARGIN;
     this->buttons[JOIN]->setCoordinate(pos);
 
-    this->buttons[BACK] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[BACK] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     this->buttons[BACK]->setText("Back", WHITE);
     sizeTexture = this->buttons[BACK]->getSize();
     pos = {MARGIN, this->size.h - MARGIN - sizeTexture.h};
     this->buttons[BACK]->setCoordinate(pos);
 
 
-    this->buttons[CONFIRM] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[CONFIRM] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     this->buttons[CONFIRM]->setText("Confirm", WHITE);
     sizeTexture = this->buttons[CONFIRM]->getSize();
     pos = {this->size.w - MARGIN - sizeTexture.w, this->size.h - MARGIN - sizeTexture.h};
     this->buttons[CONFIRM]->setCoordinate(pos);
 
-    this->buttons[LABEL] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    this->buttons[LABEL] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
 }
-
 
 void Menu::loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps){
     DIR *dir;
@@ -111,7 +103,7 @@ void Menu::loadMaps(std::map<std::string, std::unique_ptr<TextTexture>>& maps){
         int start_position = prot_i - path.begin();
 
         path.erase(start_position, path.length());
-        maps[path] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+        maps[path] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
         maps[path]->setText(path, WHITE);
         
         Size sizeTexture = maps[path]->getSize();
@@ -272,7 +264,6 @@ void Menu::renderJoinMenu(std::map<std::string, std::unique_ptr<TextTexture>>& o
     renderer.updateScreen();
 }
 
-
 void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
     
     event.type = LIST_GAMES;
@@ -288,7 +279,7 @@ void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
 
         sprintf(text, "Nombre: %s - Mapa: %s - Players: %i/%i", game.name, game.map, game.players, game.max_players);
          
-        options[game.name] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+        options[game.name] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
         options[game.name]->setText(text, WHITE);
         Size sizeTexture = options[game.name]->getSize();
         Coordinate pos = {this->size.w/2 - sizeTexture.w/2, nextHeight};
@@ -322,7 +313,7 @@ void Menu::joinGame(bool& joined_game, bool& quit, Event& event){
     }
 }
 
-void Menu::renderInitMenu(){
+void Menu::renderInitMenu(TextTexture& muteText){
     
     renderer.setDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     renderer.clear();
@@ -331,6 +322,7 @@ void Menu::renderInitMenu(){
     this->buttons[QUIT]->render();
     this->buttons[NEW_GAME]->render();
     this->buttons[JOIN]->render();
+    muteText.render();
 
     renderer.updateScreen();
 }
@@ -351,7 +343,7 @@ void Menu::renderOptionsResolutions(std::map<Resolution, std::unique_ptr<TextTex
 
 void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& options) {
     // enum Resolution : int {STANDARD, SEMI_HIGH, HIGH, ALTERNATIVE};
-    options[STANDARD] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    options[STANDARD] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     char text[100];
     sprintf(text, "%d x %d",RESOLUTION_STANDARD.w, RESOLUTION_STANDARD.h);
     options[STANDARD]->setText(text, WHITE);
@@ -359,14 +351,14 @@ void Menu::loadResolutions(std::map<Resolution, std::unique_ptr<TextTexture>>& o
     Coordinate pos = {this->size.w/2 - sizeText.w/2, 100};
     options[STANDARD]->setCoordinate(pos);
 
-    options[SEMI_HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    options[SEMI_HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     sprintf(text, "%d x %d", RESOLUTION_SEMI_HIGH.w, RESOLUTION_SEMI_HIGH.h);
     options[SEMI_HIGH]->setText(text, WHITE);
     sizeText = options[SEMI_HIGH]->getSize();
     pos = {this->size.w/2 - sizeText.w/2, 150};
     options[SEMI_HIGH]->setCoordinate(pos);
 
-    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, PATH_FONT, SIZE_FONT));
+    options[HIGH] = std::unique_ptr<TextTexture> (new TextTexture(this->renderer, FONT_PATH, SIZE_FONT));
     sprintf(text, "%d x %d", RESOLUTION_HIGH.w, RESOLUTION_HIGH.h);
     options[HIGH]->setText(text, WHITE);
     sizeText = options[HIGH]->getSize();
@@ -425,6 +417,16 @@ void Menu::run(bool& joined_game, Size& windowSize){
     Event event;
     SDL_Event e;
     bool quit = false;
+    Mix_PlayMusic(this->music, -1);
+    Mix_VolumeMusic(64);
+    bool mute = false;
+
+    TextTexture muteText(this->renderer, FONT_PATH, 15);
+    muteText.setText("Press m to mute or unmute", WHITE);
+    Size muteSize = muteText.getSize();
+    Coordinate mutePos = {this->size.w - muteSize.w - MARGIN, this->size.h - MARGIN - muteSize.h};
+    muteText.setCoordinate(mutePos);
+
     while (!joined_game && !quit) {
         while (SDL_PollEvent(&e) != 0 && !joined_game) {
             if (e.type == SDL_MOUSEMOTION)
@@ -439,14 +441,27 @@ void Menu::run(bool& joined_game, Size& windowSize){
                 } else  if (this->buttons[JOIN]->isMouseTouching()) {
                     this->joinGame(joined_game, quit, event);
                 }
+            } else if(e.type == SDL_KEYDOWN && e.key.repeat == 0 &&  e.key.keysym.sym == SDLK_m) {
+                if (mute) {
+                    Mix_ResumeMusic();
+                } else {
+                    Mix_PauseMusic();
+                }
+                mute = !mute;
             }
         }
-        this->renderInitMenu();
+        this->renderInitMenu(muteText);
     }
     if (joined_game) {
         //makechoose skin
         makeChooseResolution(quit, windowSize);
         this->server.send_event(event);
     }
+    Mix_HaltMusic();
 }
 
+Menu::~Menu(){
+    Mix_FreeMusic(this->music);
+    Mix_CloseAudio();
+	Mix_Quit();
+}
