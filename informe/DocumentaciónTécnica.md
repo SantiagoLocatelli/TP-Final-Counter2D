@@ -1,4 +1,9 @@
-# Documentación Técnica
+<img src='img/logo_fiuba.png?raw=true'>
+
+# Taller de Programación I - (75.42/95.08)
+# Trabajo Práctico Final - Counter-Strike-2D -
+
+# Documentación técnica
 
 ## Requerimientos de software
 
