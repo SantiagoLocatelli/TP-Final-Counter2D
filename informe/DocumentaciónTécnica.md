@@ -7,8 +7,16 @@
 ## Editor
 El editor se encarga de editar o crear mapas implementando *drag and drop*, *point and click*, varios menús distintos con textos claros para ser *user friendly* y  utilizando la librería SDL para renderizar las texturas.
 
+### EventLoop
+Dentro del main se encuentra el principal *event loop* el cual crea un stack de la clase `Presenter` para facilitar la navegación entre menús.
+
+<img src='img/SequenceDiagramMainEditor.jpeg?raw=true'>
+<img src='img/SequenceDiagramMainEditorEnding.jpeg?raw=true'>
+
 ### MenuManager
 Esta clase es la encargada de conectar los cambios de los distintos menús para luego guardar el mapa en un archivo yaml. En última instancia es el que renderiza y maneja los eventos del mapa a editar.
+
+<img src='img/ClassDiagramMenuManager.jpeg?raw=true'>
 
 ### TextureFactory
 Clase encargada de abrir los archivos de formato yaml y generar objetos con los valores leídos.
@@ -16,20 +24,32 @@ Clase encargada de abrir los archivos de formato yaml y generar objetos con los 
 ### Presenter
 Clase padre de los menús el cual cumple la función de proxy delegando su comportamiento a `MenuManager`.
 
+<img src='img/ClassDiagramPresenter.jpeg?raw=true'>
+
 ### InitialMenu
 Primer menú que da como opción de edición los mapas que se crearon hasta el momento y también da como opción crear un mapa.
+
+<img src='img/SequenceDIagramInitialMenu.jpeg?raw=true'>
 
 ### Editor
 Clase que se encarga de maneja los evento del usuario sobre el editor de mapas y lo actualiza según los cambios dados.
 
+<img src='img/SequenceDiagramEditorClass.jpeg?raw=true'>
+
 ### OptionsMenu
 Menú de opciones donde el usuario puede modificar los tamaños tanto del mapa como de las zonas de aparición o de bombas.
+
+<img src='img/SequenceDiagramOptionsMenu.jpeg?raw=true'>
 
 ### QuitMenu
 Menú que interrumpe al usuario al cerrar el editor si tiene cambios no guardados, dándole la opción de hacerlo.
 
+<img src='img/SequenceDiagramQuitMenu.jpeg?raw=true'>
+
 ###TextureScreen
 Encargada de mostrar todas las texturas que se encuentran en el programa, dividiéndolas en pisos, paredes y armas y manejar los eventos para la selección de la textura a ingresar.
+
+<img src='img/SequenceDiagramTextureScreen.jpeg?raw=true'>
 
 ## Cliente
 
