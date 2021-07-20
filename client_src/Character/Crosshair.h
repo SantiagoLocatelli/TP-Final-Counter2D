@@ -2,7 +2,7 @@
 #define __CROSSHAIR_H__
 
 #include "../../common_src/Sdl/sdl_texture.h"
-#include "../levelInfo.h"
+#include "../LevelInfo.h"
 #include "SDL2/SDL.h"
 
 class CrossHair {

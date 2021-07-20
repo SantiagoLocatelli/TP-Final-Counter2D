@@ -3,7 +3,7 @@
 
 #include "../../common_src/Sdl/sdl_texture.h"
 #include "../../common_src/Protocol.h"
-#include "../levelInfo.h"
+#include "../LevelInfo.h"
 #include "Weapon.h"
 
 class Character{
