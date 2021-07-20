@@ -5,6 +5,31 @@
 ## Descripción general
 
 ## Editor
+El editor se encarga de editar o crear mapas implementando *drag and drop*, *point and click*, varios menús distintos con textos claros para ser *user friendly* y  utilizando la librería SDL para renderizar las texturas.
+
+### MenuManager
+Esta clase es la encargada de conectar los cambios de los distintos menús para luego guardar el mapa en un archivo yaml. En última instancia es el que renderiza y maneja los eventos del mapa a editar.
+
+### TextureFactory
+Clase encargada de abrir los archivos de formato yaml y generar objetos con los valores leídos.
+
+### Presenter
+Clase padre de los menús el cual cumple la función de proxy delegando su comportamiento a `MenuManager`.
+
+### InitialMenu
+Primer menú que da como opción de edición los mapas que se crearon hasta el momento y también da como opción crear un mapa.
+
+### Editor
+Clase que se encarga de maneja los evento del usuario sobre el editor de mapas y lo actualiza según los cambios dados.
+
+### OptionsMenu
+Menú de opciones donde el usuario puede modificar los tamaños tanto del mapa como de las zonas de aparición o de bombas.
+
+### QuitMenu
+Menú que interrumpe al usuario al cerrar el editor si tiene cambios no guardados, dándole la opción de hacerlo.
+
+###TextureScreen
+Encargada de mostrar todas las texturas que se encuentran en el programa, dividiéndolas en pisos, paredes y armas y manejar los eventos para la selección de la textura a ingresar.
 
 ## Cliente
 
