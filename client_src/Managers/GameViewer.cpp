@@ -337,8 +337,7 @@ void GameViewer::renderBomb(Coordinate cam){
         this->textureManager.getWeaponOnPj(BOMB)->render(pos.x, pos.y, SIZE_SMALL_GUN.w, SIZE_SMALL_GUN.h);
         
         this->delaySound++;
-        int volume = setVolume(pos);
-
+        int volume = setVolume(this->level.bomb.pos);
         // seteo el delay segun el tiempo restante
         if (this->delaySound == DELAY_SOUND_BOMB && this->level.bomb.time > ABOUT_TO_EXPLODE) {
             this->sounds.playWeaponSound(BOMB_PIP, volume); 
