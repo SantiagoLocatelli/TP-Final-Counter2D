@@ -25,11 +25,56 @@ Dependencias instaladas por el instalador:
 
 ## Forma de uso
 El trabajo práctico consta de tres programas. Un servidor, un cliente y un editor de mapas.
+
 ### Servidor
 Lo primero que hay que hacer es correr el servidor especificando el puerto a usarse. El comando para hacer eso es `counter2dServer [puerto]`. Cuando se desea cerrar el servidor hay que escribir la letra 'q' por la terminal. El servidor va a esperar a que terminen todas las partidas y se va a cerrar.
+
 ### Cliente
 Una vez que se corrió el servidor se puede correr el cliente. Para correr el cliente simplemente hay que hacer `counter2dClient`.
 Lo primero que hay que hacer es ingresar la IP del dispositivo que está corriendo el servidor ("localhost" si es nuestra propia PC) y luego el puerto especificado al crear el servidor. Una vez hecho esto ya deberíamos estar conectados y se puede crear una partida.
 
+Para crear una partida simplemente seguir las indicaciones en el menu, una vez un cliente creó la partida entonces el resto se puede unir. Mientras todos los clientes se van uniendo el resto queda en una pantalla de espera.
+
+Una vez adentro de la partida los controles son los siguientes:
+- `W A S D`: Moverse
+- `Mouse`: Apuntar
+- `Clic izquierdo`: Disparar 
+- `1 2 3 4`: Cambiar de armas
+- `G`: Soltar arma actual
+- `E`: Desactivar bomba (solo anti-terroristas)
+- `8 9 0`: Comprar armas
+
+### Editor
 
 ## Configuración
+El archivo de configuración se encuentra en `/usr/local/share/counter2d/resources/server/GameConfig.yaml`. Se pueden modificar todos los valores para cambiar el comportamiento de distintos elementos del juego. A continuación menciono que representa cada valor.
+
+### Game
+- `roundTime`: Tiempo de cada ronda.
+- `bombTime`: Tiempo para que la bomba explote.
+- `bombDefuseDistance`: Distancia para desactivar la bomba.
+- `buyTime`: Tiempo de compra al principio de cada ronda.
+- `endTime`: Tiempo de descanso al final de cada ronda.
+- `roundsPerSide`: Rondas a jugar por cada lado.
+- `wonRoundMoney`: Dinero ganado al ganar una ronda.
+- `lostRoundMoney`: Dinero ganado al perder una ronda.
+- `terrorSkin`: Skin para los terroristas (puede ser 4, 5, 6, 7). 
+- `counterSkin`: Skin para los terroristas (puede ser 0, 1, 2, 3).
+
+### Player
+- `health`: Vida del jugador.
+- `speed`: Velocidad del jugador en metros por segundo.
+- `defuseTime`: Tiempo para desactivar la bomba
+- `startingMoney`: Dinero inicial.
+
+### Weapons
+- `maxDamage`: Daño máximo del arma.
+- `minDamage`: Daño mínimo del arma.
+- `spread`: Propagación del arma.
+- `falloff`: Daño que se pierde por metro que recorre la bala.
+- `speed`: Velocidad de disparo. Para el rifle es el tiempo entre ráfagas y para la bomba es el tiempo para plantar.
+- `capacity`: Balas por cargador.
+- `reloadTime`: Tiempo de recarga.
+- `maxRange`: Distancia máxima que recorre la bala.
+- `bullets`: (solo para la escopeta) Cantidad de balas por disparo.
+- `burstTime`: (solo para el rifle) Tiempo entre balas en una misma ráfaga.
