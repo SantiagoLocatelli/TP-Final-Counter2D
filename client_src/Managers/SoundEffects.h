@@ -5,7 +5,7 @@
 #include "SDL2/SDL.h"
 #include <map>
 
-enum PlayerEffect : int {STEP1, STEP2, STEP3, STEP4, DYING, DROPPING, PICKING_UP};
+enum PlayerEffect : int {STEP1, STEP2, STEP3, STEP4, DYING, DROPPING, PICKING_UP, RELOADING};
 enum WeaponEffect : int {KNIFE_SLASH, KNIFE_HIT, SHOT_PISTOL, SHOT_RIFLE, SHOT_SHOTGUN, SHOT_SNIPER, 
     BOMD_EXPLODE, BOMB_DEFUSE, BOMB_PIP};
 
@@ -23,7 +23,6 @@ public:
     SoundEffects();
     ~SoundEffects();
 
-    // void setVolume(int volumePercetange);
     void playWeaponSound(WeaponEffect effect, int volumePercetange);
     void playPlayerSound(PlayerEffect effect, int volumePercetange);
 };

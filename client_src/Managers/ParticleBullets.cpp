@@ -18,5 +18,7 @@ void ParticleBullets::render(Coordinate cam){
 
     this->renderer.drawLine(this->pos.x - cam.x - 1, this->pos.y - cam.y, 
         this->dst.x - cam.x, this->dst.y - cam.y);
-
+        
+    this->renderer.drawLine(this->pos.x - cam.x + 1, this->pos.y - cam.y, 
+        this->dst.x - cam.x, this->dst.y - cam.y);
 }

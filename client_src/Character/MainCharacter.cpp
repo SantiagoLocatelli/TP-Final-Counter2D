@@ -13,7 +13,7 @@ void MainCharacter::update(MainPlayerInfo info, Weapon* weapon){
     this->player.ammo = info.ammo;
     this->player.health = info.health;
     this->player.money = info.money;
-    this->st.setPosition(info.pos, info.degrees);
+    this->st.setPosition(info.pos, info.degrees); 
     Character::update(info, weapon);
 }
 

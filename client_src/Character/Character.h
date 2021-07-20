@@ -22,19 +22,16 @@ class Character{
 
 		void update(PlayerInfo info, Weapon* weapon);
 		void render(Coordinate cam);
-
 		SDL_Rect getRect();
 		int getPosX();
 		int getPosY();
 		bool isDead();
 		float getDegrees();
-		WeaponType getWeaponType();
 		PlayerInfo getInfo();
+		WeaponType getWeaponType();
+		int quantityWeapons(std::array<WeaponType, 4> weapons);
 
 		Character& operator=(const Character&);
 		Character(const Character& other);
-
-		// Character& operator=(Character&&);
-		// Character(Character&& other);
 };
 #endif

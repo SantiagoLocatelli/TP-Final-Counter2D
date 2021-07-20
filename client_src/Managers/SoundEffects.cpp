@@ -27,7 +27,6 @@ void SoundEffects::loadPlayerSounds(){
     }
 }
 
-
 void SoundEffects::loadWeaponSounds(){
     YAML::Node yaml_map = YAML::LoadFile(PATH_WEAPON_SOUNDS);
 	int i = 0;
@@ -38,7 +37,6 @@ void SoundEffects::loadWeaponSounds(){
         i++;
     }
 }
-
 
 void SoundEffects::playPlayerSound(PlayerEffect effect, int volumePercetange){
     int volume = (volumePercetange * 128)/100; 
@@ -53,11 +51,6 @@ void SoundEffects::playWeaponSound(WeaponEffect effect, int volumePercetange){
     Mix_VolumeChunk(this->weaponsEffects[effect], volume);
     Mix_PlayChannel(-1, this->weaponsEffects[effect], 0);
 }
-
-// void SoundEffects::setVolume(int volumePercetange) {
-//     int volume = (volumePercetange * 128)/100; 
-//     Mix_Volume(-1, volume);
-// }
 
 SoundEffects::~SoundEffects(){
     for(auto it = this->playerEffects.begin(); it != this->playerEffects.end(); it++){

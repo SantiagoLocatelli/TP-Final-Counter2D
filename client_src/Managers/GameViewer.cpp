@@ -122,18 +122,6 @@ bool GameViewer::isVisibleByMainPlayer(Coordinate pos) {
     return (pos.x >= cam.x && pos.x <= cam.w && pos.y >= cam.y && pos.y <= cam.h);
 }
 
-// void GameViewer::setVolume(Coordinate pos){
-//     bool isVisible = isVisibleByMainPlayer(pos);
-//     int distanceBetweenMain = Math::manhattanDistance(pos, this->level.mainPlayer.pos);
-//     if (isVisible) {
-//         this->sounds.setVolume(100);
-//     } else if (distanceBetweenMain > this->level.size.w/2) {
-//         this->sounds.setVolume(0);
-//     } else {
-//         this->sounds.setVolume(50);
-//     }
-// }
-
 int GameViewer::setVolume(Coordinate pos){
     bool isVisible = isVisibleByMainPlayer(pos);
     int distanceBetweenMain = Math::manhattanDistance(pos, this->level.mainPlayer.pos);
@@ -145,7 +133,6 @@ int GameViewer::setVolume(Coordinate pos){
         return 50;
     }
 }
-
 
 void GameViewer::renderPlayers(Coordinate cam) {
     for (auto it = this->players.begin(); it != this->players.end(); it++){

@@ -7,7 +7,6 @@
 #include <string>
 #include <list>
 
-
 class Weapon {
 private:
 
